@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Arkoz — Modern ve yenilikçi çözümler sunan dijital platform." />
+  <title>Arkoz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <!-- NAVİGASYON -->
+  <header class="header" id="header">
+    <nav class="nav container">
+      <a href="#" class="nav__logo">Ark<span>oz</span></a>
+      <ul class="nav__list" id="nav-list">
+        <li><a href="#hakkinda" class="nav__link">Hakkında</a></li>
+        <li><a href="#hizmetler" class="nav__link">Hizmetler</a></li>
+        <li><a href="#projeler" class="nav__link">Projeler</a></li>
+        <li><a href="#iletisim" class="nav__link nav__link--cta">İletişim</a></li>
+      </ul>
+      <button class="nav__burger" id="burger" aria-label="Menüyü aç">
+        <span></span><span></span><span></span>
+      </button>
+    </nav>
+  </header>
+
+  <main>
+
+    <!-- HERO -->
+    <section class="hero" id="hero">
+      <div class="hero__bg">
+        <div class="hero__blob hero__blob--1"></div>
+        <div class="hero__blob hero__blob--2"></div>
+        <div class="hero__grid"></div>
+      </div>
+      <div class="container hero__content">
+        <span class="hero__badge">🚀 Yeni nesil dijital çözümler</span>
+        <h1 class="hero__title">
+          Fikirlerinizi<br />
+          <span class="hero__title--gradient">Gerçeğe</span> Dönüştürüyoruz
+        </h1>
+        <p class="hero__desc">
+          Arkoz ile markanız için özgün, hızlı ve etkileyici dijital deneyimler tasarlıyoruz.
+          Her proje, sizin vizyonunuzla şekillenir.
+        </p>
+        <div class="hero__actions">
+          <a href="#projeler" class="btn btn--primary">Projelere Bak</a>
+          <a href="#hakkinda" class="btn btn--ghost">Daha Fazla</a>
+        </div>
+        <div class="hero__stats">
+          <div class="hero__stat">
+            <span class="hero__stat-num" data-count="120">0</span>+
+            <span class="hero__stat-label">Tamamlanan Proje</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-num" data-count="98">0</span>%
+            <span class="hero__stat-label">Müşteri Memnuniyeti</span>
+          </div>
+          <div class="hero__stat">
+            <span class="hero__stat-num" data-count="5">0</span>+
+            <span class="hero__stat-label">Yıl Deneyim</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero__scroll">
+        <span>Aşağı Kaydır</span>
+        <div class="hero__scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- HAKKINDA -->
+    <section class="about section" id="hakkinda">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__tag">Hakkımızda</span>
+          <h2 class="section__title">Kim <span>Olduğumuz</span></h2>
+          <p class="section__desc">Dijital dünyada fark yaratmak için bir araya geldik.</p>
+        </div>
+        <div class="about__grid">
+          <div class="about__visual">
+            <div class="about__card about__card--main">
+              <div class="about__icon">⚡</div>
+              <h3>Hız & Performans</h3>
+              <p>Tüm projelerimiz en yüksek performans standartlarında geliştirilir.</p>
+            </div>
+            <div class="about__card about__card--secondary">
+              <div class="about__icon">🎨</div>
+              <h3>Özgün Tasarım</h3>
+              <p>Her marka için sıfırdan, özgün tasarımlar üretiyoruz.</p>
+            </div>
+            <div class="about__card about__card--tertiary">
+              <div class="about__icon">🔐</div>
+              <h3>Güvenlik</h3>
+              <p>Projeleriniz en güncel güvenlik standartlarıyla korunur.</p>
+            </div>
+          </div>
+          <div class="about__text">
+            <p class="about__para">
+              <strong>Arkoz</strong>, 2020'den bu yana işletmelere ve girişimlere dijital dönüşüm yolculuğunda rehberlik eden bir ajans ve geliştirme stüdyosudur.
+            </p>
+            <p class="about__para">
+              Kullanıcı odaklı tasarım anlayışımız ve temiz kod felsefemizle; web siteleri, mobil uygulamalar ve dijital pazarlama çözümleri sunuyoruz.
+            </p>
+            <ul class="about__list">
+              <li>✅ Agile geliştirme metodolojisi</li>
+              <li>✅ 7/24 teknik destek</li>
+              <li>✅ Şeffaf iletişim ve raporlama</li>
+              <li>✅ Ölçeklenebilir mimari</li>
+            </ul>
+            <a href="#iletisim" class="btn btn--primary">Bizimle Çalış</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- HİZMETLER -->
+    <section class="services section" id="hizmetler">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__tag">Ne Yapıyoruz?</span>
+          <h2 class="section__title">Hizmet<span>lerimiz</span></h2>
+          <p class="section__desc">İhtiyacınıza özel kapsamlı çözümler sunuyoruz.</p>
+        </div>
+        <div class="services__grid">
+          <div class="service-card" data-index="01">
+            <div class="service-card__icon">🌐</div>
+            <h3 class="service-card__title">Web Geliştirme</h3>
+            <p class="service-card__desc">Hızlı, mobil uyumlu ve SEO dostu web siteleri. React, Next.js ve Vanilla JS ile modern çözümler.</p>
+            <a href="#iletisim" class="service-card__link">Detaylar →</a>
+          </div>
+          <div class="service-card" data-index="02">
+            <div class="service-card__icon">📱</div>
+            <h3 class="service-card__title">Mobil Uygulama</h3>
+            <p class="service-card__desc">iOS ve Android için native veya cross-platform uygulamalar. Flutter ve React Native uzmanlarımızla.</p>
+            <a href="#iletisim" class="service-card__link">Detaylar →</a>
+          </div>
+          <div class="service-card" data-index="03">
+            <div class="service-card__icon">🎨</div>
+            <h3 class="service-card__title">UI/UX Tasarım</h3>
+            <p class="service-card__desc">Kullanıcı araştırması, wireframe, prototip ve final tasarım. Figma ile hayata geçirilen özgün deneyimler.</p>
+            <a href="#iletisim" class="service-card__link">Detaylar →</a>
+          </div>
+          <div class="service-card" data-index="04">
+            <div class="service-card__icon">📈</div>
+            <h3 class="service-card__title">Dijital Pazarlama</h3>
+            <p class="service-card__desc">SEO, SEM, sosyal medya yönetimi ve içerik pazarlaması. Veriye dayalı büyüme stratejileri.</p>
+            <a href="#iletisim" class="service-card__link">Detaylar →</a>
+          </div>
+          <div class="service-card" data-index="05">
+            <div class="service-card__icon">☁️</div>
+            <h3 class="service-card__title">Bulut & DevOps</h3>
+            <p class="service-card__desc">AWS, GCP, Azure üzerinde altyapı kurulumu, CI/CD pipeline ve otomatik dağıtım süreçleri.</p>
+            <a href="#iletisim" class="service-card__link">Detaylar →</a>
+          </div>
+          <div class="service-card" data-index="06">
+            <div class="service-card__icon">🤖</div>
+            <h3 class="service-card__title">AI Entegrasyonu</h3>
+            <p class="service-card__desc">İşletmenize özel yapay zeka çözümleri. Chatbot, öneri sistemleri ve otomasyon geliştirme.</p>
+            <a href="#iletisim" class="service-card__link">Detaylar →</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJELER -->
+    <section class="projects section" id="projeler">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__tag">Portföy</span>
+          <h2 class="section__title">Öne Çıkan <span>Projeler</span></h2>
+          <p class="section__desc">Geliştirdiğimiz bazı başarılı ürünler.</p>
+        </div>
+        <div class="projects__grid">
+          <article class="project-card project-card--featured">
+            <div class="project-card__image project-card__image--1"></div>
+            <div class="project-card__body">
+              <div class="project-card__tags">
+                <span class="tag">Next.js</span>
+                <span class="tag">Node.js</span>
+                <span class="tag">PostgreSQL</span>
+              </div>
+              <h3 class="project-card__title">MarketPro E-Ticaret</h3>
+              <p class="project-card__desc">100.000+ ürün kapasiteli, yüksek trafikli e-ticaret platformu. %40 dönüşüm artışı sağlandı.</p>
+              <a href="#" class="btn btn--ghost btn--sm">Projeyi Gör →</a>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="project-card__image project-card__image--2"></div>
+            <div class="project-card__body">
+              <div class="project-card__tags">
+                <span class="tag">Flutter</span>
+                <span class="tag">Firebase</span>
+              </div>
+              <h3 class="project-card__title">FitTrack Mobil</h3>
+              <p class="project-card__desc">50.000+ aktif kullanıcıya sahip fitness takip uygulaması.</p>
+              <a href="#" class="btn btn--ghost btn--sm">Projeyi Gör →</a>
+            </div>
+          </article>
+          <article class="project-card">
+            <div class="project-card__image project-card__image--3"></div>
+            <div class="project-card__body">
+              <div class="project-card__tags">
+                <span class="tag">React</span>
+                <span class="tag">Python</span>
+                <span class="tag">AI</span>
+              </div>
+              <h3 class="project-card__title">SmartDesk SaaS</h3>
+              <p class="project-card__desc">AI destekli müşteri hizmetleri platformu, 3 ülkede kullanılıyor.</p>
+              <a href="#" class="btn btn--ghost btn--sm">Projeyi Gör →</a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- İLETİŞİM -->
+    <section class="contact section" id="iletisim">
+      <div class="container">
+        <div class="section__header">
+          <span class="section__tag">İletişim</span>
+          <h2 class="section__title">Bir Proje <span>Başlatalım</span></h2>
+          <p class="section__desc">Fikrinizi paylaşın, birlikte hayata geçirelim.</p>
+        </div>
+        <div class="contact__wrapper">
+          <div class="contact__info">
+            <div class="contact__item">
+              <span class="contact__icon">📧</span>
+              <div>
+                <strong>E-posta</strong>
+                <p>merhaba@arkoz.dev</p>
+              </div>
+            </div>
+            <div class="contact__item">
+              <span class="contact__icon">📍</span>
+              <div>
+                <strong>Konum</strong>
+                <p>İstanbul, Türkiye</p>
+              </div>
+            </div>
+            <div class="contact__item">
+              <span class="contact__icon">⏰</span>
+              <div>
+                <strong>Yanıt Süresi</strong>
+                <p>24 saat içinde dönüş</p>
+              </div>
+            </div>
+          </div>
+          <form class="contact__form" id="contact-form" novalidate>
+            <div class="form__group">
+              <input type="text" id="name" name="name" placeholder="Adınız Soyadınız" required />
+              <label for="name">Ad Soyad</label>
+            </div>
+            <div class="form__group">
+              <input type="email" id="email" name="email" placeholder="E-posta Adresiniz" required />
+              <label for="email">E-posta</label>
+            </div>
+            <div class="form__group">
+              <select id="service" name="service">
+                <option value="">Hizmet Seçin</option>
+                <option value="web">Web Geliştirme</option>
+                <option value="mobil">Mobil Uygulama</option>
+                <option value="tasarim">UI/UX Tasarım</option>
+                <option value="pazarlama">Dijital Pazarlama</option>
+                <option value="diger">Diğer</option>
+              </select>
+              <label for="service">Hizmet</label>
+            </div>
+            <div class="form__group form__group--full">
+              <textarea id="message" name="message" placeholder="Projenizi anlatın..." rows="4" required></textarea>
+              <label for="message">Mesaj</label>
+            </div>
+            <button type="submit" class="btn btn--primary btn--full">
+              <span>Mesaj Gönder</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__top">
+        <div class="footer__brand">
+          <a href="#" class="nav__logo">Ark<span>oz</span></a>
+          <p>Fikirlerinizi dijital gerçeğe dönüştürüyoruz.</p>
+        </div>
+        <div class="footer__links">
+          <div class="footer__col">
+            <h4>Hizmetler</h4>
+            <ul>
+              <li><a href="#hizmetler">Web Geliştirme</a></li>
+              <li><a href="#hizmetler">Mobil Uygulama</a></li>
+              <li><a href="#hizmetler">UI/UX Tasarım</a></li>
+              <li><a href="#hizmetler">AI Entegrasyonu</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h4>Şirket</h4>
+            <ul>
+              <li><a href="#hakkinda">Hakkımızda</a></li>
+              <li><a href="#projeler">Projeler</a></li>
+              <li><a href="#iletisim">İletişim</a></li>
+            </ul>
+          </div>
+          <div class="footer__col">
+            <h4>Sosyal Medya</h4>
+            <ul>
+              <li><a href="#">Twitter / X</a></li>
+              <li><a href="#">LinkedIn</a></li>
+              <li><a href="#">GitHub</a></li>
+              <li><a href="#">Instagram</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer__bottom">
+        <p>© 2026 Arkoz. Tüm hakları saklıdır.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
