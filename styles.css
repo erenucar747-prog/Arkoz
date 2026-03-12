@@ -4,19 +4,19 @@
 
 /* 1. CSS Değişkenleri */
 :root {
-  --color-primary: #6C63FF;
-  --color-primary-dark: #4f46e5;
-  --color-secondary: #FF6584;
-  --color-bg: #0D0D0D;
-  --color-bg-2: #111111;
-  --color-bg-3: #1a1a1a;
-  --color-surface: #161616;
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-text: #F0F0F0;
-  --color-text-muted: #888;
-  --color-text-dim: #555;
-  --gradient-primary: linear-gradient(135deg, #6C63FF 0%, #FF6584 100%);
-  --gradient-dark: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+  --color-primary: #D97B3A;
+  --color-primary-dark: #b85e1e;
+  --color-secondary: #4A90A4;
+  --color-bg: #0F0E0C;
+  --color-bg-2: #141210;
+  --color-bg-3: #1c1914;
+  --color-surface: #1a1714;
+  --color-border: rgba(255, 255, 255, 0.07);
+  --color-text: #F2EDE6;
+  --color-text-muted: #8a8278;
+  --color-text-dim: #554f47;
+  --gradient-primary: linear-gradient(135deg, #D97B3A 0%, #C45E1A 100%);
+  --gradient-dark: linear-gradient(135deg, #1c1914 0%, #0F0E0C 100%);
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --radius-sm: 8px;
   --radius-md: 12px;
@@ -255,14 +255,14 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
 .hero__blob--1 {
   width: 600px; height: 600px;
-  background: var(--color-primary);
+  background: #D97B3A;
   top: -200px; right: -100px;
   animation: float 8s ease-in-out infinite;
 }
 
 .hero__blob--2 {
   width: 400px; height: 400px;
-  background: var(--color-secondary);
+  background: #4A90A4;
   bottom: -100px; left: -100px;
   animation: float 10s ease-in-out infinite reverse;
 }
@@ -540,7 +540,56 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
 .service-card__link:hover { gap: 8px; }
 
-/* 9. Projects */
+/* Ürün özellikleri listesi */
+.product__features {
+  list-style: none;
+  margin-bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.product__features li {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.services__grid--2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Sosyal medya butonları */
+.contact__socials {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.social-btn {
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+  transition: all var(--transition);
+}
+
+.social-btn:hover {
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+.footer__address {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* 9. Avantajlar (Projects bölümü yeniden kullanılıyor) */
 .projects { background: var(--color-bg-2); }
 
 .projects__grid {
@@ -548,6 +597,31 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
+
+.advantages__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.advantage-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  transition: all var(--transition);
+  text-align: center;
+}
+
+.advantage-card:hover {
+  border-color: rgba(217, 123, 58, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 0 40px rgba(217, 123, 58, 0.15);
+}
+
+.advantage-card__icon { font-size: 2.5rem; margin-bottom: 16px; }
+.advantage-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+.advantage-card p { font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.7; }
 
 .project-card {
   background: var(--color-surface);
@@ -812,7 +886,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 /* 14. Responsive */
 @media (max-width: 1024px) {
   .services__grid { grid-template-columns: repeat(2, 1fr); }
+  .services__grid--2 { grid-template-columns: 1fr; }
   .projects__grid { grid-template-columns: 1fr; }
+  .advantages__grid { grid-template-columns: repeat(2, 1fr); }
   .project-card--featured { grid-column: span 1; }
 }
 
@@ -846,6 +922,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .about__visual { order: 2; }
 
   .services__grid { grid-template-columns: 1fr; }
+  .advantages__grid { grid-template-columns: 1fr; }
 
   .contact__wrapper { grid-template-columns: 1fr; gap: 40px; }
   .contact__form { grid-template-columns: 1fr; }
