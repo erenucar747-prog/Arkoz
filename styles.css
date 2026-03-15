@@ -915,22 +915,30 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition);
+  transition: transform var(--transition), opacity var(--transition);
   text-decoration: none;
+  border: none;
+}
+.footer__social a[aria-label="Facebook"] {
+  background: #1877F2;
+}
+.footer__social a[aria-label="Instagram"] {
+  background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+}
+.footer__social a[aria-label="LinkedIn"] {
+  background: #0A66C2;
 }
 .footer__social a:hover {
-  background: var(--color-primary);
-  border-color: var(--color-primary);
+  transform: scale(1.12);
+  opacity: 0.9;
 }
 .footer__social svg {
-  width: 16px;
-  height: 16px;
-  color: var(--color-text-muted);
+  width: 18px;
+  height: 18px;
+  color: #ffffff;
 }
 .footer__social a:hover svg { color: #fff; }
 
