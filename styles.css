@@ -930,9 +930,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .footer__social svg {
   width: 16px;
   height: 16px;
-  fill: var(--color-text-muted);
+  color: var(--color-text-muted);
 }
-.footer__social a:hover svg { fill: #fff; }
+.footer__social a:hover svg { color: #fff; }
 
 .footer__links {
   display: grid;
