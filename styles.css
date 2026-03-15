@@ -169,11 +169,15 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  background: rgba(255, 255, 255, 0.95);
+  padding: 5px 12px;
+  border-radius: var(--radius-md);
 }
 
-.nav__logo svg {
-  height: 44px;
+.nav__logo img {
+  height: 40px;
   width: auto;
+  display: block;
 }
 
 .nav__list {
