@@ -456,6 +456,48 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   box-shadow: var(--shadow-glow);
 }
 
+.about__facility-img {
+  grid-column: span 2;
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+}
+
+.about__facility-img img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.about__facility-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(45, 42, 143, 0.90);
+  backdrop-filter: blur(8px);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.about__facility-badge-num {
+  font-size: 1.2rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.about__facility-badge span:last-child {
+  font-size: 0.72rem;
+  opacity: 0.85;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
 .about__card--main { grid-column: span 2; }
 
 .about__icon {
@@ -1247,7 +1289,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 /* Haber Kartları */
 .news__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 28px;
 }
 .news-card {
@@ -1256,17 +1298,31 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border-radius: var(--radius-lg);
   overflow: hidden;
   transition: all var(--transition);
+  display: flex;
+  flex-direction: column;
 }
-.news-card:hover { transform: translateY(-4px); border-color: rgba(77, 184, 72, 0.3); }
+.news-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(45, 42, 143, 0.2); }
 .news-card__img {
   width: 100%;
-  height: 220px;
+  height: 200px;
   object-fit: cover;
   background: var(--color-bg-3);
+  display: block;
 }
-.news-card__body { padding: 28px; }
-.news-card__body h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4; }
-.news-card__body p { font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.7; }
+.news-card__body { padding: 24px; flex: 1; display: flex; flex-direction: column; }
+.news-card__body h3 { font-size: 1rem; font-weight: 700; margin-bottom: 10px; line-height: 1.4; color: var(--color-text); }
+.news-card__body p { font-size: 0.875rem; color: var(--color-text-muted); line-height: 1.7; flex: 1; }
+.news-card__link {
+  display: inline-block;
+  margin-top: 16px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: gap var(--transition);
+}
+.news-card__link:hover { color: var(--color-primary-dark); }
+.news__grid--2col { grid-template-columns: repeat(2, 1fr); }
 
 /* İK sayfası */
 .ik__grid {
@@ -1291,6 +1347,8 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .tab-btn { padding: 10px 14px; font-size: 0.8rem; }
   .certificates__grid { grid-template-columns: repeat(2, 1fr); }
   .news__grid { grid-template-columns: 1fr; }
+  .news__grid--2col { grid-template-columns: 1fr; }
+  .about__facility-img { grid-column: span 2; }
   .ik__grid { grid-template-columns: 1fr; }
   .sustainability__grid { grid-template-columns: 1fr; }
 }
