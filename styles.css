@@ -589,6 +589,80 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   line-height: 1.5;
 }
 
+/* Misyon & Vizyon */
+.mission { background: var(--color-bg-3); }
+
+.mission__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.mission__card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  transition: all var(--transition);
+}
+
+.mission__card--center {
+  border-color: rgba(217, 123, 58, 0.3);
+  background: linear-gradient(135deg, #1c1914, #231c14);
+}
+
+.mission__card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(217, 123, 58, 0.4);
+}
+
+.mission__icon { font-size: 2.5rem; margin-bottom: 16px; }
+.mission__card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; }
+.mission__card p { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.8; }
+.mission__card p strong { color: var(--color-primary); }
+
+/* Ürün teknik tablosu */
+.product__standard {
+  margin-bottom: 20px;
+  font-size: 0.82rem;
+  color: var(--color-text-muted);
+  padding: 8px 12px;
+  background: rgba(255,255,255,0.03);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--color-border);
+}
+
+.product__standard strong { color: var(--color-primary); }
+
+.product__table {
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+
+.product__table table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.product__table th,
+.product__table td {
+  padding: 8px 12px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.product__table th {
+  color: var(--color-text-muted);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.product__table td { color: var(--color-text); }
+.product__table td:last-child { color: var(--color-primary); font-weight: 600; }
+
 /* 9. Avantajlar (Projects bölümü yeniden kullanılıyor) */
 .projects { background: var(--color-bg-2); }
 
@@ -602,6 +676,10 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .mission__grid { grid-template-columns: 1fr; }
 }
 
 .advantage-card {
