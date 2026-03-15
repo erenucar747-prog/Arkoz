@@ -874,38 +874,86 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
 .footer__top {
   display: grid;
-  grid-template-columns: 1fr 2fr;
+  grid-template-columns: 280px 1fr;
   gap: 64px;
   margin-bottom: 48px;
 }
 
 .footer__brand p {
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   color: var(--color-text-muted);
   margin-top: 12px;
   max-width: 260px;
-  line-height: 1.6;
+  line-height: 1.7;
 }
+
+.footer__brand .footer__address {
+  margin-top: 16px;
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+}
+
+.footer__contact-info {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.footer__contact-info a {
+  font-size: 0.8rem;
+  color: var(--color-text-dim);
+  transition: color var(--transition);
+}
+.footer__contact-info a:hover { color: var(--color-primary); }
+
+.footer__social {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+}
+.footer__social a {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+  text-decoration: none;
+}
+.footer__social a:hover {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+.footer__social svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--color-text-muted);
+}
+.footer__social a:hover svg { fill: #fff; }
 
 .footer__links {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   gap: 32px;
 }
 
 .footer__col h4 {
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   font-weight: 700;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-muted);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
+.footer__col h4 + h4 { margin-top: 24px; }
 
-.footer__col ul { display: flex; flex-direction: column; gap: 10px; }
+.footer__col ul { display: flex; flex-direction: column; gap: 9px; margin-bottom: 8px; }
 
 .footer__col a {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--color-text-dim);
   transition: color var(--transition);
 }
@@ -916,13 +964,27 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border-top: 1px solid var(--color-border);
   padding-top: 24px;
   display: flex;
-  justify-content: center;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .footer__bottom p {
-  font-size: 0.875rem;
+  font-size: 0.8rem;
   color: var(--color-text-dim);
 }
+
+.footer__bottom-links {
+  display: flex;
+  gap: 20px;
+}
+.footer__bottom-links a {
+  font-size: 0.78rem;
+  color: var(--color-text-dim);
+  transition: color var(--transition);
+}
+.footer__bottom-links a:hover { color: var(--color-primary); }
 
 /* 12. Animasyonlar — Reveal */
 .reveal {
@@ -1008,6 +1070,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
   .footer__top { grid-template-columns: 1fr; gap: 40px; }
   .footer__links { grid-template-columns: repeat(2, 1fr); }
+  .footer__bottom { flex-direction: column; align-items: flex-start; }
 }
 
 @media (max-width: 480px) {
@@ -1015,7 +1078,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .hero__stats { flex-direction: column; gap: 16px; }
   .hero__actions { flex-direction: column; }
   .hero__actions .btn { width: 100%; justify-content: center; }
-  .footer__links { grid-template-columns: 1fr; }
+  .footer__links { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ============================================
