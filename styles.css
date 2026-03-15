@@ -148,15 +148,15 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 1000;
-  transition: background var(--transition), box-shadow var(--transition);
-  padding: 12px 0;
+  background: #FFFFFF;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  padding: 8px 0;
+  transition: box-shadow var(--transition);
 }
 
 .header.scrolled {
-  background: rgba(255, 255, 255, 0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  box-shadow: 0 1px 0 var(--color-border);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.10);
 }
 
 .nav {
@@ -172,9 +172,10 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 .nav__logo img {
-  height: 48px;
+  height: 52px;
   width: auto;
   display: block;
+  object-fit: contain;
 }
 
 .nav__list {
@@ -184,11 +185,13 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 .nav__link {
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  padding: 8px 16px;
-  border-radius: var(--radius-full);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark);
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
   transition: all var(--transition);
 }
 
@@ -200,13 +203,15 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .nav__link--cta {
   background: var(--gradient-primary);
   color: #fff !important;
-  box-shadow: 0 2px 16px rgba(77, 184, 72, 0.3);
+  border-radius: var(--radius-full);
+  padding: 10px 20px;
+  box-shadow: 0 2px 12px rgba(45, 42, 143, 0.30);
 }
 
 .nav__link--cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 24px rgba(45, 42, 143, 0.4);
-  opacity: 0.9;
+  box-shadow: 0 4px 24px rgba(45, 42, 143, 0.45);
+  opacity: 0.92;
 }
 
 .nav__burger {
@@ -283,7 +288,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .hero__content {
   position: relative;
   z-index: 1;
-  padding-top: 80px;
+  padding-top: 100px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -298,7 +303,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-size: 0.875rem;
   font-weight: 500;
   color: var(--color-text-muted);
-  background: rgba(255,255,255,0.05);
+  background: rgba(45, 42, 143, 0.06);
   border: 1px solid var(--color-border);
   padding: 8px 18px;
   border-radius: var(--radius-full);
@@ -488,7 +493,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   top: 20px; right: 24px;
   font-size: 3rem;
   font-weight: 900;
-  color: rgba(255,255,255,0.03);
+  color: rgba(45, 42, 143, 0.04);
   line-height: 1;
 }
 
@@ -626,7 +631,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-size: 0.82rem;
   color: var(--color-text-muted);
   padding: 8px 12px;
-  background: rgba(255,255,255,0.03);
+  background: rgba(45, 42, 143, 0.04);
   border-radius: var(--radius-sm);
   border: 1px solid var(--color-border);
 }
@@ -1146,7 +1151,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   transition: all var(--transition);
   white-space: nowrap;
 }
-.tab-btn:hover { color: var(--color-text); background: rgba(255,255,255,0.03); }
+.tab-btn:hover { color: var(--color-primary); background: rgba(45, 42, 143, 0.05); }
 .tab-btn.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
 
 .tab-panel { display: none; }
@@ -1337,7 +1342,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   width: 100%;
   max-width: 140px;
   object-fit: contain;
-  filter: brightness(0) invert(1);
   opacity: 0.85;
 }
 .partner-card__body h4 {
