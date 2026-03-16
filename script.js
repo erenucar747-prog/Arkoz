@@ -4,111 +4,127 @@
 
 'use strict';
 
-// 0. Intro Shader Animasyonu (saf WebGL — sıfır bağımlılık)
+// 0. Intro — Three.js Shader Animasyonu (component ile birebir aynı formül)
+let introActive = false;
+
 function runIntro() {
-  // Önceki overlay kalmışsa temizle
+  if (introActive) return;
+  introActive = true;
+
   const old = document.getElementById('intro-overlay');
   if (old) old.remove();
 
-  // Overlay'i sıfırdan oluştur (bfcache sonrası yeniden inject)
   const overlay = document.createElement('div');
   overlay.id = 'intro-overlay';
-  overlay.innerHTML = '<div id="intro-canvas-container"></div><div id="intro-logo"><img src="logo.png" alt="Arkoz Gazbeton"/></div>';
+  overlay.innerHTML =
+    '<div id="intro-canvas-container"></div>' +
+    '<div id="intro-logo"><img src="logo.png" alt="Arkoz Gazbeton"/></div>';
   document.body.prepend(overlay);
   document.body.style.overflow = 'hidden';
 
-  const logo = overlay.querySelector('#intro-logo');
+  const logo      = overlay.querySelector('#intro-logo');
   const container = overlay.querySelector('#intro-canvas-container');
 
   function dismiss() {
+    introActive = false;
     overlay.classList.add('fade-out');
     document.body.style.overflow = '';
-    setTimeout(() => { if (overlay.parentNode) overlay.remove(); }, 1000);
+    setTimeout(function() { if (overlay.parentNode) overlay.remove(); }, 1000);
   }
 
-  if (!overlay || !container) { document.body.style.overflow = ''; return; }
+  // Three.js yoksa sade siyah göster
+  if (typeof THREE === 'undefined') { dismiss(); return; }
 
-  // Canvas oluştur
-  const canvas = document.createElement('canvas');
-  container.appendChild(canvas);
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  // --- Three.js kurulum (component ile birebir) ---
+  const vertexShader = `
+    void main() {
+      gl_Position = vec4( position, 1.0 );
+    }
+  `;
 
-  if (!gl) { dismiss(); return; }
+  const fragmentShader = `
+    #define TWO_PI 6.2831853072
+    #define PI 3.14159265359
 
-  // Vertex shader
-  const vs = gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(vs, 'attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}');
-  gl.compileShader(vs);
+    precision highp float;
+    uniform vec2 resolution;
+    uniform float time;
 
-  // Fragment shader (aynı formül)
-  const fs = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fs, `
-    precision mediump float;
-    uniform vec2 res;
-    uniform float t;
-    void main(){
-      vec2 uv=(gl_FragCoord.xy*2.0-res)/min(res.x,res.y);
-      float lw=0.002;
-      vec3 c=vec3(0.0);
-      for(int j=0;j<3;j++){
-        for(int i=0;i<5;i++){
-          c[j]+=lw*float(i*i)/abs(fract(t-0.01*float(j)+float(i)*0.01)*5.0-length(uv)+mod(uv.x+uv.y,0.2));
+    void main(void) {
+      vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+      float t = time * 0.05;
+      float lineWidth = 0.002;
+
+      vec3 color = vec3(0.0);
+      for(int j = 0; j < 3; j++){
+        for(int i = 0; i < 5; i++){
+          color[j] += lineWidth * float(i*i) / abs(
+            fract(t - 0.01*float(j) + float(i)*0.01) * 5.0
+            - length(uv)
+            + mod(uv.x + uv.y, 0.2)
+          );
         }
       }
-      gl_FragColor=vec4(c,1.0);
+
+      gl_FragColor = vec4(color[0], color[1], color[2], 1.0);
     }
-  `);
-  gl.compileShader(fs);
+  `;
 
-  const prog = gl.createProgram();
-  gl.attachShader(prog, vs);
-  gl.attachShader(prog, fs);
-  gl.linkProgram(prog);
-  gl.useProgram(prog);
+  const camera = new THREE.Camera();
+  camera.position.z = 1;
 
-  // Tam ekran quad
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
-  const loc = gl.getAttribLocation(prog, 'p');
-  gl.enableVertexAttribArray(loc);
-  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+  const scene    = new THREE.Scene();
+  const geometry = new THREE.PlaneGeometry(2, 2);
 
-  const uRes = gl.getUniformLocation(prog, 'res');
-  const uTime = gl.getUniformLocation(prog, 't');
+  const uniforms = {
+    time:       { type: 'f',  value: 1.0 },
+    resolution: { type: 'v2', value: new THREE.Vector2() }
+  };
 
-  function resize() {
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
-    gl.viewport(0, 0, canvas.width, canvas.height);
+  const material = new THREE.ShaderMaterial({
+    uniforms:       uniforms,
+    vertexShader:   vertexShader,
+    fragmentShader: fragmentShader
+  });
+
+  scene.add(new THREE.Mesh(geometry, material));
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  function onResize() {
+    const w = container.clientWidth;
+    const h = container.clientHeight;
+    renderer.setSize(w, h);
+    uniforms.resolution.value.x = renderer.domElement.width;
+    uniforms.resolution.value.y = renderer.domElement.height;
   }
-  resize();
-  window.addEventListener('resize', resize);
+  onResize();
+  window.addEventListener('resize', onResize);
 
-  let time = 1.0, animId;
-  function render() {
-    animId = requestAnimationFrame(render);
-    time += 0.0025;
-    gl.uniform2f(uRes, canvas.width, canvas.height);
-    gl.uniform1f(uTime, time);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  let animId;
+  function animate() {
+    animId = requestAnimationFrame(animate);
+    uniforms.time.value += 0.05;
+    renderer.render(scene, camera);
   }
-  render();
+  animate();
 
-  // 2.2s sonra logo belir
-  setTimeout(() => { if (logo) logo.classList.add('visible'); }, 2200);
+  setTimeout(function() { logo.classList.add('visible'); }, 2200);
 
-  // 4.2s sonra kapat
-  setTimeout(() => {
+  setTimeout(function() {
     cancelAnimationFrame(animId);
-    window.removeEventListener('resize', resize);
+    window.removeEventListener('resize', onResize);
+    renderer.dispose();
+    geometry.dispose();
+    material.dispose();
     dismiss();
   }, 4200);
 }
 
-// İlk yükleme ve bfcache'den dönüş (iOS Safari reload) için
 runIntro();
-window.addEventListener('pageshow', (e) => {
+window.addEventListener('pageshow', function(e) {
   if (e.persisted) runIntro();
 });
 
