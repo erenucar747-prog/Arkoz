@@ -326,3 +326,38 @@ window.addEventListener('pageshow', function(e) {
     });
   });
 })();
+
+// 9. Hero Slider
+(function initHeroSlider() {
+  const slides = document.querySelectorAll('.hero__slide');
+  const dots   = document.querySelectorAll('.hero__dot');
+  const prev   = document.getElementById('heroPrev');
+  const next   = document.getElementById('heroNext');
+
+  if (!slides.length) return;
+
+  let current = 0;
+  let timer;
+
+  function goTo(index) {
+    slides[current].classList.remove('hero__slide--active');
+    dots[current].classList.remove('hero__dot--active');
+    current = (index + slides.length) % slides.length;
+    slides[current].classList.add('hero__slide--active');
+    dots[current].classList.add('hero__dot--active');
+  }
+
+  function startTimer() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 5000);
+  }
+
+  dots.forEach((dot, i) => {
+    dot.addEventListener('click', () => { goTo(i); startTimer(); });
+  });
+
+  prev.addEventListener('click', () => { goTo(current - 1); startTimer(); });
+  next.addEventListener('click', () => { goTo(current + 1); startTimer(); });
+
+  startTimer();
+})();
