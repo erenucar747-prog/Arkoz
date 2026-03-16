@@ -108,13 +108,13 @@ function runIntro() {
     }
     render();
 
-    setTimeout(function() { logo.classList.add('visible'); }, 2000);
+    setTimeout(function() { logo.classList.add('visible'); }, 1600);
 
     setTimeout(function() {
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', resize);
       dismiss();
-    }, 4000);
+    }, 3200);
   });
 }
 
