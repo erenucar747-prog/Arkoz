@@ -49,7 +49,7 @@ function runIntro() {
     gl.shaderSource(vs, 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}');
     gl.compileShader(vs);
 
-    // Fragment shader — smooth diyagonal şeritler, flaş yok
+    // Fragment shader — orijinal diyagonal çizgi efekti, flaşsız
     const fs = gl.createShader(gl.FRAGMENT_SHADER);
     gl.shaderSource(fs, [
       'precision mediump float;',
@@ -57,20 +57,16 @@ function runIntro() {
       'uniform float t;',
       'void main(){',
       '  vec2 uv=(gl_FragCoord.xy*2.0-res)/min(res.x,res.y);',
-      '  vec3 col=vec3(0.0);',
+      '  float lw=0.002;',
+      '  vec3 c=vec3(0.0);',
       '  for(int j=0;j<3;j++){',
       '    for(int i=0;i<5;i++){',
-      '      float fi=float(i);',
-      '      float fj=float(j);',
-      '      float wave=sin((uv.x+uv.y)*3.0+t*6.28+fi*1.2+fj*0.8);',
-      '      float brightness=0.08*(fi+1.0)*(0.5+0.5*wave);',
-      '      if(j==0) col.r+=brightness;',
-      '      else if(j==1) col.g+=brightness*0.6;',
-      '      else col.b+=brightness*1.2;',
+      '      float d=fract(t-0.01*float(j)+float(i)*0.01)*5.0-length(uv)+mod(uv.x+uv.y,0.2);',
+      '      c[j]+=lw*float(i*i)/max(abs(d),0.012);',
       '    }',
       '  }',
-      '  col=clamp(col,0.0,1.0);',
-      '  gl_FragColor=vec4(col,1.0);',
+      '  c=clamp(c,0.0,1.0);',
+      '  gl_FragColor=vec4(c,1.0);',
       '}'
     ].join('\n'));
     gl.compileShader(fs);
