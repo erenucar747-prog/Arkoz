@@ -2,6 +2,48 @@
    ARKOZ — Ana Stil Dosyası
    ============================================ */
 
+/* 0. Intro Overlay */
+#intro-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 1s ease;
+}
+
+#intro-overlay.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+#intro-canvas-container {
+  position: absolute;
+  inset: 0;
+}
+
+#intro-logo {
+  position: relative;
+  z-index: 2;
+  opacity: 0;
+  transform: scale(0.88);
+  transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+#intro-logo.visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+#intro-logo img {
+  width: 260px;
+  max-width: 60vw;
+  filter: brightness(0) invert(1);
+  filter: drop-shadow(0 0 32px rgba(255,255,255,0.35)) brightness(0) invert(1);
+}
+
 /* 1. CSS Değişkenleri */
 :root {
   --color-primary: #2D2A8F;

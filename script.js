@@ -4,6 +4,89 @@
 
 'use strict';
 
+// 0. Intro Shader Animasyonu
+(function initIntro() {
+  const container = document.getElementById('intro-canvas-container');
+  const overlay = document.getElementById('intro-overlay');
+  const logo = document.getElementById('intro-logo');
+  if (!container || !overlay || typeof THREE === 'undefined') {
+    if (overlay) overlay.remove();
+    document.body.style.overflow = '';
+    return;
+  }
+
+  const camera = new THREE.Camera();
+  camera.position.z = 1;
+  const scene = new THREE.Scene();
+  const geometry = new THREE.PlaneGeometry(2, 2);
+
+  const uniforms = {
+    time: { value: 1.0 },
+    resolution: { value: new THREE.Vector2() }
+  };
+
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader: 'void main() { gl_Position = vec4(position, 1.0); }',
+    fragmentShader: `
+      precision highp float;
+      uniform vec2 resolution;
+      uniform float time;
+      void main(void) {
+        vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+        float t = time * 0.05;
+        float lineWidth = 0.002;
+        vec3 color = vec3(0.0);
+        for(int j = 0; j < 3; j++){
+          for(int i = 0; i < 5; i++){
+            color[j] += lineWidth * float(i*i) / abs(fract(t - 0.01*float(j) + float(i)*0.01)*5.0 - length(uv) + mod(uv.x+uv.y, 0.2));
+          }
+        }
+        gl_FragColor = vec4(color[0], color[1], color[2], 1.0);
+      }
+    `
+  });
+
+  const mesh = new THREE.Mesh(geometry, material);
+  scene.add(mesh);
+
+  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  const resize = () => {
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    uniforms.resolution.value.set(renderer.domElement.width, renderer.domElement.height);
+  };
+  resize();
+  window.addEventListener('resize', resize);
+
+  let animId;
+  const animate = () => {
+    animId = requestAnimationFrame(animate);
+    uniforms.time.value += 0.05;
+    renderer.render(scene, camera);
+  };
+  animate();
+
+  // 2.5s sonra logo belir
+  setTimeout(() => { if (logo) logo.classList.add('visible'); }, 2500);
+
+  // 4.5s sonra overlay kapan, scroll serbest bırak
+  setTimeout(() => {
+    overlay.classList.add('fade-out');
+    document.body.style.overflow = '';
+    setTimeout(() => {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+      renderer.dispose();
+      geometry.dispose();
+      material.dispose();
+      overlay.remove();
+    }, 1000);
+  }, 4500);
+})();
+
 // 1. Header — Scroll'da arka plan ekle
 (function initHeader() {
   const header = document.getElementById('header');
