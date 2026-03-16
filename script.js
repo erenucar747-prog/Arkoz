@@ -5,15 +5,20 @@
 'use strict';
 
 // 0. Intro Shader Animasyonu (saf WebGL — sıfır bağımlılık)
+let introActive = false;
+
 function runIntro() {
-  // Önceki overlay kalmışsa temizle
+  if (introActive) return;
+  introActive = true;
+
   const old = document.getElementById('intro-overlay');
   if (old) old.remove();
 
-  // Overlay'i sıfırdan oluştur (bfcache sonrası yeniden inject)
   const overlay = document.createElement('div');
   overlay.id = 'intro-overlay';
-  overlay.innerHTML = '<div id="intro-canvas-container"></div><div id="intro-logo"><img src="logo.png" alt="Arkoz Gazbeton"/></div>';
+  overlay.innerHTML =
+    '<div id="intro-canvas-container"></div>' +
+    '<div id="intro-logo"><img src="logo.png" alt="Arkoz Gazbeton"/></div>';
   document.body.prepend(overlay);
   document.body.style.overflow = 'hidden';
 
@@ -21,94 +26,100 @@ function runIntro() {
   const container = overlay.querySelector('#intro-canvas-container');
 
   function dismiss() {
+    introActive = false;
     overlay.classList.add('fade-out');
     document.body.style.overflow = '';
-    setTimeout(() => { if (overlay.parentNode) overlay.remove(); }, 1000);
+    setTimeout(function() { if (overlay.parentNode) overlay.remove(); }, 1000);
   }
 
-  if (!overlay || !container) { document.body.style.overflow = ''; return; }
+  // Layout hesaplanınca başlat
+  requestAnimationFrame(function() {
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%';
+    container.appendChild(canvas);
 
-  // Canvas oluştur
-  const canvas = document.createElement('canvas');
-  container.appendChild(canvas);
-  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-  if (!gl) { dismiss(); return; }
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    if (!gl) { dismiss(); return; }
 
-  // Vertex shader
-  const vs = gl.createShader(gl.VERTEX_SHADER);
-  gl.shaderSource(vs, 'attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}');
-  gl.compileShader(vs);
+    // Vertex shader
+    const vs = gl.createShader(gl.VERTEX_SHADER);
+    gl.shaderSource(vs, 'attribute vec2 p;void main(){gl_Position=vec4(p,0.0,1.0);}');
+    gl.compileShader(vs);
 
-  // Fragment shader (aynı formül)
-  const fs = gl.createShader(gl.FRAGMENT_SHADER);
-  gl.shaderSource(fs, `
-    precision mediump float;
-    uniform vec2 res;
-    uniform float t;
-    void main(){
-      vec2 uv=(gl_FragCoord.xy*2.0-res)/min(res.x,res.y);
-      float lw=0.002;
-      vec3 c=vec3(0.0);
-      for(int j=0;j<3;j++){
-        for(int i=0;i<5;i++){
-          c[j]+=lw*float(i*i)/abs(fract(t-0.01*float(j)+float(i)*0.01)*5.0-length(uv)+mod(uv.x+uv.y,0.2));
-        }
-      }
-      gl_FragColor=vec4(c,1.0);
+    // Fragment shader — smooth diyagonal şeritler, flaş yok
+    const fs = gl.createShader(gl.FRAGMENT_SHADER);
+    gl.shaderSource(fs, [
+      'precision mediump float;',
+      'uniform vec2 res;',
+      'uniform float t;',
+      'void main(){',
+      '  vec2 uv=(gl_FragCoord.xy*2.0-res)/min(res.x,res.y);',
+      '  vec3 col=vec3(0.0);',
+      '  for(int j=0;j<3;j++){',
+      '    for(int i=0;i<5;i++){',
+      '      float fi=float(i);',
+      '      float fj=float(j);',
+      '      float wave=sin((uv.x+uv.y)*3.0+t*6.28+fi*1.2+fj*0.8);',
+      '      float brightness=0.08*(fi+1.0)*(0.5+0.5*wave);',
+      '      if(j==0) col.r+=brightness;',
+      '      else if(j==1) col.g+=brightness*0.6;',
+      '      else col.b+=brightness*1.2;',
+      '    }',
+      '  }',
+      '  col=clamp(col,0.0,1.0);',
+      '  gl_FragColor=vec4(col,1.0);',
+      '}'
+    ].join('\n'));
+    gl.compileShader(fs);
+
+    const prog = gl.createProgram();
+    gl.attachShader(prog, vs);
+    gl.attachShader(prog, fs);
+    gl.linkProgram(prog);
+    gl.useProgram(prog);
+
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+    const loc = gl.getAttribLocation(prog, 'p');
+    gl.enableVertexAttribArray(loc);
+    gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+    const uRes = gl.getUniformLocation(prog, 'res');
+    const uTime = gl.getUniformLocation(prog, 't');
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      gl.viewport(0, 0, canvas.width, canvas.height);
     }
-  `);
-  gl.compileShader(fs);
+    window.addEventListener('resize', resize);
 
-  const prog = gl.createProgram();
-  gl.attachShader(prog, vs);
-  gl.attachShader(prog, fs);
-  gl.linkProgram(prog);
-  gl.useProgram(prog);
+    var time = 0, animId;
+    function render() {
+      animId = requestAnimationFrame(render);
+      time += 0.004;
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, time);
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    }
+    render();
 
-  // Tam ekran quad
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
-  const loc = gl.getAttribLocation(prog, 'p');
-  gl.enableVertexAttribArray(loc);
-  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+    setTimeout(function() { logo.classList.add('visible'); }, 2000);
 
-  const uRes = gl.getUniformLocation(prog, 'res');
-  const uTime = gl.getUniformLocation(prog, 't');
-
-  function resize() {
-    canvas.width = container.clientWidth;
-    canvas.height = container.clientHeight;
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  }
-  resize();
-  window.addEventListener('resize', resize);
-
-  let time = 1.0, animId;
-  function render() {
-    animId = requestAnimationFrame(render);
-    time += 0.0025;
-    gl.uniform2f(uRes, canvas.width, canvas.height);
-    gl.uniform1f(uTime, time);
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  }
-  render();
-
-  // 2.2s sonra logo belir
-  setTimeout(() => { if (logo) logo.classList.add('visible'); }, 2200);
-
-  // 4.2s sonra kapat
-  setTimeout(() => {
-    cancelAnimationFrame(animId);
-    window.removeEventListener('resize', resize);
-    dismiss();
-  }, 4200);
+    setTimeout(function() {
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', resize);
+      dismiss();
+    }, 4000);
+  });
 }
 
-// İlk yükleme ve bfcache'den dönüş (iOS Safari reload) için
 runIntro();
-window.addEventListener('pageshow', (e) => {
+window.addEventListener('pageshow', function(e) {
   if (e.persisted) runIntro();
 });
 
@@ -184,7 +195,6 @@ window.addEventListener('pageshow', (e) => {
 
 // 4. Scroll Reveal Animasyonu
 (function initReveal() {
-  // Reveal edilecek elementleri seç ve class ekle
   const targets = document.querySelectorAll(
     '.service-card, .project-card, .about__card, .contact__item, .section__header'
   );
@@ -265,7 +275,6 @@ window.addEventListener('pageshow', (e) => {
     btn.disabled = true;
     btn.innerHTML = '<span>Gönderiliyor...</span>';
 
-    // Simüle edilmiş gönderim (backend entegrasyonuna hazır)
     await new Promise(r => setTimeout(r, 1200));
 
     btn.disabled = false;
