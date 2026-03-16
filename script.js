@@ -88,7 +88,7 @@ function runIntro() {
   let time = 1.0, animId;
   function render() {
     animId = requestAnimationFrame(render);
-    time += 0.05;
+    time += 0.0025;
     gl.uniform2f(uRes, canvas.width, canvas.height);
     gl.uniform1f(uTime, time);
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
