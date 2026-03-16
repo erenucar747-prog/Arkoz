@@ -1238,6 +1238,10 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   text-align: center;
   overflow: hidden;
 }
+.page-hero--dark {
+  background: #000;
+  border-bottom-color: rgba(255,255,255,0.08);
+}
 .page-hero__waves {
   position: absolute;
   inset: 0;
@@ -1248,6 +1252,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .page-hero__inner {
   position: relative;
   z-index: 1;
+}
+.page-hero__logo--white {
+  filter: brightness(0) invert(1);
 }
 .page-hero__tag {
   display: inline-block;
