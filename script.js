@@ -9,7 +9,16 @@
   const container = document.getElementById('intro-canvas-container');
   const overlay = document.getElementById('intro-overlay');
   const logo = document.getElementById('intro-logo');
+  // Güvenlik: 6s içinde bitmezse zorla kapat
+  const safetyTimer = setTimeout(() => {
+    if (overlay && overlay.parentNode) {
+      overlay.remove();
+      document.body.style.overflow = '';
+    }
+  }, 6000);
+
   if (!container || !overlay || typeof THREE === 'undefined') {
+    clearTimeout(safetyTimer);
     if (overlay) overlay.remove();
     document.body.style.overflow = '';
     return;
@@ -74,6 +83,7 @@
 
   // 4.5s sonra overlay kapan, scroll serbest bırak
   setTimeout(() => {
+    clearTimeout(safetyTimer);
     overlay.classList.add('fade-out');
     document.body.style.overflow = '';
     setTimeout(() => {
