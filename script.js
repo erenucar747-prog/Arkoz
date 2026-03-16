@@ -4,97 +4,96 @@
 
 'use strict';
 
-// 0. Intro Shader Animasyonu
+// 0. Intro Shader Animasyonu (saf WebGL — sıfır bağımlılık)
 (function initIntro() {
-  const container = document.getElementById('intro-canvas-container');
   const overlay = document.getElementById('intro-overlay');
   const logo = document.getElementById('intro-logo');
-  // Güvenlik: 6s içinde bitmezse zorla kapat
-  const safetyTimer = setTimeout(() => {
-    if (overlay && overlay.parentNode) {
-      overlay.remove();
-      document.body.style.overflow = '';
-    }
-  }, 6000);
+  const container = document.getElementById('intro-canvas-container');
 
-  if (!container || !overlay || typeof THREE === 'undefined') {
-    clearTimeout(safetyTimer);
-    if (overlay) overlay.remove();
+  function dismiss() {
+    overlay.classList.add('fade-out');
     document.body.style.overflow = '';
-    return;
+    setTimeout(() => { if (overlay.parentNode) overlay.remove(); }, 1000);
   }
 
-  const camera = new THREE.Camera();
-  camera.position.z = 1;
-  const scene = new THREE.Scene();
-  const geometry = new THREE.PlaneGeometry(2, 2);
+  if (!overlay || !container) { document.body.style.overflow = ''; return; }
 
-  const uniforms = {
-    time: { value: 1.0 },
-    resolution: { value: new THREE.Vector2() }
-  };
+  // Canvas oluştur
+  const canvas = document.createElement('canvas');
+  container.appendChild(canvas);
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
 
-  const material = new THREE.ShaderMaterial({
-    uniforms,
-    vertexShader: 'void main() { gl_Position = vec4(position, 1.0); }',
-    fragmentShader: `
-      precision highp float;
-      uniform vec2 resolution;
-      uniform float time;
-      void main(void) {
-        vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
-        float t = time * 0.05;
-        float lineWidth = 0.002;
-        vec3 color = vec3(0.0);
-        for(int j = 0; j < 3; j++){
-          for(int i = 0; i < 5; i++){
-            color[j] += lineWidth * float(i*i) / abs(fract(t - 0.01*float(j) + float(i)*0.01)*5.0 - length(uv) + mod(uv.x+uv.y, 0.2));
-          }
+  if (!gl) { dismiss(); return; }
+
+  // Vertex shader
+  const vs = gl.createShader(gl.VERTEX_SHADER);
+  gl.shaderSource(vs, 'attribute vec2 p;void main(){gl_Position=vec4(p,0,1);}');
+  gl.compileShader(vs);
+
+  // Fragment shader (aynı formül)
+  const fs = gl.createShader(gl.FRAGMENT_SHADER);
+  gl.shaderSource(fs, `
+    precision mediump float;
+    uniform vec2 res;
+    uniform float t;
+    void main(){
+      vec2 uv=(gl_FragCoord.xy*2.0-res)/min(res.x,res.y);
+      float lw=0.002;
+      vec3 c=vec3(0.0);
+      for(int j=0;j<3;j++){
+        for(int i=0;i<5;i++){
+          c[j]+=lw*float(i*i)/abs(fract(t-0.01*float(j)+float(i)*0.01)*5.0-length(uv)+mod(uv.x+uv.y,0.2));
         }
-        gl_FragColor = vec4(color[0], color[1], color[2], 1.0);
       }
-    `
-  });
+      gl_FragColor=vec4(c,1.0);
+    }
+  `);
+  gl.compileShader(fs);
 
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  const prog = gl.createProgram();
+  gl.attachShader(prog, vs);
+  gl.attachShader(prog, fs);
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(window.devicePixelRatio);
-  container.appendChild(renderer.domElement);
+  // Tam ekran quad
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,1,1]), gl.STATIC_DRAW);
+  const loc = gl.getAttribLocation(prog, 'p');
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
 
-  const resize = () => {
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    uniforms.resolution.value.set(renderer.domElement.width, renderer.domElement.height);
-  };
+  const uRes = gl.getUniformLocation(prog, 'res');
+  const uTime = gl.getUniformLocation(prog, 't');
+
+  function resize() {
+    canvas.width = container.clientWidth;
+    canvas.height = container.clientHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  }
   resize();
   window.addEventListener('resize', resize);
 
-  let animId;
-  const animate = () => {
-    animId = requestAnimationFrame(animate);
-    uniforms.time.value += 0.05;
-    renderer.render(scene, camera);
-  };
-  animate();
+  let time = 1.0, animId;
+  function render() {
+    animId = requestAnimationFrame(render);
+    time += 0.05;
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uTime, time);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+  render();
 
-  // 2.5s sonra logo belir
-  setTimeout(() => { if (logo) logo.classList.add('visible'); }, 2500);
+  // 2.2s sonra logo belir
+  setTimeout(() => { if (logo) logo.classList.add('visible'); }, 2200);
 
-  // 4.5s sonra overlay kapan, scroll serbest bırak
+  // 4.2s sonra kapat
   setTimeout(() => {
-    clearTimeout(safetyTimer);
-    overlay.classList.add('fade-out');
-    document.body.style.overflow = '';
-    setTimeout(() => {
-      cancelAnimationFrame(animId);
-      window.removeEventListener('resize', resize);
-      renderer.dispose();
-      geometry.dispose();
-      material.dispose();
-      overlay.remove();
-    }, 1000);
-  }, 4500);
+    cancelAnimationFrame(animId);
+    window.removeEventListener('resize', resize);
+    dismiss();
+  }, 4200);
 })();
 
 // 1. Header — Scroll'da arka plan ekle
