@@ -32,7 +32,8 @@
   </header>
 
   <div class="page-hero">
-    <div class="container">
+    <canvas id="hero-waves" class="page-hero__waves" aria-hidden="true"></canvas>
+    <div class="container page-hero__inner">
       <img src="logo.png" alt="Arkoz Gazbeton" class="page-hero__logo" />
     </div>
   </div>
@@ -360,6 +361,54 @@
   </footer>
 
   <script src="script.js" defer></script>
+  <script>
+    // Dalgalı hero animasyonu
+    (function() {
+      const canvas = document.getElementById('hero-waves');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let raf, t = 0;
+
+      const waves = [
+        { amp: 18, freq: 0.018, speed: 0.008, y: 0.28, alpha: 0.13, lw: 1.5 },
+        { amp: 26, freq: 0.013, speed: 0.005, y: 0.42, alpha: 0.10, lw: 1.2 },
+        { amp: 14, freq: 0.025, speed: 0.011, y: 0.55, alpha: 0.09, lw: 1.0 },
+        { amp: 32, freq: 0.010, speed: 0.004, y: 0.68, alpha: 0.08, lw: 1.4 },
+        { amp: 20, freq: 0.020, speed: 0.009, y: 0.82, alpha: 0.07, lw: 1.1 },
+        { amp: 10, freq: 0.030, speed: 0.014, y: 0.18, alpha: 0.06, lw: 0.9 },
+      ];
+
+      function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+
+      function draw() {
+        const W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        waves.forEach(w => {
+          ctx.beginPath();
+          ctx.lineWidth   = w.lw;
+          ctx.strokeStyle = `rgba(45,42,143,${w.alpha})`;
+
+          const baseY = H * w.y;
+          for (let x = 0; x <= W; x += 2) {
+            const y = baseY + Math.sin(x * w.freq + t * w.speed * 100) * w.amp;
+            x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+          }
+          ctx.stroke();
+        });
+
+        t++;
+        raf = requestAnimationFrame(draw);
+      }
+
+      resize();
+      window.addEventListener('resize', resize);
+      draw();
+    })();
+  </script>
   <script>
     // Tab sistemi
     document.querySelectorAll('.tab-btn').forEach(btn => {
