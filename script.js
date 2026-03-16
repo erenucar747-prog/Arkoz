@@ -5,10 +5,20 @@
 'use strict';
 
 // 0. Intro Shader Animasyonu (saf WebGL — sıfır bağımlılık)
-(function initIntro() {
-  const overlay = document.getElementById('intro-overlay');
-  const logo = document.getElementById('intro-logo');
-  const container = document.getElementById('intro-canvas-container');
+function runIntro() {
+  // Önceki overlay kalmışsa temizle
+  const old = document.getElementById('intro-overlay');
+  if (old) old.remove();
+
+  // Overlay'i sıfırdan oluştur (bfcache sonrası yeniden inject)
+  const overlay = document.createElement('div');
+  overlay.id = 'intro-overlay';
+  overlay.innerHTML = '<div id="intro-canvas-container"></div><div id="intro-logo"><img src="logo.png" alt="Arkoz Gazbeton"/></div>';
+  document.body.prepend(overlay);
+  document.body.style.overflow = 'hidden';
+
+  const logo = overlay.querySelector('#intro-logo');
+  const container = overlay.querySelector('#intro-canvas-container');
 
   function dismiss() {
     overlay.classList.add('fade-out');
@@ -94,7 +104,13 @@
     window.removeEventListener('resize', resize);
     dismiss();
   }, 4200);
-})();
+}
+
+// İlk yükleme ve bfcache'den dönüş (iOS Safari reload) için
+runIntro();
+window.addEventListener('pageshow', (e) => {
+  if (e.persisted) runIntro();
+});
 
 // 1. Header — Scroll'da arka plan ekle
 (function initHeader() {
