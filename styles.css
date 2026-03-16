@@ -1254,6 +1254,13 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-weight: 900;
   line-height: 1.15;
 }
+.page-hero__logo {
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
 .page-hero__title span {
   background: var(--gradient-primary);
   -webkit-background-clip: text;
