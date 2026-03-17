@@ -312,14 +312,11 @@ window.addEventListener('pageshow', function(e) {
 // 8. Glowing Border Efekti (Advantage Cards)
 (function initGlowingEffect() {
   const cards = document.querySelectorAll('.advantage-card');
-  if (!cards.length || 'ontouchstart' in window) return;
+  if (!cards.length) return;
 
-  const SPREAD = 40;
-  const PROXIMITY = 80;
-  const INACTIVE_ZONE = 0.01;
-  const LERP = 0.08;
+  const PROXIMITY = 100;
+  const LERP = 0.06;
 
-  // Inject glow div into each card
   const states = Array.from(cards).map(card => {
     const glow = document.createElement('div');
     glow.className = 'advantage-card__glow';
@@ -338,25 +335,20 @@ window.addEventListener('pageshow', function(e) {
       const r = s.el.getBoundingClientRect();
       const cx = r.left + r.width * 0.5;
       const cy = r.top + r.height * 0.5;
-      const dist = Math.hypot(x - cx, y - cy);
-      const inactiveR = 0.5 * Math.min(r.width, r.height) * INACTIVE_ZONE;
-
-      if (dist < inactiveR) { s.active = false; return; }
-
       s.active = x > r.left - PROXIMITY && x < r.right + PROXIMITY &&
                  y > r.top - PROXIMITY  && y < r.bottom + PROXIMITY;
-
       if (s.active) {
         s.target = (180 * Math.atan2(y - cy, x - cx)) / Math.PI + 90;
       }
     });
   }
 
-  window.addEventListener('pointermove', e => {
-    lastX = e.clientX; lastY = e.clientY;
-    updateActive(lastX, lastY);
-  }, { passive: true });
+  function handlePointer(x, y) { lastX = x; lastY = y; updateActive(x, y); }
 
+  window.addEventListener('pointermove', e => handlePointer(e.clientX, e.clientY), { passive: true });
+  window.addEventListener('touchmove', e => {
+    if (e.touches[0]) handlePointer(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
   window.addEventListener('scroll', () => updateActive(lastX, lastY), { passive: true });
 
   (function tick() {
