@@ -1356,7 +1356,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   width: 100%;
   height: auto;
   display: block;
-  margin: 0 auto;
+  margin: 0 auto 1.5rem;
 }
 .page-hero__title span {
   background: var(--gradient-primary);
