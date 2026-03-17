@@ -37,42 +37,51 @@
   <main>
 
     <!-- HERO -->
-    <section class="hero-new" id="hero">
+    <section class="hero" id="hero">
 
-      <!-- Grid arka plan -->
-      <div class="hero-new__grid" aria-hidden="true"></div>
+      <!-- SLIDER ARKA PLAN -->
+      <div class="hero__slider" id="heroSlider">
 
-      <!-- İçerik -->
-      <div class="hero-new__inner">
-
-        <!-- Eyebrow badge -->
-        <a href="#urunler" class="hero-new__eyebrow">
-          <span>Gazbeton Teknolojisi</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
-        </a>
-
-        <!-- Başlık -->
-        <h1 class="hero-new__title">
-          Türkiye'nin En Yeni<br />ve En Modern
-          <span class="hero-new__title-line">Gazbeton Üretim Tesisi</span>
-        </h1>
-
-        <!-- Alt yazı -->
-        <p class="hero-new__subtitle">
-          Samsun Havza'da 450.000 m³ kapasitesiyle sektörün en yenilikçi<br class="hero-new__br" />
-          ve modern tesisinde yüksek kaliteli gazbeton üretimi gerçekleştiriyoruz.
-        </p>
-
-        <!-- Butonlar -->
-        <div class="hero-new__actions">
-          <a href="#urunler" class="hero-new__btn hero-new__btn--primary">Ürünleri İncele</a>
-          <a href="tel:08503175555" class="hero-new__btn hero-new__btn--ghost">0 (850) 317 55 55</a>
+        <!-- Slayt 0: Video -->
+        <div class="hero__slide hero__slide--active">
+          <video class="hero__video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+            <source src="https://cms-toolkit-artifacts.artlist.io/content/-e-x-t-e-r-n-a-l_-i-m-a-g-e_-t-o_-v-i-d-e-o-v1/media__5/-e-x-t-e-r-n-a-l_-i-m-a-g-e_-t-o_-v-i-d-e-o-661ffb24-2734-4d08-b48e-1f540df7b63d.mp4?Expires=2088970869&Key-Pair-Id=K2ZDLYDZI2R1DF&Signature=GC0q-zqIcaBQdJTmhf1uIo6W3L9sUA9QkdvD7jmxDKaw5K~c~dVqIGSr-ngEebzqFlzMM8Zu~UapCiflFxKXpvFuKJIeqSpMPWzGX6Sxnhk7p2B9qjvYPb0eydGc4ZCRfYh9L~N3xg-~0ZPROMxZXCQtbfxTr--6OuZfKPqJvz8bnfqtkmawBu~fxdn7DyOPSeWglM2l~Y2KIctHSgsxd5IHYF-3xwOBdjsr8yobNzBk6WmqMTVHf5lHGse7uuC3ocvZ3Ncd7MpG3tDXRDC69Tg6Hl7-szOtPcypmQkw5sSbK8fqqW4V2HGmEvKOAzMU0UjqtS28WM9hX5gxrksvMg__" type="video/mp4" />
+          </video>
+          <div class="hero__video-overlay"></div>
         </div>
+
+        <!-- Slayt 2 -->
+        <div class="hero__slide">
+          <img src="slide2.jpeg" alt="Arkoz Gazbeton fabrika havadan görünüm" loading="lazy" />
+          <div class="hero__video-overlay"></div>
+        </div>
+
 
       </div>
 
-      <!-- Küre efekti -->
-      <div class="hero-new__globe" aria-hidden="true"></div>
+      <!-- SLIDER NOKTALARI -->
+      <div class="hero__dots" id="heroDots">
+        <button class="hero__dot hero__dot--active" aria-label="Slayt 1"></button>
+        <button class="hero__dot" aria-label="Slayt 2"></button>
+      </div>
+
+      <!-- OK BUTONLARI -->
+      <button class="hero__arrow hero__arrow--prev" id="heroPrev" aria-label="Önceki slayt">&#8249;</button>
+      <button class="hero__arrow hero__arrow--next" id="heroNext" aria-label="Sonraki slayt">&#8250;</button>
+
+      <div class="container hero__content">
+<h1 class="hero__title">
+          Türkiye'nin En Yeni<br />ve En Modern
+          <span class="hero__title--gradient"> Gazbeton Üretim Tesisi</span>
+        </h1>
+        <p class="hero__desc">
+          Samsun'un Havza ilçesinde sektörün en yenilikçi ve modern tesisinde gazbeton üretimi gerçekleştiriyoruz. Yüksek kaliteli ürünlerimizle yapılarınıza değer katıyoruz.
+        </p>
+        <div class="hero__actions">
+          <a href="#urunler" class="btn btn--primary">Ürünleri İncele</a>
+          <a href="tel:08503175555" class="btn btn--ghost">0 (850) 317 55 55</a>
+        </div>
+      </div>
 
     </section>
 
