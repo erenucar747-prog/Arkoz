@@ -913,47 +913,36 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 /* Glowing border element injected via JS */
 .advantage-card__glow {
   position: absolute;
-  inset: -2px;
-  border-radius: calc(var(--radius-lg) + 2px);
-  border: 2px solid transparent;
+  inset: 0;
+  padding: 2px;
+  border-radius: inherit;
   background:
     radial-gradient(circle, #dd7bbb 10%, transparent 20%),
     radial-gradient(circle at 40% 40%, #2D2A8F 5%, transparent 15%),
     radial-gradient(circle at 60% 60%, #4DB848 10%, transparent 20%),
     radial-gradient(circle at 40% 60%, #1a88c9 10%, transparent 20%),
     repeating-conic-gradient(
-      from 236.84deg at 50% 50%,
-      #2D2A8F 0%,
-      #4DB848 calc(25% / 5),
-      #1a88c9 calc(50% / 5),
-      #dd7bbb calc(75% / 5),
-      #2D2A8F calc(100% / 5)
+      from calc(var(--start) * 1deg) at 50% 50%,
+      #dd7bbb 0%,
+      #2D2A8F calc(25% / 5),
+      #4DB848 calc(50% / 5),
+      #1a88c9 calc(75% / 5),
+      #dd7bbb calc(100% / 5)
     );
   background-attachment: fixed;
   opacity: var(--active, 0);
-  transition: opacity 0.3s;
+  transition: opacity 0.4s ease;
   pointer-events: none;
-  z-index: 0;
-  mask-image:
-    linear-gradient(#0000, #0000),
-    conic-gradient(
-      from calc((var(--start) - var(--spread)) * 1deg),
-      transparent 0deg,
-      white,
-      transparent calc(var(--spread) * 2deg)
-    );
-  mask-clip: padding-box, border-box;
-  mask-composite: intersect;
-  -webkit-mask-image:
-    linear-gradient(#0000, #0000),
-    conic-gradient(
-      from calc((var(--start) - var(--spread)) * 1deg),
-      transparent 0deg,
-      white,
-      transparent calc(var(--spread) * 2deg)
-    );
-  -webkit-mask-clip: padding-box, border-box;
-  -webkit-mask-composite: source-in;
+  z-index: 1;
+  /* Border-only mask — cross-browser (Safari + Chrome) */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
 }
 
 .advantage-card:hover {
