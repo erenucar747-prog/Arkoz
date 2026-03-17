@@ -362,10 +362,10 @@ window.addEventListener('pageshow', function(e) {
   startTimer();
 })();
 
-// Floating Paths — #urunler bölümü animasyonu
+// Floating Paths — #urunler hero header animasyonu
 (function () {
-  const section = document.getElementById('urunler');
-  if (!section) return;
+  const heroHeader = document.getElementById('urunlerHero');
+  if (!heroHeader) return;
 
   const container = document.createElement('div');
   container.className = 'floating-paths';
@@ -382,9 +382,9 @@ window.addEventListener('pageshow', function(e) {
       const d = `M${-380 - p} ${-189 + i * 6}C${-380 - p} ${-189 + i * 6} ${-312 - p} ${216 - i * 6} ${152 - p} ${343 - i * 6}C${616 - p} ${470 - i * 6} ${684 - p} ${875 - i * 6} ${684 - p} ${875 - i * 6}`;
       const path = document.createElementNS(svgNS, 'path');
       path.setAttribute('d', d);
-      path.setAttribute('stroke', 'rgba(45,42,143,1)');
+      path.setAttribute('stroke', 'rgba(255,255,255,1)');
       path.setAttribute('stroke-width', String(0.5 + i * 0.03));
-      path.setAttribute('stroke-opacity', String(0.08 + i * 0.015));
+      path.setAttribute('stroke-opacity', String(0.08 + i * 0.02));
       const duration = (20 + Math.random() * 10).toFixed(1);
       const delay = (Math.random() * -20).toFixed(1);
       path.style.animationDuration = `${duration}s`;
@@ -397,5 +397,5 @@ window.addEventListener('pageshow', function(e) {
   buildPaths(-1);
 
   container.appendChild(svg);
-  section.insertBefore(container, section.firstChild);
+  heroHeader.insertBefore(container, heroHeader.firstChild);
 })();
