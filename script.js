@@ -361,3 +361,41 @@ window.addEventListener('pageshow', function(e) {
 
   startTimer();
 })();
+
+// Floating Paths — #urunler bölümü animasyonu
+(function () {
+  const section = document.getElementById('urunler');
+  if (!section) return;
+
+  const container = document.createElement('div');
+  container.className = 'floating-paths';
+
+  const svgNS = 'http://www.w3.org/2000/svg';
+  const svg = document.createElementNS(svgNS, 'svg');
+  svg.setAttribute('viewBox', '0 0 696 316');
+  svg.setAttribute('fill', 'none');
+  svg.setAttribute('preserveAspectRatio', 'xMidYMid slice');
+
+  function buildPaths(position) {
+    for (let i = 0; i < 36; i++) {
+      const p = i * 5 * position;
+      const d = `M${-380 - p} ${-189 + i * 6}C${-380 - p} ${-189 + i * 6} ${-312 - p} ${216 - i * 6} ${152 - p} ${343 - i * 6}C${616 - p} ${470 - i * 6} ${684 - p} ${875 - i * 6} ${684 - p} ${875 - i * 6}`;
+      const path = document.createElementNS(svgNS, 'path');
+      path.setAttribute('d', d);
+      path.setAttribute('stroke', 'rgba(45,42,143,1)');
+      path.setAttribute('stroke-width', String(0.5 + i * 0.03));
+      path.setAttribute('stroke-opacity', String(0.08 + i * 0.015));
+      const duration = (20 + Math.random() * 10).toFixed(1);
+      const delay = (Math.random() * -20).toFixed(1);
+      path.style.animationDuration = `${duration}s`;
+      path.style.animationDelay = `${delay}s`;
+      svg.appendChild(path);
+    }
+  }
+
+  buildPaths(1);
+  buildPaths(-1);
+
+  container.appendChild(svg);
+  section.insertBefore(container, section.firstChild);
+})();
