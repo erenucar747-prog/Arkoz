@@ -309,7 +309,68 @@ window.addEventListener('pageshow', function(e) {
   });
 })();
 
-// 8. Kart Üzerinde 3D Tilt Efekti (Service Cards)
+// 8. Glowing Border Efekti (Advantage Cards)
+(function initGlowingEffect() {
+  const cards = document.querySelectorAll('.advantage-card');
+  if (!cards.length || 'ontouchstart' in window) return;
+
+  const SPREAD = 40;
+  const PROXIMITY = 80;
+  const INACTIVE_ZONE = 0.01;
+  const LERP = 0.08;
+
+  // Inject glow div into each card
+  const states = Array.from(cards).map(card => {
+    const glow = document.createElement('div');
+    glow.className = 'advantage-card__glow';
+    card.prepend(glow);
+    return { el: card, angle: 0, target: 0, active: false };
+  });
+
+  function shortestDiff(from, to) {
+    return ((to - from + 180) % 360) - 180;
+  }
+
+  let lastX = 0, lastY = 0;
+
+  function updateActive(x, y) {
+    states.forEach(s => {
+      const r = s.el.getBoundingClientRect();
+      const cx = r.left + r.width * 0.5;
+      const cy = r.top + r.height * 0.5;
+      const dist = Math.hypot(x - cx, y - cy);
+      const inactiveR = 0.5 * Math.min(r.width, r.height) * INACTIVE_ZONE;
+
+      if (dist < inactiveR) { s.active = false; return; }
+
+      s.active = x > r.left - PROXIMITY && x < r.right + PROXIMITY &&
+                 y > r.top - PROXIMITY  && y < r.bottom + PROXIMITY;
+
+      if (s.active) {
+        s.target = (180 * Math.atan2(y - cy, x - cx)) / Math.PI + 90;
+      }
+    });
+  }
+
+  window.addEventListener('pointermove', e => {
+    lastX = e.clientX; lastY = e.clientY;
+    updateActive(lastX, lastY);
+  }, { passive: true });
+
+  window.addEventListener('scroll', () => updateActive(lastX, lastY), { passive: true });
+
+  (function tick() {
+    states.forEach(s => {
+      const diff = shortestDiff(s.angle, s.target);
+      s.angle += diff * LERP;
+      s.el.style.setProperty('--start', s.angle.toFixed(2));
+      s.el.style.setProperty('--active', s.active ? '1' : '0');
+    });
+    requestAnimationFrame(tick);
+  })();
+})();
+
+// 9. Kart Üzerinde 3D Tilt Efekti (Service Cards) (eski 8)
 (function initTilt() {
   const cards = document.querySelectorAll('.service-card');
 
