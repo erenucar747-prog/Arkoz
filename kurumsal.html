@@ -33,7 +33,7 @@
   </header>
 
   <div class="page-hero page-hero--dark">
-    <canvas id="hero-waves" class="page-hero__waves" aria-hidden="true"></canvas>
+    <div id="bg-paths-container" class="page-hero__waves" aria-hidden="true"></div>
     <div class="container page-hero__inner">
       <img src="logo.png" alt="Arkoz Gazbeton" class="page-hero__logo page-hero__logo--white" />
     </div>
@@ -363,101 +363,61 @@
 
   <script src="script.js" defer></script>
   <script>
-    // GodRays — WebGL shader (referans bileşenle birebir görsel)
-    (function() {
-      const canvas = document.getElementById('hero-waves');
-      if (!canvas) return;
-
-      const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
-      if (!gl) return;
-
-      const VS = `attribute vec2 pos; void main(){ gl_Position=vec4(pos,0.0,1.0); }`;
-
-      const FS = `
-        precision highp float;
-        uniform vec2  res;
-        uniform float time;
-        #define TAU 6.28318530718
-
-        float hash(float n){ return fract(sin(n*127.1)*43758.5453); }
-
-        float snoise(float x){
-          float i=floor(x); float f=fract(x);
-          f=f*f*(3.0-2.0*f);
-          return mix(hash(i),hash(i+1.0),f);
+    // Background Paths — SVG animasyonu
+    (function () {
+      const container = document.getElementById('bg-paths-container');
+      if (!container) return;
+      const NS = 'http://www.w3.org/2000/svg';
+      function buildSVG(position) {
+        const svg = document.createElementNS(NS, 'svg');
+        svg.setAttribute('viewBox', '0 0 696 316');
+        svg.setAttribute('fill', 'none');
+        svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
+        const pathEls = [];
+        for (let i = 0; i < 36; i++) {
+          const p = position;
+          const d =
+            `M${-(380 - i * 5 * p)} ${-(189 + i * 6)}` +
+            `C${-(380 - i * 5 * p)} ${-(189 + i * 6)} ` +
+            `${-(312 - i * 5 * p)} ${216 - i * 6} ` +
+            `${152 - i * 5 * p} ${343 - i * 6}` +
+            `C${616 - i * 5 * p} ${470 - i * 6} ` +
+            `${684 - i * 5 * p} ${875 - i * 6} ` +
+            `${684 - i * 5 * p} ${875 - i * 6}`;
+          const el = document.createElementNS(NS, 'path');
+          el.setAttribute('d', d);
+          el.setAttribute('stroke', 'white');
+          el.setAttribute('stroke-width', String(0.5 + i * 0.03));
+          el.style.opacity = String(0.1 + i * 0.03);
+          svg.appendChild(el);
+          pathEls.push({ el, i });
         }
-
-        void main(){
-          vec2 uv = gl_FragCoord.xy / res;
-
-          /* Işık kaynağı: sağ üst köşeye yakın (1.1,1.1) — ekranın içinden görünür */
-          vec2 src = vec2(1.1, 1.1);
-          vec2 d   = src - uv;
-          float dist  = length(d);
-          float angle = atan(d.y, d.x) / TAU + 0.5;
-
-          float t = time * 0.003;
-
-          /* Yüksek pow = ince keskin huzme, yüksek çarpan = yeterli parlaklık
-             freq ~5-6 → ~2-3 ayrı huzme görünür                              */
-          float r = 0.0;
-          r += pow(snoise(angle *  6.0 + t * 0.40), 9.0) * 4.0;
-          r += pow(snoise(angle *  5.0 - t * 0.20), 8.0) * 3.0;
-          r += pow(snoise(angle *  9.0 + t * 0.28), 9.0) * 2.5;
-
-          /* Hafif mesafe azalımı */
-          r *= 0.88 / (dist * 1.2 + 0.10);
-
-          /* Kaynak bloom */
-          r += exp(-dist * 4.0) * 0.35;
-
-          r = clamp(r, 0.0, 1.0);
-
-          vec3 color = vec3(r * 0.82, r * 0.82, r * 0.87);
-
-          gl_FragColor = vec4(color, 1.0);
-        }
-      `;
-
-      function mkShader(type, src) {
-        var s = gl.createShader(type);
-        gl.shaderSource(s, src);
-        gl.compileShader(s);
-        return s;
+        return { svg, pathEls };
       }
-      var prog = gl.createProgram();
-      gl.attachShader(prog, mkShader(gl.VERTEX_SHADER,   VS));
-      gl.attachShader(prog, mkShader(gl.FRAGMENT_SHADER, FS));
-      gl.linkProgram(prog);
-      gl.useProgram(prog);
-
-      var buf = gl.createBuffer();
-      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
-      var loc = gl.getAttribLocation(prog, 'pos');
-      gl.enableVertexAttribArray(loc);
-      gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
-
-      var uRes  = gl.getUniformLocation(prog, 'res');
-      var uTime = gl.getUniformLocation(prog, 'time');
-
-      function resize() {
-        canvas.width  = canvas.offsetWidth;
-        canvas.height = canvas.offsetHeight;
-        gl.viewport(0, 0, canvas.width, canvas.height);
-      }
-      resize();
-      window.addEventListener('resize', resize);
-
-      var tick = 0;
-      function frame() {
-        requestAnimationFrame(frame);
-        tick++;
-        gl.uniform2f(uRes, canvas.width, canvas.height);
-        gl.uniform1f(uTime, tick);
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-      }
-      frame();
+      const { svg: svg1, pathEls: pe1 } = buildSVG(1);
+      const { svg: svg2, pathEls: pe2 } = buildSVG(-1);
+      container.appendChild(svg1);
+      container.appendChild(svg2);
+      requestAnimationFrame(function () {
+        [...pe1, ...pe2].forEach(function ({ el, i }, idx) {
+          const len = el.getTotalLength();
+          if (!len) return;
+          const dur  = 20 + Math.random() * 10;
+          const base = 0.1 + i * 0.03;
+          const dash = len * 0.65;
+          const name = 'bgp_k' + idx;
+          el.setAttribute('stroke-dasharray', dash + ' ' + (len - dash));
+          const style = document.createElement('style');
+          style.textContent =
+            '@keyframes ' + name + '{' +
+              '0%  {stroke-dashoffset:0;opacity:'          + (base * 0.5) + '}' +
+              '50% {stroke-dashoffset:' + (-len) + ';opacity:' + base      + '}' +
+              '100%{stroke-dashoffset:' + (-len * 2) + ';opacity:' + (base * 0.5) + '}' +
+            '}';
+          document.head.appendChild(style);
+          el.style.animation = name + ' ' + dur + 's linear infinite';
+        });
+      });
     })();
   </script>
   <script>
