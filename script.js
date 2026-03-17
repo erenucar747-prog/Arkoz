@@ -380,7 +380,7 @@ window.addEventListener('pageshow', function(e) {
   });
 })();
 
-// 9. Hero Slider (slider kaldırıldı — erken çıkış)
+// 9. Hero Slider
 (function initHeroSlider() {
   const slides = document.querySelectorAll('.hero__slide');
   const dots   = document.querySelectorAll('.hero__dot');
