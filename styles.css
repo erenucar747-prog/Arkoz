@@ -804,37 +804,149 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   line-height: 1.5;
 }
 
-/* Misyon & Vizyon */
-.mission { background: var(--color-bg-3); }
+/* Misyon & Vizyon — yeni dark tasarım */
+.mission {
+  position: relative;
+  padding: var(--section-padding) 0;
+  background: linear-gradient(160deg, #0b0c1e 0%, #101330 55%, #0e1a10 100%);
+  overflow: hidden;
+}
 
+/* Arka plan glow blob'ları */
+.mission__glow-1,
+.mission__glow-2 {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.mission__glow-1 {
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(45,42,143,0.35) 0%, transparent 70%);
+  top: -100px; left: -100px;
+  animation: float 9s ease-in-out infinite;
+}
+.mission__glow-2 {
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(77,184,72,0.25) 0%, transparent 70%);
+  bottom: -80px; right: -60px;
+  animation: float 11s ease-in-out infinite reverse;
+}
+
+/* Header */
+.mission__header { margin-bottom: 64px; }
+.mission__tag {
+  color: rgba(255,255,255,0.75) !important;
+  background: rgba(255,255,255,0.08) !important;
+  border-color: rgba(255,255,255,0.15) !important;
+}
+.mission__title { color: #fff !important; }
+.mission__title span {
+  background: linear-gradient(135deg, #4DB848, #1a88c9) !important;
+  -webkit-background-clip: text !important;
+  background-clip: text !important;
+  -webkit-text-fill-color: transparent !important;
+}
+.mission__desc { color: rgba(255,255,255,0.50) !important; }
+
+/* Grid */
 .mission__grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
 
+/* Kart */
 .mission__card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  position: relative;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: var(--radius-lg);
-  padding: 40px 32px;
-  transition: all var(--transition);
-}
-
-.mission__card--center {
-  border-color: rgba(77, 184, 72, 0.3);
-  background: linear-gradient(135deg, #EAEAF2, #E0E0F0);
+  padding: 48px 36px 40px;
+  overflow: hidden;
+  transition: transform var(--transition), border-color var(--transition), background var(--transition);
 }
 
 .mission__card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(77, 184, 72, 0.4);
+  transform: translateY(-6px);
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.16);
 }
 
-.mission__icon { font-size: 2.5rem; margin-bottom: 16px; }
-.mission__card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 12px; }
-.mission__card p { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.8; }
-.mission__card p strong { color: var(--color-primary); }
+/* Büyük arka plan numarası */
+.mission__num {
+  position: absolute;
+  top: -10px; right: 20px;
+  font-size: 7rem;
+  font-weight: 900;
+  line-height: 1;
+  background: linear-gradient(135deg, rgba(45,42,143,0.25), rgba(77,184,72,0.15));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  user-select: none;
+  pointer-events: none;
+  letter-spacing: -0.05em;
+}
+
+/* İkon kutusu */
+.mission__icon-box {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px; height: 56px;
+  border-radius: 14px;
+  margin-bottom: 24px;
+}
+.mission__icon-box--blue {
+  background: rgba(26, 136, 201, 0.15);
+  color: #4db0e8;
+  border: 1px solid rgba(26,136,201,0.25);
+}
+.mission__icon-box--purple {
+  background: rgba(45, 42, 143, 0.2);
+  color: #8b89e6;
+  border: 1px solid rgba(45,42,143,0.3);
+}
+.mission__icon-box--green {
+  background: rgba(77, 184, 72, 0.15);
+  color: #6dd668;
+  border: 1px solid rgba(77,184,72,0.25);
+}
+
+.mission__card h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 14px;
+}
+.mission__card p {
+  font-size: 0.9rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.85;
+}
+.mission__card p strong { color: #6dd668; font-weight: 600; }
+
+/* Alt renkli çizgi */
+.mission__card-line {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--gradient-primary);
+  border-radius: 0 0 var(--radius-lg) var(--radius-lg);
+  transform: scaleX(0);
+  transition: transform 0.4s ease;
+  transform-origin: left;
+}
+.mission__card:hover .mission__card-line { transform: scaleX(1); }
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mission__grid { grid-template-columns: 1fr; }
+  .mission__card { padding: 36px 28px 32px; }
+}
+@media (max-width: 1024px) {
+  .mission__grid { grid-template-columns: 1fr; }
+}
 
 /* Ürün teknik tablosu */
 .product__standard {
