@@ -427,8 +427,9 @@ window.addEventListener('pageshow', function(e) {
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 1000);
   camera.position.set(0, 0, 20);
 
-  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
+  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setClearColor(0x000000, 1); // explicit siyah — iOS'ta scene.background tek başına yetmez
 
   // ── Geometry ────────────────────────────────────────────────────────────
   function createBeamGeometry(n, width, height, spacing, heightSegments) {
@@ -530,60 +531,74 @@ window.addEventListener('pageshow', function(e) {
     }
   `;
 
-  // ── Custom ShaderMaterial — Phong specular lighting, no PBR ─────────────
-  // This avoids all ambient-light grey wash and works on all devices/browsers.
+  // ── Custom ShaderMaterial — grazing Y-axis lights, siyah zemin + beyaz şerit ─
+  // Işık Y eksenine paralel → düz yüzeyler siyah, Perlin kıvrımları beyaz parlak.
   const vertexShader = `
+    precision highp float;
     ${PERLIN3}
     uniform float time;
     uniform float uSpeed;
     uniform float uScale;
-    varying vec3 vN; // surface normal in view space
-    varying vec3 vL; // light direction in view space
+    varying vec3 vN;  // surface normal in view space
+    varying vec3 vL1; // light 1 direction (from above) in view space
+    varying vec3 vL2; // light 2 direction (from below) in view space
 
     float disp(vec3 p) {
-      return cnoise(vec3(0.0, p.y - uv.y, p.z + time * uSpeed * 3.0) * uScale);
+      // x zeroed so noise varies only in Y-Z → normals tilt only in Y-Z plane
+      return cnoise(vec3(0.0, p.y - uv.y, p.z + time * uSpeed * 3.0) * uScale) * 1.5;
     }
 
     void main() {
-      // Displace along Z with Perlin noise
       float dz = disp(position);
-      vec3 pos = vec3(position.x, position.y, dz);
+      vec3 pos  = vec3(position.x, position.y, dz);
 
-      // Compute surface normal via finite differences
-      float e = 0.01;
-      vec3 pX = vec3(position.x + e, position.y, disp(position + vec3(e, 0.0, 0.0)));
-      vec3 pY = vec3(position.x, position.y - e, disp(position + vec3(0.0, -e, 0.0)));
+      // Surface normal via finite differences
+      float e   = 0.01;
+      vec3 pX   = vec3(position.x + e, position.y, disp(position + vec3(e,  0.0, 0.0)));
+      vec3 pY   = vec3(position.x, position.y - e, disp(position + vec3(0.0, -e, 0.0)));
       vec3 objN = normalize(cross(normalize(pY - pos), normalize(pX - pos)));
 
-      // Transform normal and light direction to view space
-      vN = normalize(normalMatrix * objN);
-      vL = normalize((viewMatrix * vec4(0.0, 3.0, 10.0, 0.0)).xyz);
+      vN  = normalize(normalMatrix * objN);
+
+      // Lights mostly along ±Y, tiny Z component for base glow
+      vL1 = normalize((viewMatrix * vec4( 0.0,  1.0, 0.1, 0.0)).xyz);
+      vL2 = normalize((viewMatrix * vec4( 0.0, -1.0, 0.1, 0.0)).xyz);
 
       gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
     }
   `;
 
   const fragmentShader = `
+    precision highp float;
     ${NOISE2D}
     uniform float uNoiseIntensity;
     varying vec3 vN;
-    varying vec3 vL;
+    varying vec3 vL1;
+    varying vec3 vL2;
 
     void main() {
-      vec3 N = normalize(vN);
-      vec3 L = normalize(vL);
-      vec3 V = vec3(0.0, 0.0, 1.0); // camera looks down -Z in view space
+      vec3 N  = normalize(vN);
+      vec3 V  = vec3(0.0, 0.0, 1.0);
+      vec3 L1 = normalize(vL1);
+      vec3 L2 = normalize(vL2);
 
-      // Blinn-Phong: diffuse + specular — no ambient so gaps stay pure black
-      float diff = max(dot(N, L), 0.0);
-      vec3  H    = normalize(L + V);
-      float spec = pow(max(dot(N, H), 0.0), 48.0);
+      // Diffuse: flat surface sees very little Y-axis light
+      float d1 = max(dot(N, L1), 0.0);
+      float d2 = max(dot(N, L2), 0.0);
 
-      float brightness = diff * 0.35 + spec * 2.5;
+      // Blinn-Phong specular: blooms on Perlin-deformed normals
+      vec3  H1 = normalize(L1 + V);
+      vec3  H2 = normalize(L2 + V);
+      float s1 = pow(max(dot(N, H1), 0.0), 16.0);
+      float s2 = pow(max(dot(N, H2), 0.0), 16.0);
 
-      // Subtle film grain
+      // Low diffuse coeff → base dark; high specular → bright only on tilted surfaces
+      float brightness = (d1 + d2) * 0.08 + (s1 + s2) * 2.5;
+
+      // Film grain
       brightness -= bNoise(gl_FragCoord.xy) / 15.0 * uNoiseIntensity;
       brightness  = max(0.0, brightness);
+      brightness  = min(1.0, brightness);
 
       gl_FragColor = vec4(vec3(brightness), 1.0);
     }
