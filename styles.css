@@ -942,13 +942,19 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .mission__grid { grid-template-columns: 1fr; }
 }
 
-/* ── Mission Gallery (fabrika fotoğrafları bento grid) ──────────────────── */
+/* ── Mission Gallery (fabrika fotoğrafları bento grid — 5 foto) ─────────── */
 .mission__gallery {
   display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 340px 260px;
+  /* 3 eşit sütun */
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 320px 220px;
   gap: 10px;
   margin-top: 20px;
+}
+
+/* Satır 1: panorama 2 sütun kaplıyor, sağda dar foto */
+.mission__photo--span2 {
+  grid-column: span 2;
 }
 
 .mission__photo {
@@ -970,7 +976,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .mission__photo__overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(to top, rgba(0,0,0,0.60) 0%, rgba(0,0,0,0.05) 55%, transparent 100%);
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.05) 50%, transparent 100%);
   display: flex;
   align-items: flex-end;
   padding: 18px 20px;
@@ -978,7 +984,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 .mission__photo__caption {
-  color: rgba(255,255,255,0.80);
+  color: rgba(255,255,255,0.82);
   font-size: 0.82rem;
   font-weight: 500;
   letter-spacing: 0.03em;
@@ -999,32 +1005,22 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   color: #fff;
 }
 
-/* Geniş foto — ilk foto (1. satır, 1. sütun) */
-.mission__photo:nth-child(1) { grid-column: 1; grid-row: 1; }
-/* Dar foto — 2. foto (1. satır, 2. sütun) */
-.mission__photo:nth-child(2) { grid-column: 2; grid-row: 1; }
-/* Dar foto — 3. foto (2. satır, 1. sütun) */
-.mission__photo:nth-child(3) { grid-column: 1; grid-row: 2; }
-/* Geniş foto — 4. foto (2. satır, 2. sütun) */
-.mission__photo:nth-child(4) { grid-column: 2; grid-row: 2; }
-
-@media (max-width: 768px) {
+@media (max-width: 900px) {
   .mission__gallery {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 180px 180px;
+    grid-template-rows: 200px 200px 200px;
     gap: 8px;
   }
-  .mission__photo:nth-child(n) {
-    grid-column: auto;
-    grid-row: auto;
-  }
+  .mission__photo--span2 { grid-column: span 2; }
 }
 
 @media (max-width: 480px) {
   .mission__gallery {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 220px);
+    grid-template-rows: repeat(5, 200px);
+    gap: 8px;
   }
+  .mission__photo--span2 { grid-column: span 1; }
 }
 
 /* Ürün teknik tablosu */
