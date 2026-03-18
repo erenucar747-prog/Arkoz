@@ -429,6 +429,7 @@ window.addEventListener('pageshow', function(e) {
 
   const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.outputEncoding = THREE.sRGBEncoding;
 
   // ── Lights (matching original: ambient + directional) ──────────────────
   scene.add(new THREE.AmbientLight(0xffffff, 1));
@@ -606,6 +607,30 @@ window.addEventListener('pageshow', function(e) {
       '#include <dithering_fragment>\n  gl_FragColor.rgb -= bNoise(gl_FragCoord.xy) / 15.0 * uNoiseIntensity;'
     );
   };
+
+  // ── White environment map (mirrors envMapIntensity: 10 in original) ───
+  // Without this, only the directional light illuminates the beams from one
+  // side. The env map provides omnidirectional white reflections, making ALL
+  // planes catch light regardless of their Perlin-noise-induced normal angle.
+  (function buildEnvMap() {
+    const w = 64, h = 32;
+    const data = new Uint8Array(4 * w * h).fill(255); // pure white RGBA
+    const equiTex = new THREE.DataTexture(data, w, h, THREE.RGBAFormat);
+    equiTex.mapping   = THREE.EquirectangularReflectionMapping;
+    equiTex.needsUpdate = true;
+
+    const pmrem = new THREE.PMREMGenerator(renderer);
+    pmrem.compileEquirectangularShader();
+    const envRT = pmrem.fromEquirectangular(equiTex);
+
+    scene.environment      = envRT.texture;
+    material.envMap        = envRT.texture;
+    material.envMapIntensity = 10; // matches original exactly
+    material.needsUpdate   = true;
+
+    equiTex.dispose();
+    pmrem.dispose();
+  })();
 
   // ── Group with 43° Z-rotation (matching rotation={43} prop) ───────────
   const group = new THREE.Group();
