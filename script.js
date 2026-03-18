@@ -430,10 +430,13 @@ window.addEventListener('pageshow', function(e) {
   const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.0;
+  renderer.physicallyCorrectLights = true;
 
   // ── Lights (matching original: ambient + directional) ──────────────────
-  scene.add(new THREE.AmbientLight(0xffffff, 1));
-  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+  const dirLight = new THREE.DirectionalLight(0xffffff, 3);
   dirLight.position.set(0, 3, 10);
   scene.add(dirLight);
 
@@ -484,7 +487,7 @@ window.addEventListener('pageshow', function(e) {
     time:            { value: 0.0 },
     uSpeed:          { value: 2.5 },
     uScale:          { value: 0.15 },
-    uNoiseIntensity: { value: 2.0 },
+    uNoiseIntensity: { value: 1.75 },
   };
 
   // ── Shader code injected via onBeforeCompile ───────────────────────────
@@ -570,8 +573,8 @@ window.addEventListener('pageshow', function(e) {
   // This exactly mirrors extendMaterial(THREE.MeshStandardMaterial, {...})
   const material = new THREE.MeshStandardMaterial({
     color:     0x000000,
-    roughness: 0.3,
-    metalness: 0.3,
+    roughness: 0.1,
+    metalness: 0.9,
     side:      THREE.DoubleSide,
   });
 
