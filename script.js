@@ -415,7 +415,7 @@ window.addEventListener('pageshow', function(e) {
   startTimer();
 })();
 
-// 10. Mission Section — Ethereal Beams (vanilla Three.js r128 — onBeforeCompile PBR port)
+// 10. Mission Section — Ethereal Beams (custom ShaderMaterial — Phong specular, no PBR)
 (function initMissionBeams() {
   const canvas = document.getElementById('beams-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
@@ -429,18 +429,8 @@ window.addEventListener('pageshow', function(e) {
 
   const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.outputEncoding = THREE.sRGBEncoding;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.0;
-  renderer.physicallyCorrectLights = true;
 
-  // ── Lights (matching original: ambient + directional) ──────────────────
-  scene.add(new THREE.AmbientLight(0xffffff, 0.5));
-  const dirLight = new THREE.DirectionalLight(0xffffff, 3);
-  dirLight.position.set(0, 3, 10);
-  scene.add(dirLight);
-
-  // ── Geometry (createStackedPlanesBufferGeometry — birebir port) ────────
+  // ── Geometry ────────────────────────────────────────────────────────────
   function createBeamGeometry(n, width, height, spacing, heightSegments) {
     const geo = new THREE.BufferGeometry();
     const numVerts = n * (heightSegments + 1) * 2;
@@ -448,16 +438,13 @@ window.addEventListener('pageshow', function(e) {
     const positions = new Float32Array(numVerts * 3);
     const indices   = new Uint32Array(numFaces * 3);
     const uvs       = new Float32Array(numVerts * 2);
-
     let vi = 0, ii = 0, ui = 0;
     const totalWidth = n * width + (n - 1) * spacing;
     const xBase      = -totalWidth / 2;
-
     for (let i = 0; i < n; i++) {
       const xOff   = xBase + i * (width + spacing);
       const uvXOff = Math.random() * 300;
       const uvYOff = Math.random() * 300;
-
       for (let j = 0; j <= heightSegments; j++) {
         const y = height * (j / heightSegments - 0.5);
         positions.set([xOff, y, 0,  xOff + width, y, 0], vi * 3);
@@ -472,7 +459,6 @@ window.addEventListener('pageshow', function(e) {
         ui += 4;
       }
     }
-
     geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     geo.setAttribute('uv',       new THREE.BufferAttribute(uvs, 2));
     geo.setIndex(new THREE.BufferAttribute(indices, 1));
@@ -482,17 +468,16 @@ window.addEventListener('pageshow', function(e) {
 
   const geometry = createBeamGeometry(15, 2.5, 18, 0, 100);
 
-  // ── Shared uniforms (updated each frame) ───────────────────────────────
-  const customUniforms = {
+  // ── Uniforms ─────────────────────────────────────────────────────────────
+  const uniforms = {
     time:            { value: 0.0 },
     uSpeed:          { value: 2.5 },
     uScale:          { value: 0.15 },
     uNoiseIntensity: { value: 1.75 },
   };
 
-  // ── Shader code injected via onBeforeCompile ───────────────────────────
-  // Perlin 3D noise (same as original — only safe-named helpers)
-  const PERLIN3_GLSL = `
+  // ── Perlin 3D noise GLSL ─────────────────────────────────────────────────
+  const PERLIN3 = `
     vec4 bPerm(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
     vec4 bTayl(vec4 r){return 1.79284291400159-0.85373472095314*r;}
     vec3 bFade(vec3 t){return t*t*t*(t*(t*6.0-15.0)+10.0);}
@@ -527,121 +512,97 @@ window.addEventListener('pageshow', function(e) {
       float n010=dot(g010,vec3(Pf0.x,Pf1.y,Pf0.z)),n110=dot(g110,vec3(Pf1.xy,Pf0.z));
       float n001=dot(g001,vec3(Pf0.xy,Pf1.z)),n101=dot(g101,vec3(Pf1.x,Pf0.y,Pf1.z));
       float n011=dot(g011,vec3(Pf0.x,Pf1.yz)),n111=dot(g111,Pf1);
-      vec3 fade_xyz=bFade(Pf0);
-      vec4 n_z=mix(vec4(n000,n100,n010,n110),vec4(n001,n101,n011,n111),fade_xyz.z);
-      vec2 n_yz=mix(n_z.xy,n_z.zw,fade_xyz.y);
-      return 2.2*mix(n_yz.x,n_yz.y,fade_xyz.x);
+      vec3 fxyz=bFade(Pf0);
+      vec4 nz=mix(vec4(n000,n100,n010,n110),vec4(n001,n101,n011,n111),fxyz.z);
+      vec2 nyz=mix(nz.xy,nz.zw,fxyz.y);
+      return 2.2*mix(nyz.x,nyz.y,fxyz.x);
     }
   `;
 
-  // 2D noise (for fragment dithering — matches original noise(vec2))
-  const NOISE2D_GLSL = `
-    float bRnd(vec2 st){return fract(sin(dot(st,vec2(12.9898,78.233)))*43758.5453123);}
-    float bNoise(vec2 st){
-      vec2 i=floor(st),f=fract(st);
-      float a=bRnd(i),b=bRnd(i+vec2(1.0,0.0));
-      float c=bRnd(i+vec2(0.0,1.0)),d=bRnd(i+vec2(1.0,1.0));
+  // ── 2D value noise GLSL (film grain) ────────────────────────────────────
+  const NOISE2D = `
+    float bRnd(vec2 s){return fract(sin(dot(s,vec2(12.9898,78.233)))*43758.5453123);}
+    float bNoise(vec2 s){
+      vec2 i=floor(s),f=fract(s);
+      float a=bRnd(i),b=bRnd(i+vec2(1,0)),c=bRnd(i+vec2(0,1)),d=bRnd(i+vec2(1,1));
       vec2 u=f*f*(3.0-2.0*f);
       return mix(a,b,u.x)+(c-a)*u.y*(1.0-u.x)+(d-b)*u.x*u.y;
     }
   `;
 
-  // Vertex getPos / getCurrentPos / getNormal helpers (mirrors original vertexHeader)
-  const VERTEX_HELPERS = `
+  // ── Custom ShaderMaterial — Phong specular lighting, no PBR ─────────────
+  // This avoids all ambient-light grey wash and works on all devices/browsers.
+  const vertexShader = `
+    ${PERLIN3}
     uniform float time;
     uniform float uSpeed;
     uniform float uScale;
-    ${PERLIN3_GLSL}
-    float getPos(vec3 pos){
-      vec3 np=vec3(pos.x*0.0,pos.y-uv.y,pos.z+time*uSpeed*3.0)*uScale;
-      return cnoise(np);
+    varying vec3 vN; // surface normal in view space
+    varying vec3 vL; // light direction in view space
+
+    float disp(vec3 p) {
+      return cnoise(vec3(0.0, p.y - uv.y, p.z + time * uSpeed * 3.0) * uScale);
     }
-    vec3 getCurrentPos(vec3 pos){
-      vec3 p=pos; p.z+=getPos(pos); return p;
-    }
-    vec3 getBeamNormal(vec3 pos){
-      vec3 cur=getCurrentPos(pos);
-      vec3 nX=getCurrentPos(pos+vec3(0.01,0.0,0.0));
-      vec3 nZ=getCurrentPos(pos+vec3(0.0,-0.01,0.0));
-      vec3 tX=normalize(nX-cur);
-      vec3 tZ=normalize(nZ-cur);
-      return normalize(cross(tZ,tX));
+
+    void main() {
+      // Displace along Z with Perlin noise
+      float dz = disp(position);
+      vec3 pos = vec3(position.x, position.y, dz);
+
+      // Compute surface normal via finite differences
+      float e = 0.01;
+      vec3 pX = vec3(position.x + e, position.y, disp(position + vec3(e, 0.0, 0.0)));
+      vec3 pY = vec3(position.x, position.y - e, disp(position + vec3(0.0, -e, 0.0)));
+      vec3 objN = normalize(cross(normalize(pY - pos), normalize(pX - pos)));
+
+      // Transform normal and light direction to view space
+      vN = normalize(normalMatrix * objN);
+      vL = normalize((viewMatrix * vec4(0.0, 3.0, 10.0, 0.0)).xyz);
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
     }
   `;
 
-  // ── MeshStandardMaterial with PBR — onBeforeCompile injects our code ──
-  // This exactly mirrors extendMaterial(THREE.MeshStandardMaterial, {...})
-  const material = new THREE.MeshStandardMaterial({
-    color:     0x000000,
-    roughness: 0.1,
-    metalness: 0.9,
-    side:      THREE.DoubleSide,
+  const fragmentShader = `
+    ${NOISE2D}
+    uniform float uNoiseIntensity;
+    varying vec3 vN;
+    varying vec3 vL;
+
+    void main() {
+      vec3 N = normalize(vN);
+      vec3 L = normalize(vL);
+      vec3 V = vec3(0.0, 0.0, 1.0); // camera looks down -Z in view space
+
+      // Blinn-Phong: diffuse + specular — no ambient so gaps stay pure black
+      float diff = max(dot(N, L), 0.0);
+      vec3  H    = normalize(L + V);
+      float spec = pow(max(dot(N, H), 0.0), 48.0);
+
+      float brightness = diff * 0.35 + spec * 2.5;
+
+      // Subtle film grain
+      brightness -= bNoise(gl_FragCoord.xy) / 15.0 * uNoiseIntensity;
+      brightness  = max(0.0, brightness);
+
+      gl_FragColor = vec4(vec3(brightness), 1.0);
+    }
+  `;
+
+  const material = new THREE.ShaderMaterial({
+    uniforms,
+    vertexShader,
+    fragmentShader,
+    side: THREE.DoubleSide,
   });
 
-  material.onBeforeCompile = function (shader) {
-    // Bind our shared uniforms into the PBR shader
-    Object.assign(shader.uniforms, customUniforms);
-    shader.uniforms.uNoiseIntensity = customUniforms.uNoiseIntensity;
-
-    // ── Vertex shader ────────────────────────────────────────────────────
-    // Prepend helpers (mirrors cfg.header + cfg.vertexHeader in original)
-    shader.vertexShader = VERTEX_HELPERS + shader.vertexShader;
-
-    // '#include <begin_vertex>' → add z-displacement (mirrors vertex.begin_vertex)
-    shader.vertexShader = shader.vertexShader.replace(
-      '#include <begin_vertex>',
-      '#include <begin_vertex>\n  transformed.z += getPos(transformed.xyz);'
-    );
-
-    // '#include <beginnormal_vertex>' → replace objectNormal (mirrors vertex.beginnormal)
-    shader.vertexShader = shader.vertexShader.replace(
-      '#include <beginnormal_vertex>',
-      '#include <beginnormal_vertex>\n  objectNormal = getBeamNormal(position.xyz);'
-    );
-
-    // ── Fragment shader ──────────────────────────────────────────────────
-    // Prepend uniform + 2D noise helpers
-    shader.fragmentShader =
-      'uniform float uNoiseIntensity;\n' + NOISE2D_GLSL + shader.fragmentShader;
-
-    // '#include <dithering_fragment>' → add grain noise (mirrors fragment.dithering)
-    shader.fragmentShader = shader.fragmentShader.replace(
-      '#include <dithering_fragment>',
-      '#include <dithering_fragment>\n  gl_FragColor.rgb -= bNoise(gl_FragCoord.xy) / 15.0 * uNoiseIntensity;'
-    );
-  };
-
-  // ── White environment map (mirrors envMapIntensity: 10 in original) ───
-  // Without this, only the directional light illuminates the beams from one
-  // side. The env map provides omnidirectional white reflections, making ALL
-  // planes catch light regardless of their Perlin-noise-induced normal angle.
-  (function buildEnvMap() {
-    const w = 64, h = 32;
-    const data = new Uint8Array(4 * w * h).fill(255); // pure white RGBA
-    const equiTex = new THREE.DataTexture(data, w, h, THREE.RGBAFormat);
-    equiTex.mapping   = THREE.EquirectangularReflectionMapping;
-    equiTex.needsUpdate = true;
-
-    const pmrem = new THREE.PMREMGenerator(renderer);
-    pmrem.compileEquirectangularShader();
-    const envRT = pmrem.fromEquirectangular(equiTex);
-
-    scene.environment      = envRT.texture;
-    material.envMap        = envRT.texture;
-    material.envMapIntensity = 10; // matches original exactly
-    material.needsUpdate   = true;
-
-    equiTex.dispose();
-    pmrem.dispose();
-  })();
-
-  // ── Group with 43° Z-rotation (matching rotation={43} prop) ───────────
+  // ── Group with 43° Z-rotation ────────────────────────────────────────────
   const group = new THREE.Group();
   group.rotation.z = THREE.MathUtils.degToRad(43);
   group.add(new THREE.Mesh(geometry, material));
   scene.add(group);
 
-  // ── Resize ─────────────────────────────────────────────────────────────
+  // ── Resize ───────────────────────────────────────────────────────────────
   function resize() {
     const w = canvas.clientWidth  || (canvas.parentElement && canvas.parentElement.clientWidth)  || 800;
     const h = canvas.clientHeight || (canvas.parentElement && canvas.parentElement.clientHeight) || 500;
@@ -653,13 +614,13 @@ window.addEventListener('pageshow', function(e) {
   resize();
   window.addEventListener('resize', resize);
 
-  // ── Animation loop (time uniform drives animation like useFrame) ────────
+  // ── Animation loop ────────────────────────────────────────────────────────
   let last = performance.now();
   (function animate(now) {
     requestAnimationFrame(animate);
     const delta = Math.min((now - last) / 1000, 0.05);
     last = now;
-    customUniforms.time.value += 0.1 * delta;
+    uniforms.time.value += 0.1 * delta;
     renderer.render(scene, camera);
   })(last);
 })();
