@@ -1,89 +1,184 @@
-# CLAUDE.md — AI Assistant Guide for Arkoz
+# CLAUDE.md — Arkoz Gazbeton Web Sitesi Geliştirici Rehberi
 
-This file provides context and conventions for AI assistants (Claude Code and similar tools) working in this repository.
+Bu dosya, bu repoda çalışan AI asistanlar (Claude Code vb.) için güncel proje bağlamını ve kurallarını içerir.
 
-## Project Overview
+## Proje Hakkında
 
-**Arkoz** is a project currently in its initial phase. The repository was created on 2026-03-12 and contains only a placeholder README at this time. This document will evolve as the codebase grows.
+**Arkoz Gazbeton** — Türkiye'nin en modern gazbeton üretim tesisinin kurumsal web sitesi.
+Havza, Samsun'da faaliyet gösteren şirketin 450.000 m³ kapasiteli tesisini tanıtan, saf HTML/CSS/JS ile yazılmış çok sayfalı bir web sitesidir.
 
-## Repository State
+- **Yayın:** GitHub Pages (`gh-pages` branch üzerinden otomatik deploy)
+- **Durum:** Aktif geliştirme — 74+ PR ile düzenli güncellemeler yapılmaktadır
 
-- **Status:** Newly initialized — no source code, dependencies, tests, or build configuration yet
-- **Single commit:** `8e6e93d` — Initial commit (README.md only)
-- **Primary branches:**
-  - `master` — default branch
-  - `origin/main` — remote default
+---
 
-## Development Branch Convention
+## Dosya Yapısı
 
-When working on features or fixes via Claude Code:
-- Branches follow the pattern `claude/<description>-<SESSION_ID>`
-- Always push to the designated feature branch, never directly to `master` or `main`
-- Use `git push -u origin <branch-name>`
+```
+Arkoz/
+├── index.html              # Ana sayfa (hero slider, gazbeton, ürünler, iletişim)
+├── kurumsal.html           # Kurumsal sayfa (hakkımızda, misyon, vizyon)
+├── urunler.html            # Ürünler sayfası (Blok, Asmolen — teknik tablolar)
+├── haberler.html           # Haberler sayfası
+├── insan-kaynaklari.html   # İnsan Kaynakları sayfası
+├── politikalar.html        # Politikalar sayfası (gizlilik, çerez vb.)
+├── styles.css              # Tüm stiller (1800+ satır, CSS değişkenleri)
+├── script.js               # Etkileşimler ve animasyonlar (660+ satır)
+├── logo.png                # Arkoz Gazbeton logosu
+├── slide2.jpeg             # Hero slider görseli
+├── components/
+│   ├── glowing-effect-demo.tsx   # Shadcn/React referans bileşeni
+│   ├── utils.ts                  # Yardımcı fonksiyonlar
+│   └── ui/
+│       └── glowing-effect.tsx    # Glowing border efekt bileşeni
+├── README.md
+└── CLAUDE.md               # Bu dosya
+```
+
+---
+
+## Teknoloji Yığını
+
+| Katman | Teknoloji |
+|--------|-----------|
+| Markup | HTML5 (semantik, `lang="tr"`) |
+| Stil | CSS3 — custom properties, Flexbox, Grid, animasyonlar |
+| Etkileşim | Vanilla JavaScript — framework bağımlılığı yok |
+| 3D / Shader | Three.js r128 (CDN) — WebGL shader animasyonları |
+| Font | Inter (Google Fonts) |
+| Deploy | GitHub Actions → GitHub Pages (`gh-pages` branch) |
+
+> **Not:** `components/` klasöründe `.tsx` dosyaları referans amaçlı bulunmaktadır; projenin kendisi React kullanmamaktadır. Glowing efekt saf CSS/JS ile uygulanmıştır.
+
+---
+
+## Tasarım Sistemi
+
+### Renkler (CSS değişkenleri — `styles.css`)
+- **Birincil:** `#B8A88A` (krem/bej — Arkoz marka rengi)
+- **Koyu arka plan bölümleri:** `#0a0a0a`, `#111`
+- **Beyaz arka plan bölümleri:** `#ffffff`, `#f8f8f8`
+- **Metin (açık zemin):** `#1a1a1a`
+- **Metin (koyu zemin):** `#f0f0f0`
+
+### Tipografi
+- **Font:** Inter (300, 400, 600, 700, 900)
+- **Başlık vurgusu:** `.hero__title--gradient` — beyaz veya krem renk geçişi
+
+### Bileşenler
+- **Kartlar:** `border-radius: 12px`
+- **Butonlar:** `border-radius: 50px`, `.btn--primary` / `.btn--secondary`
+- **CSS Sınıf Metodolojisi:** BEM (`blok__element--modifier`)
+
+---
+
+## Sayfa Bölümleri (index.html)
+
+1. **Header/Nav** — sticky, scroll'da `scrolled` class alır; burger menü (mobil)
+2. **Hero** — video + görsel slider, fade geçiş, ok ve nokta navigasyonu
+3. **Intro** — WebGL shader animasyonu (saf GLSL, Three.js kaldırıldı)
+4. **Gazbeton** — gazbeton nedir, avantajlar bölümü
+5. **Ürünler** — Arkoz Blok ve Asmolen ürün kartları
+6. **Kurumsal** — şirket hakkında kısa tanıtım
+7. **Mission** — Three.js "Ethereal Beams" shader animasyonu
+8. **İletişim** — adres, telefon, e-posta
+
+---
+
+## Animasyon Sistemi
+
+Projede birden fazla WebGL/shader animasyonu kullanılmaktadır:
+
+- **Intro ekranı:** Saf WebGL GLSL shader (sin tabanlı dalgalar), logo fade-in; `pageshow` eventi ile her yüklemede tetiklenir
+- **Mission bölümü:** Three.js `MeshStandardMaterial.onBeforeCompile` ile "Ethereal Beams" shader; PMREMGenerator ile env map (sol taraf karanlığını giderir)
+- **Kurumsal hero:** GodRays WebGL shader (köşegen ışık huzmesi, koyu zemin)
+- **Politikalar hero:** Background Paths SVG animasyonu (21st.dev stili)
+- **Ürünler hero:** `page-hero` yöntemi (politikalar ile aynı)
+- **Glowing border:** `.advantage-card` üzerinde CSS mask + JS ile çapraz tarayıcı desteği
+
+---
 
 ## Git Workflow
 
 ```bash
-# Create and switch to a feature branch
-git checkout -b claude/<description>-<SESSION_ID>
+# Feature branch oluştur
+git checkout -b claude/<açıklama>-<SESSION_ID>
 
-# Stage specific files (avoid git add -A to prevent accidental inclusion of secrets)
-git add <file1> <file2>
+# Belirli dosyaları ekle (git add -A kullanma)
+git add index.html styles.css
 
-# Commit with a descriptive message
-git commit -m "feat: describe what was added and why"
+# Commit mesajı
+git commit -m "feat: açıklayıcı mesaj"
 
-# Push to remote
-git push -u origin claude/<description>-<SESSION_ID>
+# Push
+git push -u origin claude/<açıklama>-<SESSION_ID>
 ```
 
-### Commit Message Style
+### Branch Yapısı
+- `main` — üretim kodu (GitHub Pages kaynağı)
+- `gh-pages` — otomatik build çıktısı (Actions tarafından yönetilir)
+- `claude/<açıklama>-<SESSION_ID>` — özellik/düzeltme branch'leri
 
-Follow conventional commits:
+### Commit Mesaj Kuralları (Conventional Commits)
 
-| Prefix | Use for |
-|--------|---------|
-| `feat:` | New features |
-| `fix:` | Bug fixes |
-| `docs:` | Documentation changes |
-| `refactor:` | Code restructuring without behavior change |
-| `test:` | Adding or updating tests |
-| `chore:` | Build process, tooling, dependency updates |
+| Prefix | Kullanım |
+|--------|----------|
+| `feat:` | Yeni özellik |
+| `fix:` | Hata düzeltme |
+| `docs:` | Belgeleme değişikliği |
+| `refactor:` | Davranış değiştirmeden kod düzenlemesi |
+| `style:` | CSS/görsel değişiklikler |
+| `chore:` | Build, araç, bağımlılık güncellemeleri |
 
-## File & Directory Conventions
+---
 
-As the project grows, follow these conventions:
+## Kodlama Standartları
 
-- **Source code:** Place in `src/` or a language-appropriate directory
-- **Tests:** Mirror source structure under `tests/` or `__tests__/`
-- **Configuration:** Keep at the repo root (`.eslintrc`, `pyproject.toml`, etc.)
-- **Documentation:** Place in `docs/` for anything beyond README/CLAUDE.md
-- **Scripts:** Place automation scripts in `scripts/`
+### CSS
+- CSS değişkenleri `:root` içinde tanımlıdır
+- Animasyonlarda `transform` ve `opacity` kullan (GPU hızlandırma)
+- Breakpoint'ler: `768px` (tablet), `480px` (mobil)
+- `@keyframes` animasyonları dosyanın ilgili bölümünde tutulur
 
-## Security Guidelines
+### JavaScript
+- `const`/`let` kullan, `var` kullanma
+- Tüm DOM sorguları `DOMContentLoaded` içinde veya sonrasında yapılır
+- `null` kontrolü yap: `if (!element) return;`
+- Three.js nesneleri: `animate()` döngüsü ile render, `resize` eventi dinlenir
 
-- Never commit secrets, credentials, API keys, or `.env` files
-- Validate all external input at system boundaries
-- Avoid introducing OWASP Top 10 vulnerabilities (SQLi, XSS, command injection, etc.)
-- Do not bypass git hooks with `--no-verify`
+### HTML
+- Tüm `<img>` etiketlerinde `alt` ve `loading="lazy"` bulunmalı
+- Erişilebilirlik: `aria-label`, `aria-hidden` gerekli yerlerde kullanılır
+- `<script>` etiketleri `defer` ile veya `</body>` öncesinde yüklenir
 
-## AI Assistant Instructions
+---
 
-When working in this repository:
+## Geliştirme Ortamı
 
-1. **Read before editing** — Always read a file before modifying it
-2. **Minimal changes** — Only change what is directly requested; avoid scope creep
-3. **No unnecessary files** — Do not create files unless strictly required
-4. **No unsolicited cleanup** — Do not refactor, add comments, or improve code beyond the task
-5. **Ask before destructive actions** — Confirm before deleting files, force-pushing, or resetting history
-6. **Update this file** — When significant new structure or conventions are established, update CLAUDE.md to reflect the current state
+```bash
+# Yerel sunucu başlat
+npx serve .
 
-## Updating This Document
+# Ya da live reload ile
+npx browser-sync start --server --files "*.html, *.css, *.js"
+```
 
-This file should be updated when:
-- A programming language / framework is chosen
-- A package manager and dependencies are added
-- A build system or test runner is configured
-- CI/CD pipelines are established
-- Coding style or lint rules are set up
-- Database or API conventions are defined
+---
+
+## Güvenlik Kuralları
+
+- Gizli bilgi, API anahtarı veya `.env` dosyası commit'leme
+- `--no-verify` ile hook'ları atlatma
+- Harici form/backend eklenirse tüm kullanıcı girdilerini doğrula
+
+---
+
+## AI Asistan Talimatları
+
+1. **Önce oku** — Düzenlemeden önce ilgili dosyayı her zaman oku
+2. **Minimal değişiklik** — Yalnızca istenen değişikliği yap, kapsam genişletme
+3. **Gereksiz dosya oluşturma** — `.tsx` bileşenleri referans amaçlıdır; yeni HTML/CSS/JS ile çalış
+4. **Animasyonları koru** — Shader ve Three.js kodları hassastır; dokunmadan önce tam bağlamı anla
+5. **Tüm sayfalarda tutarlılık** — Nav, footer ve stil değişkenleri tüm `.html` dosyalarına yansıtılmalıdır
+6. **Yıkıcı eylemler için sor** — Force push, dosya silme veya history sıfırlama öncesinde kullanıcıya sor
+7. **Bu dosyayı güncelle** — Önemli yeni yapı veya kurallar eklendiğinde CLAUDE.md'yi güncelle
