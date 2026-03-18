@@ -804,32 +804,26 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   line-height: 1.5;
 }
 
-/* Misyon & Vizyon — yeni dark tasarım */
+/* Misyon & Vizyon — Ethereal Beams animasyonu */
 .mission {
   position: relative;
   padding: var(--section-padding) 0;
-  background: linear-gradient(160deg, #0b0c1e 0%, #101330 55%, #0e1a10 100%);
+  background: #000;
   overflow: hidden;
 }
 
-/* Arka plan glow blob'ları */
-.mission__glow-1,
-.mission__glow-2 {
+#beams-canvas {
   position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  display: block;
 }
-.mission__glow-1 {
-  width: 500px; height: 500px;
-  background: radial-gradient(circle, rgba(45,42,143,0.35) 0%, transparent 70%);
-  top: -100px; left: -100px;
-  animation: float 9s ease-in-out infinite;
-}
-.mission__glow-2 {
-  width: 400px; height: 400px;
-  background: radial-gradient(circle, rgba(77,184,72,0.25) 0%, transparent 70%);
-  bottom: -80px; right: -60px;
-  animation: float 11s ease-in-out infinite reverse;
+
+.mission .container {
+  position: relative;
+  z-index: 1;
 }
 
 /* Header */
