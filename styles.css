@@ -830,11 +830,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .mission__header { margin-bottom: 32px; }
 .mission__logo {
   display: block;
-  height: 56px;
+  height: 52px;
   width: auto;
   margin: 0 auto 20px;
-  filter: brightness(0) invert(1);
-  opacity: 0.90;
 }
 .mission__tag {
   color: rgba(255,255,255,0.75) !important;
