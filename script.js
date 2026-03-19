@@ -202,7 +202,7 @@ window.addEventListener('pageshow', function(e) {
 (function initReveal() {
   // Reveal edilecek elementleri seç ve class ekle
   const targets = document.querySelectorAll(
-    '.service-card, .project-card, .about__card, .contact__item, .section__header'
+    '.service-card, .project-card, .about__card, .contact__item, .section__header, .mission__card, .mission__gallery'
   );
 
   targets.forEach((el, i) => {
