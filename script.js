@@ -415,7 +415,9 @@ window.addEventListener('pageshow', function(e) {
   startTimer();
 })();
 
-// 10. Mission Section — Ethereal Beams (custom ShaderMaterial — Phong specular, no PBR)
+// 10. Mission Section — Ethereal Beams
+// Referans React komponentiyle (ethereal-beams-hero.tsx) birebir aynı yaklaşım:
+// MeshStandardMaterial + onBeforeCompile ile PBR lighting + Perlin noise deformasyon.
 (function initMissionBeams() {
   const canvas = document.getElementById('beams-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
@@ -427,11 +429,12 @@ window.addEventListener('pageshow', function(e) {
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 1000);
   camera.position.set(0, 0, 20);
 
-  const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: false });
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setClearColor(0x000000, 1); // explicit siyah — iOS'ta scene.background tek başına yetmez
+  renderer.setClearColor(0x000000, 1);
+  renderer.physicallyCorrectLights = true;
 
-  // ── Geometry ────────────────────────────────────────────────────────────
+  // ── Geometry — referans: createStackedPlanesBufferGeometry(15, 2.5, 18, 0, 100) ──
   function createBeamGeometry(n, width, height, spacing, heightSegments) {
     const geo = new THREE.BufferGeometry();
     const numVerts = n * (heightSegments + 1) * 2;
@@ -467,159 +470,138 @@ window.addEventListener('pageshow', function(e) {
     return geo;
   }
 
-  const geometry = createBeamGeometry(15, 2.5, 32, 0.5, 100);
+  const geometry = createBeamGeometry(15, 2.5, 18, 0, 100);
 
-  // ── Uniforms ─────────────────────────────────────────────────────────────
+  // ── Uniforms — referans değerleriyle birebir ──────────────────────────────
   const uniforms = {
     time:            { value: 0.0 },
     uSpeed:          { value: 2.5 },
     uScale:          { value: 0.15 },
-    uNoiseIntensity: { value: 1.2 },
+    uNoiseIntensity: { value: 2.0 },
   };
 
-  // ── Perlin 3D noise GLSL ─────────────────────────────────────────────────
-  const PERLIN3 = `
-    vec4 bPerm(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
-    vec4 bTayl(vec4 r){return 1.79284291400159-0.85373472095314*r;}
-    vec3 bFade(vec3 t){return t*t*t*(t*(t*6.0-15.0)+10.0);}
-    float cnoise(vec3 P){
-      vec3 Pi0=floor(P),Pi1=Pi0+vec3(1.0);
-      Pi0=mod(Pi0,289.0);Pi1=mod(Pi1,289.0);
-      vec3 Pf0=fract(P),Pf1=Pf0-vec3(1.0);
-      vec4 ix=vec4(Pi0.x,Pi1.x,Pi0.x,Pi1.x);
-      vec4 iy=vec4(Pi0.yy,Pi1.yy);
-      vec4 iz0=Pi0.zzzz,iz1=Pi1.zzzz;
-      vec4 ixy=bPerm(bPerm(ix)+iy);
-      vec4 ixy0=bPerm(ixy+iz0),ixy1=bPerm(ixy+iz1);
-      vec4 gx0=ixy0/7.0,gy0=fract(floor(gx0)/7.0)-0.5;
-      gx0=fract(gx0);
-      vec4 gz0=vec4(0.5)-abs(gx0)-abs(gy0);
-      vec4 sz0=step(gz0,vec4(0.0));
-      gx0-=sz0*(step(0.0,gx0)-0.5);gy0-=sz0*(step(0.0,gy0)-0.5);
-      vec4 gx1=ixy1/7.0,gy1=fract(floor(gx1)/7.0)-0.5;
-      gx1=fract(gx1);
-      vec4 gz1=vec4(0.5)-abs(gx1)-abs(gy1);
-      vec4 sz1=step(gz1,vec4(0.0));
-      gx1-=sz1*(step(0.0,gx1)-0.5);gy1-=sz1*(step(0.0,gy1)-0.5);
-      vec3 g000=vec3(gx0.x,gy0.x,gz0.x),g100=vec3(gx0.y,gy0.y,gz0.y);
-      vec3 g010=vec3(gx0.z,gy0.z,gz0.z),g110=vec3(gx0.w,gy0.w,gz0.w);
-      vec3 g001=vec3(gx1.x,gy1.x,gz1.x),g101=vec3(gx1.y,gy1.y,gz1.y);
-      vec3 g011=vec3(gx1.z,gy1.z,gz1.z),g111=vec3(gx1.w,gy1.w,gz1.w);
-      vec4 norm0=bTayl(vec4(dot(g000,g000),dot(g010,g010),dot(g100,g100),dot(g110,g110)));
-      g000*=norm0.x;g010*=norm0.y;g100*=norm0.z;g110*=norm0.w;
-      vec4 norm1=bTayl(vec4(dot(g001,g001),dot(g011,g011),dot(g101,g101),dot(g111,g111)));
-      g001*=norm1.x;g011*=norm1.y;g101*=norm1.z;g111*=norm1.w;
-      float n000=dot(g000,Pf0),n100=dot(g100,vec3(Pf1.x,Pf0.yz));
-      float n010=dot(g010,vec3(Pf0.x,Pf1.y,Pf0.z)),n110=dot(g110,vec3(Pf1.xy,Pf0.z));
-      float n001=dot(g001,vec3(Pf0.xy,Pf1.z)),n101=dot(g101,vec3(Pf1.x,Pf0.y,Pf1.z));
-      float n011=dot(g011,vec3(Pf0.x,Pf1.yz)),n111=dot(g111,Pf1);
-      vec3 fxyz=bFade(Pf0);
-      vec4 nz=mix(vec4(n000,n100,n010,n110),vec4(n001,n101,n011,n111),fxyz.z);
-      vec2 nyz=mix(nz.xy,nz.zw,fxyz.y);
-      return 2.2*mix(nyz.x,nyz.y,fxyz.x);
-    }
-  `;
+  // ── GLSL — referans komponent (ethereal-beams-hero.tsx) ile aynı noise fonksiyonları ──
+  const NOISE_GLSL = `
+float random(in vec2 st){return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);}
+float noise(in vec2 st){
+  vec2 i=floor(st),f=fract(st);
+  float a=random(i),b=random(i+vec2(1.0,0.0)),c=random(i+vec2(0.0,1.0)),d=random(i+vec2(1.0,1.0));
+  vec2 u=f*f*(3.0-2.0*f);
+  return mix(a,b,u.x)+(c-a)*u.y*(1.0-u.x)+(d-b)*u.x*u.y;
+}
+vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
+vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+vec3 fade(vec3 t){return t*t*t*(t*(t*6.0-15.0)+10.0);}
+float cnoise(vec3 P){
+  vec3 Pi0=floor(P),Pi1=Pi0+vec3(1.0);
+  Pi0=mod(Pi0,289.0);Pi1=mod(Pi1,289.0);
+  vec3 Pf0=fract(P),Pf1=Pf0-vec3(1.0);
+  vec4 ix=vec4(Pi0.x,Pi1.x,Pi0.x,Pi1.x);
+  vec4 iy=vec4(Pi0.yy,Pi1.yy);
+  vec4 iz0=Pi0.zzzz,iz1=Pi1.zzzz;
+  vec4 ixy=permute(permute(ix)+iy);
+  vec4 ixy0=permute(ixy+iz0),ixy1=permute(ixy+iz1);
+  vec4 gx0=ixy0/7.0,gy0=fract(floor(gx0)/7.0)-0.5;
+  gx0=fract(gx0);
+  vec4 gz0=vec4(0.5)-abs(gx0)-abs(gy0);
+  vec4 sz0=step(gz0,vec4(0.0));
+  gx0-=sz0*(step(0.0,gx0)-0.5);gy0-=sz0*(step(0.0,gy0)-0.5);
+  vec4 gx1=ixy1/7.0,gy1=fract(floor(gx1)/7.0)-0.5;
+  gx1=fract(gx1);
+  vec4 gz1=vec4(0.5)-abs(gx1)-abs(gy1);
+  vec4 sz1=step(gz1,vec4(0.0));
+  gx1-=sz1*(step(0.0,gx1)-0.5);gy1-=sz1*(step(0.0,gy1)-0.5);
+  vec3 g000=vec3(gx0.x,gy0.x,gz0.x),g100=vec3(gx0.y,gy0.y,gz0.y);
+  vec3 g010=vec3(gx0.z,gy0.z,gz0.z),g110=vec3(gx0.w,gy0.w,gz0.w);
+  vec3 g001=vec3(gx1.x,gy1.x,gz1.x),g101=vec3(gx1.y,gy1.y,gz1.y);
+  vec3 g011=vec3(gx1.z,gy1.z,gz1.z),g111=vec3(gx1.w,gy1.w,gz1.w);
+  vec4 norm0=taylorInvSqrt(vec4(dot(g000,g000),dot(g010,g010),dot(g100,g100),dot(g110,g110)));
+  g000*=norm0.x;g010*=norm0.y;g100*=norm0.z;g110*=norm0.w;
+  vec4 norm1=taylorInvSqrt(vec4(dot(g001,g001),dot(g011,g011),dot(g101,g101),dot(g111,g111)));
+  g001*=norm1.x;g011*=norm1.y;g101*=norm1.z;g111*=norm1.w;
+  float n000=dot(g000,Pf0),n100=dot(g100,vec3(Pf1.x,Pf0.yz));
+  float n010=dot(g010,vec3(Pf0.x,Pf1.y,Pf0.z)),n110=dot(g110,vec3(Pf1.xy,Pf0.z));
+  float n001=dot(g001,vec3(Pf0.xy,Pf1.z)),n101=dot(g101,vec3(Pf1.x,Pf0.y,Pf1.z));
+  float n011=dot(g011,vec3(Pf0.x,Pf1.yz)),n111=dot(g111,Pf1);
+  vec3 fade_xyz=fade(Pf0);
+  vec4 n_z=mix(vec4(n000,n100,n010,n110),vec4(n001,n101,n011,n111),fade_xyz.z);
+  vec2 n_yz=mix(n_z.xy,n_z.zw,fade_xyz.y);
+  return 2.2*mix(n_yz.x,n_yz.y,fade_xyz.x);
+}`;
 
-  // ── 2D value noise GLSL (film grain) ────────────────────────────────────
-  const NOISE2D = `
-    float bRnd(vec2 s){return fract(sin(dot(s,vec2(12.9898,78.233)))*43758.5453123);}
-    float bNoise(vec2 s){
-      vec2 i=floor(s),f=fract(s);
-      float a=bRnd(i),b=bRnd(i+vec2(1,0)),c=bRnd(i+vec2(0,1)),d=bRnd(i+vec2(1,1));
-      vec2 u=f*f*(3.0-2.0*f);
-      return mix(a,b,u.x)+(c-a)*u.y*(1.0-u.x)+(d-b)*u.x*u.y;
-    }
-  `;
+  // Vertex shader ek kod — referans vertexHeader ile aynı
+  const VERTEX_HEADER = `
+uniform float time;
+uniform float uSpeed;
+uniform float uScale;
+${NOISE_GLSL}
+float getPos(vec3 pos){
+  vec3 noisePos=vec3(pos.x*0.0,pos.y-uv.y,pos.z+time*uSpeed*3.0)*uScale;
+  return cnoise(noisePos);
+}
+vec3 getCurrentPos(vec3 pos){
+  vec3 np=pos; np.z+=getPos(pos); return np;
+}
+vec3 getNormal(vec3 pos){
+  vec3 cp=getCurrentPos(pos);
+  vec3 nx=getCurrentPos(pos+vec3(0.01,0.0,0.0));
+  vec3 nz=getCurrentPos(pos+vec3(0.0,-0.01,0.0));
+  return normalize(cross(normalize(nz-cp),normalize(nx-cp)));
+}`;
 
-  // ── Custom ShaderMaterial — grazing Y-axis lights, siyah zemin + beyaz şerit ─
-  // Işık Y eksenine paralel → düz yüzeyler siyah, Perlin kıvrımları beyaz parlak.
-  const vertexShader = `
-    precision highp float;
-    ${PERLIN3}
-    uniform float time;
-    uniform float uSpeed;
-    uniform float uScale;
-    varying vec3 vN;  // surface normal in view space
-    varying vec3 vL1; // light 1 direction (from above) in view space
-    varying vec3 vL2; // light 2 direction (from below) in view space
+  // Fragment shader ek kod — referans fragmentHeader ile aynı
+  const FRAGMENT_HEADER = `
+uniform float uNoiseIntensity;
+${NOISE_GLSL}`;
 
-    float disp(vec3 p) {
-      // x zeroed so noise varies only in Y-Z → normals tilt only in Y-Z plane
-      return cnoise(vec3(0.0, p.y - uv.y, p.z + time * uSpeed * 3.0) * uScale) * 1.5;
-    }
-
-    void main() {
-      float dz = disp(position);
-      vec3 pos  = vec3(position.x, position.y, dz);
-
-      // Surface normal via finite differences
-      float e   = 0.01;
-      vec3 pX   = vec3(position.x + e, position.y, disp(position + vec3(e,  0.0, 0.0)));
-      vec3 pY   = vec3(position.x, position.y - e, disp(position + vec3(0.0, -e, 0.0)));
-      vec3 objN = normalize(cross(normalize(pY - pos), normalize(pX - pos)));
-
-      vN  = normalize(normalMatrix * objN);
-
-      // Lights mostly along ±Y, tiny Z component for base glow
-      vL1 = normalize((viewMatrix * vec4( 0.0,  1.0, 0.1, 0.0)).xyz);
-      vL2 = normalize((viewMatrix * vec4( 0.0, -1.0, 0.1, 0.0)).xyz);
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(pos, 1.0);
-    }
-  `;
-
-  const fragmentShader = `
-    precision highp float;
-    ${NOISE2D}
-    uniform float uNoiseIntensity;
-    varying vec3 vN;
-    varying vec3 vL1;
-    varying vec3 vL2;
-
-    void main() {
-      vec3 N  = normalize(vN);
-      vec3 V  = vec3(0.0, 0.0, 1.0);
-      vec3 L1 = normalize(vL1);
-      vec3 L2 = normalize(vL2);
-
-      // Diffuse: flat surface sees very little Y-axis light
-      float d1 = max(dot(N, L1), 0.0);
-      float d2 = max(dot(N, L2), 0.0);
-
-      // Blinn-Phong specular: blooms on Perlin-deformed normals
-      vec3  H1 = normalize(L1 + V);
-      vec3  H2 = normalize(L2 + V);
-      float s1 = pow(max(dot(N, H1), 0.0), 16.0);
-      float s2 = pow(max(dot(N, H2), 0.0), 16.0);
-
-      // Ambient taban + diffuse + specular; taban kaldırıldığında tamamen siyah olmaması için
-      float brightness = 0.06 + (d1 + d2) * 0.12 + (s1 + s2) * 3.5;
-
-      // Film grain
-      brightness -= bNoise(gl_FragCoord.xy) / 18.0 * uNoiseIntensity;
-      brightness  = max(0.0, brightness);
-      brightness  = min(1.0, brightness);
-
-      gl_FragColor = vec4(vec3(brightness), 1.0);
-    }
-  `;
-
-  const material = new THREE.ShaderMaterial({
-    uniforms,
-    vertexShader,
-    fragmentShader,
+  // ── MeshStandardMaterial + onBeforeCompile (referans extendMaterial yaklaşımı) ──
+  const material = new THREE.MeshStandardMaterial({
+    color: new THREE.Color(0, 0, 0),
+    roughness: 0.3,
+    metalness: 0.3,
     side: THREE.DoubleSide,
   });
 
-  // ── Group with 43° Z-rotation ────────────────────────────────────────────
+  material.onBeforeCompile = function(shader) {
+    shader.uniforms.time            = uniforms.time;
+    shader.uniforms.uSpeed          = uniforms.uSpeed;
+    shader.uniforms.uScale          = uniforms.uScale;
+    shader.uniforms.uNoiseIntensity = uniforms.uNoiseIntensity;
+
+    // Vertex: header + displacement + normal override
+    shader.vertexShader = VERTEX_HEADER + shader.vertexShader;
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <begin_vertex>',
+      '#include <begin_vertex>\ntransformed.z += getPos(transformed.xyz);'
+    );
+    shader.vertexShader = shader.vertexShader.replace(
+      '#include <beginnormal_vertex>',
+      '#include <beginnormal_vertex>\nobjectNormal = getNormal(position.xyz);'
+    );
+
+    // Fragment: header + film grain (referans ile birebir)
+    shader.fragmentShader = FRAGMENT_HEADER + shader.fragmentShader;
+    shader.fragmentShader = shader.fragmentShader.replace(
+      '#include <dithering_fragment>',
+      '#include <dithering_fragment>\nfloat randomNoise=noise(gl_FragCoord.xy);\ngl_FragColor.rgb-=randomNoise/15.0*uNoiseIntensity;'
+    );
+  };
+
+  // ── Lights — referans: DirLight [0,3,10] + ambientLight(1) ──────────────
+  const dirLight = new THREE.DirectionalLight('#ffffff', 1);
+  dirLight.position.set(0, 3, 10);
+  const ambLight = new THREE.AmbientLight(0xffffff, 1);
+
+  // ── Group with 43° Z-rotation (referans: degToRad(rotation=43)) ──────────
   const group = new THREE.Group();
   group.rotation.z = THREE.MathUtils.degToRad(43);
   group.add(new THREE.Mesh(geometry, material));
+  group.add(dirLight);
   scene.add(group);
+  scene.add(ambLight);
 
-  // ── Resize ───────────────────────────────────────────────────────────────
-  // window.innerHeight mobile'da URL bar gösterince ~60px değişir → zoom jitter.
-  // stableH: son gerçek resize'ı saklar, küçük değişiklikler yoksayılır.
+  // ── Resize — window.innerHeight ile viewport-based (siyah köşe engeli) ──
+  // Mobile URL bar değişiklikleri (< 80px) yoksayılır → zoom jitter önlenir.
   let stableH = 0;
   function resize() {
     const w = canvas.clientWidth || (canvas.parentElement && canvas.parentElement.clientWidth) || window.innerWidth || 800;
