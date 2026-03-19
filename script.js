@@ -467,7 +467,7 @@ window.addEventListener('pageshow', function(e) {
     return geo;
   }
 
-  const geometry = createBeamGeometry(22, 2.5, 40, -0.15, 100);
+  const geometry = createBeamGeometry(15, 2.5, 20, -0.05, 100);
 
   // ── Uniforms ─────────────────────────────────────────────────────────────
   const uniforms = {
@@ -618,9 +618,12 @@ window.addEventListener('pageshow', function(e) {
   scene.add(group);
 
   // ── Resize ───────────────────────────────────────────────────────────────
+  // Bölüm tüm içeriği kapsadığı için canvas çok uzun olabilir (1500px+).
+  // camera aspect'i section yüksekliğine göre hesaplanırsa geometri kenarları
+  // ekrana girer ve siyah boşluk çıkar. Bunun yerine viewport yüksekliği kullanılır.
   function resize() {
-    const w = canvas.clientWidth  || (canvas.parentElement && canvas.parentElement.clientWidth)  || 800;
-    const h = canvas.clientHeight || (canvas.parentElement && canvas.parentElement.clientHeight) || 500;
+    const w = canvas.clientWidth || (canvas.parentElement && canvas.parentElement.clientWidth) || window.innerWidth || 800;
+    const h = window.innerHeight || 500;
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     camera.aspect = w / h;
