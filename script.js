@@ -467,14 +467,14 @@ window.addEventListener('pageshow', function(e) {
     return geo;
   }
 
-  const geometry = createBeamGeometry(15, 2.5, 20, -0.05, 100);
+  const geometry = createBeamGeometry(15, 2.5, 32, 0.5, 100);
 
   // ── Uniforms ─────────────────────────────────────────────────────────────
   const uniforms = {
     time:            { value: 0.0 },
     uSpeed:          { value: 2.5 },
     uScale:          { value: 0.15 },
-    uNoiseIntensity: { value: 1.75 },
+    uNoiseIntensity: { value: 1.2 },
   };
 
   // ── Perlin 3D noise GLSL ─────────────────────────────────────────────────
@@ -592,11 +592,11 @@ window.addEventListener('pageshow', function(e) {
       float s1 = pow(max(dot(N, H1), 0.0), 16.0);
       float s2 = pow(max(dot(N, H2), 0.0), 16.0);
 
-      // Low diffuse coeff → base dark; high specular → bright only on tilted surfaces
-      float brightness = (d1 + d2) * 0.08 + (s1 + s2) * 2.5;
+      // Ambient taban + diffuse + specular; taban kaldırıldığında tamamen siyah olmaması için
+      float brightness = 0.06 + (d1 + d2) * 0.12 + (s1 + s2) * 3.5;
 
       // Film grain
-      brightness -= bNoise(gl_FragCoord.xy) / 15.0 * uNoiseIntensity;
+      brightness -= bNoise(gl_FragCoord.xy) / 18.0 * uNoiseIntensity;
       brightness  = max(0.0, brightness);
       brightness  = min(1.0, brightness);
 
@@ -618,15 +618,16 @@ window.addEventListener('pageshow', function(e) {
   scene.add(group);
 
   // ── Resize ───────────────────────────────────────────────────────────────
-  // Bölüm tüm içeriği kapsadığı için canvas çok uzun olabilir (1500px+).
-  // camera aspect'i section yüksekliğine göre hesaplanırsa geometri kenarları
-  // ekrana girer ve siyah boşluk çıkar. Bunun yerine viewport yüksekliği kullanılır.
+  // window.innerHeight mobile'da URL bar gösterince ~60px değişir → zoom jitter.
+  // stableH: son gerçek resize'ı saklar, küçük değişiklikler yoksayılır.
+  let stableH = 0;
   function resize() {
     const w = canvas.clientWidth || (canvas.parentElement && canvas.parentElement.clientWidth) || window.innerWidth || 800;
     const h = window.innerHeight || 500;
     if (!w || !h) return;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
+    if (Math.abs(h - stableH) > 80 || stableH === 0) stableH = h;
+    renderer.setSize(w, stableH, false);
+    camera.aspect = w / stableH;
     camera.updateProjectionMatrix();
   }
   resize();
