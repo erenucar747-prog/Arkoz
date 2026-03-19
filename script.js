@@ -416,32 +416,28 @@ window.addEventListener('pageshow', function(e) {
 })();
 
 // 10. Mission Section — Ethereal Beams
-// Three.js r128 custom ShaderMaterial — referans bileşenin (ethereal-beams-hero.tsx)
-// getPos/getCurrentPos/getNormal vertex mantığı + aynı film grain fragment mantığı.
-// MeshStandardMaterial env map gerektirdiğinden (r128'de RoomEnvironment yok) custom
-// ShaderMaterial kullanılır; lighting kendi fragment kodunda hesaplanır.
+// Referans (ethereal-beams-hero.tsx) extendMaterial yaklaşımı:
+// THREE.ShaderLib.physical base shader + uniform clone + include patching + lights:true
 (function initMissionBeams() {
   const canvas = document.getElementById('beams-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
-  const scene    = new THREE.Scene();
+  const scene  = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
 
-  const camera   = new THREE.PerspectiveCamera(30, 1, 0.1, 1000);
+  const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 1000);
   camera.position.set(0, 0, 20);
 
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 1);
 
-  // ── Geometry — referans: (15, 2.5, 18, spacing=0, 100) ──────────────────
+  // ── Geometry — referans: createStackedPlanesBufferGeometry(15, 2.5, 18, 0, 100) ──
   function createBeamGeometry(n, width, height, spacing, segs) {
-    const geo  = new THREE.BufferGeometry();
-    const vCnt = n * (segs + 1) * 2;
-    const fCnt = n * segs * 2;
-    const pos  = new Float32Array(vCnt * 3);
-    const idx  = new Uint32Array(fCnt * 3);
-    const uvs  = new Float32Array(vCnt * 2);
+    const geo = new THREE.BufferGeometry();
+    const pos = new Float32Array(n * (segs + 1) * 2 * 3);
+    const idx = new Uint32Array(n * segs * 2 * 3);
+    const uvs = new Float32Array(n * (segs + 1) * 2 * 2);
     let vi = 0, ii = 0, ui = 0;
     const xBase = -(n * width + (n - 1) * spacing) / 2;
     for (let i = 0; i < n; i++) {
@@ -452,10 +448,7 @@ window.addEventListener('pageshow', function(e) {
         const y = height * (j / segs - 0.5);
         pos.set([xo, y, 0, xo + width, y, 0], vi * 3);
         uvs.set([uxo, j / segs + uyo, uxo + 1, j / segs + uyo], ui);
-        if (j < segs) {
-          const a = vi, b = vi+1, c = vi+2, d = vi+3;
-          idx.set([a,b,c, c,b,d], ii); ii += 6;
-        }
+        if (j < segs) { idx.set([vi,vi+1,vi+2, vi+2,vi+1,vi+3], ii); ii += 6; }
         vi += 2; ui += 4;
       }
     }
@@ -468,139 +461,133 @@ window.addEventListener('pageshow', function(e) {
 
   const geometry = createBeamGeometry(15, 2.5, 18, 0, 100);
 
-  // ── Uniforms — referans değerleri ────────────────────────────────────────
-  const uniforms = {
-    time:            { value: 0.0 },
-    uSpeed:          { value: 2.5 },
-    uScale:          { value: 0.15 },
-    uNoiseIntensity: { value: 2.0 },
-  };
+  // ── Noise + displacement GLSL — referans bileşenle birebir aynı ─────────
+  // Tüm yardımcı fonksiyon isimleri çakışmayı önlemek için 'eb_' önekli.
+  const GLSL_NOISE = `
+uniform float time;
+uniform float uSpeed;
+uniform float uScale;
+uniform float uNoiseIntensity;
 
-  // ── GLSL noise — referans (ethereal-beams-hero.tsx) noise fonksiyonları ──
-  const NOISE_GLSL = `
-float random(in vec2 st){return fract(sin(dot(st.xy,vec2(12.9898,78.233)))*43758.5453123);}
-float noise(in vec2 st){
+float eb_rnd(in vec2 st){return fract(sin(dot(st,vec2(12.9898,78.233)))*43758.5453);}
+float eb_noise(in vec2 st){
   vec2 i=floor(st),f=fract(st);
-  float a=random(i),b=random(i+vec2(1,0)),c=random(i+vec2(0,1)),d=random(i+vec2(1,1));
+  float a=eb_rnd(i),b=eb_rnd(i+vec2(1.0,0.0)),
+        c=eb_rnd(i+vec2(0.0,1.0)),d=eb_rnd(i+vec2(1.0,1.0));
   vec2 u=f*f*(3.0-2.0*f);
   return mix(a,b,u.x)+(c-a)*u.y*(1.0-u.x)+(d-b)*u.x*u.y;
 }
-vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
-vec4 taylorInvSqrt(vec4 r){return 1.79284291400159-0.85373472095314*r;}
-vec3 fade3(vec3 t){return t*t*t*(t*(t*6.0-15.0)+10.0);}
-float cnoise(vec3 P){
-  vec3 Pi0=floor(P),Pi1=Pi0+1.0;
-  Pi0=mod(Pi0,289.0);Pi1=mod(Pi1,289.0);
-  vec3 Pf0=fract(P),Pf1=Pf0-1.0;
+vec4 eb_perm(vec4 x){return mod(((x*34.0)+1.0)*x,289.0);}
+vec4 eb_tis(vec4 r){return 1.79284291400159-0.85373472095314*r;}
+float eb_cnoise(vec3 P){
+  vec3 Pi0=floor(P), Pi1=Pi0+vec3(1.0);
+  Pi0=mod(Pi0,289.0); Pi1=mod(Pi1,289.0);
+  vec3 Pf0=fract(P),  Pf1=Pf0-vec3(1.0);
   vec4 ix=vec4(Pi0.x,Pi1.x,Pi0.x,Pi1.x);
   vec4 iy=vec4(Pi0.yy,Pi1.yy);
-  vec4 iz0=vec4(Pi0.zzzz),iz1=vec4(Pi1.zzzz);
-  vec4 ixy=permute(permute(ix)+iy);
-  vec4 ixy0=permute(ixy+iz0),ixy1=permute(ixy+iz1);
-  vec4 gx0=ixy0/7.0,gy0=fract(floor(gx0)/7.0)-0.5;
-  gx0=fract(gx0);vec4 gz0=vec4(0.5)-abs(gx0)-abs(gy0);
+  vec4 iz0=Pi0.zzzz, iz1=Pi1.zzzz;
+  vec4 ixy=eb_perm(eb_perm(ix)+iy);
+  vec4 ixy0=eb_perm(ixy+iz0), ixy1=eb_perm(ixy+iz1);
+  vec4 gx0=ixy0/7.0, gy0=fract(floor(gx0)/7.0)-0.5;
+  gx0=fract(gx0);
+  vec4 gz0=vec4(0.5)-abs(gx0)-abs(gy0);
   vec4 sz0=step(gz0,vec4(0.0));
-  gx0-=sz0*(step(0.0,gx0)-0.5);gy0-=sz0*(step(0.0,gy0)-0.5);
-  vec4 gx1=ixy1/7.0,gy1=fract(floor(gx1)/7.0)-0.5;
-  gx1=fract(gx1);vec4 gz1=vec4(0.5)-abs(gx1)-abs(gy1);
+  gx0-=sz0*(step(0.0,gx0)-0.5); gy0-=sz0*(step(0.0,gy0)-0.5);
+  vec4 gx1=ixy1/7.0, gy1=fract(floor(gx1)/7.0)-0.5;
+  gx1=fract(gx1);
+  vec4 gz1=vec4(0.5)-abs(gx1)-abs(gy1);
   vec4 sz1=step(gz1,vec4(0.0));
-  gx1-=sz1*(step(0.0,gx1)-0.5);gy1-=sz1*(step(0.0,gy1)-0.5);
+  gx1-=sz1*(step(0.0,gx1)-0.5); gy1-=sz1*(step(0.0,gy1)-0.5);
   vec3 g000=vec3(gx0.x,gy0.x,gz0.x),g100=vec3(gx0.y,gy0.y,gz0.y);
   vec3 g010=vec3(gx0.z,gy0.z,gz0.z),g110=vec3(gx0.w,gy0.w,gz0.w);
   vec3 g001=vec3(gx1.x,gy1.x,gz1.x),g101=vec3(gx1.y,gy1.y,gz1.y);
   vec3 g011=vec3(gx1.z,gy1.z,gz1.z),g111=vec3(gx1.w,gy1.w,gz1.w);
-  vec4 n0=taylorInvSqrt(vec4(dot(g000,g000),dot(g010,g010),dot(g100,g100),dot(g110,g110)));
-  g000*=n0.x;g010*=n0.y;g100*=n0.z;g110*=n0.w;
-  vec4 n1=taylorInvSqrt(vec4(dot(g001,g001),dot(g011,g011),dot(g101,g101),dot(g111,g111)));
-  g001*=n1.x;g011*=n1.y;g101*=n1.z;g111*=n1.w;
+  vec4 n0=eb_tis(vec4(dot(g000,g000),dot(g010,g010),dot(g100,g100),dot(g110,g110)));
+  g000*=n0.x; g010*=n0.y; g100*=n0.z; g110*=n0.w;
+  vec4 n1=eb_tis(vec4(dot(g001,g001),dot(g011,g011),dot(g101,g101),dot(g111,g111)));
+  g001*=n1.x; g011*=n1.y; g101*=n1.z; g111*=n1.w;
   float v000=dot(g000,Pf0),v100=dot(g100,vec3(Pf1.x,Pf0.yz));
   float v010=dot(g010,vec3(Pf0.x,Pf1.y,Pf0.z)),v110=dot(g110,vec3(Pf1.xy,Pf0.z));
   float v001=dot(g001,vec3(Pf0.xy,Pf1.z)),v101=dot(g101,vec3(Pf1.x,Pf0.y,Pf1.z));
   float v011=dot(g011,vec3(Pf0.x,Pf1.yz)),v111=dot(g111,Pf1);
-  vec3 fxyz=fade3(Pf0);
+  vec3 fxyz=Pf0*Pf0*Pf0*(Pf0*(Pf0*6.0-15.0)+10.0);
   vec4 nz=mix(vec4(v000,v100,v010,v110),vec4(v001,v101,v011,v111),fxyz.z);
   vec2 nyz=mix(nz.xy,nz.zw,fxyz.y);
   return 2.2*mix(nyz.x,nyz.y,fxyz.x);
 }`;
 
-  // ── Vertex shader — referans getPos/getCurrentPos/getNormal mantığı ──────
-  const vertexShader = `
-precision highp float;
-uniform float time;
-uniform float uSpeed;
-uniform float uScale;
-varying vec3 vN;
-varying vec3 vL1;
-varying vec3 vL2;
-${NOISE_GLSL}
-
-float getPos(vec3 p){
-  return cnoise(vec3(p.x*0.0, p.y - uv.y, p.z + time*uSpeed*3.0)*uScale);
+  // Vertex-only: getPos / getCurrentPos / getNormal — referans ile aynı
+  const GLSL_VERTEX_HELPERS = `
+float eb_getPos(vec3 pos){
+  return eb_cnoise(vec3(pos.x*0.0, pos.y-uv.y, pos.z+time*uSpeed*3.0)*uScale);
 }
-vec3 getCurrentPos(vec3 p){ vec3 np=p; np.z+=getPos(p); return np; }
-vec3 getNormal(vec3 p){
-  vec3 cp=getCurrentPos(p);
-  vec3 nx=getCurrentPos(p+vec3(0.01,0.0,0.0));
-  vec3 nz=getCurrentPos(p+vec3(0.0,-0.01,0.0));
-  return normalize(cross(normalize(nz-cp),normalize(nx-cp)));
-}
-
-void main(){
-  vec3 displaced = position;
-  displaced.z += getPos(position);
-  vN  = normalize(normalMatrix * getNormal(position));
-  vL1 = normalize((viewMatrix * vec4( 0.0,  1.0, 0.1, 0.0)).xyz);
-  vL2 = normalize((viewMatrix * vec4( 0.0, -1.0, 0.1, 0.0)).xyz);
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(displaced, 1.0);
+vec3 eb_curPos(vec3 pos){ vec3 p=pos; p.z+=eb_getPos(pos); return p; }
+vec3 eb_getNorm(vec3 pos){
+  vec3 cp=eb_curPos(pos);
+  vec3 nx=eb_curPos(pos+vec3(0.01,0.0,0.0));
+  vec3 nz=eb_curPos(pos+vec3(0.0,-0.01,0.0));
+  vec3 tx=normalize(nx-cp), tz=normalize(nz-cp);
+  return normalize(cross(tz,tx));
 }`;
 
-  // ── Fragment shader — referans film grain + Blinn-Phong (r128 uyumlu) ────
-  const fragmentShader = `
-precision highp float;
-uniform float uNoiseIntensity;
-varying vec3 vN;
-varying vec3 vL1;
-varying vec3 vL2;
-${NOISE_GLSL}
+  // ── THREE.ShaderLib.physical — referans extendMaterial ile aynı yaklaşım ─
+  const physical  = THREE.ShaderLib.physical;
+  const matUni    = THREE.UniformsUtils.clone(physical.uniforms);
 
-void main(){
-  vec3 N = normalize(vN);
-  vec3 V = vec3(0.0, 0.0, 1.0);
-  vec3 L1 = normalize(vL1);
-  vec3 L2 = normalize(vL2);
+  // Referans cfg.uniforms ile aynı değerler
+  matUni.diffuse.value        = new THREE.Color(0, 0, 0); // black
+  matUni.roughness.value      = 0.3;
+  matUni.metalness.value      = 0.3;
+  if (matUni.envMapIntensity)  matUni.envMapIntensity.value = 10;
 
-  float d1 = max(dot(N,L1), 0.0);
-  float d2 = max(dot(N,L2), 0.0);
+  // Animasyon uniform'ları
+  matUni.time            = { value: 0.0 };
+  matUni.uSpeed          = { value: 2.5 };
+  matUni.uScale          = { value: 0.15 };
+  matUni.uNoiseIntensity = { value: 2.0 };
 
-  vec3 H1 = normalize(L1+V);
-  vec3 H2 = normalize(L2+V);
-  float s1 = pow(max(dot(N,H1),0.0), 16.0);
-  float s2 = pow(max(dot(N,H2),0.0), 16.0);
+  // Vertex shader: GLSL_NOISE + VERTEX_HELPERS + physical.vertexShader
+  // → sonra #include'lar patch'lenir (referans vertex: { } mantığı)
+  let vert = GLSL_NOISE + '\n' + GLSL_VERTEX_HELPERS + '\n' + physical.vertexShader;
+  vert = vert.replace(
+    '#include <begin_vertex>',
+    '#include <begin_vertex>\ntransformed.z += eb_getPos(transformed.xyz);'
+  );
+  vert = vert.replace(
+    '#include <beginnormal_vertex>',
+    '#include <beginnormal_vertex>\nobjectNormal = eb_getNorm(position.xyz);'
+  );
 
-  float brightness = (d1+d2)*0.1 + (s1+s2)*3.0;
-
-  // Film grain — referans ile aynı: noise(gl_FragCoord.xy) / 15.0 * uNoiseIntensity
-  float randomNoise = noise(gl_FragCoord.xy);
-  brightness -= randomNoise / 15.0 * uNoiseIntensity;
-  brightness = clamp(brightness, 0.0, 1.0);
-
-  gl_FragColor = vec4(vec3(brightness), 1.0);
-}`;
+  // Fragment shader: GLSL_NOISE + physical.fragmentShader
+  // → #include <dithering_fragment> sonrasına film grain eklenir (referans fragment: { })
+  let frag = GLSL_NOISE + '\n' + physical.fragmentShader;
+  frag = frag.replace(
+    '#include <dithering_fragment>',
+    '#include <dithering_fragment>\ngl_FragColor.rgb -= eb_noise(gl_FragCoord.xy)/15.0*uNoiseIntensity;'
+  );
 
   const material = new THREE.ShaderMaterial({
-    uniforms,
-    vertexShader,
-    fragmentShader,
-    side: THREE.DoubleSide,
+    defines:        Object.assign({}, physical.defines || {}),
+    uniforms:       matUni,
+    vertexShader:   vert,
+    fragmentShader: frag,
+    lights:         true,   // Three.js ışık uniform'larını enjekte eder
+    side:           THREE.DoubleSide,
   });
 
-  // ── Group 43° — referans: degToRad(rotation=43) ──────────────────────────
+  // ── Lights — referans: DirLight([0,3,10]) grup içinde + AmbientLight(1) ─
+  const dirLight = new THREE.DirectionalLight('#ffffff', 1);
+  dirLight.position.set(0, 3, 10);
+
+  // ── Group 43° Z — referans: degToRad(rotation=43) ───────────────────────
   const group = new THREE.Group();
   group.rotation.z = THREE.MathUtils.degToRad(43);
   group.add(new THREE.Mesh(geometry, material));
+  group.add(dirLight);
   scene.add(group);
+  scene.add(new THREE.AmbientLight(0xffffff, 1));
 
-  // ── Resize — viewport-based + URL bar jitter koruması ───────────────────
+  // ── Resize — viewport height ile (siyah köşe engeli + URL bar jitter yok) ─
   let stableH = 0;
   function resize() {
     const w = canvas.clientWidth || (canvas.parentElement && canvas.parentElement.clientWidth) || window.innerWidth || 800;
@@ -620,7 +607,7 @@ void main(){
     requestAnimationFrame(animate);
     const delta = Math.min((now - last) / 1000, 0.05);
     last = now;
-    uniforms.time.value += 0.1 * delta;
+    matUni.time.value += 0.1 * delta;
     renderer.render(scene, camera);
   })(last);
 })();
