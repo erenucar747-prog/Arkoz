@@ -807,7 +807,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 /* Misyon & Vizyon — Ethereal Beams animasyonu */
 .mission {
   position: relative;
-  padding: var(--section-padding) 0;
+  padding: 60px 0 80px;
   background: #000;
   overflow: hidden;
 }
@@ -827,7 +827,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 /* Header */
-.mission__header { margin-bottom: 64px; }
+.mission__header { margin-bottom: 32px; }
 .mission__tag {
   color: rgba(255,255,255,0.75) !important;
   background: rgba(255,255,255,0.08) !important;
@@ -948,7 +948,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 300px 200px;
   gap: 12px;
-  margin-top: -20px;
+  margin-top: 0;
   max-width: 1000px;
   margin-left: auto;
   margin-right: auto;
