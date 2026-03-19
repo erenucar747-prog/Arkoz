@@ -467,7 +467,7 @@ window.addEventListener('pageshow', function(e) {
     return geo;
   }
 
-  const geometry = createBeamGeometry(15, 2.5, 18, 0, 100);
+  const geometry = createBeamGeometry(15, 2.5, 18, -0.15, 100);
 
   // ── Uniforms ─────────────────────────────────────────────────────────────
   const uniforms = {
