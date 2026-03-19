@@ -1641,6 +1641,34 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
 /* İçerik düzeni */
 .content-block { max-width: 800px; }
+
+/* Genel Tanıtım — 2 sütun düzen */
+.tanitim-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 48px;
+  align-items: start;
+  max-width: 100%;
+}
+.tanitim-layout .content-block { max-width: 100%; }
+.tanitim-layout__img {
+  position: sticky;
+  top: 100px;
+}
+.tanitim-layout__img img {
+  width: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+  aspect-ratio: 4/3;
+  display: block;
+  box-shadow: 0 8px 40px rgba(0,0,0,0.10);
+}
+@media (max-width: 900px) {
+  .tanitim-layout {
+    grid-template-columns: 1fr;
+  }
+  .tanitim-layout__img { position: static; }
+}
 .content-block h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 16px; }
 .content-block p { color: var(--color-text-muted); line-height: 1.8; margin-bottom: 16px; }
 .content-block ul { margin-bottom: 24px; }
