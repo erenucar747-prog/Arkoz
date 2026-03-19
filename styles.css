@@ -1654,6 +1654,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .tanitim-layout__img {
   position: sticky;
   top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 .tanitim-layout__img img {
   width: 100%;
