@@ -18,7 +18,7 @@
   // ══════════════════════════════════════════════════════════
   var CFG = {
     apiKey:    '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',
-    model:     'claude-haiku-4-5-20251001',
+    model:     'claude-3-5-haiku-20241022',
     maxTokens: 800,
   };
 
