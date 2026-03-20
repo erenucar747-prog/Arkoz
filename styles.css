@@ -176,6 +176,20 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border: 1.5px solid var(--color-border);
 }
 
+/* Hero üzerindeki ghost buton: beyaz kenarlık + beyaz yazı */
+.hero__actions .btn--ghost {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.55);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(6px);
+}
+
+.hero__actions .btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.9);
+  color: #fff;
+}
+
 .btn--ghost:hover {
   border-color: var(--color-primary);
   color: var(--color-primary);
@@ -329,9 +343,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(255, 255, 255, 0.08) 0%,
-    rgba(255, 255, 255, 0.05) 82%,
-    rgba(255, 255, 255, 0.45) 100%
+    rgba(0, 0, 0, 0.45) 0%,
+    rgba(0, 0, 0, 0.30) 55%,
+    rgba(0, 0, 0, 0.60) 100%
   );
   z-index: 1;
 }
@@ -1488,8 +1502,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 @media (max-width: 768px) {
-  :root { --section-padding: 64px; }
+  :root { --section-padding: 56px; }
 
+  /* Nav */
   .nav__list {
     position: fixed;
     top: 0; right: 0;
@@ -1505,35 +1520,87 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
     transition: transform var(--transition);
     z-index: 999;
   }
-
   .nav__list.open { transform: translateX(0); }
   .nav__link { font-size: 1.2rem; padding: 12px 32px; }
   .nav__burger { display: flex; z-index: 1000; position: relative; }
 
-  .hero__content { max-width: 100%; }
+  /* Hero */
+  .hero__content {
+    max-width: 100%;
+    padding-top: 80px;
+    gap: 16px;
+  }
+  .hero__title { font-size: clamp(1.9rem, 8vw, 3rem); }
+  .hero__desc {
+    font-size: 1rem;
+    max-width: 100%;
+  }
   .hero__stats { gap: 24px; }
+  .hero__arrow {
+    width: 40px;
+    height: 40px;
+    font-size: 1.6rem;
+  }
+  .hero__arrow--prev { left: 12px; }
+  .hero__arrow--next { right: 12px; }
+  .hero__dots { bottom: 24px; }
 
+  /* Section header */
+  .section__header { margin-bottom: 40px; }
+  .section__desc { font-size: 1rem; }
+
+  /* About */
   .about__grid { grid-template-columns: 1fr; gap: 40px; }
   .about__visual { order: 2; }
 
+  /* Services / Products */
   .services__grid { grid-template-columns: 1fr; }
+  .services__grid--2 { grid-template-columns: 1fr; }
+
+  /* Advantages */
   .advantages__grid { grid-template-columns: 1fr; }
 
+  /* Projects */
+  .projects__grid { grid-template-columns: 1fr; }
+  .project-card--featured { grid-column: span 1; }
+
+  /* Contact */
   .contact__wrapper { grid-template-columns: 1fr; gap: 40px; }
   .contact__form { grid-template-columns: 1fr; }
   .form__group--full { grid-column: span 1; }
 
+  /* Footer */
   .footer__top { grid-template-columns: 1fr; gap: 40px; }
   .footer__links { grid-template-columns: repeat(2, 1fr); }
   .footer__bottom { flex-direction: column; align-items: flex-start; }
 }
 
 @media (max-width: 480px) {
-  .hero__title { font-size: 2.4rem; }
+  :root { --section-padding: 48px; }
+
+  .container { padding: 0 16px; }
+
+  /* Hero */
+  .hero__title { font-size: 1.85rem; }
+  .hero__desc { font-size: 0.92rem; }
+  .hero__content { padding-top: 72px; gap: 14px; }
   .hero__stats { flex-direction: column; gap: 16px; }
   .hero__actions { flex-direction: column; }
   .hero__actions .btn { width: 100%; justify-content: center; }
-  .footer__links { grid-template-columns: repeat(2, 1fr); }
+  .hero__arrow { display: none; }
+
+  /* Sections */
+  .section__header { margin-bottom: 32px; }
+  .section__title { font-size: 1.7rem; }
+
+  /* About */
+  .about__visual { grid-template-columns: 1fr; }
+  .about__card--main { grid-column: span 1; }
+  .about__facility-img { grid-column: span 1; }
+
+  /* Footer */
+  .footer__links { grid-template-columns: 1fr 1fr; }
+  .footer { padding: 48px 0 24px; }
 }
 
 /* ============================================
