@@ -324,7 +324,7 @@
       history.push({ role: 'assistant', content: reply });
     } catch (err) {
       typingEl.remove();
-      addBot('Üzgünüm, bir sorun oluştu. Lütfen tekrar deneyin veya 0 (850) 317 55 55 numaralı hattımızı arayın.');
+      addBot('Üzgünüm, bir sorun oluştu. Hata: ' + err.message);
       console.error('[Arkoz Chatbot]', err);
     } finally {
       isLoading = false;
