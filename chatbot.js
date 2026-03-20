@@ -17,7 +17,7 @@
   //  ⚙️  YAPILANDIRMA  —  API anahtarınızı buraya yazın
   // ══════════════════════════════════════════════════════════
   var CFG = {
-    apiKey:    'BURAYA_API_ANAHTARINI_YAZ',  // ← GitHub'da doğrudan düzenle
+    apiKey:    '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',
     model:     'claude-haiku-4-5',
     maxTokens: 800,
   };
