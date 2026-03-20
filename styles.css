@@ -1610,7 +1610,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 /* Sayfa Hero (küçük) */
 .page-hero {
   position: relative;
-  padding: 140px 0 60px;
+  padding: 100px 0 36px;
   background: var(--color-bg-2);
   border-bottom: 1px solid var(--color-border);
   text-align: center;
@@ -1674,6 +1674,13 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   color: rgba(255,255,255,0.75);
   background: rgba(255,255,255,0.08);
   border-color: rgba(255,255,255,0.15);
+}
+
+@media (max-width: 768px) {
+  .page-hero { padding: 90px 0 28px; }
+}
+@media (max-width: 480px) {
+  .page-hero { padding: 80px 0 24px; }
 }
 
 /* Tab Sistemi */
