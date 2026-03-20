@@ -1717,30 +1717,26 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 /* Tarihçe — metin + logo yan yana */
 .tarihce-block {
   display: flex;
-  align-items: flex-start;
-  gap: 48px;
-  max-width: 900px;
+  align-items: center;
+  gap: 56px;
+  max-width: 960px;
 }
 .tarihce-text { flex: 1; }
 .tarihce-logo {
   flex-shrink: 0;
-  width: 220px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-  background: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  width: 300px;
+  overflow: hidden;
+  border-radius: 10px;
 }
 .tarihce-logo img {
-  width: 100%;
-  height: auto;
   display: block;
+  width: 152%;
+  margin-left: -26%;
+  height: auto;
 }
 @media (max-width: 768px) {
   .tarihce-block { flex-direction: column; }
-  .tarihce-logo { width: 100%; max-width: 280px; align-self: center; }
+  .tarihce-logo { width: 100%; max-width: 320px; align-self: center; }
 }
 
 /* Genel Tanıtım — 2 sütun düzen */
