@@ -1725,14 +1725,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .tarihce-logo {
   flex-shrink: 0;
   width: 360px;
-  overflow: hidden;
+  height: 200px;
+  background: url('IMG_0902.jpeg') center / 200% auto no-repeat;
   border-radius: 10px;
-}
-.tarihce-logo img {
-  display: block;
-  width: 170%;
-  margin-left: -35%;
-  height: auto;
 }
 @media (max-width: 768px) {
   .tarihce-block { flex-direction: column; }
