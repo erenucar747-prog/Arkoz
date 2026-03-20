@@ -1714,6 +1714,35 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 /* İçerik düzeni */
 .content-block { max-width: 800px; }
 
+/* Tarihçe — metin + logo yan yana */
+.tarihce-block {
+  display: flex;
+  align-items: flex-start;
+  gap: 48px;
+  max-width: 900px;
+}
+.tarihce-text { flex: 1; }
+.tarihce-logo {
+  flex-shrink: 0;
+  width: 220px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+.tarihce-logo img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+@media (max-width: 768px) {
+  .tarihce-block { flex-direction: column; }
+  .tarihce-logo { width: 100%; max-width: 280px; align-self: center; }
+}
+
 /* Genel Tanıtım — 2 sütun düzen */
 .tanitim-layout {
   display: grid;
