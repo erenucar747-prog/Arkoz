@@ -1726,7 +1726,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   flex-shrink: 0;
   width: 360px;
   height: 200px;
-  background: url('IMG_0902.jpeg') center / 450% auto no-repeat;
+  background: url('IMG_0902.jpeg') center / contain no-repeat;
   border-radius: 10px;
 }
 @media (max-width: 768px) {
