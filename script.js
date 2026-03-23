@@ -393,7 +393,13 @@ window.addEventListener('pageshow', function(e) {
   let timer;
 
   const heroContent = document.querySelector('.hero__content');
-  const TEXT_HIDDEN_SLIDE = 1; // arkoz-maksimum-yalitim.jpg (kırmızı kutulu görsel)
+  const TEXT_HIDDEN_SLIDES = [0, 1]; // arkoz-konfor-sunar.jpg ve arkoz-maksimum-yalitim.jpg
+
+  function updateTextVisibility() {
+    if (heroContent) {
+      heroContent.classList.toggle('hero__content--hidden', TEXT_HIDDEN_SLIDES.includes(current));
+    }
+  }
 
   function goTo(index) {
     slides[current].classList.remove('hero__slide--active');
@@ -401,9 +407,7 @@ window.addEventListener('pageshow', function(e) {
     current = (index + slides.length) % slides.length;
     slides[current].classList.add('hero__slide--active');
     dots[current].classList.add('hero__dot--active');
-    if (heroContent) {
-      heroContent.classList.toggle('hero__content--hidden', current === TEXT_HIDDEN_SLIDE);
-    }
+    updateTextVisibility();
   }
 
   function startTimer() {
@@ -418,6 +422,7 @@ window.addEventListener('pageshow', function(e) {
   prev.addEventListener('click', () => { goTo(current - 1); startTimer(); });
   next.addEventListener('click', () => { goTo(current + 1); startTimer(); });
 
+  updateTextVisibility(); // sayfa açılışında ilk slayt için uygula
   startTimer();
 })();
 
