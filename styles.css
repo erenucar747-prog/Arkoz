@@ -321,12 +321,11 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 .hero__slide--bright .hero__video-overlay {
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.10) 0%,
-    rgba(0, 0, 0, 0.05) 55%,
-    rgba(0, 0, 0, 0.15) 100%
-  );
+  opacity: 0 !important;
+}
+
+.hero__slide--bright img {
+  filter: brightness(1.05);
 }
 
 .hero__slide img {
@@ -357,7 +356,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
     rgba(0, 0, 0, 0.60) 100%
   );
   z-index: 1;
-  transition: background 0.6s ease;
+  transition: opacity 0.6s ease;
 }
 
 /* Dots */
