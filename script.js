@@ -399,6 +399,9 @@ window.addEventListener('pageshow', function(e) {
     if (heroContent) {
       heroContent.classList.toggle('hero__content--hidden', TEXT_HIDDEN_SLIDES.includes(current));
     }
+    slides.forEach((slide, i) => {
+      slide.classList.toggle('hero__slide--bright', TEXT_HIDDEN_SLIDES.includes(i) && i === current);
+    });
   }
 
   function goTo(index) {
