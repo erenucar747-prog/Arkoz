@@ -392,12 +392,18 @@ window.addEventListener('pageshow', function(e) {
   let current = 0;
   let timer;
 
+  const heroContent = document.querySelector('.hero__content');
+  const TEXT_HIDDEN_SLIDE = 1; // arkoz-maksimum-yalitim.jpg (kırmızı kutulu görsel)
+
   function goTo(index) {
     slides[current].classList.remove('hero__slide--active');
     dots[current].classList.remove('hero__dot--active');
     current = (index + slides.length) % slides.length;
     slides[current].classList.add('hero__slide--active');
     dots[current].classList.add('hero__dot--active');
+    if (heroContent) {
+      heroContent.classList.toggle('hero__content--hidden', current === TEXT_HIDDEN_SLIDE);
+    }
   }
 
   function startTimer() {
