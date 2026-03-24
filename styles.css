@@ -1547,6 +1547,13 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .nav__burger { display: flex; z-index: 1000; position: relative; }
 
   /* Hero */
+  .hero {
+    height: 75vh;
+    min-height: 520px;
+  }
+  .hero__slide img {
+    object-position: top center;
+  }
   .hero__content {
     max-width: 100%;
     padding-top: 80px;
@@ -1603,6 +1610,10 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .container { padding: 0 16px; }
 
   /* Hero */
+  .hero {
+    height: 65vh;
+    min-height: 480px;
+  }
   .hero__title { font-size: 1.85rem; }
   .hero__desc { font-size: 0.92rem; }
   .hero__content { padding-top: 72px; gap: 14px; }
