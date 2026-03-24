@@ -1611,29 +1611,24 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
   /* Hero */
   .hero { height: 60vh; }
-  .hero__title { font-size: 1.85rem; }
-  .hero__desc { font-size: 0.92rem; }
-  .hero__content { padding-top: 72px; gap: 14px; }
-  .hero__stats { flex-direction: column; gap: 16px; }
-  .hero__actions { flex-direction: column; }
-  .hero__actions .btn { width: 100%; justify-content: center; }
+  .hero__content { display: none; }
   .hero__arrow { display: none; }
 
-  /* Banner slaytlar: blurred backdrop tekniği
-     Görsel contain ile tam sığar, kenarlar aynı görselin bulanık haliyle dolar */
-  .hero__slide--banner {
+  /* Tüm slaytlar: blurred backdrop
+     Görsel contain ile tam sığar, kenarlar bulanık koyu görselle dolar */
+  .hero__slide {
     overflow: hidden;
     background-size: cover;
     background-position: center;
   }
-  .hero__slide--banner::before {
+  .hero__slide::before {
     content: '';
     position: absolute;
     inset: -50px;
     background: inherit;
-    filter: blur(30px) brightness(0.4);
+    filter: blur(30px) brightness(0.35);
   }
-  .hero__slide--banner img {
+  .hero__slide img {
     object-fit: contain;
   }
 
