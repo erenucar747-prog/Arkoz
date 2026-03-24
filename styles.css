@@ -714,7 +714,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .about__list li:last-child { border: none; }
 
 /* 8. Services */
-.services { background: var(--color-bg); }
+.services { background: var(--color-bg); padding-top: 0; }
 
 .services .container { padding-top: 60px; }
 
