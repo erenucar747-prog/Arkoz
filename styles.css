@@ -1609,13 +1609,13 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
   .container { padding: 0 16px; }
 
-  /* Hero */
+  /* Hero — banner görseller 1920×940 → 940/1920 = 49vw */
   .hero {
-    height: 60vh;
+    height: 49vw;
+    min-height: unset;
   }
-  .hero__title { font-size: 1.85rem; }
-  .hero__desc { font-size: 0.92rem; }
-  .hero__content { padding-top: 72px; gap: 14px; }
+  /* Mobilde hero text overlay gizle; görseller tam görünsün */
+  .hero__content { display: none; }
   .hero__stats { flex-direction: column; gap: 16px; }
   .hero__actions { flex-direction: column; }
   .hero__actions .btn { width: 100%; justify-content: center; }
