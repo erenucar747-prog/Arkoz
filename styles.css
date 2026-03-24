@@ -1614,6 +1614,13 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
     height: 65vh;
     min-height: 480px;
   }
+  .hero__slide--banner {
+    background: #d6d1cb;
+  }
+  .hero__slide--banner img {
+    object-fit: contain;
+    object-position: center;
+  }
   .hero__title { font-size: 1.85rem; }
   .hero__desc { font-size: 0.92rem; }
   .hero__content { padding-top: 72px; gap: 14px; }
