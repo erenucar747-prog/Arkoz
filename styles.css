@@ -1609,8 +1609,12 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
   .container { padding: 0 16px; }
 
-  /* Hero — 55vw: görsellerin oranına göre yükseklik, sıfır kırpma */
-  .hero { height: 55vw; min-height: unset; }
+  /* Hero — fixed nav (70px) altından başlasın, görsel tamamen görünsün */
+  .hero {
+    height: 55vw;
+    min-height: unset;
+    margin-top: 70px;
+  }
   .hero__content { display: none; }
   .hero__arrow { display: none; }
   .hero__slide img {
