@@ -1609,13 +1609,18 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
   .container { padding: 0 16px; }
 
-  /* Hero */
-  .hero { height: 60vh; }
+  /* Hero — 60vh normal boy, blurred backdrop ile tam görsel */
+  .hero { height: 60vh; min-height: unset; }
   .hero__content { display: none; }
   .hero__arrow { display: none; }
 
-  /* Tüm slaytlar: blurred backdrop
-     Görsel contain ile tam sığar, kenarlar bulanık koyu görselle dolar */
+  /* 768px query'deki object-position:top'u override et */
+  .hero__slide img {
+    object-fit: contain;
+    object-position: center center;
+  }
+
+  /* Blurred backdrop: aynı görsel bulanık arka plan, gerçek görsel üstte */
   .hero__slide {
     overflow: hidden;
     background-size: cover;
@@ -1626,10 +1631,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
     position: absolute;
     inset: -50px;
     background: inherit;
-    filter: blur(30px) brightness(0.35);
-  }
-  .hero__slide img {
-    object-fit: contain;
+    filter: blur(28px) brightness(0.35);
   }
 
   /* Sections */
