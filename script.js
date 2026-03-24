@@ -395,18 +395,6 @@ window.addEventListener('pageshow', function(e) {
   const heroContent = document.querySelector('.hero__content');
   const TEXT_HIDDEN_SLIDES = [0, 1]; // arkoz-konfor-sunar.jpg ve arkoz-maksimum-yalitim.jpg
 
-  const hero = document.querySelector('.hero');
-
-  function updateHeroHeight() {
-    if (!hero) return;
-    if (window.innerWidth <= 480 && TEXT_HIDDEN_SLIDES.includes(current)) {
-      // Banner görseller 1920×940 → ekran genişliğine göre yüksekliği hesapla
-      hero.style.height = Math.round(window.innerWidth * 940 / 1920) + 'px';
-    } else {
-      hero.style.height = '';
-    }
-  }
-
   function updateTextVisibility() {
     if (heroContent) {
       heroContent.classList.toggle('hero__content--hidden', TEXT_HIDDEN_SLIDES.includes(current));
@@ -414,10 +402,7 @@ window.addEventListener('pageshow', function(e) {
     slides.forEach((slide, i) => {
       slide.classList.toggle('hero__slide--bright', TEXT_HIDDEN_SLIDES.includes(i) && i === current);
     });
-    updateHeroHeight();
   }
-
-  window.addEventListener('resize', updateHeroHeight);
 
   function goTo(index) {
     slides[current].classList.remove('hero__slide--active');
