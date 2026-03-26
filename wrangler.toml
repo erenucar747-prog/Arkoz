@@ -1,0 +1,4 @@
+name = "arkozai"
+main = "worker.js"
+compatibility_date = "2024-01-01"
+account_id = "f0ad1f2f423bb8ff16a9e293d992a8a1"
