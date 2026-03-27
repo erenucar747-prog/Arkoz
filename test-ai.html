@@ -116,7 +116,9 @@
   <div id="status"></div>
 
   <script>
-    const WORKER_URL = 'https://arkozai.erenucar747.workers.dev';
+    // Vercel URL'i deploy sonrası buraya yazılacak
+    const params = new URLSearchParams(window.location.search);
+    const WORKER_URL = params.get('api') || 'https://arkoz-ai.vercel.app/api/chat';
 
     const messages = document.getElementById('messages');
     const input = document.getElementById('user-input');
