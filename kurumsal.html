@@ -492,5 +492,88 @@
       if (btn) btn.click();
     }
   </script>
+
+  <!-- AI Chat Widget -->
+  <div id="ai-chat-widget">
+    <div id="ai-chat-panel" aria-hidden="true">
+      <div id="ai-chat-header">
+        <div id="ai-chat-header-info">
+          <span id="ai-chat-header-title">Arkoz AI Asistan</span>
+          <span id="ai-chat-header-sub">Size nasıl yardımcı olabilirim?</span>
+        </div>
+        <button id="ai-chat-close-btn" aria-label="Kapat">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div id="ai-chat-messages">
+        <div class="ai-msg ai-msg--bot">Merhaba! Ben Arkoz Gazbeton'un asistanıyım. Ürünler, teknik özellikler veya teklif hakkında yardımcı olabilirim.</div>
+      </div>
+      <div id="ai-chat-input-row">
+        <input id="ai-chat-input" type="text" placeholder="Mesajınızı yazın..." autocomplete="off" />
+        <button id="ai-chat-send" aria-label="Gönder">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+    <button id="ai-chat-toggle" aria-label="AI Asistan ile konuş">
+      <svg id="ai-icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <svg id="ai-icon-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+  <script>
+    (function(){
+      var API='https://arkoz-ai.vercel.app/api/chat';
+      var history=[];
+      var panel=document.getElementById('ai-chat-panel');
+      var msgs=document.getElementById('ai-chat-messages');
+      var input=document.getElementById('ai-chat-input');
+      var sendBtn=document.getElementById('ai-chat-send');
+      var iconChat=document.getElementById('ai-icon-chat');
+      var iconClose=document.getElementById('ai-icon-close');
+      document.getElementById('ai-chat-toggle').addEventListener('click',function(){
+        var open=panel.style.display==='flex';
+        panel.style.display=open?'none':'flex';
+        panel.setAttribute('aria-hidden',open?'true':'false');
+        iconChat.style.display=open?'block':'none';
+        iconClose.style.display=open?'none':'block';
+        if(!open)input.focus();
+      });
+      document.getElementById('ai-chat-close-btn').addEventListener('click',function(){
+        panel.style.display='none';
+        panel.setAttribute('aria-hidden','true');
+        iconChat.style.display='block';
+        iconClose.style.display='none';
+      });
+      function addMsg(text,role){
+        var d=document.createElement('div');
+        d.className='ai-msg ai-msg--'+(role==='user'?'user':'bot');
+        d.textContent=text;
+        msgs.appendChild(d);
+        msgs.scrollTop=msgs.scrollHeight;
+        return d;
+      }
+      function send(){
+        var text=input.value.trim();
+        if(!text)return;
+        input.value='';
+        sendBtn.disabled=true;
+        addMsg(text,'user');
+        history.push({role:'user',content:text});
+        var typing=addMsg('Yazıyor...','bot');
+        typing.classList.add('ai-msg--typing');
+        fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history})})
+          .then(function(r){return r.json();})
+          .then(function(data){
+            if(data.error){typing.textContent='Bir hata oluştu, lütfen tekrar deneyin.';}
+            else{var reply=data.content[0].text;typing.textContent=reply;typing.classList.remove('ai-msg--typing');history.push({role:'assistant',content:reply});}
+          })
+          .catch(function(){typing.textContent='Bağlantı hatası, lütfen tekrar deneyin.';})
+          .finally(function(){sendBtn.disabled=false;msgs.scrollTop=msgs.scrollHeight;});
+      }
+      sendBtn.addEventListener('click',send);
+      input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
+    })();
+  </script>
+
 </body>
 </html>
