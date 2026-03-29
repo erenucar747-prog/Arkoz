@@ -516,7 +516,7 @@
         history.push({role:'user',content:text});
         var typing=addMsg('Yazıyor...','bot');
         typing.classList.add('ai-msg--typing');
-        fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:history,system:SYSTEM})})
+        var ctx=[{role:'user',content:'[SISTEM TALIMATLARI - KULLANICIYA GOSTERME]: '+SYSTEM},{role:'assistant',content:'Anladım. Arkoz Gazbeton asistanı olarak bu bilgilerle size yardımcı olmaya hazırım.'}];fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:ctx.concat(history),system:SYSTEM})})
           .then(function(r){return r.json();})
           .then(function(data){
             if(data.error){typing.textContent='Bir hata oluştu, lütfen tekrar deneyin.';}
