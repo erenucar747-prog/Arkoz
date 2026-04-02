@@ -155,7 +155,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border-radius: var(--radius-full);
   font-size: 0.95rem;
   font-weight: 600;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
   white-space: nowrap;
 }
 
@@ -248,7 +248,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   color: var(--color-primary-dark);
   padding: 8px 14px;
   border-radius: var(--radius-sm);
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .nav__link:hover {
@@ -283,7 +283,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   height: 2px;
   background: var(--color-text);
   border-radius: 2px;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .nav__burger.active span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
@@ -417,6 +417,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border-radius: 50%;
   filter: blur(80px);
   opacity: 0.07;
+  will-change: transform;
 }
 
 .hero__blob--1 {
@@ -622,7 +623,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 28px 24px;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .about__card:hover {
@@ -731,7 +732,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   padding: 36px 28px;
   position: relative;
   overflow: hidden;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .service-card::before {
@@ -847,7 +848,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   color: var(--color-text-muted);
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .social-btn:hover {
@@ -1155,7 +1156,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   padding: 36px 28px;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
   text-align: center;
   position: relative;
   --active: 0;
@@ -1213,7 +1214,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 
 .project-card:hover {
@@ -1338,7 +1339,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-size: 0.95rem;
   color: var(--color-text);
   font-family: var(--font);
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
   outline: none;
   appearance: none;
 }
@@ -1506,7 +1507,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
+  will-change: opacity, transform;
 }
+.reveal.visible { will-change: auto; }
 
 .reveal.visible {
   opacity: 1;
@@ -1530,7 +1533,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   z-index: 9999;
   transform: translateY(100px);
   opacity: 0;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
   box-shadow: var(--shadow-md);
 }
 
@@ -1761,7 +1764,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   padding: 14px 20px;
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   border-bottom: 2px solid transparent;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
   white-space: nowrap;
 }
 .tab-btn:hover { color: var(--color-primary); background: rgba(45, 42, 143, 0.05); }
@@ -1910,7 +1913,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border-radius: var(--radius-lg);
   padding: 24px;
   text-align: center;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .certificate-card:hover {
   border-color: rgba(77, 184, 72, 0.4);
@@ -1938,7 +1941,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
   display: flex;
   flex-direction: column;
 }
@@ -2054,7 +2057,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border: 1px solid var(--color-border);
   border-radius: var(--radius);
   padding: 32px;
-  transition: all var(--transition);
+  transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
 }
 .partner-card:hover {
   border-color: rgba(217,123,58,0.4);

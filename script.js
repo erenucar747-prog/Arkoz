@@ -351,15 +351,25 @@ window.addEventListener('pageshow', function(e) {
   }, { passive: true });
   window.addEventListener('scroll', () => updateActive(lastX, lastY), { passive: true });
 
-  (function tick() {
+  let glowRafId = null;
+  let glowSectionVisible = false;
+
+  function tick() {
+    let anyActive = false;
     states.forEach(s => {
       const diff = shortestDiff(s.angle, s.target);
-      s.angle += diff * LERP;
+      if (Math.abs(diff) > 0.01) { s.angle += diff * LERP; anyActive = true; }
       s.el.style.setProperty('--start', s.angle.toFixed(2));
       s.el.style.setProperty('--active', s.active ? '1' : '0');
     });
-    requestAnimationFrame(tick);
-  })();
+    glowRafId = (glowSectionVisible || anyActive) ? requestAnimationFrame(tick) : null;
+  }
+
+  const glowSection = cards[0].closest('section') || cards[0].parentElement;
+  new IntersectionObserver(entries => {
+    glowSectionVisible = entries[0].isIntersecting;
+    if (glowSectionVisible && !glowRafId) glowRafId = requestAnimationFrame(tick);
+  }, { threshold: 0.1 }).observe(glowSection);
 })();
 
 // 9. Kart Üzerinde 3D Tilt Efekti (Service Cards) (eski 8)
@@ -615,13 +625,26 @@ vec3 eb_getNorm(vec3 pos){
   resize();
   window.addEventListener('resize', resize);
 
-  // ── Animation loop ────────────────────────────────────────────────────────
+  // ── Animation loop — pause when not visible ──────────────────────────────
   let last = performance.now();
-  (function animate(now) {
-    requestAnimationFrame(animate);
+  let beamsRafId = null;
+  let beamsVisible = false;
+
+  function beamsLoop(now) {
+    if (!beamsVisible) { beamsRafId = null; return; }
+    beamsRafId = requestAnimationFrame(beamsLoop);
     const delta = Math.min((now - last) / 1000, 0.05);
     last = now;
     matUni.time.value += 0.1 * delta;
     renderer.render(scene, camera);
-  })(last);
+  }
+
+  const beamsObserver = new IntersectionObserver(function(entries) {
+    beamsVisible = entries[0].isIntersecting;
+    if (beamsVisible && !beamsRafId) {
+      last = performance.now();
+      beamsRafId = requestAnimationFrame(beamsLoop);
+    }
+  }, { threshold: 0.1 });
+  beamsObserver.observe(canvas);
 })();
