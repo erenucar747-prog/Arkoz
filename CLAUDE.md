@@ -19,18 +19,27 @@ Arkoz/
 ├── index.html              # Ana sayfa (hero slider, gazbeton, ürünler, iletişim)
 ├── kurumsal.html           # Kurumsal sayfa (hakkımızda, misyon, vizyon)
 ├── urunler.html            # Ürünler sayfası (Blok, Asmolen — teknik tablolar)
+├── gazbeton.html           # Gazbeton detay sayfası
 ├── haberler.html           # Haberler sayfası
 ├── insan-kaynaklari.html   # İnsan Kaynakları sayfası
 ├── politikalar.html        # Politikalar sayfası (gizlilik, çerez vb.)
 ├── styles.css              # Tüm stiller (1800+ satır, CSS değişkenleri)
 ├── script.js               # Etkileşimler ve animasyonlar (660+ satır)
 ├── logo.png                # Arkoz Gazbeton logosu
+├── slide1.jpeg             # Hero slider görseli
 ├── slide2.jpeg             # Hero slider görseli
+├── slide3.jpeg             # Hero slider görseli
+├── slide4.jpeg             # Hero slider görseli
+├── arkoz-konfor-sunar.jpg  # İçerik görseli
+├── arkoz-maksimum-yalitim.jpg  # İçerik görseli
+├── images/
+│   └── factory-1..5.jpg   # Fabrika görselleri
 ├── components/
 │   ├── glowing-effect-demo.tsx   # Shadcn/React referans bileşeni
-│   ├── utils.ts                  # Yardımcı fonksiyonlar
 │   └── ui/
 │       └── glowing-effect.tsx    # Glowing border efekt bileşeni
+├── lib/
+│   └── utils.ts                  # Yardımcı fonksiyonlar
 ├── README.md
 └── CLAUDE.md               # Bu dosya
 ```
