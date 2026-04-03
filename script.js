@@ -89,8 +89,8 @@ function runIntro() {
 
   scene.add(new THREE.Mesh(geometry, material));
 
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
-  renderer.setPixelRatio(window.devicePixelRatio);
+  const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
   container.appendChild(renderer.domElement);
 
   function onResize() {
@@ -452,8 +452,8 @@ window.addEventListener('pageshow', function(e) {
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 1000);
   camera.position.set(0, 0, 20);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false, powerPreference: 'high-performance' });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
   renderer.setClearColor(0x000000, 1);
 
   // ── Geometry — referans: createStackedPlanesBufferGeometry(15, 2.5, 18, 0, 100) ──
