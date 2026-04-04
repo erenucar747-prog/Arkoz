@@ -579,7 +579,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 /* 7. About */
-.about { background: var(--color-bg-2); padding-top: 0; }
+.about { background: var(--color-bg-2); padding-top: 0; contain: layout style; }
 
 /* About Hero — Background Paths animasyonu */
 .about__hero {
@@ -715,7 +715,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .about__list li:last-child { border: none; }
 
 /* 8. Services */
-.services { background: var(--color-bg); padding-top: 0; }
+.services { background: var(--color-bg); padding-top: 0; contain: layout style; }
 
 .services .container { padding-top: 60px; }
 
@@ -1133,7 +1133,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .product__table td:last-child { color: var(--color-primary); font-weight: 600; }
 
 /* 9. Avantajlar (Projects bölümü yeniden kullanılıyor) */
-.projects { background: var(--color-bg-2); }
+.projects { background: var(--color-bg-2); contain: layout style; }
 
 .projects__grid {
   display: grid;
