@@ -191,3 +191,26 @@ npx browser-sync start --server --files "*.html, *.css, *.js"
 5. **Tüm sayfalarda tutarlılık** — Nav, footer ve stil değişkenleri tüm `.html` dosyalarına yansıtılmalıdır
 6. **Yıkıcı eylemler için sor** — Force push, dosya silme veya history sıfırlama öncesinde kullanıcıya sor
 7. **Bu dosyayı güncelle** — Önemli yeni yapı veya kurallar eklendiğinde CLAUDE.md'yi güncelle
+
+---
+
+## Kullanıcı Tercihleri (Geçmiş Oturumlardan Öğrenildi)
+
+### KESİNLİKLE DOKUNMA
+- **Animasyonlar, renkler, görsel efektler** — Blur, WebGL shader, Three.js, CSS geçişleri, renk değerleri hiçbir şekilde değiştirilmez. Bu kural 2 farklı oturumda revert ile pekiştirildi.
+- **`background-attachment: fixed`** `.advantage-card__glow` üzerinde — kaldırma, değiştirme
+- **`filter: blur(80px)`** hero blob'larında — değiştirme
+- WebGL renderer'larda `antialias`, `pixelRatio` — görsel kalite ayarları dokunulmaz
+
+### YAPILMAZ / GEÇMİŞTE SORUN ÇIKARDI
+- API anahtarını doğrudan JS dosyasına yazmak (PR #111-115 döngüsü — chatbot API key sorunu)
+- Görsel değişiklik içeren performans optimizasyonu önerileri
+- İstenilmeden ek özellik veya "iyileştirme" eklemek
+
+### BAŞARILI TAMAMLANAN ÇALIŞMALAR
+- AI chat widget — Vercel proxy üzerinden, tüm sayfalarda (PR #140-147)
+- Kurumsal sayfa Background Paths animasyonu (PR #136)
+- Gazbeton detay sayfası — 9 sekme, tam içerik (PR #117)
+- Mobil hero görsel oranı — 49vw/55vw dinamik yükseklik (PR #126-132)
+- Banner slaytlarda hero yazılarını gizleme (PR #121-123)
+- Performans: `powerPreference:'high-performance'`, `fetchpriority`, `contain:layout style` (görsel değişiklik yok)
