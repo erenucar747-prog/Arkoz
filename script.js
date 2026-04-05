@@ -349,7 +349,11 @@ window.addEventListener('pageshow', function(e) {
   window.addEventListener('touchmove', e => {
     if (e.touches[0]) handlePointer(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
-  window.addEventListener('scroll', () => updateActive(lastX, lastY), { passive: true });
+  let _scrollThrottle = null;
+  window.addEventListener('scroll', () => {
+    if (_scrollThrottle) return;
+    _scrollThrottle = setTimeout(() => { _scrollThrottle = null; updateActive(lastX, lastY); }, 100);
+  }, { passive: true });
 
   let glowRafId = null;
   let glowSectionVisible = false;
@@ -437,6 +441,19 @@ window.addEventListener('pageshow', function(e) {
 
   updateTextVisibility(); // sayfa açılışında ilk slayt için uygula
   startTimer();
+})();
+
+// 10a. Hero blob ve scroll-line animasyonları — hero off-screen olunca pause et
+(function pauseHeroBlobsWhenOffScreen() {
+  const hero = document.getElementById('hero');
+  if (!hero) return;
+  const blobs = document.querySelectorAll('.hero__blob');
+  const scrollLine = document.querySelector('.hero__scroll-line');
+  new IntersectionObserver(function(entries) {
+    const state = entries[0].isIntersecting ? 'running' : 'paused';
+    blobs.forEach(function(b) { b.style.animationPlayState = state; });
+    if (scrollLine) scrollLine.style.animationPlayState = state;
+  }, { threshold: 0 }).observe(hero);
 })();
 
 // 10. Mission Section — Ethereal Beams
