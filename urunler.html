@@ -429,6 +429,14 @@
           document.head.appendChild(style);
           el.style.animation = name + ' ' + dur + 's linear infinite';
         });
+        // SVG path animasyonları hero off-screen olunca pause edilir
+        const heroSection = container.closest('section') || container.parentElement;
+        if (heroSection) {
+          new IntersectionObserver(function(entries) {
+            const state = entries[0].isIntersecting ? 'running' : 'paused';
+            container.querySelectorAll('path').forEach(function(p) { p.style.animationPlayState = state; });
+          }, { threshold: 0 }).observe(heroSection);
+        }
       });
     })();
   </script>
