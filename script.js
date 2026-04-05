@@ -667,6 +667,6 @@ vec3 eb_getNorm(vec3 pos){
       last = performance.now();
       beamsRafId = requestAnimationFrame(beamsLoop);
     }
-  }, { threshold: 0.1 });
+  }, { threshold: 0.1, rootMargin: '300px 0px' });
   beamsObserver.observe(canvas);
 })();
