@@ -133,8 +133,13 @@ window.addEventListener('pageshow', function(e) {
   const header = document.getElementById('header');
   if (!header) return;
 
+  let _headerRaf = null;
   const onScroll = () => {
-    header.classList.toggle('scrolled', window.scrollY > 40);
+    if (_headerRaf) return;
+    _headerRaf = requestAnimationFrame(() => {
+      _headerRaf = null;
+      header.classList.toggle('scrolled', window.scrollY > 40);
+    });
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });

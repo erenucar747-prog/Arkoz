@@ -182,6 +182,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border-color: rgba(255, 255, 255, 0.55);
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(6px);
+  transform: translateZ(0);
 }
 
 .hero__actions .btn--ghost:hover {
@@ -209,6 +210,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 8px 0;
   transition: box-shadow var(--transition);
+  will-change: transform;
 }
 
 .header.scrolled {
@@ -406,6 +408,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   justify-content: center;
   transition: background 0.3s;
   backdrop-filter: blur(4px);
+  transform: translateZ(0);
 }
 
 .hero__arrow:hover { background: rgba(255,255,255,0.3); }
@@ -485,6 +488,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   padding: 8px 18px;
   border-radius: var(--radius-full);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
 }
 
 .hero__title {
@@ -653,6 +657,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   left: 16px;
   background: rgba(45, 42, 143, 0.90);
   backdrop-filter: blur(8px);
+  transform: translateZ(0);
   color: #fff;
   padding: 10px 18px;
   border-radius: var(--radius-md);
