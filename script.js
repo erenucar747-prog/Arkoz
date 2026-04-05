@@ -6,17 +6,23 @@
 
 // Lenis smooth scroll — profesyonel siteler standardı (Three.js Journey, Awwwards vb.)
 const lenis = (typeof Lenis !== 'undefined') ? new Lenis({ duration: 1.2 }) : null;
+let _isScrolling = false, _scrollPauseTimer = null;
 if (lenis) {
   (function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); })();
+  // Lenis callback ile WebGL pause — daha temiz entegrasyon
+  lenis.on('scroll', () => {
+    _isScrolling = true;
+    clearTimeout(_scrollPauseTimer);
+    _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
+  });
+} else {
+  // Fallback: Lenis yoksa native scroll
+  window.addEventListener('scroll', () => {
+    _isScrolling = true;
+    clearTimeout(_scrollPauseTimer);
+    _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
+  }, { passive: true });
 }
-
-// WebGL GPU pause — scroll esnasında render durdurulur, GPU scroll'a ayrılır
-let _isScrolling = false, _scrollPauseTimer = null;
-window.addEventListener('scroll', () => {
-  _isScrolling = true;
-  clearTimeout(_scrollPauseTimer);
-  _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
-}, { passive: true });
 
 // 0. Intro — Three.js Shader Animasyonu (component ile birebir aynı formül)
 let introActive = false;
