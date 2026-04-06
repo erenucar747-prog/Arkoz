@@ -868,12 +868,64 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   line-height: 1.5;
 }
 
-/* Misyon & Vizyon */
+/* Misyon & Vizyon — Lamp Effect */
 .mission {
   position: relative;
   padding: 60px 0 80px;
-  background: #111;
+  background: #0a0a0a;
   overflow: hidden;
+}
+
+.mission__lamp {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+  animation: missionLampIn 1.2s ease-out 0.3s both;
+}
+
+/* Spotlight cone */
+.mission__lamp::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(1000px, 120vw);
+  height: 60%;
+  clip-path: polygon(38% 0%, 62% 0%, 100% 100%, 0% 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+}
+
+/* Lamp glow blob at source */
+.mission__lamp::after {
+  content: '';
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 360px;
+  height: 90px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.1) 45%, transparent 70%);
+  filter: blur(14px);
+}
+
+/* Lamp bar (top horizontal line) */
+.mission__lamp-line {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(500px, 85vw);
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, transparent);
+  box-shadow: 0 0 12px 5px rgba(255,255,255,0.2), 0 0 50px 20px rgba(255,255,255,0.08);
+}
+
+@keyframes missionLampIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .mission .container {
