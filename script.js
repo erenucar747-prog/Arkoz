@@ -667,27 +667,8 @@ vec3 eb_getNorm(vec3 pos){
   resize();
   window.addEventListener('resize', resize);
 
-  // ── Animation loop — pause when not visible ──────────────────────────────
-  let last = performance.now();
-  let beamsRafId = null;
-  let beamsVisible = false;
-
-  function beamsLoop(now) {
-    if (!beamsVisible) { beamsRafId = null; return; }
-    beamsRafId = requestAnimationFrame(beamsLoop);
-    if (_isScrolling) return; // Scroll esnasında GPU'yu scroll compositor'a bırak
-    const delta = Math.min((now - last) / 1000, 0.05);
-    last = now;
-    matUni.time.value += 0.1 * delta;
-    renderer.render(scene, camera);
-  }
-
-  const beamsObserver = new IntersectionObserver(function(entries) {
-    beamsVisible = entries[0].isIntersecting;
-    if (beamsVisible && !beamsRafId) {
-      last = performance.now();
-      beamsRafId = requestAnimationFrame(beamsLoop);
-    }
-  }, { threshold: 0.1, rootMargin: '300px 0px' });
-  beamsObserver.observe(canvas);
+  // Tek kare render — animasyon yok, sabit görüntü
+  matUni.time.value = 1.5;
+  resize();
+  renderer.render(scene, camera);
 })();
