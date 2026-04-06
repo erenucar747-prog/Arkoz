@@ -4,6 +4,26 @@
 
 'use strict';
 
+// Lenis smooth scroll — profesyonel siteler standardı (Three.js Journey, Awwwards vb.)
+const lenis = (typeof Lenis !== 'undefined') ? new Lenis({ duration: 1.2 }) : null;
+let _isScrolling = false, _scrollPauseTimer = null;
+if (lenis) {
+  (function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); })();
+  // Lenis callback ile WebGL pause — daha temiz entegrasyon
+  lenis.on('scroll', () => {
+    _isScrolling = true;
+    clearTimeout(_scrollPauseTimer);
+    _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
+  });
+} else {
+  // Fallback: Lenis yoksa native scroll
+  window.addEventListener('scroll', () => {
+    _isScrolling = true;
+    clearTimeout(_scrollPauseTimer);
+    _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
+  }, { passive: true });
+}
+
 // 0. Intro — Three.js Shader Animasyonu (component ile birebir aynı formül)
 let introActive = false;
 
@@ -309,7 +329,7 @@ window.addEventListener('pageshow', function(e) {
       e.preventDefault();
       const offset = 80;
       const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      window.scrollTo({ top, behavior: 'smooth' });
+      if (lenis) { lenis.scrollTo(top); } else { window.scrollTo({ top, behavior: 'smooth' }); }
     });
   });
 })();
@@ -655,6 +675,7 @@ vec3 eb_getNorm(vec3 pos){
   function beamsLoop(now) {
     if (!beamsVisible) { beamsRafId = null; return; }
     beamsRafId = requestAnimationFrame(beamsLoop);
+    if (_isScrolling) return; // Scroll esnasında GPU'yu scroll compositor'a bırak
     const delta = Math.min((now - last) / 1000, 0.05);
     last = now;
     matUni.time.value += 0.1 * delta;

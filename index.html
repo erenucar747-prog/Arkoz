@@ -5,11 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Arkoz Gazbeton — Türkiye'nin En Yeni ve En Modern Gazbeton Üretim Tesisi. Havza, Samsun'da 450.000 m³ kapasitesiyle yüksek kaliteli Arkoz Blok ve Arkoz Asmolen üretimi." />
   <title>Arkoz Gazbeton | Türkiye'nin En Modern Gazbeton Üretim Tesisi</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="preload" as="image" href="arkoz-konfor-sunar.jpg" fetchpriority="high" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 </head>
 <body>
 
@@ -17,7 +21,7 @@
   <header class="header" id="header">
     <nav class="nav container">
       <a href="#" class="nav__logo" aria-label="Arkoz Gazbeton - Ana Sayfa">
-        <img src="logo.png" alt="Arkoz Gazbeton" loading="lazy" />
+        <img src="logo.png" alt="Arkoz Gazbeton" loading="eager" fetchpriority="high" />
       </a>
       <ul class="nav__list" id="nav-list">
         <li><a href="kurumsal.html" class="nav__link">Kurumsal</a></li>
