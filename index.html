@@ -674,27 +674,14 @@
       container.appendChild(svg2);
 
       requestAnimationFrame(function () {
-        [...pe1, ...pe2].forEach(function ({ el, i }, idx) {
+        [...pe1, ...pe2].forEach(function ({ el, i }) {
           const len = el.getTotalLength();
           if (!len) return;
-
-          const dur  = 20 + Math.random() * 10;
           const base = 0.1 + i * 0.03;
           const dash = len * 0.65;
-          const name = 'abgp' + idx;
-
           el.setAttribute('stroke-dasharray', dash + ' ' + (len - dash));
-
-          const style = document.createElement('style');
-          style.textContent =
-            '@keyframes ' + name + '{' +
-              '0%  {stroke-dashoffset:0;          opacity:' + (base * 0.5) + '}' +
-              '50% {stroke-dashoffset:' + (-len)  + ';opacity:' + base      + '}' +
-              '100%{stroke-dashoffset:' + (-len * 2) + ';opacity:' + (base * 0.5) + '}' +
-            '}';
-          document.head.appendChild(style);
-
-          el.style.animation = name + ' ' + dur + 's linear infinite';
+          el.setAttribute('stroke-dashoffset', '0');
+          el.style.opacity = String(base * 0.45);
         });
       });
     })();
@@ -742,27 +729,14 @@
       container.appendChild(svg2);
 
       requestAnimationFrame(function () {
-        [...pe1, ...pe2].forEach(function ({ el, i }, idx) {
+        [...pe1, ...pe2].forEach(function ({ el, i }) {
           const len = el.getTotalLength();
           if (!len) return;
-
-          const dur  = 20 + Math.random() * 10;
           const base = 0.1 + i * 0.03;
           const dash = len * 0.65;
-          const name = 'ubgp' + idx;
-
           el.setAttribute('stroke-dasharray', dash + ' ' + (len - dash));
-
-          const style = document.createElement('style');
-          style.textContent =
-            '@keyframes ' + name + '{' +
-              '0%  {stroke-dashoffset:0;          opacity:' + (base * 0.5) + '}' +
-              '50% {stroke-dashoffset:' + (-len)  + ';opacity:' + base      + '}' +
-              '100%{stroke-dashoffset:' + (-len * 2) + ';opacity:' + (base * 0.5) + '}' +
-            '}';
-          document.head.appendChild(style);
-
-          el.style.animation = name + ' ' + dur + 's linear infinite';
+          el.setAttribute('stroke-dashoffset', '0');
+          el.style.opacity = String(base * 0.45);
         });
       });
     })();
