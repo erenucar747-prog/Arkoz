@@ -481,10 +481,8 @@ window.addEventListener('pageshow', function(e) {
   }, { threshold: 0 }).observe(hero);
 })();
 
-// 10. Mission Section — Ethereal Beams
-// Referans (ethereal-beams-hero.tsx) extendMaterial yaklaşımı:
-// THREE.ShaderLib.physical base shader + uniform clone + include patching + lights:true
-(function initMissionBeams() {
+// 10. Mission Section — Ethereal Beams (kaldırıldı)
+(function initMissionBeams() { return;
   const canvas = document.getElementById('beams-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
