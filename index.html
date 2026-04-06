@@ -112,7 +112,6 @@
 
       <!-- Koyu başlık + Background Paths animasyonu -->
       <div class="about__hero">
-        <div id="about-bg-paths" class="about__waves" aria-hidden="true"></div>
         <div class="container about__hero-inner">
           <img src="logo.png" alt="Arkoz Gazbeton" style="max-width:180px;display:block;margin:0 auto 1.2rem;filter:brightness(0) invert(1);" />
           <span class="section__tag">Kurumsal</span>
@@ -261,7 +260,6 @@
     <!-- ÜRÜNLER -->
     <section class="services section" id="urunler">
       <div class="page-hero page-hero--dark">
-        <div id="urunler-bg-paths" class="page-hero__waves" aria-hidden="true"></div>
         <div class="container page-hero__inner">
           <img src="logo.png" alt="Arkoz Gazbeton" class="page-hero__logo page-hero__logo--white" />
           <span class="page-hero__tag">Ürünlerimiz</span>
@@ -631,116 +629,6 @@
   </footer>
 
   <script src="script.js" defer></script>
-  <script>
-    // Background Paths — #hakkinda about hero
-    (function () {
-      const container = document.getElementById('about-bg-paths');
-      if (!container) return;
-
-      const NS = 'http://www.w3.org/2000/svg';
-
-      function buildSVG(position) {
-        const svg = document.createElementNS(NS, 'svg');
-        svg.setAttribute('viewBox', '0 0 696 316');
-        svg.setAttribute('fill', 'none');
-        svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
-
-        const pathEls = [];
-        for (let i = 0; i < 36; i++) {
-          const p = position;
-          const d =
-            `M${-(380 - i * 5 * p)} ${-(189 + i * 6)}` +
-            `C${-(380 - i * 5 * p)} ${-(189 + i * 6)} ` +
-            `${-(312 - i * 5 * p)} ${216 - i * 6} ` +
-            `${152 - i * 5 * p} ${343 - i * 6}` +
-            `C${616 - i * 5 * p} ${470 - i * 6} ` +
-            `${684 - i * 5 * p} ${875 - i * 6} ` +
-            `${684 - i * 5 * p} ${875 - i * 6}`;
-
-          const el = document.createElementNS(NS, 'path');
-          el.setAttribute('d', d);
-          el.setAttribute('stroke', 'white');
-          el.setAttribute('stroke-width', String(0.5 + i * 0.03));
-          el.style.opacity = String(0.1 + i * 0.03);
-          svg.appendChild(el);
-          pathEls.push({ el, i });
-        }
-        return { svg, pathEls };
-      }
-
-      const { svg: svg1, pathEls: pe1 } = buildSVG(1);
-      const { svg: svg2, pathEls: pe2 } = buildSVG(-1);
-      container.appendChild(svg1);
-      container.appendChild(svg2);
-
-      requestAnimationFrame(function () {
-        [...pe1, ...pe2].forEach(function ({ el, i }) {
-          const len = el.getTotalLength();
-          if (!len) return;
-          const base = 0.1 + i * 0.03;
-          const dash = len * 0.65;
-          el.setAttribute('stroke-dasharray', dash + ' ' + (len - dash));
-          el.setAttribute('stroke-dashoffset', '0');
-          el.style.opacity = String(base * 0.45);
-        });
-      });
-    })();
-  </script>
-  <script>
-    // Background Paths — #urunler hero (politikalar ile aynı yöntem)
-    (function () {
-      const container = document.getElementById('urunler-bg-paths');
-      if (!container) return;
-
-      const NS = 'http://www.w3.org/2000/svg';
-
-      function buildSVG(position) {
-        const svg = document.createElementNS(NS, 'svg');
-        svg.setAttribute('viewBox', '0 0 696 316');
-        svg.setAttribute('fill', 'none');
-        svg.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;';
-
-        const pathEls = [];
-        for (let i = 0; i < 36; i++) {
-          const p = position;
-          const d =
-            `M${-(380 - i * 5 * p)} ${-(189 + i * 6)}` +
-            `C${-(380 - i * 5 * p)} ${-(189 + i * 6)} ` +
-            `${-(312 - i * 5 * p)} ${216 - i * 6} ` +
-            `${152 - i * 5 * p} ${343 - i * 6}` +
-            `C${616 - i * 5 * p} ${470 - i * 6} ` +
-            `${684 - i * 5 * p} ${875 - i * 6} ` +
-            `${684 - i * 5 * p} ${875 - i * 6}`;
-
-          const el = document.createElementNS(NS, 'path');
-          el.setAttribute('d', d);
-          el.setAttribute('stroke', 'white');
-          el.setAttribute('stroke-width', String(0.5 + i * 0.03));
-          el.style.opacity = String(0.1 + i * 0.03);
-          svg.appendChild(el);
-          pathEls.push({ el, i });
-        }
-        return { svg, pathEls };
-      }
-
-      const { svg: svg1, pathEls: pe1 } = buildSVG(1);
-      const { svg: svg2, pathEls: pe2 } = buildSVG(-1);
-      container.appendChild(svg1);
-      container.appendChild(svg2);
-
-      requestAnimationFrame(function () {
-        [...pe1, ...pe2].forEach(function ({ el, i }) {
-          const len = el.getTotalLength();
-          if (!len) return;
-          const base = 0.1 + i * 0.03;
-          const dash = len * 0.65;
-          el.setAttribute('stroke-dasharray', dash + ' ' + (len - dash));
-          el.setAttribute('stroke-dashoffset', '0');
-          el.style.opacity = String(base * 0.45);
-        });
-      });
-    })();
-  </script>
 
   <!-- AI Chat Widget -->
   <div id="ai-chat-widget">
