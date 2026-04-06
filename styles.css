@@ -868,21 +868,12 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   line-height: 1.5;
 }
 
-/* Misyon & Vizyon — Ethereal Beams animasyonu */
+/* Misyon & Vizyon */
 .mission {
   position: relative;
   padding: 60px 0 80px;
-  background: #000;
+  background: #111;
   overflow: hidden;
-}
-
-#beams-canvas {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  display: block;
 }
 
 .mission .container {
