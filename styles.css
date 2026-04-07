@@ -879,14 +879,14 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .mission__lamp {
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 140px;
+  height: 350px;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
   animation: missionLampIn 1s ease-out 0.3s both;
-  /* Alt kenar tamamen opak — glow kartlara sızmaz */
-  -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 50%, transparent 100%);
+  /* Yavaş smooth geçiş — ışık doğal şekilde söner */
+  -webkit-mask-image: linear-gradient(to bottom, black 25%, rgba(0,0,0,0.6) 55%, transparent 85%);
+  mask-image: linear-gradient(to bottom, black 25%, rgba(0,0,0,0.6) 55%, transparent 85%);
 }
 
 .mission__lamp-bg {
