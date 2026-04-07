@@ -882,45 +882,51 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
-  animation: missionLampIn 1.2s ease-out 0.3s both;
+  animation: missionLampIn 1s ease-out 0.2s both;
 }
 
-/* Spotlight cone */
-.mission__lamp::before {
-  content: '';
+/* Soft conic cone — yumuşak V yayılımı */
+.mission__lamp-cone {
   position: absolute;
   top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(1000px, 120vw);
-  height: 60%;
-  clip-path: polygon(38% 0%, 62% 0%, 100% 100%, 0% 100%);
-  background: linear-gradient(to bottom, rgba(255,255,255,0.13) 0%, rgba(255,255,255,0.04) 50%, transparent 100%);
+  left: 0;
+  right: 0;
+  height: 75%;
+  background: conic-gradient(
+    from 120deg at 50% 0%,
+    transparent           0deg,
+    rgba(255,255,255,0.02) 18deg,
+    rgba(255,255,255,0.10) 50deg,
+    rgba(255,255,255,0.14) 60deg,
+    rgba(255,255,255,0.10) 70deg,
+    rgba(255,255,255,0.02) 102deg,
+    transparent           120deg
+  );
 }
 
-/* Lamp glow blob at source */
-.mission__lamp::after {
-  content: '';
+/* Büyük yumuşak glow blobu — lamba kaynağı */
+.mission__lamp-glow {
   position: absolute;
-  top: -20px;
+  top: -40px;
   left: 50%;
   transform: translateX(-50%);
-  width: 360px;
-  height: 90px;
-  background: radial-gradient(ellipse, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0.1) 45%, transparent 70%);
-  filter: blur(14px);
+  width: 420px;
+  height: 120px;
+  background: radial-gradient(ellipse, rgba(255,255,255,0.55) 0%, rgba(255,255,255,0.18) 35%, transparent 70%);
+  filter: blur(22px);
+  border-radius: 50%;
 }
 
-/* Lamp bar (top horizontal line) */
+/* Lamba çubuğu — ince yatay çizgi */
 .mission__lamp-line {
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  width: min(500px, 85vw);
+  width: min(480px, 85vw);
   height: 2px;
-  background: linear-gradient(to right, transparent, rgba(255,255,255,0.9) 25%, rgba(255,255,255,0.9) 75%, transparent);
-  box-shadow: 0 0 12px 5px rgba(255,255,255,0.2), 0 0 50px 20px rgba(255,255,255,0.08);
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.95) 25%, rgba(255,255,255,0.95) 75%, transparent);
+  box-shadow: 0 0 14px 6px rgba(255,255,255,0.25), 0 0 60px 24px rgba(255,255,255,0.1);
 }
 
 @keyframes missionLampIn {
