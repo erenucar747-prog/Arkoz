@@ -182,7 +182,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   border-color: rgba(255, 255, 255, 0.55);
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(6px);
-  transform: translateZ(0);
 }
 
 .hero__actions .btn--ghost:hover {
@@ -210,7 +209,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 8px 0;
   transition: box-shadow var(--transition);
-  will-change: transform;
 }
 
 .header.scrolled {
@@ -408,7 +406,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   justify-content: center;
   transition: background 0.3s;
   backdrop-filter: blur(4px);
-  transform: translateZ(0);
 }
 
 .hero__arrow:hover { background: rgba(255,255,255,0.3); }
@@ -488,7 +485,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   padding: 8px 18px;
   border-radius: var(--radius-full);
   backdrop-filter: blur(8px);
-  transform: translateZ(0);
 }
 
 .hero__title {
@@ -583,7 +579,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 /* 7. About */
-.about { background: var(--color-bg-2); padding-top: 0; contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 700px; }
+.about { background: var(--color-bg-2); padding-top: 0; contain: layout style; }
 
 /* About Hero — Background Paths animasyonu */
 .about__hero {
@@ -657,7 +653,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   left: 16px;
   background: rgba(45, 42, 143, 0.90);
   backdrop-filter: blur(8px);
-  transform: translateZ(0);
   color: #fff;
   padding: 10px 18px;
   border-radius: var(--radius-md);
@@ -720,7 +715,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .about__list li:last-child { border: none; }
 
 /* 8. Services */
-.services { background: var(--color-bg); padding-top: 0; contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 800px; }
+.services { background: var(--color-bg); padding-top: 0; contain: layout style; }
 
 .services .container { padding-top: 60px; }
 
@@ -868,74 +863,21 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   line-height: 1.5;
 }
 
-/* Misyon & Vizyon — Lamp Effect */
+/* Misyon & Vizyon — Ethereal Beams animasyonu */
 .mission {
   position: relative;
   padding: 60px 0 80px;
-  background: #0a0a0a;
+  background: #000;
   overflow: hidden;
 }
 
-.mission__lamp {
+#beams-canvas {
   position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 350px;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-  animation: missionLampIn 1s ease-out 0.3s both;
-  /* Yavaş smooth geçiş — ışık doğal şekilde söner */
-  -webkit-mask-image: linear-gradient(to bottom, black 25%, rgba(0,0,0,0.6) 55%, transparent 85%);
-  mask-image: linear-gradient(to bottom, black 25%, rgba(0,0,0,0.6) 55%, transparent 85%);
-}
-
-.mission__lamp-bg {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 100%;
-  background:
-    radial-gradient(ellipse 40% 120% at 50% 0%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 35%, rgba(255,255,255,0) 70%),
-    radial-gradient(ellipse 100% 100% at 50% 0%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 80%);
-}
-
-.mission__lamp-bg::before {
-  content: '';
-  position: absolute;
-  right: 50%;
-  top: 0;
-  width: 600px;
-  height: 100%;
-  background:
-    linear-gradient(to right, #0a0a0a 0%, rgba(10,10,10,0) 25%),
-    conic-gradient(from 70deg at 100% 0%, rgba(255,255,255,0.6), rgba(255,255,255,0) 50%);
-}
-
-.mission__lamp-bg::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 0;
-  width: 600px;
-  height: 100%;
-  background:
-    linear-gradient(to left, #0a0a0a 0%, rgba(10,10,10,0) 25%),
-    conic-gradient(from 290deg at 0% 0%, rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0.6));
-}
-
-.mission__lamp-line {
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: min(600px, 92vw);
-  height: 2px;
-  background: rgba(255,255,255,0.75);
-  box-shadow: 0 0 16px 6px rgba(255,255,255,0.25), 0 0 50px 15px rgba(255,255,255,0.08);
-}
-
-@keyframes missionLampIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  display: block;
 }
 
 .mission .container {
@@ -1191,7 +1133,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .product__table td:last-child { color: var(--color-primary); font-weight: 600; }
 
 /* 9. Avantajlar (Projects bölümü yeniden kullanılıyor) */
-.projects { background: var(--color-bg-2); contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.projects { background: var(--color-bg-2); contain: layout style; }
 
 .projects__grid {
   display: grid;

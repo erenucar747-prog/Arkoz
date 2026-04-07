@@ -4,26 +4,6 @@
 
 'use strict';
 
-// Lenis smooth scroll — profesyonel siteler standardı (Three.js Journey, Awwwards vb.)
-const lenis = (typeof Lenis !== 'undefined') ? new Lenis({ duration: 1.2 }) : null;
-let _isScrolling = false, _scrollPauseTimer = null;
-if (lenis) {
-  (function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); })();
-  // Lenis callback ile WebGL pause — daha temiz entegrasyon
-  lenis.on('scroll', () => {
-    _isScrolling = true;
-    clearTimeout(_scrollPauseTimer);
-    _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
-  });
-} else {
-  // Fallback: Lenis yoksa native scroll
-  window.addEventListener('scroll', () => {
-    _isScrolling = true;
-    clearTimeout(_scrollPauseTimer);
-    _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
-  }, { passive: true });
-}
-
 // 0. Intro — Three.js Shader Animasyonu (component ile birebir aynı formül)
 let introActive = false;
 
@@ -153,13 +133,8 @@ window.addEventListener('pageshow', function(e) {
   const header = document.getElementById('header');
   if (!header) return;
 
-  let _headerRaf = null;
   const onScroll = () => {
-    if (_headerRaf) return;
-    _headerRaf = requestAnimationFrame(() => {
-      _headerRaf = null;
-      header.classList.toggle('scrolled', window.scrollY > 40);
-    });
+    header.classList.toggle('scrolled', window.scrollY > 40);
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -329,7 +304,7 @@ window.addEventListener('pageshow', function(e) {
       e.preventDefault();
       const offset = 80;
       const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      if (lenis) { lenis.scrollTo(top); } else { window.scrollTo({ top, behavior: 'smooth' }); }
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 })();
@@ -481,8 +456,10 @@ window.addEventListener('pageshow', function(e) {
   }, { threshold: 0 }).observe(hero);
 })();
 
-// 10. Mission Section — Ethereal Beams (kaldırıldı)
-(function initMissionBeams() { return;
+// 10. Mission Section — Ethereal Beams
+// Referans (ethereal-beams-hero.tsx) extendMaterial yaklaşımı:
+// THREE.ShaderLib.physical base shader + uniform clone + include patching + lights:true
+(function initMissionBeams() {
   const canvas = document.getElementById('beams-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
@@ -665,8 +642,26 @@ vec3 eb_getNorm(vec3 pos){
   resize();
   window.addEventListener('resize', resize);
 
-  // Tek kare render — animasyon yok, sabit görüntü
-  matUni.time.value = 1.5;
-  resize();
-  renderer.render(scene, camera);
+  // ── Animation loop — pause when not visible ──────────────────────────────
+  let last = performance.now();
+  let beamsRafId = null;
+  let beamsVisible = false;
+
+  function beamsLoop(now) {
+    if (!beamsVisible) { beamsRafId = null; return; }
+    beamsRafId = requestAnimationFrame(beamsLoop);
+    const delta = Math.min((now - last) / 1000, 0.05);
+    last = now;
+    matUni.time.value += 0.1 * delta;
+    renderer.render(scene, camera);
+  }
+
+  const beamsObserver = new IntersectionObserver(function(entries) {
+    beamsVisible = entries[0].isIntersecting;
+    if (beamsVisible && !beamsRafId) {
+      last = performance.now();
+      beamsRafId = requestAnimationFrame(beamsLoop);
+    }
+  }, { threshold: 0.1 });
+  beamsObserver.observe(canvas);
 })();
