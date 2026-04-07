@@ -14,7 +14,6 @@
       font-family: 'Inter', sans-serif;
     }
 
-    /* ─── INTRO OVERLAY ─── */
     #intro {
       position: fixed;
       inset: 0;
@@ -27,7 +26,6 @@
     }
     #intro.fade-out { opacity: 0; pointer-events: none; }
 
-    /* ─── TREE SVG ─── */
     #tree-container {
       position: absolute;
       inset: 0;
@@ -40,13 +38,11 @@
       height: 100vh;
     }
 
-    /* ─── GROUND GLOW ─── */
     .ground-glow {
       opacity: 0;
       transition: opacity 2s ease;
     }
 
-    /* ─── LOGO ─── */
     #logo-wrap {
       position: absolute;
       bottom: 12%;
@@ -71,7 +67,6 @@
       text-transform: uppercase;
     }
 
-    /* ─── SKIP BUTTON ─── */
     #skip-btn {
       position: fixed;
       bottom: 28px;
@@ -91,7 +86,6 @@
     #skip-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
     #skip-btn.hidden { opacity: 0; pointer-events: none; }
 
-    /* ─── MAIN PAGE (placeholder) ─── */
     #main-page {
       position: fixed;
       inset: 0;
@@ -109,39 +103,32 @@
 </head>
 <body>
 
-<!-- Ana sayfa arkada bekler -->
 <div id="main-page">ANA SAYFA İÇERİĞİ</div>
 
-<!-- INTRO -->
 <div id="intro">
   <div id="tree-container">
     <svg id="tree-svg" viewBox="0 0 800 900" preserveAspectRatio="xMidYMax meet" xmlns="http://www.w3.org/2000/svg">
       <defs>
-        <!-- Radial glow for leaf clusters -->
         <filter id="leaf-glow" x="-40%" y="-40%" width="180%" height="180%">
           <feGaussianBlur stdDeviation="6" result="blur"/>
           <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
-        <!-- Soft ground glow -->
         <radialGradient id="groundGrad" cx="50%" cy="100%" r="50%">
           <stop offset="0%" stop-color="#3a6e22" stop-opacity="0.35"/>
           <stop offset="100%" stop-color="#3a6e22" stop-opacity="0"/>
         </radialGradient>
       </defs>
 
-      <!-- Ground glow (appears when tree greens) -->
       <ellipse class="ground-glow" id="ground-glow-el"
         cx="400" cy="875" rx="260" ry="40"
         fill="url(#groundGrad)"/>
 
-      <!-- ══ TRUNK ══ -->
       <path id="trunk"
         d="M400 875 Q396 825 393 785 Q389 745 391 705 Q393 665 396 635"
         stroke="#5c3d22" stroke-width="24" fill="none"
         stroke-linecap="round" stroke-linejoin="round"
         stroke-dasharray="310" stroke-dashoffset="310"/>
 
-      <!-- ══ MAIN BRANCHES ══ -->
       <path id="b-l1"
         d="M393 705 Q358 675 325 650 Q292 626 262 608"
         stroke="#5c3d22" stroke-width="15" fill="none" stroke-linecap="round"
@@ -155,7 +142,6 @@
         stroke="#5c3d22" stroke-width="11" fill="none" stroke-linecap="round"
         stroke-dasharray="155" stroke-dashoffset="155"/>
 
-      <!-- ══ SUB-BRANCHES LEFT ══ -->
       <path id="b-l1a"
         d="M262 608 Q236 582 214 560 Q192 538 178 518"
         stroke="#6b4a2a" stroke-width="9" fill="none" stroke-linecap="round"
@@ -169,7 +155,6 @@
         stroke="#6b4a2a" stroke-width="7" fill="none" stroke-linecap="round"
         stroke-dasharray="122" stroke-dashoffset="122"/>
 
-      <!-- ══ SUB-BRANCHES RIGHT ══ -->
       <path id="b-r1a"
         d="M518 596 Q544 570 565 548 Q586 526 598 506"
         stroke="#6b4a2a" stroke-width="9" fill="none" stroke-linecap="round"
@@ -183,7 +168,6 @@
         stroke="#6b4a2a" stroke-width="7" fill="none" stroke-linecap="round"
         stroke-dasharray="122" stroke-dashoffset="122"/>
 
-      <!-- ══ TOP SUB-BRANCHES ══ -->
       <path id="b-t1a"
         d="M383 492 Q366 466 350 444 Q334 422 322 404"
         stroke="#6b4a2a" stroke-width="8" fill="none" stroke-linecap="round"
@@ -197,7 +181,6 @@
         stroke="#6b4a2a" stroke-width="7" fill="none" stroke-linecap="round"
         stroke-dasharray="115" stroke-dashoffset="115"/>
 
-      <!-- ══ TWIGS ══ -->
       <path id="tw1" d="M178 518 Q165 500 154 482 Q143 464 138 448"
         stroke="#7a5530" stroke-width="5" fill="none" stroke-linecap="round"
         stroke-dasharray="85" stroke-dashoffset="85"/>
@@ -241,15 +224,11 @@
         stroke="#7a5530" stroke-width="4" fill="none" stroke-linecap="round"
         stroke-dasharray="55" stroke-dashoffset="55"/>
 
-      <!-- ══ LEAF CLUSTERS (hidden, drawn by JS) ══ -->
       <g id="leaves" filter="url(#leaf-glow)"></g>
-
-      <!-- ══ POLLEN PARTICLES (drawn by JS) ══ -->
       <g id="particles"></g>
     </svg>
   </div>
 
-  <!-- Logo -->
   <div id="logo-wrap">
     <img src="logo.png" alt="Arkoz Gazbeton">
     <p id="tagline">Sürdürülebilir Yapı Çözümleri</p>
@@ -259,13 +238,8 @@
 <button id="skip-btn">Geç &rarr;</button>
 
 <script>
-/* ════════════════════════════════════════════
-   ARKOZ — TREE INTRO ANIMATION ENGINE
-   ════════════════════════════════════════════ */
-
 'use strict';
 
-// ── Branch draw sequence ──────────────────────
 const BRANCHES = [
   { id: 'trunk',  delay:    0, dur: 1050 },
   { id: 'b-l1',  delay:  850, dur:  820 },
@@ -296,21 +270,17 @@ const BRANCHES = [
   { id: 'tw14',  delay: 2280, dur:  380 },
 ];
 
-// ── Leaf cluster positions (twig tips) ────────
 const LEAF_CLUSTERS = [
-  // Left canopy
   { cx: 138, cy: 448, r: 38 }, { cx: 160, cy: 490, r: 26 },
   { cx: 208, cy: 462, r: 32 }, { cx: 188, cy: 510, r: 28 },
   { cx: 222, cy: 495, r: 30 }, { cx: 244, cy: 530, r: 30 },
   { cx: 212, cy: 542, r: 32 }, { cx: 178, cy: 518, r: 42 },
   { cx: 262, cy: 608, r: 36 },
-  // Right canopy
   { cx: 644, cy: 434, r: 38 }, { cx: 618, cy: 474, r: 26 },
   { cx: 590, cy: 446, r: 32 }, { cx: 568, cy: 478, r: 28 },
   { cx: 575, cy: 480, r: 30 }, { cx: 550, cy: 516, r: 30 },
   { cx: 554, cy: 512, r: 32 }, { cx: 598, cy: 506, r: 42 },
   { cx: 518, cy: 596, r: 36 },
-  // Top canopy
   { cx: 285, cy: 334, r: 34 }, { cx: 304, cy: 372, r: 26 },
   { cx: 338, cy: 320, r: 30 }, { cx: 350, cy: 354, r: 28 },
   { cx: 476, cy: 328, r: 34 }, { cx: 455, cy: 366, r: 26 },
@@ -319,7 +289,6 @@ const LEAF_CLUSTERS = [
   { cx: 322, cy: 404, r: 38 }, { cx: 438, cy: 398, r: 38 },
 ];
 
-// ── Helpers ───────────────────────────────────
 const SVG_NS = 'http://www.w3.org/2000/svg';
 const rnd = (min, max) => min + Math.random() * (max - min);
 
@@ -344,39 +313,30 @@ function setColor(selector, color, delay, dur = 2200) {
   }, delay);
 }
 
-// ── Generate leaf clusters ────────────────────
 function buildLeaves() {
   const group = document.getElementById('leaves');
-
   LEAF_CLUSTERS.forEach(c => {
     const offsets = [
-      { dx:  0,        dy:  0,        rr: 1.00 },
-      { dx:  c.r*.55,  dy: -c.r*.30,  rr: 0.82 },
-      { dx: -c.r*.50,  dy: -c.r*.22,  rr: 0.78 },
-      { dx:  c.r*.18,  dy:  c.r*.45,  rr: 0.65 },
-      { dx: -c.r*.32,  dy:  c.r*.48,  rr: 0.60 },
-      { dx:  c.r*.70,  dy:  c.r*.18,  rr: 0.55 },
-      { dx: -c.r*.65,  dy:  c.r*.25,  rr: 0.52 },
+      { dx: 0, dy: 0, rr: 1.00 },
+      { dx: c.r*.55, dy: -c.r*.30, rr: 0.82 },
+      { dx: -c.r*.50, dy: -c.r*.22, rr: 0.78 },
+      { dx: c.r*.18, dy: c.r*.45, rr: 0.65 },
+      { dx: -c.r*.32, dy: c.r*.48, rr: 0.60 },
+      { dx: c.r*.70, dy: c.r*.18, rr: 0.55 },
+      { dx: -c.r*.65, dy: c.r*.25, rr: 0.52 },
     ];
-
     offsets.forEach(o => {
       const cx = c.cx + o.dx;
       const cy = c.cy + o.dy;
-      const r  = c.r  * o.rr;
-      const hue = rnd(108, 138);
-      const sat = rnd(55, 72);
-      const lit = rnd(24, 38);
-
+      const r  = c.r * o.rr;
       const circle = document.createElementNS(SVG_NS, 'circle');
       circle.setAttribute('cx', cx);
       circle.setAttribute('cy', cy);
-      circle.setAttribute('r',  r);
-      circle.setAttribute('fill', `hsl(${hue},${sat}%,${lit}%)`);
+      circle.setAttribute('r', r);
+      circle.setAttribute('fill', `hsl(${rnd(108,138)},${rnd(55,72)}%,${rnd(24,38)}%)`);
       circle.style.transformOrigin = `${cx}px ${cy}px`;
       circle.style.transform = 'scale(0)';
       circle.style.opacity = '0.92';
-      circle.dataset.cx = cx;
-      circle.dataset.cy = cy;
       group.appendChild(circle);
     });
   });
@@ -385,114 +345,59 @@ function buildLeaves() {
 function revealLeaves(startDelay) {
   const circles = document.querySelectorAll('#leaves circle');
   circles.forEach((c, i) => {
-    const jitter = rnd(0, 200);
     setTimeout(() => {
-      c.style.transition = `transform ${rnd(380, 550)}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
+      c.style.transition = `transform ${rnd(380,550)}ms cubic-bezier(0.34, 1.56, 0.64, 1)`;
       c.style.transform = 'scale(1)';
-    }, startDelay + i * 18 + jitter);
+    }, startDelay + i * 18 + rnd(0, 200));
   });
 }
 
-// ── Floating pollen particles ─────────────────
 function spawnParticles(delay) {
   const g = document.getElementById('particles');
-  const count = 28;
-
   setTimeout(() => {
-    for (let i = 0; i < count; i++) {
+    for (let i = 0; i < 28; i++) {
       const c = document.createElementNS(SVG_NS, 'circle');
-      const x = rnd(180, 620);
-      const y = rnd(300, 750);
-      const r = rnd(1.5, 4);
-      c.setAttribute('cx', x);
-      c.setAttribute('cy', y);
-      c.setAttribute('r',  r);
+      c.setAttribute('cx', rnd(180, 620));
+      c.setAttribute('cy', rnd(300, 750));
+      c.setAttribute('r', rnd(1.5, 4));
       c.setAttribute('fill', `hsl(${rnd(90,140)},60%,${rnd(55,75)}%)`);
       c.style.opacity = '0';
       g.appendChild(c);
-
-      const driftX = rnd(-40, 40);
-      const driftY = rnd(-80, -180);
-      const ttl    = rnd(2800, 5200);
-      const delay2 = rnd(0, 1200);
-
+      const driftX = rnd(-40, 40), driftY = rnd(-80, -180);
+      const ttl = rnd(2800, 5200), d2 = rnd(0, 1200);
       setTimeout(() => {
         c.style.transition = `opacity 600ms ease, transform ${ttl}ms cubic-bezier(0.2,0.8,0.4,1)`;
         c.style.opacity = rnd(0.35, 0.75);
-        c.style.transform = `translate(${driftX}px, ${driftY}px) scale(${rnd(0.4,1.4)})`;
+        c.style.transform = `translate(${driftX}px,${driftY}px) scale(${rnd(0.4,1.4)})`;
         setTimeout(() => { c.style.opacity = '0'; }, ttl * 0.65);
-      }, delay2);
+      }, d2);
     }
   }, delay);
 }
 
-// ── Background color pulse ─────────────────────
-function pulseBackground(delay) {
-  setTimeout(() => {
-    document.getElementById('intro').style.transition = 'background 2.5s cubic-bezier(0.4,0,0.2,1)';
-    document.getElementById('intro').style.background =
-      'radial-gradient(ellipse at 50% 55%, #0e280e 0%, #060e06 75%)';
-  }, delay);
-}
-
-// ── Ground glow ───────────────────────────────
-function showGroundGlow(delay) {
-  setTimeout(() => {
-    document.getElementById('ground-glow-el').style.opacity = '1';
-  }, delay);
-}
-
-// ── Logo ──────────────────────────────────────
-function showLogo(delay) {
-  setTimeout(() => {
-    document.getElementById('logo-wrap').style.opacity = '1';
-  }, delay);
-}
-
-// ── End intro ─────────────────────────────────
 function endIntro() {
   const intro = document.getElementById('intro');
-  const skip  = document.getElementById('skip-btn');
   intro.classList.add('fade-out');
-  skip.classList.add('hidden');
+  document.getElementById('skip-btn').classList.add('hidden');
   setTimeout(() => { intro.style.display = 'none'; }, 1300);
 }
 
-// ══ MAIN SEQUENCE ═════════════════════════════
 function runIntro() {
-  // 1. Draw all branches
   BRANCHES.forEach(b => drawPath(b.id, b.delay, b.dur));
-
-  // 2. Branches turn alive (brown → dark green)
   setColor('#tree-svg path', '#3e5c22', 2700, 2000);
-
-  // 3. Background deepens
-  pulseBackground(2800);
-
-  // 4. Ground glow
-  showGroundGlow(2900);
-
-  // 5. Leaves burst out
+  setTimeout(() => {
+    document.getElementById('intro').style.transition = 'background 2.5s ease';
+    document.getElementById('intro').style.background = 'radial-gradient(ellipse at 50% 55%, #0e280e 0%, #060e06 75%)';
+  }, 2800);
+  setTimeout(() => { document.getElementById('ground-glow-el').style.opacity = '1'; }, 2900);
   revealLeaves(2950);
-
-  // 6. Pollen particles float
   spawnParticles(3400);
-
-  // 7. Logo fades in
-  showLogo(4800);
-
-  // 8. Outro — entire screen fades away
+  setTimeout(() => { document.getElementById('logo-wrap').style.opacity = '1'; }, 4800);
   setTimeout(endIntro, 7200);
 }
 
-// ── Skip ──────────────────────────────────────
 document.getElementById('skip-btn').addEventListener('click', endIntro);
-
-// ── Boot ──────────────────────────────────────
-window.addEventListener('load', () => {
-  buildLeaves();
-  setTimeout(runIntro, 200);
-});
+window.addEventListener('load', () => { buildLeaves(); setTimeout(runIntro, 200); });
 </script>
 </body>
 </html>
