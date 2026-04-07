@@ -879,24 +879,25 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .mission__lamp {
   position: absolute;
   top: 0; left: 0; right: 0;
-  height: 260px;
+  height: 350px;
   z-index: 0;
   pointer-events: none;
   overflow: hidden;
   animation: missionLampIn 1s ease-out 0.3s both;
+  /* Yavaş smooth geçiş — ışık doğal şekilde söner */
+  -webkit-mask-image: linear-gradient(to bottom, black 25%, rgba(0,0,0,0.6) 55%, transparent 85%);
+  mask-image: linear-gradient(to bottom, black 25%, rgba(0,0,0,0.6) 55%, transparent 85%);
 }
 
-/* Tüm ışık katmanları burada */
 .mission__lamp-bg {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 100%;
   background:
-    radial-gradient(ellipse 40% 70% at 50% 0%, rgba(255,255,255,0.75) 0%, rgba(255,255,255,0.25) 30%, rgba(255,255,255,0) 75%),
-    radial-gradient(ellipse 100% 100% at 50% 0%, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 80%);
+    radial-gradient(ellipse 40% 120% at 50% 0%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.2) 35%, rgba(255,255,255,0) 70%),
+    radial-gradient(ellipse 100% 100% at 50% 0%, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0) 80%);
 }
 
-/* Sol kanat */
 .mission__lamp-bg::before {
   content: '';
   position: absolute;
@@ -909,7 +910,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
     conic-gradient(from 70deg at 100% 0%, rgba(255,255,255,0.6), rgba(255,255,255,0) 50%);
 }
 
-/* Sağ kanat */
 .mission__lamp-bg::after {
   content: '';
   position: absolute;
@@ -922,7 +922,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
     conic-gradient(from 290deg at 0% 0%, rgba(255,255,255,0), rgba(255,255,255,0), rgba(255,255,255,0.6));
 }
 
-/* Lamba çubuğu */
 .mission__lamp-line {
   position: absolute;
   top: 0;
@@ -931,7 +930,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   width: min(600px, 92vw);
   height: 2px;
   background: rgba(255,255,255,0.75);
-  box-shadow: 0 0 20px 8px rgba(255,255,255,0.3), 0 0 80px 30px rgba(255,255,255,0.12);
+  box-shadow: 0 0 16px 6px rgba(255,255,255,0.25), 0 0 50px 15px rgba(255,255,255,0.08);
 }
 
 @keyframes missionLampIn {
