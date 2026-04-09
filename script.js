@@ -671,12 +671,12 @@ vec3 eb_getNorm(vec3 pos){
   renderer.render(scene, camera);
 })();
 
-// ── Mission Slideshow ────────────────────────────────────────────────────────
-(function initMissionSlideshow() {
-  const el = document.getElementById('missionSlideshow');
+// ── Reklam Panosu Slideshow ──────────────────────────────────────────────────
+(function initAdvSlideshow() {
+  const el = document.getElementById('advSlideshow');
   if (!el) return;
-  const slides = el.querySelectorAll('.mission__slide');
-  const dots = el.querySelectorAll('.mission__slide-dot');
+  const slides = el.querySelectorAll('.adv-slide');
+  const dots = el.querySelectorAll('.adv-slide-dot');
   if (!slides.length) return;
 
   let current = 0;

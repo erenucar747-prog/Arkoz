@@ -1065,36 +1065,119 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   .mission__grid { grid-template-columns: 1fr; }
 }
 
-/* ── Mission Slideshow (reklam panosu) ──────────────────────────────────── */
-.mission__slideshow {
+/* ── Mission Gallery (fabrika fotoğrafları bento grid — 5 foto) ─────────── */
+.mission__gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 300px 200px;
+  gap: 12px;
+  margin-top: 0;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Satır 1: panorama 2 sütun kaplıyor, sağda dar foto */
+.mission__photo--span2 {
+  grid-column: span 2;
+}
+
+.mission__photo {
+  position: relative;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.10);
+  cursor: pointer;
+}
+
+.mission__photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease;
+}
+
+.mission__photo__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.05) 50%, transparent 100%);
+  display: flex;
+  align-items: flex-end;
+  padding: 18px 20px;
+  transition: background 0.4s ease;
+}
+
+.mission__photo__caption {
+  color: rgba(255,255,255,0.82);
+  font-size: 0.82rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transform: translateY(5px);
+  transition: transform 0.35s ease, color 0.35s ease;
+}
+
+.mission__photo:hover img {
+  transform: scale(1.05);
+}
+
+.mission__photo:hover .mission__photo__overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.30) 0%, transparent 60%);
+}
+
+.mission__photo:hover .mission__photo__caption {
+  transform: translateY(0);
+  color: #fff;
+}
+
+@media (max-width: 900px) {
+  .mission__gallery {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 200px 200px 200px;
+    gap: 8px;
+  }
+  .mission__photo--span2 { grid-column: span 2; }
+}
+
+@media (max-width: 480px) {
+  .mission__gallery {
+    grid-template-columns: 1fr;
+    grid-template-rows: repeat(5, 200px);
+    gap: 8px;
+  }
+  .mission__photo--span2 { grid-column: span 1; }
+}
+
+/* ── Reklam Panosu Slideshow (gazbeton bölümü altı) ─────────────────────── */
+.adv-slideshow {
   position: relative;
   width: 100%;
   height: 420px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  margin-bottom: 60px;
-  border: 1px solid rgba(255,255,255,0.10);
+  margin-top: 48px;
+  border: 1px solid rgba(0,0,0,0.08);
 }
 
-.mission__slide {
+.adv-slide {
   position: absolute;
   inset: 0;
   opacity: 0;
   transition: opacity 1s ease;
 }
 
-.mission__slide.active {
+.adv-slide.active {
   opacity: 1;
 }
 
-.mission__slide img {
+.adv-slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.mission__slide-dots {
+.adv-slide-dots {
   position: absolute;
   bottom: 16px;
   left: 50%;
@@ -1104,28 +1187,28 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   z-index: 2;
 }
 
-.mission__slide-dot {
+.adv-slide-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   border: none;
-  background: rgba(255,255,255,0.35);
+  background: rgba(255,255,255,0.40);
   cursor: pointer;
   padding: 0;
   transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.mission__slide-dot.active {
-  background: rgba(255,255,255,0.90);
+.adv-slide-dot.active {
+  background: rgba(255,255,255,0.92);
   transform: scale(1.25);
 }
 
 @media (max-width: 768px) {
-  .mission__slideshow { height: 280px; }
+  .adv-slideshow { height: 280px; }
 }
 
 @media (max-width: 480px) {
-  .mission__slideshow { height: 220px; }
+  .adv-slideshow { height: 220px; }
 }
 
 /* Ürün teknik tablosu */
