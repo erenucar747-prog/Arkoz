@@ -670,3 +670,44 @@ vec3 eb_getNorm(vec3 pos){
   resize();
   renderer.render(scene, camera);
 })();
+
+// ── Mission Slideshow ────────────────────────────────────────────────────────
+(function initMissionSlideshow() {
+  const el = document.getElementById('missionSlideshow');
+  if (!el) return;
+  const slides = el.querySelectorAll('.mission__slide');
+  const dots = el.querySelectorAll('.mission__slide-dot');
+  if (!slides.length) return;
+
+  let current = 0;
+  let timer = null;
+
+  function goTo(idx) {
+    slides[current].classList.remove('active');
+    if (dots[current]) dots[current].classList.remove('active');
+    current = (idx + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    if (dots[current]) dots[current].classList.add('active');
+  }
+
+  function start() {
+    if (timer) return;
+    timer = setInterval(function() { goTo(current + 1); }, 4000);
+  }
+
+  function stop() { clearInterval(timer); timer = null; }
+
+  dots.forEach(function(dot, i) {
+    dot.addEventListener('click', function() { goTo(i); stop(); start(); });
+  });
+
+  el.addEventListener('mouseenter', stop);
+  el.addEventListener('mouseleave', start);
+
+  new IntersectionObserver(function(entries) {
+    if (entries[0].isIntersecting) { start(); }
+    else { stop(); }
+  }, { threshold: 0.2 }).observe(el);
+
+  start();
+}());
