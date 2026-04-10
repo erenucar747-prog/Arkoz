@@ -1157,6 +1157,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   overflow: hidden;
   margin-top: 48px;
   border: 1px solid rgba(0,0,0,0.08);
+  background: var(--color-bg-2);
 }
 
 .adv-slide {
@@ -1164,6 +1165,9 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   inset: 0;
   opacity: 0;
   transition: opacity 1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .adv-slide.active {
@@ -1171,10 +1175,12 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 .adv-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
   display: block;
+  object-fit: contain;
 }
 
 .adv-slide-dots {
