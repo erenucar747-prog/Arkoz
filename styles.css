@@ -60,6 +60,7 @@
   --gradient-primary: linear-gradient(135deg, #2D2A8F 0%, #1E1B5E 100%);
   --gradient-dark: linear-gradient(135deg, #EAEAF2 0%, #F4F4F8 100%);
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --radius: 12px;
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 20px;
@@ -258,6 +259,11 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   background: rgba(45, 42, 143, 0.06);
 }
 
+.nav__link--active {
+  color: var(--color-primary);
+  border-bottom: 2px solid var(--color-primary);
+}
+
 .nav__link--cta {
   background: var(--gradient-primary);
   color: #fff !important;
@@ -392,7 +398,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .hero__arrow {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-50%) translateZ(0);
   z-index: 4;
   background: rgba(255,255,255,0.15);
   border: 1px solid rgba(255,255,255,0.3);
@@ -408,7 +414,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   justify-content: center;
   transition: background 0.3s;
   backdrop-filter: blur(4px);
-  transform: translateZ(0);
 }
 
 .hero__arrow:hover { background: rgba(255,255,255,0.3); }
@@ -1157,7 +1162,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   overflow: hidden;
   margin-top: 48px;
   border: 1px solid rgba(0,0,0,0.08);
-  background: var(--color-bg-2);
 }
 
 .adv-slide {
@@ -1165,9 +1169,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   inset: 0;
   opacity: 0;
   transition: opacity 1s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .adv-slide.active {
@@ -1175,12 +1176,10 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 .adv-slide img {
-  max-width: 100%;
-  max-height: 100%;
-  width: auto;
-  height: auto;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   display: block;
-  object-fit: contain;
 }
 
 .adv-slide-dots {
@@ -1666,7 +1665,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 
 .toast.show { transform: translateY(0); opacity: 1; }
 .toast.success { border-color: #00c896; color: #00c896; }
-.toast.error { border-color: var(--color-secondary); color: var(--color-secondary); }
+.toast.error { border-color: #c0392b; color: #c0392b; }
 
 /* 14. Responsive */
 @media (max-width: 1024px) {

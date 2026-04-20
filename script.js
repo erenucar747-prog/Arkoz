@@ -188,7 +188,7 @@ window.addEventListener('pageshow', function(e) {
   });
 })();
 
-// 3. Sayı Sayaç Animasyonu (Hero Stats)
+// 3. Sayı Sayaç Animasyonu (Hero Stats) — HTML elementleri kaldırıldığı için devre dışı
 (function initCounter() {
   const counters = document.querySelectorAll('.hero__stat-num[data-count]');
   if (!counters.length) return;
@@ -306,13 +306,31 @@ window.addEventListener('pageshow', function(e) {
     btn.disabled = true;
     btn.innerHTML = '<span>Gönderiliyor...</span>';
 
-    // Simüle edilmiş gönderim (backend entegrasyonuna hazır)
-    await new Promise(r => setTimeout(r, 1200));
+    const data = new FormData(form);
+    data.append('_subject', 'Arkoz Gazbeton — Yeni Teklif Talebi');
+    data.append('_template', 'table');
+    data.append('_captcha', 'false');
 
-    btn.disabled = false;
-    btn.innerHTML = original;
-    form.reset();
-    showToast('✅ Mesajınız gönderildi! En kısa sürede dönüş yapacağız.', 'success');
+    try {
+      const res = await fetch('https://formsubmit.co/ajax/info@arkozgazbeton.com.tr', {
+        method: 'POST',
+        headers: { 'Accept': 'application/json' },
+        body: data
+      });
+      const json = await res.json();
+      btn.disabled = false;
+      btn.innerHTML = original;
+      if (json.success === 'true' || json.success === true) {
+        form.reset();
+        showToast('✅ Mesajınız gönderildi! En kısa sürede dönüş yapacağız.', 'success');
+      } else {
+        showToast('❌ Gönderim sırasında hata oluştu, lütfen tekrar deneyin.', 'error');
+      }
+    } catch {
+      btn.disabled = false;
+      btn.innerHTML = original;
+      showToast('❌ Bağlantı hatası, lütfen tekrar deneyin.', 'error');
+    }
   });
 })();
 
@@ -468,21 +486,10 @@ window.addEventListener('pageshow', function(e) {
   startTimer();
 })();
 
-// 10a. Hero blob ve scroll-line animasyonları — hero off-screen olunca pause et
-(function pauseHeroBlobsWhenOffScreen() {
-  const hero = document.getElementById('hero');
-  if (!hero) return;
-  const blobs = document.querySelectorAll('.hero__blob');
-  const scrollLine = document.querySelector('.hero__scroll-line');
-  new IntersectionObserver(function(entries) {
-    const state = entries[0].isIntersecting ? 'running' : 'paused';
-    blobs.forEach(function(b) { b.style.animationPlayState = state; });
-    if (scrollLine) scrollLine.style.animationPlayState = state;
-  }, { threshold: 0 }).observe(hero);
-})();
+// 10a. pauseHeroBlobsWhenOffScreen — .hero__blob ve .hero__scroll-line HTML'de yok, kaldırıldı
 
-// 10. Mission Section — Ethereal Beams (kaldırıldı)
-(function initMissionBeams() { return;
+// 10. Mission Section — Ethereal Beams (devre dışı)
+(function initMissionBeams() { return; /* devre dışı */
   const canvas = document.getElementById('beams-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
