@@ -462,12 +462,17 @@ window.addEventListener('pageshow', function(e) {
   }
 
   function goTo(index) {
-    slides[current].classList.remove('hero__slide--active');
+    const prev = current;
+    slides[prev].classList.remove('hero__slide--active');
+    slides[prev].classList.add('hero__slide--transitioning');
     dots[current].classList.remove('hero__dot--active');
     current = (index + slides.length) % slides.length;
-    slides[current].classList.add('hero__slide--active');
+    slides[current].classList.add('hero__slide--active', 'hero__slide--transitioning');
     dots[current].classList.add('hero__dot--active');
     updateTextVisibility();
+    setTimeout(() => {
+      slides.forEach(s => s.classList.remove('hero__slide--transitioning'));
+    }, 1050);
   }
 
   function startTimer() {
