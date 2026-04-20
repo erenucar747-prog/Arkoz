@@ -110,7 +110,7 @@ function runIntro() {
   scene.add(new THREE.Mesh(geometry, material));
 
   const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(window.devicePixelRatio);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   container.appendChild(renderer.domElement);
 
   function onResize() {
