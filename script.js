@@ -724,6 +724,37 @@ vec3 eb_getNorm(vec3 pos){
   start();
 }());
 
+// Stats Bar — Animasyonlu Sayaç
+(function initStatsCounter() {
+  const items = document.querySelectorAll('.stats-bar__num[data-target]');
+  if (!items.length) return;
+
+  const fmt = (n) => n >= 1000 ? n.toLocaleString('tr-TR') : n.toString();
+
+  const animate = (el) => {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    const duration = 1600;
+    const start = performance.now();
+    const tick = (now) => {
+      const p = Math.min((now - start) / duration, 1);
+      const ease = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(Math.floor(ease * target)) + suffix;
+      if (p < 1) requestAnimationFrame(tick);
+      else el.textContent = fmt(target) + suffix;
+    };
+    requestAnimationFrame(tick);
+  };
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.4 });
+
+  items.forEach(el => obs.observe(el));
+}());
+
 // Floating WhatsApp Button
 (function initWhatsApp() {
   const btn = document.createElement('a');
