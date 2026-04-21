@@ -2,6 +2,12 @@
    ARKOZ — Ana Stil Dosyası
    ============================================ */
 
+/* Scroll sırasında pahalı efektleri kapat */
+.is-scrolling .hero__arrow { backdrop-filter: none; }
+.is-scrolling .hero__actions .btn--ghost { backdrop-filter: none; }
+.is-scrolling .hero__badge { backdrop-filter: none; }
+.is-scrolling .about__facility-badge { backdrop-filter: none; }
+
 /* 0. Intro Overlay */
 #intro-overlay {
   position: fixed;
@@ -329,7 +335,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   display: flex;
   align-items: center;
   overflow: hidden;
-  contain: layout style;
+  contain: layout style paint;
 }
 
 /* ---- HERO SLIDER ---- */
@@ -617,7 +623,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 /* 7. About */
-.about { background: var(--color-bg-2); padding-top: 0; contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 700px; }
+.about { background: var(--color-bg-2); padding-top: 0; contain: layout style; }
 
 /* About Hero — Background Paths animasyonu */
 .about__hero {
@@ -754,7 +760,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .about__list li:last-child { border: none; }
 
 /* 8. Services */
-.services { background: var(--color-bg); padding-top: 0; contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 800px; }
+.services { background: var(--color-bg); padding-top: 0; contain: layout style; }
 
 .services .container { padding-top: 60px; }
 
@@ -1288,7 +1294,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .product__table td:last-child { color: var(--color-primary); font-weight: 600; }
 
 /* 9. Avantajlar (Projects bölümü yeniden kullanılıyor) */
-.projects { background: var(--color-bg-2); contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.projects { background: var(--color-bg-2); contain: layout style; }
 
 .projects__grid {
   display: grid;
@@ -1688,13 +1694,14 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  will-change: opacity, transform;
 }
-.reveal.visible { will-change: auto; }
+
+.reveal.will-animate { will-change: opacity, transform; }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
 
 .reveal-delay-1 { transition-delay: 0.1s; }

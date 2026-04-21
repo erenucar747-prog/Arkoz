@@ -5,22 +5,28 @@
 'use strict';
 
 // Lenis smooth scroll — profesyonel siteler standardı (Three.js Journey, Awwwards vb.)
-const lenis = (typeof Lenis !== 'undefined') ? new Lenis({ duration: 1.2 }) : null;
+const lenis = (typeof Lenis !== 'undefined') ? new Lenis({ duration: 0.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) }) : null;
 let _isScrolling = false, _scrollPauseTimer = null;
 if (lenis) {
   (function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); })();
-  // Lenis callback ile WebGL pause — daha temiz entegrasyon
   lenis.on('scroll', () => {
     _isScrolling = true;
+    document.body.classList.add('is-scrolling');
     clearTimeout(_scrollPauseTimer);
-    _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
+    _scrollPauseTimer = setTimeout(() => {
+      _isScrolling = false;
+      document.body.classList.remove('is-scrolling');
+    }, 150);
   });
 } else {
-  // Fallback: Lenis yoksa native scroll
   window.addEventListener('scroll', () => {
     _isScrolling = true;
+    document.body.classList.add('is-scrolling');
     clearTimeout(_scrollPauseTimer);
-    _scrollPauseTimer = setTimeout(() => { _isScrolling = false; }, 150);
+    _scrollPauseTimer = setTimeout(() => {
+      _isScrolling = false;
+      document.body.classList.remove('is-scrolling');
+    }, 150);
   }, { passive: true });
 }
 
@@ -240,8 +246,11 @@ window.addEventListener('pageshow', function(e) {
     (entries) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-          observer.unobserve(entry.target);
+          entry.target.classList.add('will-animate');
+          requestAnimationFrame(() => {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          });
         }
       });
     },
@@ -392,11 +401,7 @@ window.addEventListener('pageshow', function(e) {
   window.addEventListener('touchmove', e => {
     if (e.touches[0]) handlePointer(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
-  let _scrollThrottle = null;
-  window.addEventListener('scroll', () => {
-    if (_scrollThrottle) return;
-    _scrollThrottle = setTimeout(() => { _scrollThrottle = null; updateActive(lastX, lastY); }, 100);
-  }, { passive: true });
+  // Scroll sırasında getBoundingClientRect çağırma — pointer move zaten günceller
 
   let glowRafId = null;
   let glowSectionVisible = false;
