@@ -286,7 +286,7 @@ window.addEventListener('pageshow', function(e) {
     const toast = document.createElement('div');
     toast.className = `toast ${type}`;
     toast.textContent = message;
-    document.body.appendChild(toast);
+    (document.getElementById('toast-region') || document.body).appendChild(toast);
 
     requestAnimationFrame(() => {
       requestAnimationFrame(() => toast.classList.add('show'));

@@ -23,6 +23,9 @@
 </head>
 <body>
 
+  <a href="#main" class="skip-link">Ana içeriğe geç</a>
+  <div id="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+
   <!-- NAVİGASYON -->
   <header class="header" id="header">
     <nav class="nav container">
@@ -44,7 +47,7 @@
     </nav>
   </header>
 
-  <main>
+  <main id="main">
 
     <!-- HERO -->
     <section class="hero" id="hero">
@@ -648,15 +651,15 @@
           </div>
           <form class="contact__form" id="contact-form" novalidate>
             <div class="form__group">
-              <input type="text" id="name" name="name" placeholder="Adınız Soyadınız" required />
+              <input type="text" id="name" name="name" placeholder="Adınız Soyadınız" autocomplete="name" required />
               <label for="name">Ad Soyad</label>
             </div>
             <div class="form__group">
-              <input type="tel" id="phone" name="phone" placeholder="Telefon Numaranız" />
+              <input type="tel" id="phone" name="phone" placeholder="Telefon Numaranız" autocomplete="tel" inputmode="tel" />
               <label for="phone">Telefon</label>
             </div>
             <div class="form__group">
-              <input type="email" id="email" name="email" placeholder="E-posta Adresiniz" />
+              <input type="email" id="email" name="email" placeholder="E-posta Adresiniz" autocomplete="email" inputmode="email" />
               <label for="email">E-posta</label>
             </div>
             <div class="form__group">
@@ -669,7 +672,7 @@
               <label for="product">Ürün</label>
             </div>
             <div class="form__group form__group--full">
-              <textarea id="message" name="message" placeholder="Mesajınızı yazın..." rows="4"></textarea>
+              <textarea id="message" name="message" placeholder="Mesajınızı yazın…" rows="4" spellcheck="true"></textarea>
               <label for="message">Mesaj</label>
             </div>
             <button type="submit" class="btn btn--primary btn--full">
