@@ -44,6 +44,26 @@
   filter: drop-shadow(0 0 32px rgba(255,255,255,0.35)) brightness(0) invert(1);
 }
 
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  background: var(--color-primary, #2D2A8F);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* Toast Region */
+#toast-region { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9998; pointer-events: none; }
+
 /* 1. CSS Değişkenleri */
 :root {
   --color-primary: #2D2A8F;
@@ -131,6 +151,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-weight: 900;
   line-height: 1.15;
   margin-bottom: 16px;
+  text-wrap: balance;
 }
 
 .section__title span {
@@ -158,6 +179,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-weight: 600;
   transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 .btn--primary {
@@ -392,6 +414,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   cursor: pointer;
   padding: 0;
   transition: background 0.3s, transform 0.3s;
+  touch-action: manipulation;
 }
 
 .hero__dot--active {
@@ -1504,6 +1527,13 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   box-shadow: 0 0 0 3px rgba(45, 42, 143, 0.12);
 }
 
+.form__group input:focus-visible,
+.form__group select:focus-visible,
+.form__group textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .form__group input::placeholder,
 .form__group select::placeholder,
 .form__group textarea::placeholder {
@@ -2413,6 +2443,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-family: inherit;
 }
 #ai-chat-input:focus { border-color: #B8A88A; }
+#ai-chat-input:focus-visible { outline: 2px solid #B8A88A; outline-offset: 2px; }
 #ai-chat-send {
   background: #B8A88A;
   color: #0a0a0a;
