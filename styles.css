@@ -2,6 +2,12 @@
    ARKOZ — Ana Stil Dosyası
    ============================================ */
 
+/* Scroll sırasında pahalı efektleri kapat */
+.is-scrolling .hero__arrow { backdrop-filter: none; }
+.is-scrolling .hero__actions .btn--ghost { backdrop-filter: none; }
+.is-scrolling .hero__badge { backdrop-filter: none; }
+.is-scrolling .about__facility-badge { backdrop-filter: none; }
+
 /* 0. Intro Overlay */
 #intro-overlay {
   position: fixed;
@@ -43,6 +49,26 @@
   filter: brightness(0) invert(1);
   filter: drop-shadow(0 0 32px rgba(255,255,255,0.35)) brightness(0) invert(1);
 }
+
+/* Skip Link */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 16px;
+  z-index: 10000;
+  background: var(--color-primary, #2D2A8F);
+  color: #fff;
+  padding: 8px 16px;
+  border-radius: 0 0 8px 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+.skip-link:focus { top: 0; }
+
+/* Toast Region */
+#toast-region { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9998; pointer-events: none; }
 
 /* 1. CSS Değişkenleri */
 :root {
@@ -131,6 +157,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-weight: 900;
   line-height: 1.15;
   margin-bottom: 16px;
+  text-wrap: balance;
 }
 
 .section__title span {
@@ -158,6 +185,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-weight: 600;
   transition: color var(--transition), background var(--transition), border-color var(--transition), opacity var(--transition), transform var(--transition), box-shadow var(--transition);
   white-space: nowrap;
+  touch-action: manipulation;
 }
 
 .btn--primary {
@@ -307,7 +335,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   display: flex;
   align-items: center;
   overflow: hidden;
-  contain: layout style;
+  contain: layout style paint;
 }
 
 /* ---- HERO SLIDER ---- */
@@ -392,6 +420,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   cursor: pointer;
   padding: 0;
   transition: background 0.3s, transform 0.3s;
+  touch-action: manipulation;
 }
 
 .hero__dot--active {
@@ -594,7 +623,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 /* 7. About */
-.about { background: var(--color-bg-2); padding-top: 0; contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 700px; }
+.about { background: var(--color-bg-2); padding-top: 0; contain: layout style; }
 
 /* About Hero — Background Paths animasyonu */
 .about__hero {
@@ -731,7 +760,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .about__list li:last-child { border: none; }
 
 /* 8. Services */
-.services { background: var(--color-bg); padding-top: 0; contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 800px; }
+.services { background: var(--color-bg); padding-top: 0; contain: layout style; }
 
 .services .container { padding-top: 60px; }
 
@@ -1265,7 +1294,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .product__table td:last-child { color: var(--color-primary); font-weight: 600; }
 
 /* 9. Avantajlar (Projects bölümü yeniden kullanılıyor) */
-.projects { background: var(--color-bg-2); contain: layout style; content-visibility: auto; contain-intrinsic-size: auto 600px; }
+.projects { background: var(--color-bg-2); contain: layout style; }
 
 .projects__grid {
   display: grid;
@@ -1504,6 +1533,13 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   box-shadow: 0 0 0 3px rgba(45, 42, 143, 0.12);
 }
 
+.form__group input:focus-visible,
+.form__group select:focus-visible,
+.form__group textarea:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
 .form__group input::placeholder,
 .form__group select::placeholder,
 .form__group textarea::placeholder {
@@ -1658,13 +1694,14 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
-  will-change: opacity, transform;
 }
-.reveal.visible { will-change: auto; }
+
+.reveal.will-animate { will-change: opacity, transform; }
 
 .reveal.visible {
   opacity: 1;
   transform: translateY(0);
+  will-change: auto;
 }
 
 .reveal-delay-1 { transition-delay: 0.1s; }
@@ -2413,6 +2450,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   font-family: inherit;
 }
 #ai-chat-input:focus { border-color: #B8A88A; }
+#ai-chat-input:focus-visible { outline: 2px solid #B8A88A; outline-offset: 2px; }
 #ai-chat-send {
   background: #B8A88A;
   color: #0a0a0a;
