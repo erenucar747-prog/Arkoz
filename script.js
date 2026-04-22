@@ -497,14 +497,26 @@ window.addEventListener('pageshow', function(e) {
   }
 
   function goTo(index) {
-    const prev = current;
-    slides[prev].classList.remove('hero__slide--active');
-    slides[prev].classList.add('hero__slide--transitioning');
-    dots[current].classList.remove('hero__dot--active');
+    const prevIndex = current;
+    // Old slide: keep display:block via --transitioning while opacity fades out
+    slides[prevIndex].classList.remove('hero__slide--active');
+    slides[prevIndex].classList.add('hero__slide--transitioning');
+    dots[prevIndex].classList.remove('hero__dot--active');
+
     current = (index + slides.length) % slides.length;
-    slides[current].classList.add('hero__slide--active', 'hero__slide--transitioning');
+    const currSlide = slides[current];
+
+    // New slide: set display:block at opacity:0 first
+    currSlide.classList.add('hero__slide--transitioning');
     dots[current].classList.add('hero__dot--active');
     updateTextVisibility();
+
+    // Next frame: add --active to trigger opacity 0→1 transition
+    requestAnimationFrame(() => {
+      currSlide.classList.add('hero__slide--active');
+    });
+
+    // After transition: remove --transitioning so inactive slides go display:none
     setTimeout(() => {
       slides.forEach(s => s.classList.remove('hero__slide--transitioning'));
     }, 1050);

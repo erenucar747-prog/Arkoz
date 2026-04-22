@@ -3,7 +3,6 @@
    ============================================ */
 
 /* Scroll sırasında pahalı efektleri kapat */
-.is-scrolling .hero__arrow { backdrop-filter: none; }
 .is-scrolling .hero__actions .btn--ghost { backdrop-filter: none; }
 .is-scrolling .hero__badge { backdrop-filter: none; }
 .is-scrolling .about__facility-badge { backdrop-filter: none; }
@@ -335,7 +334,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   display: flex;
   align-items: center;
   overflow: hidden;
-  contain: layout style paint;
+  contain: layout style;
 }
 
 /* ---- HERO SLIDER ---- */
@@ -346,6 +345,7 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 .hero__slide {
+  display: none;
   position: absolute;
   inset: 0;
   opacity: 0;
@@ -354,10 +354,12 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 }
 
 .hero__slide--transitioning {
+  display: block;
   will-change: opacity;
 }
 
 .hero__slide--active {
+  display: block;
   opacity: 1;
 }
 
@@ -432,10 +434,10 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
 .hero__arrow {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%) translateZ(0);
+  transform: translateY(-50%);
   z-index: 4;
-  background: rgba(255,255,255,0.15);
-  border: 1px solid rgba(255,255,255,0.3);
+  background: rgba(255,255,255,0.22);
+  border: 1px solid rgba(255,255,255,0.35);
   color: #fff;
   font-size: 2.2rem;
   line-height: 1;
@@ -447,7 +449,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   align-items: center;
   justify-content: center;
   transition: background 0.3s;
-  backdrop-filter: blur(4px);
 }
 
 .hero__arrow:hover { background: rgba(255,255,255,0.3); }
