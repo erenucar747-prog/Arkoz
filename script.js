@@ -53,105 +53,135 @@ function runIntro() {
 
   function dismiss() {
     introActive = false;
+    sessionStorage.setItem('intro_done', '1');
     overlay.classList.add('fade-out');
     document.body.style.overflow = '';
     setTimeout(function() { if (overlay.parentNode) overlay.remove(); }, 1000);
   }
 
-  // Three.js yoksa sade siyah göster
+  // Three.js yoksa veya WebGL yoksa sade siyah göster
   if (typeof THREE === 'undefined') { dismiss(); return; }
 
-  // --- Three.js kurulum (component ile birebir) ---
-  const vertexShader = `
-    void main() {
-      gl_Position = vec4( position, 1.0 );
-    }
-  `;
+  // Güvenlik: 6 saniye sonra her koşulda dismiss et (WebGL crash'e karşı)
+  const safetyTimer = setTimeout(function() {
+    if (introActive) { dismiss(); }
+  }, 6000);
 
-  const fragmentShader = `
-    #define TWO_PI 6.2831853072
-    #define PI 3.14159265359
-
-    precision highp float;
-    uniform vec2 resolution;
-    uniform float time;
-
-    void main(void) {
-      vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
-      float t = time * 0.05;
-      float lineWidth = 0.002;
-
-      vec3 color = vec3(0.0);
-      for(int j = 0; j < 3; j++){
-        for(int i = 0; i < 5; i++){
-          color[j] += lineWidth * float(i*i) / abs(
-            fract(t - 0.01*float(j) + float(i)*0.01) * 5.0
-            - length(uv)
-            + mod(uv.x + uv.y, 0.2)
-          );
-        }
+  try {
+    // --- Three.js kurulum ---
+    const vertexShader = `
+      void main() {
+        gl_Position = vec4( position, 1.0 );
       }
+    `;
 
-      gl_FragColor = vec4(color[0], color[1], color[2], 1.0);
+    const fragmentShader = `
+      #define TWO_PI 6.2831853072
+      #define PI 3.14159265359
+
+      precision highp float;
+      uniform vec2 resolution;
+      uniform float time;
+
+      void main(void) {
+        vec2 uv = (gl_FragCoord.xy * 2.0 - resolution.xy) / min(resolution.x, resolution.y);
+        float t = time * 0.05;
+        float lineWidth = 0.002;
+
+        vec3 color = vec3(0.0);
+        for(int j = 0; j < 3; j++){
+          for(int i = 0; i < 5; i++){
+            color[j] += lineWidth * float(i*i) / abs(
+              fract(t - 0.01*float(j) + float(i)*0.01) * 5.0
+              - length(uv)
+              + mod(uv.x + uv.y, 0.2)
+            );
+          }
+        }
+
+        gl_FragColor = vec4(color[0], color[1], color[2], 1.0);
+      }
+    `;
+
+    const camera = new THREE.Camera();
+    camera.position.z = 1;
+
+    const scene    = new THREE.Scene();
+    const geometry = new THREE.PlaneGeometry(2, 2);
+
+    const uniforms = {
+      time:       { type: 'f',  value: 1.0 },
+      resolution: { type: 'v2', value: new THREE.Vector2() }
+    };
+
+    const material = new THREE.ShaderMaterial({
+      uniforms:       uniforms,
+      vertexShader:   vertexShader,
+      fragmentShader: fragmentShader
+    });
+
+    scene.add(new THREE.Mesh(geometry, material));
+
+    const renderer = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'default' });
+    renderer.setClearColor(0x000000, 1); // beyaz flash önle
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.5));
+    container.appendChild(renderer.domElement);
+
+    // WebGL context kaybını yakala
+    renderer.domElement.addEventListener('webglcontextlost', function(e) {
+      e.preventDefault();
+      clearTimeout(safetyTimer);
+      cancelAnimationFrame(animId);
+      dismiss();
+    }, false);
+
+    function onResize() {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      renderer.setSize(w, h);
+      uniforms.resolution.value.x = renderer.domElement.width;
+      uniforms.resolution.value.y = renderer.domElement.height;
     }
-  `;
+    onResize();
+    window.addEventListener('resize', onResize);
 
-  const camera = new THREE.Camera();
-  camera.position.z = 1;
+    let animId;
+    function animate() {
+      animId = requestAnimationFrame(animate);
+      uniforms.time.value += 0.05;
+      renderer.render(scene, camera);
+    }
+    animate();
 
-  const scene    = new THREE.Scene();
-  const geometry = new THREE.PlaneGeometry(2, 2);
+    setTimeout(function() { logo.classList.add('visible'); }, 2200);
 
-  const uniforms = {
-    time:       { type: 'f',  value: 1.0 },
-    resolution: { type: 'v2', value: new THREE.Vector2() }
-  };
+    setTimeout(function() {
+      clearTimeout(safetyTimer);
+      cancelAnimationFrame(animId);
+      window.removeEventListener('resize', onResize);
+      renderer.dispose();
+      geometry.dispose();
+      material.dispose();
+      dismiss();
+    }, 4200);
 
-  const material = new THREE.ShaderMaterial({
-    uniforms:       uniforms,
-    vertexShader:   vertexShader,
-    fragmentShader: fragmentShader
-  });
-
-  scene.add(new THREE.Mesh(geometry, material));
-
-  const renderer = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  container.appendChild(renderer.domElement);
-
-  function onResize() {
-    const w = container.clientWidth;
-    const h = container.clientHeight;
-    renderer.setSize(w, h);
-    uniforms.resolution.value.x = renderer.domElement.width;
-    uniforms.resolution.value.y = renderer.domElement.height;
+  } catch (err) {
+    // WebGL başlatılamadı — siyah ekranla kısa intro göster
+    clearTimeout(safetyTimer);
+    setTimeout(function() { logo.classList.add('visible'); }, 400);
+    setTimeout(function() { dismiss(); }, 1800);
   }
-  onResize();
-  window.addEventListener('resize', onResize);
-
-  let animId;
-  function animate() {
-    animId = requestAnimationFrame(animate);
-    uniforms.time.value += 0.05;
-    renderer.render(scene, camera);
-  }
-  animate();
-
-  setTimeout(function() { logo.classList.add('visible'); }, 2200);
-
-  setTimeout(function() {
-    cancelAnimationFrame(animId);
-    window.removeEventListener('resize', onResize);
-    renderer.dispose();
-    geometry.dispose();
-    material.dispose();
-    dismiss();
-  }, 4200);
 }
 
-runIntro();
+// Intro sadece index.html'de ve session başına bir kez oynar
+if (window.location.pathname.replace(/.*\//, '') === 'index.html' || window.location.pathname === '/') {
+  if (!sessionStorage.getItem('intro_done')) {
+    runIntro();
+  }
+}
 window.addEventListener('pageshow', function(e) {
-  if (e.persisted) runIntro();
+  // Bfcache'den restore edilince ve intro daha önce oynadıysa tekrar oynama
+  if (e.persisted && !sessionStorage.getItem('intro_done')) runIntro();
 });
 
 // 1. Header — Scroll'da arka plan ekle
