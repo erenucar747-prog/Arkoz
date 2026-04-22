@@ -174,7 +174,7 @@ function runIntro() {
 }
 
 // Intro sadece index.html'de ve session başına bir kez oynar
-if (window.location.pathname.replace(/.*\//, '') === 'index.html' || window.location.pathname === '/') {
+if (window.location.pathname.replace(/.*\//, '') === 'index.html' || window.location.pathname.endsWith('/')) {
   if (!sessionStorage.getItem('intro_done')) {
     runIntro();
   }
