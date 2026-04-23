@@ -371,6 +371,12 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   filter: brightness(1.05);
 }
 
+.hero__slide picture {
+  position: absolute;
+  inset: 0;
+  display: block;
+}
+
 .hero__slide img {
   position: absolute;
   inset: 0;
