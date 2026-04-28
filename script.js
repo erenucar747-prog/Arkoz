@@ -584,9 +584,9 @@ window.addEventListener('pageshow', function (e) {
 })();
 
 // 10. Mission Section — Ethereal Beams (devre dışı)
-/* eslint-disable no-unreachable */
 (function initMissionBeams() {
   return; /* devre dışı — gövde re-enable için saklanıyor */
+  /* eslint-disable no-unreachable */
   const canvas = document.getElementById('beams-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
@@ -787,6 +787,7 @@ vec3 eb_getNorm(vec3 pos){
   matUni.time.value = 1.5;
   resize();
   renderer.render(scene, camera);
+  /* eslint-enable no-unreachable */
 })();
 
 // ── Reklam Panosu Slideshow ──────────────────────────────────────────────────
