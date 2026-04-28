@@ -235,7 +235,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   padding: 8px 0;
   transition: box-shadow var(--transition);
-  will-change: transform;
 }
 
 .header.scrolled {
@@ -2612,7 +2611,6 @@ button { cursor: pointer; border: none; background: none; font-family: var(--fon
   justify-content: center;
   box-shadow: 0 4px 20px rgba(37, 211, 102, 0.45);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
-  will-change: transform;
 }
 .whatsapp-float:hover {
   transform: scale(1.1);
