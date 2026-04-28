@@ -6,28 +6,11 @@
 
 // Lenis smooth scroll — profesyonel siteler standardı (Three.js Journey, Awwwards vb.)
 const lenis = (typeof Lenis !== 'undefined') ? new Lenis({ duration: 0.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) }) : null;
-let _isScrolling = false, _scrollPauseTimer = null;
 if (lenis) {
   (function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); })();
-  lenis.on('scroll', () => {
-    _isScrolling = true;
-    document.body.classList.add('is-scrolling');
-    clearTimeout(_scrollPauseTimer);
-    _scrollPauseTimer = setTimeout(() => {
-      _isScrolling = false;
-      document.body.classList.remove('is-scrolling');
-    }, 150);
-  });
+  // Scroll olayları performans için optimize edildi (is-scrolling class iptal edildi)
 } else {
-  window.addEventListener('scroll', () => {
-    _isScrolling = true;
-    document.body.classList.add('is-scrolling');
-    clearTimeout(_scrollPauseTimer);
-    _scrollPauseTimer = setTimeout(() => {
-      _isScrolling = false;
-      document.body.classList.remove('is-scrolling');
-    }, 150);
-  }, { passive: true });
+  // Fallback for native scroll
 }
 
 // 0. Intro — Three.js Shader Animasyonu (component ile birebir aynı formül)
@@ -412,15 +395,27 @@ window.addEventListener('pageshow', function(e) {
 
   let lastX = 0, lastY = 0;
 
-  function updateActive(x, y) {
+  // Rect'leri cache'le; pointermove sırasında getBoundingClientRect çağırma
+  function refreshRects() {
     states.forEach(s => {
       const r = s.el.getBoundingClientRect();
-      const cx = r.left + r.width * 0.5;
-      const cy = r.top + r.height * 0.5;
+      s.rect = r;
+      s.cx = r.left + r.width * 0.5;
+      s.cy = r.top + r.height * 0.5;
+    });
+  }
+  refreshRects();
+  window.addEventListener('resize', refreshRects, { passive: true });
+  window.addEventListener('scroll', refreshRects, { passive: true });
+
+  function updateActive(x, y) {
+    states.forEach(s => {
+      const r = s.rect;
+      if (!r) return;
       s.active = x > r.left - PROXIMITY && x < r.right + PROXIMITY &&
                  y > r.top - PROXIMITY  && y < r.bottom + PROXIMITY;
       if (s.active) {
-        s.target = (180 * Math.atan2(y - cy, x - cx)) / Math.PI + 90;
+        s.target = (180 * Math.atan2(y - s.cy, x - s.cx)) / Math.PI + 90;
       }
     });
   }
@@ -431,7 +426,6 @@ window.addEventListener('pageshow', function(e) {
   window.addEventListener('touchmove', e => {
     if (e.touches[0]) handlePointer(e.touches[0].clientX, e.touches[0].clientY);
   }, { passive: true });
-  // Scroll sırasında getBoundingClientRect çağırma — pointer move zaten günceller
 
   let glowRafId = null;
   let glowSectionVisible = false;
@@ -459,14 +453,31 @@ window.addEventListener('pageshow', function(e) {
   const cards = document.querySelectorAll('.service-card');
 
   cards.forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-      const rect = card.getBoundingClientRect();
-      const x = (e.clientX - rect.left) / rect.width - 0.5;
-      const y = (e.clientY - rect.top) / rect.height - 0.5;
+    let rect = null;
+    let rafId = null;
+    let lx = 0, ly = 0;
+
+    const apply = () => {
+      rafId = null;
+      if (!rect) return;
+      const x = (lx - rect.left) / rect.width - 0.5;
+      const y = (ly - rect.top) / rect.height - 0.5;
       card.style.transform = `translateY(-6px) rotateX(${-y * 6}deg) rotateY(${x * 6}deg)`;
+    };
+
+    card.addEventListener('mouseenter', () => {
+      rect = card.getBoundingClientRect();
+    });
+
+    card.addEventListener('mousemove', (e) => {
+      lx = e.clientX; ly = e.clientY;
+      if (rafId) return;
+      rafId = requestAnimationFrame(apply);
     });
 
     card.addEventListener('mouseleave', () => {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      rect = null;
       card.style.transform = '';
     });
   });
