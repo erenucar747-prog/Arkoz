@@ -394,8 +394,20 @@ window.addEventListener('pageshow', function (e) {
     });
   }
   refreshRects();
+
+  // Scroll sırasında her event'te getBoundingClientRect çağırmak layout thrash'a yol açar.
+  // Lenis ile bu event çok sık fire'lanır. rAF ile coalesce et + section görünür değilken atla.
+  let refreshScheduled = false;
+  function scheduleRefresh() {
+    if (refreshScheduled || !glowSectionVisible) return;
+    refreshScheduled = true;
+    requestAnimationFrame(() => {
+      refreshScheduled = false;
+      refreshRects();
+    });
+  }
   window.addEventListener('resize', refreshRects, { passive: true });
-  window.addEventListener('scroll', refreshRects, { passive: true });
+  window.addEventListener('scroll', scheduleRefresh, { passive: true });
 
   function updateActive(x, y) {
     states.forEach((s) => {
@@ -444,7 +456,10 @@ window.addEventListener('pageshow', function (e) {
   new IntersectionObserver(
     (entries) => {
       glowSectionVisible = entries[0].isIntersecting;
-      if (glowSectionVisible && !glowRafId) glowRafId = requestAnimationFrame(tick);
+      if (glowSectionVisible) {
+        refreshRects(); // section görünür olunca güncel rect'leri al (scroll sırasında atladığımız için)
+        if (!glowRafId) glowRafId = requestAnimationFrame(tick);
+      }
     },
     { threshold: 0.1 }
   ).observe(glowSection);
