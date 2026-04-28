@@ -287,9 +287,20 @@
   <script>
     (function(){
       const btn = document.getElementById('scroll-top-btn');
+      let raf = null;
+      let visible = null;
+      function update(){
+        raf = null;
+        const v = window.scrollY > 300;
+        if (v === visible) return;
+        visible = v;
+        btn.style.display = v ? 'flex' : 'none';
+      }
       window.addEventListener('scroll', function(){
-        btn.style.display = window.scrollY > 300 ? 'flex' : 'none';
+        if (raf) return;
+        raf = requestAnimationFrame(update);
       }, { passive: true });
+      update();
     })();
   </script>
 
