@@ -5,9 +5,15 @@
 'use strict';
 
 // Lenis smooth scroll — profesyonel siteler standardı (Three.js Journey, Awwwards vb.)
-const lenis = (typeof Lenis !== 'undefined') ? new Lenis({ duration: 0.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) }) : null;
+const lenis =
+  typeof Lenis !== 'undefined'
+    ? new Lenis({ duration: 0.8, easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)) })
+    : null;
 if (lenis) {
-  (function lenisRaf(time) { lenis.raf(time); requestAnimationFrame(lenisRaf); })();
+  (function lenisRaf(time) {
+    lenis.raf(time);
+    requestAnimationFrame(lenisRaf);
+  })();
   // Scroll olayları performans için optimize edildi (is-scrolling class iptal edildi)
 } else {
   // Fallback for native scroll
@@ -31,7 +37,7 @@ function runIntro() {
   document.body.prepend(overlay);
   document.body.style.overflow = 'hidden';
 
-  const logo      = overlay.querySelector('#intro-logo');
+  const logo = overlay.querySelector('#intro-logo');
   const container = overlay.querySelector('#intro-canvas-container');
 
   function dismiss() {
@@ -39,15 +45,22 @@ function runIntro() {
     sessionStorage.setItem('intro_done', '1');
     overlay.classList.add('fade-out');
     document.body.style.overflow = '';
-    setTimeout(function() { if (overlay.parentNode) overlay.remove(); }, 1000);
+    setTimeout(function () {
+      if (overlay.parentNode) overlay.remove();
+    }, 1000);
   }
 
   // Three.js yoksa veya WebGL yoksa sade siyah göster
-  if (typeof THREE === 'undefined') { dismiss(); return; }
+  if (typeof THREE === 'undefined') {
+    dismiss();
+    return;
+  }
 
   // Güvenlik: 6 saniye sonra her koşulda dismiss et (WebGL crash'e karşı)
-  const safetyTimer = setTimeout(function() {
-    if (introActive) { dismiss(); }
+  const safetyTimer = setTimeout(function () {
+    if (introActive) {
+      dismiss();
+    }
   }, 6000);
 
   try {
@@ -89,18 +102,18 @@ function runIntro() {
     const camera = new THREE.Camera();
     camera.position.z = 1;
 
-    const scene    = new THREE.Scene();
+    const scene = new THREE.Scene();
     const geometry = new THREE.PlaneGeometry(2, 2);
 
     const uniforms = {
-      time:       { type: 'f',  value: 1.0 },
-      resolution: { type: 'v2', value: new THREE.Vector2() }
+      time: { type: 'f', value: 1.0 },
+      resolution: { type: 'v2', value: new THREE.Vector2() },
     };
 
     const material = new THREE.ShaderMaterial({
-      uniforms:       uniforms,
-      vertexShader:   vertexShader,
-      fragmentShader: fragmentShader
+      uniforms: uniforms,
+      vertexShader: vertexShader,
+      fragmentShader: fragmentShader,
     });
 
     scene.add(new THREE.Mesh(geometry, material));
@@ -111,12 +124,16 @@ function runIntro() {
     container.appendChild(renderer.domElement);
 
     // WebGL context kaybını yakala
-    renderer.domElement.addEventListener('webglcontextlost', function(e) {
-      e.preventDefault();
-      clearTimeout(safetyTimer);
-      cancelAnimationFrame(animId);
-      dismiss();
-    }, false);
+    renderer.domElement.addEventListener(
+      'webglcontextlost',
+      function (e) {
+        e.preventDefault();
+        clearTimeout(safetyTimer);
+        cancelAnimationFrame(animId);
+        dismiss();
+      },
+      false
+    );
 
     function onResize() {
       const w = container.clientWidth;
@@ -136,9 +153,11 @@ function runIntro() {
     }
     animate();
 
-    setTimeout(function() { logo.classList.add('visible'); }, 2200);
+    setTimeout(function () {
+      logo.classList.add('visible');
+    }, 2200);
 
-    setTimeout(function() {
+    setTimeout(function () {
       clearTimeout(safetyTimer);
       cancelAnimationFrame(animId);
       window.removeEventListener('resize', onResize);
@@ -147,22 +166,28 @@ function runIntro() {
       material.dispose();
       dismiss();
     }, 4200);
-
-  } catch (err) {
+  } catch {
     // WebGL başlatılamadı — siyah ekranla kısa intro göster
     clearTimeout(safetyTimer);
-    setTimeout(function() { logo.classList.add('visible'); }, 400);
-    setTimeout(function() { dismiss(); }, 1800);
+    setTimeout(function () {
+      logo.classList.add('visible');
+    }, 400);
+    setTimeout(function () {
+      dismiss();
+    }, 1800);
   }
 }
 
 // Intro sadece index.html'de ve session başına bir kez oynar
-if (window.location.pathname.replace(/.*\//, '') === 'index.html' || window.location.pathname.endsWith('/')) {
+if (
+  window.location.pathname.replace(/.*\//, '') === 'index.html' ||
+  window.location.pathname.endsWith('/')
+) {
   if (!sessionStorage.getItem('intro_done')) {
     runIntro();
   }
 }
-window.addEventListener('pageshow', function(e) {
+window.addEventListener('pageshow', function (e) {
   // Bfcache'den restore edilince ve intro daha önce oynadıysa tekrar oynama
   if (e.persisted && !sessionStorage.getItem('intro_done')) runIntro();
 });
@@ -198,48 +223,13 @@ window.addEventListener('pageshow', function(e) {
   });
 
   // Bir linke tıklanınca menüyü kapat
-  navList.querySelectorAll('.nav__link').forEach(link => {
+  navList.querySelectorAll('.nav__link').forEach((link) => {
     link.addEventListener('click', () => {
       navList.classList.remove('open');
       burger.classList.remove('active');
       document.body.style.overflow = '';
     });
   });
-})();
-
-// 3. Sayı Sayaç Animasyonu (Hero Stats) — HTML elementleri kaldırıldığı için devre dışı
-(function initCounter() {
-  const counters = document.querySelectorAll('.hero__stat-num[data-count]');
-  if (!counters.length) return;
-
-  const animateCounter = (el) => {
-    const target = parseInt(el.dataset.count, 10);
-    const duration = 1800;
-    const step = target / (duration / 16);
-    let current = 0;
-
-    const tick = () => {
-      current = Math.min(current + step, target);
-      el.textContent = Math.floor(current);
-      if (current < target) requestAnimationFrame(tick);
-    };
-
-    requestAnimationFrame(tick);
-  };
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          animateCounter(entry.target);
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.5 }
-  );
-
-  counters.forEach(el => observer.observe(el));
 })();
 
 // 4. Scroll Reveal Animasyonu
@@ -257,7 +247,7 @@ window.addEventListener('pageshow', function(e) {
 
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           entry.target.classList.add('will-animate');
           requestAnimationFrame(() => {
@@ -270,7 +260,7 @@ window.addEventListener('pageshow', function(e) {
     { threshold: 0.1, rootMargin: '0px 0px -40px 0px' }
   );
 
-  targets.forEach(el => observer.observe(el));
+  targets.forEach((el) => observer.observe(el));
 })();
 
 // 5. Aktif Nav Linki (Scroll Spy)
@@ -281,14 +271,11 @@ window.addEventListener('pageshow', function(e) {
 
   const observer = new IntersectionObserver(
     (entries) => {
-      entries.forEach(entry => {
+      entries.forEach((entry) => {
         if (entry.isIntersecting) {
           const id = entry.target.id;
-          navLinks.forEach(link => {
-            link.classList.toggle(
-              'nav__link--active',
-              link.getAttribute('href') === `#${id}`
-            );
+          navLinks.forEach((link) => {
+            link.classList.toggle('nav__link--active', link.getAttribute('href') === `#${id}`);
           });
         }
       });
@@ -296,7 +283,7 @@ window.addEventListener('pageshow', function(e) {
     { threshold: 0.4 }
   );
 
-  sections.forEach(s => observer.observe(s));
+  sections.forEach((s) => observer.observe(s));
 })();
 
 // 6. İletişim Formu
@@ -336,8 +323,8 @@ window.addEventListener('pageshow', function(e) {
     try {
       const res = await fetch('https://formsubmit.co/ajax/info@arkozgazbeton.com.tr', {
         method: 'POST',
-        headers: { 'Accept': 'application/json' },
-        body: data
+        headers: { Accept: 'application/json' },
+        body: data,
       });
       const json = await res.json();
       btn.disabled = false;
@@ -358,7 +345,7 @@ window.addEventListener('pageshow', function(e) {
 
 // 7. Smooth Anchor Scroll (Offset ile — sabit header için)
 (function initSmoothScroll() {
-  document.querySelectorAll('a[href^="#"]').forEach(link => {
+  document.querySelectorAll('a[href^="#"]').forEach((link) => {
     link.addEventListener('click', (e) => {
       const id = link.getAttribute('href').slice(1);
       if (!id) return;
@@ -369,7 +356,11 @@ window.addEventListener('pageshow', function(e) {
       e.preventDefault();
       const offset = 80;
       const top = target.getBoundingClientRect().top + window.scrollY - offset;
-      if (lenis) { lenis.scrollTo(top); } else { window.scrollTo({ top, behavior: 'smooth' }); }
+      if (lenis) {
+        lenis.scrollTo(top);
+      } else {
+        window.scrollTo({ top, behavior: 'smooth' });
+      }
     });
   });
 })();
@@ -382,7 +373,7 @@ window.addEventListener('pageshow', function(e) {
   const PROXIMITY = 100;
   const LERP = 0.06;
 
-  const states = Array.from(cards).map(card => {
+  const states = Array.from(cards).map((card) => {
     const glow = document.createElement('div');
     glow.className = 'advantage-card__glow';
     card.prepend(glow);
@@ -393,11 +384,9 @@ window.addEventListener('pageshow', function(e) {
     return ((to - from + 180) % 360) - 180;
   }
 
-  let lastX = 0, lastY = 0;
-
   // Rect'leri cache'le; pointermove sırasında getBoundingClientRect çağırma
   function refreshRects() {
-    states.forEach(s => {
+    states.forEach((s) => {
       const r = s.el.getBoundingClientRect();
       s.rect = r;
       s.cx = r.left + r.width * 0.5;
@@ -409,53 +398,67 @@ window.addEventListener('pageshow', function(e) {
   window.addEventListener('scroll', refreshRects, { passive: true });
 
   function updateActive(x, y) {
-    states.forEach(s => {
+    states.forEach((s) => {
       const r = s.rect;
       if (!r) return;
-      s.active = x > r.left - PROXIMITY && x < r.right + PROXIMITY &&
-                 y > r.top - PROXIMITY  && y < r.bottom + PROXIMITY;
+      s.active =
+        x > r.left - PROXIMITY &&
+        x < r.right + PROXIMITY &&
+        y > r.top - PROXIMITY &&
+        y < r.bottom + PROXIMITY;
       if (s.active) {
         s.target = (180 * Math.atan2(y - s.cy, x - s.cx)) / Math.PI + 90;
       }
     });
   }
 
-  function handlePointer(x, y) { lastX = x; lastY = y; updateActive(x, y); }
-
-  window.addEventListener('pointermove', e => handlePointer(e.clientX, e.clientY), { passive: true });
-  window.addEventListener('touchmove', e => {
-    if (e.touches[0]) handlePointer(e.touches[0].clientX, e.touches[0].clientY);
-  }, { passive: true });
+  window.addEventListener('pointermove', (e) => updateActive(e.clientX, e.clientY), {
+    passive: true,
+  });
+  window.addEventListener(
+    'touchmove',
+    (e) => {
+      if (e.touches[0]) updateActive(e.touches[0].clientX, e.touches[0].clientY);
+    },
+    { passive: true }
+  );
 
   let glowRafId = null;
   let glowSectionVisible = false;
 
   function tick() {
     let anyActive = false;
-    states.forEach(s => {
+    states.forEach((s) => {
       const diff = shortestDiff(s.angle, s.target);
-      if (Math.abs(diff) > 0.01) { s.angle += diff * LERP; anyActive = true; }
+      if (Math.abs(diff) > 0.01) {
+        s.angle += diff * LERP;
+        anyActive = true;
+      }
       s.el.style.setProperty('--start', s.angle.toFixed(2));
       s.el.style.setProperty('--active', s.active ? '1' : '0');
     });
-    glowRafId = (glowSectionVisible || anyActive) ? requestAnimationFrame(tick) : null;
+    glowRafId = glowSectionVisible || anyActive ? requestAnimationFrame(tick) : null;
   }
 
   const glowSection = cards[0].closest('section') || cards[0].parentElement;
-  new IntersectionObserver(entries => {
-    glowSectionVisible = entries[0].isIntersecting;
-    if (glowSectionVisible && !glowRafId) glowRafId = requestAnimationFrame(tick);
-  }, { threshold: 0.1 }).observe(glowSection);
+  new IntersectionObserver(
+    (entries) => {
+      glowSectionVisible = entries[0].isIntersecting;
+      if (glowSectionVisible && !glowRafId) glowRafId = requestAnimationFrame(tick);
+    },
+    { threshold: 0.1 }
+  ).observe(glowSection);
 })();
 
 // 9. Kart Üzerinde 3D Tilt Efekti (Service Cards) (eski 8)
 (function initTilt() {
   const cards = document.querySelectorAll('.service-card');
 
-  cards.forEach(card => {
+  cards.forEach((card) => {
     let rect = null;
     let rafId = null;
-    let lx = 0, ly = 0;
+    let lx = 0,
+      ly = 0;
 
     const apply = () => {
       rafId = null;
@@ -470,13 +473,17 @@ window.addEventListener('pageshow', function(e) {
     });
 
     card.addEventListener('mousemove', (e) => {
-      lx = e.clientX; ly = e.clientY;
+      lx = e.clientX;
+      ly = e.clientY;
       if (rafId) return;
       rafId = requestAnimationFrame(apply);
     });
 
     card.addEventListener('mouseleave', () => {
-      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      if (rafId) {
+        cancelAnimationFrame(rafId);
+        rafId = null;
+      }
       rect = null;
       card.style.transform = '';
     });
@@ -486,9 +493,9 @@ window.addEventListener('pageshow', function(e) {
 // 9. Hero Slider
 (function initHeroSlider() {
   const slides = document.querySelectorAll('.hero__slide');
-  const dots   = document.querySelectorAll('.hero__dot');
-  const prev   = document.getElementById('heroPrev');
-  const next   = document.getElementById('heroNext');
+  const dots = document.querySelectorAll('.hero__dot');
+  const prev = document.getElementById('heroPrev');
+  const next = document.getElementById('heroNext');
 
   if (!slides.length) return;
 
@@ -503,7 +510,10 @@ window.addEventListener('pageshow', function(e) {
       heroContent.classList.toggle('hero__content--hidden', TEXT_HIDDEN_SLIDES.includes(current));
     }
     slides.forEach((slide, i) => {
-      slide.classList.toggle('hero__slide--bright', TEXT_HIDDEN_SLIDES.includes(i) && i === current);
+      slide.classList.toggle(
+        'hero__slide--bright',
+        TEXT_HIDDEN_SLIDES.includes(i) && i === current
+      );
     });
   }
 
@@ -529,7 +539,7 @@ window.addEventListener('pageshow', function(e) {
 
     // After transition: remove --transitioning so inactive slides go display:none
     setTimeout(() => {
-      slides.forEach(s => s.classList.remove('hero__slide--transitioning'));
+      slides.forEach((s) => s.classList.remove('hero__slide--transitioning'));
     }, 1050);
   }
 
@@ -539,30 +549,43 @@ window.addEventListener('pageshow', function(e) {
   }
 
   dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => { goTo(i); startTimer(); });
+    dot.addEventListener('click', () => {
+      goTo(i);
+      startTimer();
+    });
   });
 
-  prev.addEventListener('click', () => { goTo(current - 1); startTimer(); });
-  next.addEventListener('click', () => { goTo(current + 1); startTimer(); });
+  prev.addEventListener('click', () => {
+    goTo(current - 1);
+    startTimer();
+  });
+  next.addEventListener('click', () => {
+    goTo(current + 1);
+    startTimer();
+  });
 
   updateTextVisibility(); // sayfa açılışında ilk slayt için uygula
   startTimer();
 })();
 
-// 10a. pauseHeroBlobsWhenOffScreen — .hero__blob ve .hero__scroll-line HTML'de yok, kaldırıldı
-
 // 10. Mission Section — Ethereal Beams (devre dışı)
-(function initMissionBeams() { return; /* devre dışı */
+/* eslint-disable no-unreachable */
+(function initMissionBeams() {
+  return; /* devre dışı — gövde re-enable için saklanıyor */
   const canvas = document.getElementById('beams-canvas');
   if (!canvas || typeof THREE === 'undefined') return;
 
-  const scene  = new THREE.Scene();
+  const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x000000);
 
   const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 1000);
   camera.position.set(0, 0, 20);
 
-  const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, powerPreference: 'high-performance' });
+  const renderer = new THREE.WebGLRenderer({
+    canvas,
+    antialias: true,
+    powerPreference: 'high-performance',
+  });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.setClearColor(0x000000, 1);
 
@@ -572,22 +595,28 @@ window.addEventListener('pageshow', function(e) {
     const pos = new Float32Array(n * (segs + 1) * 2 * 3);
     const idx = new Uint32Array(n * segs * 2 * 3);
     const uvs = new Float32Array(n * (segs + 1) * 2 * 2);
-    let vi = 0, ii = 0, ui = 0;
+    let vi = 0,
+      ii = 0,
+      ui = 0;
     const xBase = -(n * width + (n - 1) * spacing) / 2;
     for (let i = 0; i < n; i++) {
-      const xo  = xBase + i * (width + spacing);
+      const xo = xBase + i * (width + spacing);
       const uxo = Math.random() * 300;
       const uyo = Math.random() * 300;
       for (let j = 0; j <= segs; j++) {
         const y = height * (j / segs - 0.5);
         pos.set([xo, y, 0, xo + width, y, 0], vi * 3);
         uvs.set([uxo, j / segs + uyo, uxo + 1, j / segs + uyo], ui);
-        if (j < segs) { idx.set([vi,vi+1,vi+2, vi+2,vi+1,vi+3], ii); ii += 6; }
-        vi += 2; ui += 4;
+        if (j < segs) {
+          idx.set([vi, vi + 1, vi + 2, vi + 2, vi + 1, vi + 3], ii);
+          ii += 6;
+        }
+        vi += 2;
+        ui += 4;
       }
     }
     geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-    geo.setAttribute('uv',       new THREE.BufferAttribute(uvs, 2));
+    geo.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
     geo.setIndex(new THREE.BufferAttribute(idx, 1));
     geo.computeVertexNormals();
     return geo;
@@ -665,19 +694,19 @@ vec3 eb_getNorm(vec3 pos){
 }`;
 
   // ── THREE.ShaderLib.physical — referans extendMaterial ile aynı yaklaşım ─
-  const physical  = THREE.ShaderLib.physical;
-  const matUni    = THREE.UniformsUtils.clone(physical.uniforms);
+  const physical = THREE.ShaderLib.physical;
+  const matUni = THREE.UniformsUtils.clone(physical.uniforms);
 
   // Referans cfg.uniforms ile aynı değerler
-  matUni.diffuse.value        = new THREE.Color(0, 0, 0); // black
-  matUni.roughness.value      = 0.3;
-  matUni.metalness.value      = 0.3;
-  if (matUni.envMapIntensity)  matUni.envMapIntensity.value = 10;
+  matUni.diffuse.value = new THREE.Color(0, 0, 0); // black
+  matUni.roughness.value = 0.3;
+  matUni.metalness.value = 0.3;
+  if (matUni.envMapIntensity) matUni.envMapIntensity.value = 10;
 
   // Animasyon uniform'ları
-  matUni.time            = { value: 0.0 };
-  matUni.uSpeed          = { value: 2.5 };
-  matUni.uScale          = { value: 0.15 };
+  matUni.time = { value: 0.0 };
+  matUni.uSpeed = { value: 2.5 };
+  matUni.uScale = { value: 0.15 };
   matUni.uNoiseIntensity = { value: 2.0 };
 
   // Vertex shader: GLSL_NOISE + VERTEX_HELPERS + physical.vertexShader
@@ -701,12 +730,12 @@ vec3 eb_getNorm(vec3 pos){
   );
 
   const material = new THREE.ShaderMaterial({
-    defines:        Object.assign({}, physical.defines || {}),
-    uniforms:       matUni,
-    vertexShader:   vert,
+    defines: Object.assign({}, physical.defines || {}),
+    uniforms: matUni,
+    vertexShader: vert,
     fragmentShader: frag,
-    lights:         true,   // Three.js ışık uniform'larını enjekte eder
-    side:           THREE.DoubleSide,
+    lights: true, // Three.js ışık uniform'larını enjekte eder
+    side: THREE.DoubleSide,
   });
 
   // ── Lights — referans: DirLight([0,3,10]) grup içinde + AmbientLight(1) ─
@@ -724,7 +753,11 @@ vec3 eb_getNorm(vec3 pos){
   // ── Resize — viewport height ile (siyah köşe engeli + URL bar jitter yok) ─
   let stableH = 0;
   function resize() {
-    const w = canvas.clientWidth || (canvas.parentElement && canvas.parentElement.clientWidth) || window.innerWidth || 800;
+    const w =
+      canvas.clientWidth ||
+      (canvas.parentElement && canvas.parentElement.clientWidth) ||
+      window.innerWidth ||
+      800;
     const h = window.innerHeight || 500;
     if (!w || !h) return;
     if (Math.abs(h - stableH) > 80 || stableH === 0) stableH = h;
@@ -762,32 +795,47 @@ vec3 eb_getNorm(vec3 pos){
 
   function start() {
     if (timer) return;
-    timer = setInterval(function() { goTo(current + 1); }, 4000);
+    timer = setInterval(function () {
+      goTo(current + 1);
+    }, 4000);
   }
 
-  function stop() { clearInterval(timer); timer = null; }
+  function stop() {
+    clearInterval(timer);
+    timer = null;
+  }
 
-  dots.forEach(function(dot, i) {
-    dot.addEventListener('click', function() { goTo(i); stop(); start(); });
+  dots.forEach(function (dot, i) {
+    dot.addEventListener('click', function () {
+      goTo(i);
+      stop();
+      start();
+    });
   });
 
   el.addEventListener('mouseenter', stop);
   el.addEventListener('mouseleave', start);
 
-  new IntersectionObserver(function(entries) {
-    if (entries[0].isIntersecting) { start(); }
-    else { stop(); }
-  }, { threshold: 0.2 }).observe(el);
+  new IntersectionObserver(
+    function (entries) {
+      if (entries[0].isIntersecting) {
+        start();
+      } else {
+        stop();
+      }
+    },
+    { threshold: 0.2 }
+  ).observe(el);
 
   start();
-}());
+})();
 
 // Stats Bar — Animasyonlu Sayaç
 (function initStatsCounter() {
   const items = document.querySelectorAll('.stats-bar__num[data-target]');
   if (!items.length) return;
 
-  const fmt = (n) => n >= 1000 ? n.toLocaleString('tr-TR') : n.toString();
+  const fmt = (n) => (n >= 1000 ? n.toLocaleString('tr-TR') : n.toString());
 
   const animate = (el) => {
     const target = parseInt(el.dataset.target, 10);
@@ -804,14 +852,20 @@ vec3 eb_getNorm(vec3 pos){
     requestAnimationFrame(tick);
   };
 
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) { animate(e.target); obs.unobserve(e.target); }
-    });
-  }, { threshold: 0.4 });
+  const obs = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          animate(e.target);
+          obs.unobserve(e.target);
+        }
+      });
+    },
+    { threshold: 0.4 }
+  );
 
-  items.forEach(el => obs.observe(el));
-}());
+  items.forEach((el) => obs.observe(el));
+})();
 
 // Floating WhatsApp Button
 (function initWhatsApp() {
@@ -823,8 +877,8 @@ vec3 eb_getNorm(vec3 pos){
   btn.className = 'whatsapp-float';
   btn.innerHTML =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="28" height="28" fill="currentColor" aria-hidden="true">' +
-      '<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>' +
-      '<path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.857L.054 23.05a.75.75 0 0 0 .916.944l5.453-1.457A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.694 9.694 0 0 1-4.951-1.354l-.355-.21-3.675.983.998-3.549-.232-.366A9.699 9.699 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>' +
+    '<path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>' +
+    '<path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.126 1.533 5.857L.054 23.05a.75.75 0 0 0 .916.944l5.453-1.457A11.95 11.95 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 21.75a9.694 9.694 0 0 1-4.951-1.354l-.355-.21-3.675.983.998-3.549-.232-.366A9.699 9.699 0 0 1 2.25 12C2.25 6.615 6.615 2.25 12 2.25S21.75 6.615 21.75 12 17.385 21.75 12 21.75z"/>' +
     '</svg>';
   document.body.appendChild(btn);
-}());
+})();

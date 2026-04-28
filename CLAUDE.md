@@ -162,14 +162,22 @@ git push -u origin claude/<açıklama>-<SESSION_ID>
 
 ---
 
-## Geliştirme Ortamı
+## Geliştirme Ortamı & Araçlar
+
+Proje artık profesyonel Vite, Prettier ve ESLint araç zincirine sahiptir. Tümü için `package.json` üzerinden npm script'leri tanımlıdır.
 
 ```bash
-# Yerel sunucu başlat
-npx serve .
+# Yerel geliştirme sunucusu başlat (Vite - Anında live reload)
+npm run dev
 
-# Ya da live reload ile
-npx browser-sync start --server --files "*.html, *.css, *.js"
+# Kodu otomatik formatla (Prettier)
+npm run format
+
+# Kodda kullanılmayan değişkenleri ve hataları bul (ESLint)
+npm run lint
+
+# Üretime (Production) hazır, gereksiz CSS'leri silinmiş paket oluştur
+npm run build
 ```
 
 ---
@@ -191,6 +199,7 @@ npx browser-sync start --server --files "*.html, *.css, *.js"
 5. **Tüm sayfalarda tutarlılık** — Nav, footer ve stil değişkenleri tüm `.html` dosyalarına yansıtılmalıdır
 6. **Yıkıcı eylemler için sor** — Force push, dosya silme veya history sıfırlama öncesinde kullanıcıya sor
 7. **Bu dosyayı güncelle** — Önemli yeni yapı veya kurallar eklendiğinde CLAUDE.md'yi güncelle
+8. **Kod Kalitesi Araçlarını Kullan** — Kod düzenlemesi (cleanup) veya kod yazımı sonrası mutlaka `npm run format` ile kodu standartlara oturt, `npm run lint` ile hataları kontrol et.
 
 ---
 

@@ -1,0 +1,17 @@
+{
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "lint": "eslint .",
+    "format": "prettier --write \"**/*.{js,css,html}\""
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.2.1",
+    "prettier": "^3.8.3",
+    "sharp": "^0.34.5",
+    "vite": "^8.0.10",
+    "vite-plugin-purgecss": "^0.2.13"
+  }
+}
