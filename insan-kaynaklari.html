@@ -1,314 +1,548 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Arkoz Gazbeton İnsan Kaynakları — Kariyer fırsatları ve başvuru formu." />
-  <title>İnsan Kaynakları | Arkoz Gazbeton</title>
-  <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
-  <link rel="icon" href="logo.png" type="image/png" />
-  <link rel="stylesheet" href="styles.css" />
-  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Arkoz Gazbeton İnsan Kaynakları — Kariyer fırsatları ve başvuru formu."
+    />
+    <title>İnsan Kaynakları | Arkoz Gazbeton</title>
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
+  </head>
+  <body>
+    <header class="header scrolled" id="header">
+      <nav class="nav container">
+        <a href="index.html" class="nav__logo" aria-label="Arkoz Gazbeton - Ana Sayfa">
+          <img src="logo.png" alt="Arkoz Gazbeton" loading="eager" fetchpriority="high" />
+        </a>
+        <ul class="nav__list" id="nav-list">
+          <li><a href="kurumsal.html" class="nav__link">Kurumsal</a></li>
+          <li><a href="urunler.html" class="nav__link">Ürünler</a></li>
+          <li><a href="gazbeton.html" class="nav__link">Gazbeton</a></li>
+          <li><a href="haberler.html" class="nav__link">Haberler</a></li>
+          <li>
+            <a href="insan-kaynaklari.html" class="nav__link" style="color: var(--color-primary)"
+              >İnsan Kaynakları</a
+            >
+          </li>
+          <li><a href="politikalar.html" class="nav__link">Politikalar</a></li>
+          <li><a href="index.html#iletisim" class="nav__link nav__link--cta">💬 İletişim</a></li>
+        </ul>
+        <button class="nav__burger" id="burger" aria-label="Menüyü aç">
+          <span></span><span></span><span></span>
+        </button>
+      </nav>
+    </header>
 
-  <header class="header scrolled" id="header">
-    <nav class="nav container">
-      <a href="index.html" class="nav__logo" aria-label="Arkoz Gazbeton - Ana Sayfa">
-        <img src="logo.png" alt="Arkoz Gazbeton" loading="eager" fetchpriority="high" />
-      </a>
-      <ul class="nav__list" id="nav-list">
-        <li><a href="kurumsal.html" class="nav__link">Kurumsal</a></li>
-        <li><a href="urunler.html" class="nav__link">Ürünler</a></li>
-        <li><a href="gazbeton.html" class="nav__link">Gazbeton</a></li>
-        <li><a href="haberler.html" class="nav__link">Haberler</a></li>
-        <li><a href="insan-kaynaklari.html" class="nav__link" style="color:var(--color-primary)">İnsan Kaynakları</a></li>
-        <li><a href="politikalar.html" class="nav__link">Politikalar</a></li>
-        <li><a href="index.html#iletisim" class="nav__link nav__link--cta">💬 İletişim</a></li>
-      </ul>
-      <button class="nav__burger" id="burger" aria-label="Menüyü aç">
-        <span></span><span></span><span></span>
-      </button>
-    </nav>
-  </header>
-
-  <div class="page-hero">
-    <div class="container">
-      <span class="page-hero__tag">Kariyer</span>
-      <h1 class="page-hero__title">İnsan <span>Kaynakları</span></h1>
-    </div>
-  </div>
-
-  <main>
-    <section class="section" style="background:var(--color-bg)">
+    <div class="page-hero">
       <div class="container">
-        <div class="ik__grid">
-
-          <div class="ik__values">
-            <div style="margin-bottom:8px">
-              <h2 style="font-size:1.8rem;font-weight:900;margin-bottom:16px">İnsanı <span style="background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Birinci</span> Görüyoruz</h2>
-              <p style="color:var(--color-text-muted);line-height:1.8;margin-bottom:24px">
-                Arkoz Gazbeton olarak "insanı ilk" prensibiyle çalışıyoruz. Her bir çalışanımızın değer yaratarak şirket süreçlerine katkı sağlayabildiği ve değer gördüğü bir ortam oluşturuyoruz.
-              </p>
-              <p style="color:var(--color-text-muted);line-height:1.8;margin-bottom:32px">
-                Geliştirme odaklı, verimli, sağlıklı ve başarılı bir insan kaynakları yaklaşımı uygulamayı taahhüt ediyoruz. Paydaşlarımızın büyümesi için sürekli projeler geliştiriyor, çalışan ihtiyaçlarını düzenli olarak analiz ediyor ve değer odaklı yaklaşımlar oluşturuyoruz.
-              </p>
-            </div>
-            <div class="ik__value">
-              <h4>🎯 Geliştirme Odaklı</h4>
-              <p>Paydaşların büyümesi için sürekli proje gelişimi ve çalışan ihtiyaçlarının düzenli analizi.</p>
-            </div>
-            <div class="ik__value">
-              <h4>⭐ Değer Yaratma</h4>
-              <p>Her çalışanımızın şirket süreçlerine katkı sağlayabildiği ve değer gördüğü bir çalışma ortamı.</p>
-            </div>
-            <div class="ik__value">
-              <h4>🌱 Sürekli Gelişim</h4>
-              <p>Çalışan gelişimi, verimlilik ve memnuniyet için değer odaklı yaklaşımlar oluşturuyoruz.</p>
-            </div>
-          </div>
-
-          <div>
-            <h3 style="font-size:1.4rem;font-weight:700;margin-bottom:8px">Başvuru Formu</h3>
-            <p style="color:var(--color-text-muted);margin-bottom:28px">Ekibimize katılmak için formu doldurun, size ulaşalım.</p>
-            <form class="contact__form" id="ik-form" novalidate style="grid-template-columns:1fr">
-              <div class="form__group">
-                <input type="text" id="ik-name" name="name" placeholder="Adınız Soyadınız *" required />
-                <label for="ik-name">Ad Soyad</label>
-              </div>
-              <div class="form__group">
-                <input type="email" id="ik-email" name="email" placeholder="E-posta Adresiniz *" required />
-                <label for="ik-email">E-posta</label>
-              </div>
-              <div class="form__group">
-                <input type="tel" id="ik-phone" name="phone" placeholder="Telefon Numaranız *" required />
-                <label for="ik-phone">Telefon</label>
-              </div>
-              <div class="form__group">
-                <select id="ik-dept" name="department">
-                  <option value="">Başvurmak İstediğiniz Departman</option>
-                  <option value="uretim">Üretim</option>
-                  <option value="satis">Satış & Pazarlama</option>
-                  <option value="teknik">Teknik</option>
-                  <option value="ik">İnsan Kaynakları</option>
-                  <option value="muhasebe">Muhasebe & Finans</option>
-                  <option value="diger">Diğer</option>
-                </select>
-                <label for="ik-dept">Departman</label>
-              </div>
-              <div class="form__group">
-                <textarea id="ik-message" name="message" placeholder="Kendinizden kısaca bahsedin..." rows="4"></textarea>
-                <label for="ik-message">Hakkınızda</label>
-              </div>
-              <div style="display:flex;align-items:flex-start;gap:10px;margin-bottom:4px">
-                <input type="checkbox" id="kvkk" name="kvkk" required style="margin-top:3px;width:auto;accent-color:var(--color-primary)" />
-                <label for="kvkk" style="font-size:0.82rem;color:var(--color-text-muted);cursor:pointer">
-                  <a href="politikalar.html" style="color:var(--color-primary)">Gizlilik Politikası</a> ve
-                  <a href="politikalar.html" style="color:var(--color-primary)">KVKK Aydınlatma Metni</a>'ni okudum, onaylıyorum. *
-                </label>
-              </div>
-              <button type="submit" class="btn btn--primary btn--full">
-                <span>Başvuruyu Gönder</span>
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-              </button>
-            </form>
-          </div>
-
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <div class="container">
-      <div class="footer__top">
-        <div class="footer__brand">
-          <a href="index.html" class="nav__logo" aria-label="Arkoz Gazbeton - Ana Sayfa">
-        <img src="logo.png" alt="Arkoz Gazbeton" loading="lazy" />
-      </a>
-          <p>Türkiye'nin En Yeni ve En Modern Gazbeton Üretim Tesisi.</p>
-          <p class="footer__address">📍 Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye</p>
-          <div class="footer__contact-info">
-            <a href="tel:08503175555">📞 0 (850) 317 55 55</a>
-            <a href="mailto:info@arkozgazbeton.com.tr">✉ info@arkozgazbeton.com.tr</a>
-            <a href="https://wa.me/905388658289">💬 WhatsApp: 0538 865 82 89</a>
-          </div>
-          <div class="footer__social">
-            <a href="https://www.facebook.com/arkozgazbeton" target="_blank" rel="noopener" aria-label="Facebook">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
-            </a>
-            <a href="https://www.instagram.com/arkozgazbeton" target="_blank" rel="noopener" aria-label="Instagram">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-            </a>
-            <a href="https://www.linkedin.com/company/arkozgazbeton" target="_blank" rel="noopener" aria-label="LinkedIn">
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
-            </a>
-          </div>
-        </div>
-        <div class="footer__links">
-          <div class="footer__col">
-            <h4>Kurumsal</h4>
-            <ul>
-              <li><a href="kurumsal.html">Genel Tanıtım</a></li>
-              <li><a href="kurumsal.html#tab-misyon">Misyon ve Vizyon</a></li>
-              <li><a href="kurumsal.html#tab-tarihce">Tarihçe</a></li>
-              <li><a href="kurumsal.html#tab-eys">EYS Politikamız</a></li>
-              <li><a href="kurumsal.html#tab-surdurulebilirlik">Sürdürülebilirlik</a></li>
-              <li><a href="kurumsal.html#tab-ortaklar">İş Ortakları</a></li>
-              <li><a href="kurumsal.html#tab-belgeler">Belgelerimiz</a></li>
-            </ul>
-          </div>
-          <div class="footer__col">
-            <h4>Ürünler</h4>
-            <ul>
-              <li><a href="index.html#urunler">Arkoz Blok</a></li>
-              <li><a href="index.html#urunler">Arkoz Asmolen</a></li>
-            </ul>
-            <h4>Gazbeton</h4>
-            <ul>
-              <li><a href="gazbeton.html">Neden Gazbeton?</a></li>
-              <li><a href="gazbeton.html">Isı Yalıtımı</a></li>
-              <li><a href="gazbeton.html">Deprem Güvenliği</a></li>
-              <li><a href="gazbeton.html">Ses Yalıtımı</a></li>
-              <li><a href="gazbeton.html">Enerji Verimliliği</a></li>
-            </ul>
-          </div>
-          <div class="footer__col">
-            <h4>Politikalar</h4>
-            <ul>
-              <li><a href="politikalar.html">Kişisel Verilerin Korunması</a></li>
-              <li><a href="politikalar.html">Gizlilik Politikası</a></li>
-              <li><a href="politikalar.html">Çerez Politikası</a></li>
-            </ul>
-            <h4>Diğer</h4>
-            <ul>
-              <li><a href="haberler.html">Haberler</a></li>
-              <li><a href="insan-kaynaklari.html">İnsan Kaynakları</a></li>
-            </ul>
-          </div>
-          <div class="footer__col">
-            <h4>İletişim</h4>
-            <ul>
-              <li><a href="tel:08503175555">0 (850) 317 55 55</a></li>
-              <li><a href="mailto:info@arkozgazbeton.com.tr">info@arkozgazbeton.com.tr</a></li>
-              <li><a href="https://wa.me/905388658289">WhatsApp: 0538 865 82 89</a></li>
-              <li><a href="index.html#iletisim">İletişim Formu</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="footer__bottom">
-        <p>© 2025 Arkoz Gaz Beton San.Tic A.Ş. — Tüm hakları saklıdır.</p>
-        <div class="footer__bottom-links">
-          <a href="politikalar.html">Gizlilik Politikası</a>
-          <a href="politikalar.html">Çerez Politikası</a>
-          <a href="politikalar.html">KVKK</a>
-        </div>
+        <span class="page-hero__tag">Kariyer</span>
+        <h1 class="page-hero__title">İnsan <span>Kaynakları</span></h1>
       </div>
     </div>
-  </footer>
 
-  <script src="script.js" defer></script>
+    <main>
+      <section class="section" style="background: var(--color-bg)">
+        <div class="container">
+          <div class="ik__grid">
+            <div class="ik__values">
+              <div style="margin-bottom: 8px">
+                <h2 style="font-size: 1.8rem; font-weight: 900; margin-bottom: 16px">
+                  İnsanı
+                  <span
+                    style="
+                      background: var(--gradient-primary);
+                      -webkit-background-clip: text;
+                      -webkit-text-fill-color: transparent;
+                      background-clip: text;
+                    "
+                    >Birinci</span
+                  >
+                  Görüyoruz
+                </h2>
+                <p style="color: var(--color-text-muted); line-height: 1.8; margin-bottom: 24px">
+                  Arkoz Gazbeton olarak "insanı ilk" prensibiyle çalışıyoruz. Her bir çalışanımızın
+                  değer yaratarak şirket süreçlerine katkı sağlayabildiği ve değer gördüğü bir ortam
+                  oluşturuyoruz.
+                </p>
+                <p style="color: var(--color-text-muted); line-height: 1.8; margin-bottom: 32px">
+                  Geliştirme odaklı, verimli, sağlıklı ve başarılı bir insan kaynakları yaklaşımı
+                  uygulamayı taahhüt ediyoruz. Paydaşlarımızın büyümesi için sürekli projeler
+                  geliştiriyor, çalışan ihtiyaçlarını düzenli olarak analiz ediyor ve değer odaklı
+                  yaklaşımlar oluşturuyoruz.
+                </p>
+              </div>
+              <div class="ik__value">
+                <h4>🎯 Geliştirme Odaklı</h4>
+                <p>
+                  Paydaşların büyümesi için sürekli proje gelişimi ve çalışan ihtiyaçlarının düzenli
+                  analizi.
+                </p>
+              </div>
+              <div class="ik__value">
+                <h4>⭐ Değer Yaratma</h4>
+                <p>
+                  Her çalışanımızın şirket süreçlerine katkı sağlayabildiği ve değer gördüğü bir
+                  çalışma ortamı.
+                </p>
+              </div>
+              <div class="ik__value">
+                <h4>🌱 Sürekli Gelişim</h4>
+                <p>
+                  Çalışan gelişimi, verimlilik ve memnuniyet için değer odaklı yaklaşımlar
+                  oluşturuyoruz.
+                </p>
+              </div>
+            </div>
 
-  <!-- AI Chat Widget -->
-  <div id="ai-chat-widget">
-    <div id="ai-chat-panel" aria-hidden="true">
-      <div id="ai-chat-header">
-        <div id="ai-chat-header-info">
-          <img src="logo.png" alt="Arkoz Gazbeton" id="ai-chat-logo" />
-          <span id="ai-chat-header-sub">Size nasıl yardımcı olabilirim?</span>
+            <div>
+              <h3 style="font-size: 1.4rem; font-weight: 700; margin-bottom: 8px">Başvuru Formu</h3>
+              <p style="color: var(--color-text-muted); margin-bottom: 28px">
+                Ekibimize katılmak için formu doldurun, size ulaşalım.
+              </p>
+              <form
+                class="contact__form"
+                id="ik-form"
+                novalidate
+                style="grid-template-columns: 1fr"
+              >
+                <div class="form__group">
+                  <input
+                    type="text"
+                    id="ik-name"
+                    name="name"
+                    placeholder="Adınız Soyadınız *"
+                    required
+                  />
+                  <label for="ik-name">Ad Soyad</label>
+                </div>
+                <div class="form__group">
+                  <input
+                    type="email"
+                    id="ik-email"
+                    name="email"
+                    placeholder="E-posta Adresiniz *"
+                    required
+                  />
+                  <label for="ik-email">E-posta</label>
+                </div>
+                <div class="form__group">
+                  <input
+                    type="tel"
+                    id="ik-phone"
+                    name="phone"
+                    placeholder="Telefon Numaranız *"
+                    required
+                  />
+                  <label for="ik-phone">Telefon</label>
+                </div>
+                <div class="form__group">
+                  <select id="ik-dept" name="department">
+                    <option value="">Başvurmak İstediğiniz Departman</option>
+                    <option value="uretim">Üretim</option>
+                    <option value="satis">Satış & Pazarlama</option>
+                    <option value="teknik">Teknik</option>
+                    <option value="ik">İnsan Kaynakları</option>
+                    <option value="muhasebe">Muhasebe & Finans</option>
+                    <option value="diger">Diğer</option>
+                  </select>
+                  <label for="ik-dept">Departman</label>
+                </div>
+                <div class="form__group">
+                  <textarea
+                    id="ik-message"
+                    name="message"
+                    placeholder="Kendinizden kısaca bahsedin..."
+                    rows="4"
+                  ></textarea>
+                  <label for="ik-message">Hakkınızda</label>
+                </div>
+                <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 4px">
+                  <input
+                    type="checkbox"
+                    id="kvkk"
+                    name="kvkk"
+                    required
+                    style="margin-top: 3px; width: auto; accent-color: var(--color-primary)"
+                  />
+                  <label
+                    for="kvkk"
+                    style="font-size: 0.82rem; color: var(--color-text-muted); cursor: pointer"
+                  >
+                    <a href="politikalar.html" style="color: var(--color-primary)"
+                      >Gizlilik Politikası</a
+                    >
+                    ve
+                    <a href="politikalar.html" style="color: var(--color-primary)"
+                      >KVKK Aydınlatma Metni</a
+                    >'ni okudum, onaylıyorum. *
+                  </label>
+                </div>
+                <button type="submit" class="btn btn--primary btn--full">
+                  <span>Başvuruyu Gönder</span>
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <line x1="22" y1="2" x2="11" y2="13" />
+                    <polygon points="22 2 15 22 11 13 2 9 22 2" />
+                  </svg>
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
-        <button id="ai-chat-close-btn" aria-label="Kapat">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer__top">
+          <div class="footer__brand">
+            <a href="index.html" class="nav__logo" aria-label="Arkoz Gazbeton - Ana Sayfa">
+              <img src="logo.png" alt="Arkoz Gazbeton" loading="lazy" />
+            </a>
+            <p>Türkiye'nin En Yeni ve En Modern Gazbeton Üretim Tesisi.</p>
+            <p class="footer__address">
+              📍 Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye
+            </p>
+            <div class="footer__contact-info">
+              <a href="tel:08503175555">📞 0 (850) 317 55 55</a>
+              <a href="mailto:info@arkozgazbeton.com.tr">✉ info@arkozgazbeton.com.tr</a>
+              <a href="https://wa.me/905388658289">💬 WhatsApp: 0538 865 82 89</a>
+            </div>
+            <div class="footer__social">
+              <a
+                href="https://www.facebook.com/arkozgazbeton"
+                target="_blank"
+                rel="noopener"
+                aria-label="Facebook"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" />
+                </svg>
+              </a>
+              <a
+                href="https://www.instagram.com/arkozgazbeton"
+                target="_blank"
+                rel="noopener"
+                aria-label="Instagram"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                  <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+                </svg>
+              </a>
+              <a
+                href="https://www.linkedin.com/company/arkozgazbeton"
+                target="_blank"
+                rel="noopener"
+                aria-label="LinkedIn"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="18"
+                  height="18"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+                  />
+                  <rect x="2" y="9" width="4" height="12" />
+                  <circle cx="4" cy="4" r="2" />
+                </svg>
+              </a>
+            </div>
+          </div>
+          <div class="footer__links">
+            <div class="footer__col">
+              <h4>Kurumsal</h4>
+              <ul>
+                <li><a href="kurumsal.html">Genel Tanıtım</a></li>
+                <li><a href="kurumsal.html#tab-misyon">Misyon ve Vizyon</a></li>
+                <li><a href="kurumsal.html#tab-tarihce">Tarihçe</a></li>
+                <li><a href="kurumsal.html#tab-eys">EYS Politikamız</a></li>
+                <li><a href="kurumsal.html#tab-surdurulebilirlik">Sürdürülebilirlik</a></li>
+                <li><a href="kurumsal.html#tab-ortaklar">İş Ortakları</a></li>
+                <li><a href="kurumsal.html#tab-belgeler">Belgelerimiz</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h4>Ürünler</h4>
+              <ul>
+                <li><a href="index.html#urunler">Arkoz Blok</a></li>
+                <li><a href="index.html#urunler">Arkoz Asmolen</a></li>
+              </ul>
+              <h4>Gazbeton</h4>
+              <ul>
+                <li><a href="gazbeton.html">Neden Gazbeton?</a></li>
+                <li><a href="gazbeton.html">Isı Yalıtımı</a></li>
+                <li><a href="gazbeton.html">Deprem Güvenliği</a></li>
+                <li><a href="gazbeton.html">Ses Yalıtımı</a></li>
+                <li><a href="gazbeton.html">Enerji Verimliliği</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h4>Politikalar</h4>
+              <ul>
+                <li><a href="politikalar.html">Kişisel Verilerin Korunması</a></li>
+                <li><a href="politikalar.html">Gizlilik Politikası</a></li>
+                <li><a href="politikalar.html">Çerez Politikası</a></li>
+              </ul>
+              <h4>Diğer</h4>
+              <ul>
+                <li><a href="haberler.html">Haberler</a></li>
+                <li><a href="insan-kaynaklari.html">İnsan Kaynakları</a></li>
+              </ul>
+            </div>
+            <div class="footer__col">
+              <h4>İletişim</h4>
+              <ul>
+                <li><a href="tel:08503175555">0 (850) 317 55 55</a></li>
+                <li><a href="mailto:info@arkozgazbeton.com.tr">info@arkozgazbeton.com.tr</a></li>
+                <li><a href="https://wa.me/905388658289">WhatsApp: 0538 865 82 89</a></li>
+                <li><a href="index.html#iletisim">İletişim Formu</a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="footer__bottom">
+          <p>© 2025 Arkoz Gaz Beton San.Tic A.Ş. — Tüm hakları saklıdır.</p>
+          <div class="footer__bottom-links">
+            <a href="politikalar.html">Gizlilik Politikası</a>
+            <a href="politikalar.html">Çerez Politikası</a>
+            <a href="politikalar.html">KVKK</a>
+          </div>
+        </div>
       </div>
-      <div id="ai-chat-messages">
-        <div class="ai-msg ai-msg--bot">Merhaba! Ben Arkoz Gazbeton'un asistanıyım. Ürünler, teknik özellikler veya teklif hakkında yardımcı olabilirim.</div>
+    </footer>
+
+    <script src="script.js" defer></script>
+
+    <!-- AI Chat Widget -->
+    <div id="ai-chat-widget">
+      <div id="ai-chat-panel" aria-hidden="true">
+        <div id="ai-chat-header">
+          <div id="ai-chat-header-info">
+            <img src="logo.png" alt="Arkoz Gazbeton" id="ai-chat-logo" />
+            <span id="ai-chat-header-sub">Size nasıl yardımcı olabilirim?</span>
+          </div>
+          <button id="ai-chat-close-btn" aria-label="Kapat">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+            >
+              <line x1="18" y1="6" x2="6" y2="18" />
+              <line x1="6" y1="6" x2="18" y2="18" />
+            </svg>
+          </button>
+        </div>
+        <div id="ai-chat-messages">
+          <div class="ai-msg ai-msg--bot">
+            Merhaba! Ben Arkoz Gazbeton'un asistanıyım. Ürünler, teknik özellikler veya teklif
+            hakkında yardımcı olabilirim.
+          </div>
+        </div>
+        <div id="ai-chat-input-row">
+          <input
+            id="ai-chat-input"
+            type="text"
+            placeholder="Mesajınızı yazın..."
+            autocomplete="off"
+          />
+          <button id="ai-chat-send" aria-label="Gönder">
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
+          </button>
+        </div>
       </div>
-      <div id="ai-chat-input-row">
-        <input id="ai-chat-input" type="text" placeholder="Mesajınızı yazın..." autocomplete="off" />
-        <button id="ai-chat-send" aria-label="Gönder">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
-        </button>
-      </div>
+      <button id="ai-chat-toggle" aria-label="AI Asistan ile konuş">
+        <svg
+          id="ai-icon-chat"
+          width="26"
+          height="26"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        <svg
+          id="ai-icon-close"
+          width="26"
+          height="26"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          style="display: none"
+        >
+          <line x1="18" y1="6" x2="6" y2="18" />
+          <line x1="6" y1="6" x2="18" y2="18" />
+        </svg>
+      </button>
     </div>
-    <button id="ai-chat-toggle" aria-label="AI Asistan ile konuş">
-      <svg id="ai-icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-      <svg id="ai-icon-close" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" style="display:none"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-    </button>
-  </div>
-  <script>
-    (function(){
-      var API='https://arkoz-ai.vercel.app/api/chat';
-      var SYSTEM='Sen Arkoz Gazbeton\'un resmi yapay zeka asistanısın. Türkçe yanıt ver. Aşağıdaki bilgilere dayanarak müşterilere yardımcı ol.\n\n## ŞİRKET HAKKINDA\nArkoz Gazbeton, Arkoz Holding bünyesinde faaliyet gösteren, Samsun\'un Havza ilçesinde Türkiye\'nin en yeni ve en modern gazbeton üretim tesisinde üretim gerçekleştiren bir yapı malzemeleri şirketidir. Arkoz Holding; Türkiye, Gürcistan, Azerbaycan, Nahçıvan ve Çek Cumhuriyeti\'nde faaliyet gösteren çok uluslu bir holdingdir. Ağrı Çimento Fabrikası da Arkoz Holding\'in önemli yatırımlarından biridir (yaklaşık 1 milyon ton yıllık üretim kapasitesi).\n\n**Tesis:** Havza OSB\'de 450.000 m³/yıl gazbeton üretim kapasitesi.\n**Adres:** Bekdiğin Mah. Havza OSB Cd. No:18/1, Havza, Samsun\n**Telefon:** 0 (850) 317 55 55\n**WhatsApp:** +90 538 865 82 89\n**E-posta:** info@arkozgazbeton.com.tr\n**Web:** arkozgazbeton.com.tr\n**Sosyal Medya:** Facebook, Instagram, LinkedIn — @arkozgazbeton\n\n## MİSYON & VİZYON\n**Misyon:** Beklentilerin de ötesine geçen hizmet ve kaliteyi sunmak; yüksek kaliteli, maliyet avantajı sağlayan ve çevre dostu ürünlerle müşteri odaklı çözümler üretmek.\n**Vizyon:** Türkiye\'nin lider yapı ürünleri tedarikçisi olmak. Tüm tüketici kesimleriyle yakın ilişki içinde bulunmak, yeni yatırımlarla üstün yapı çözümleri sunmak.\n**Değerler:** Çevre sorumluluğu, dijital dönüşüm, sürdürülebilirlik, kaynak verimliliği, müşteri odaklılık.\n\n## ÜRÜNLER\n\n### Arkoz Blok\nMineral esaslı, yanmaz (Yangın Sınıfı A1), yüksek ısı yalıtım performansına sahip, dayanımı yüksek duvar yapı malzemesi.\n- **Kullanım:** İç ve dış duvar inşası\n- **Yangın Dayanım Sınıfı:** A1 (Tamamen yanmaz)\n- **Standart:** TS-EN 771-4\n- **Özellikler:** Düşük ısı iletim katsayısı (yüksek enerji verimliliği), hafif yapısıyla depreme karşı dayanımı artırır, yüksek mekanik dayanım, uzun ömür, yüksek ses yalıtımı, iç ve dış duvar uygulamalarına uygun, yangın duvarı çözümleri için kullanılabilir.\n\n### Arkoz Asmolen\nDöşemelerde dolgu malzemesi olarak kullanılan, ısı yalıtımı sağlayan gazbeton ürünü.\n- **Boyutlar:** Genişlik 30-50 cm, Uzunluk 60 cm, Kalınlık 15-35 cm\n- **Basınç Dayanımı:** 1,5 N/mm²\n- **Yangın Sınıfı:** A1\n- **Yoğunluk:** 300 kg/m³\n- **Avantajlar:** %20\'ye kadar beton tasarrufu sağlar, yüzey düzgünlüğü artırır (sıva maliyetini düşürür), kolay uygulama.\n\n## GAZBETON HAKKINDA\nGazbeton, ısı yalıtımı, deprem güvenliği, akustik performans ve dayanıklılığı tek üründe birleştiren ideal yapı malzemesidir.\n- Depreme karşı dayanımı artırır (hafif yapı)\n- A1 yangın dayanım sınıfı (tamamen yanmaz)\n- Yüksek ses yalıtımı\n- Yüksek enerji verimliliği (düşük ısı iletim katsayısı)\n- Kolay işlenebilir\n- Çevre ve insan sağlığına dost\n- Geri dönüştürülebilir malzeme\n- Fosil yakıt tüketimini azaltır\n\n## EYS (ENTEGRE YÖNETİM SİSTEMİ) POLİTİKASI\nArkoz Gazbeton, EYS politikası kapsamında kalite, çevre, iş sağlığı ve güvenliği ile enerji yönetimi alanlarında entegre bir yönetim sistemi uygulamaktadır. Bu politika; yasal gerekliliklere uyum, sürekli iyileştirme, çalışan katılımı, çevresel etkilerin minimizasyonu ve müşteri memnuniyetini esas alır. Detaylı EYS politikası belgesi için: arkozgazbeton.com.tr/tr/kurumsal/eys-politikamiz-18\n\n## SÜRDÜRÜLEBİLİRLİK & ÇEVRE POLİTİKASI\nArkoz Gazbeton sürdürülebilirliği üretimin ve çeşitliliğin devamını sağlarken insan yaşamının kalıcı kılınabilmesi olarak tanımlar.\n- **Sıfır Atık:** Hammadde temininden ambalajlamaya kadar tüm yan ürünler yeniden üretime entegre edilir\n- **Enerji Verimliliği:** Üretimin her aşamasında enerji tasarrufu önceliklidir\n- **Karbon Azaltımı:** Hem ürün hem de üretim sürecinde karbon emisyonları azaltılır\n- **Geri Dönüşüm:** Malzeme bileşeni geri dönüştürülebilir niteliktedir\n\n## İŞ ORTAKLARI\nArkoz Gazbeton kuruluşu esnasında Deloitte Danışmanlık ile çalışmıştır. Deloitte; vizyon, misyon, strateji ve organizasyon yapısının tasarlanmasında danışmanlık hizmeti vermiş, teknik altyapının kurulumunda destek sağlamıştır. Güncel iş ortaklıkları için: arkozgazbeton.com.tr/tr/kurumsal/is-ortaklari-68\n\n## İNSAN KAYNAKLARI\nArkoz Gazbeton "önce insan" ilkesiyle çalışır. Gelişime odaklı, verimli, sağlıklı ve başarılı bir insan kaynakları politikası benimser. İş başvuruları için web sitesindeki form doldurulabilir veya info@arkozgazbeton.com.tr adresine e-posta gönderilebilir.\n\n## BELGELER & SERTİFİKALAR\nÜrün belgeleri ve sertifikalar için: arkozgazbeton.com.tr/tr/kurumsal/belgelerimiz-82\n\n## TEKLİF & İLETİŞİM\n- Teklif formu: arkozgazbeton.com.tr/tr/teklif-formu\n- Telefon: 0 (850) 317 55 55\n- WhatsApp: +90 538 865 82 89\n- E-posta: info@arkozgazbeton.com.tr\n\nBilmediğin veya emin olmadığın konularda müşteriyi doğrudan iletişime yönlendir. Kısa, net ve yardımcı cevaplar ver.\n\n## EYS POLİTİKASI GÖRSELİ\nEYS politikası hakkında soru geldiğinde veya kullanıcı görmek istediğinde şu görseli paylaş:\n![EYS Politikası](https://arkozgazbeton.com.tr/Uploads/EYS.png)\n\n## YANIT FORMATI\n- Görsel paylaşmak için: ![açıklama](URL) formatını kullan\n- Link paylaşmak için: [metin](URL) formatını kullan\n- Önemli bilgileri **kalın** yaz';
-      var history=[];
-      var panel=document.getElementById('ai-chat-panel');
-      var msgs=document.getElementById('ai-chat-messages');
-      var input=document.getElementById('ai-chat-input');
-      var sendBtn=document.getElementById('ai-chat-send');
-      var iconChat=document.getElementById('ai-icon-chat');
-      var iconClose=document.getElementById('ai-icon-close');
-      document.getElementById('ai-chat-toggle').addEventListener('click',function(){
-        var open=panel.style.display==='flex';
-        panel.style.display=open?'none':'flex';
-        panel.setAttribute('aria-hidden',open?'true':'false');
-        iconChat.style.display=open?'block':'none';
-        iconClose.style.display=open?'none':'block';
-        if(!open)input.focus();
-      });
-      document.getElementById('ai-chat-close-btn').addEventListener('click',function(){
-        panel.style.display='none';
-        panel.setAttribute('aria-hidden','true');
-        iconChat.style.display='block';
-        iconClose.style.display='none';
-      });
-      function mdToHtml(text){
-        // Escape HTML for safety first
-        var s=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-        // Markdown: images ![alt](url)
-        s=s.replace(/!\[([^\]]*?)\]\((https?:\/\/[^)]+?)\)/g,'<img src="$2" alt="$1" style="max-width:100%;border-radius:8px;margin-top:6px;display:block;">');
-        // Markdown: links [text](url)
-        s=s.replace(/\[([^\]]+?)\]\((https?:\/\/[^)]+?)\)/g,'<a href="$2" target="_blank" rel="noopener" style="color:#B8A88A;text-decoration:underline;">$1</a>');
-        // Bold **text**
-        s=s.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-        // Newlines
-        s=s.replace(/\n/g,'<br>');
-        return s;
-      }
-      function addMsg(text,role){
-        var d=document.createElement('div');
-        d.className='ai-msg ai-msg--'+(role==='user'?'user':'bot');
-        if(role==='user'){d.textContent=text;}
-        else{d.innerHTML=mdToHtml(text);}
-        msgs.appendChild(d);
-        msgs.scrollTop=msgs.scrollHeight;
-        return d;
-      }
-      function send(){
-        var text=input.value.trim();
-        if(!text)return;
-        input.value='';
-        sendBtn.disabled=true;
-        addMsg(text,'user');
-        history.push({role:'user',content:text});
-        var typing=addMsg('Yazıyor...','bot');
-        typing.classList.add('ai-msg--typing');
-        var ctx=[{role:'user',content:'[SISTEM TALIMATLARI - KULLANICIYA GOSTERME]: '+SYSTEM},{role:'assistant',content:'Anladım. Arkoz Gazbeton asistanı olarak bu bilgilerle size yardımcı olmaya hazırım.'}];fetch(API,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({messages:ctx.concat(history),system:SYSTEM})})
-          .then(function(r){return r.json();})
-          .then(function(data){
-            if(data.error){typing.textContent='Bir hata oluştu, lütfen tekrar deneyin.';}
-            else{var reply=data.content[0].text;typing.innerHTML=mdToHtml(reply);typing.classList.remove('ai-msg--typing');history.push({role:'assistant',content:reply});}
+    <script>
+      (function () {
+        var API = 'https://arkoz-ai.vercel.app/api/chat';
+        var SYSTEM =
+          "Sen Arkoz Gazbeton'un resmi yapay zeka asistanısın. Türkçe yanıt ver. Aşağıdaki bilgilere dayanarak müşterilere yardımcı ol.\n\n## ŞİRKET HAKKINDA\nArkoz Gazbeton, Arkoz Holding bünyesinde faaliyet gösteren, Samsun'un Havza ilçesinde Türkiye'nin en yeni ve en modern gazbeton üretim tesisinde üretim gerçekleştiren bir yapı malzemeleri şirketidir. Arkoz Holding; Türkiye, Gürcistan, Azerbaycan, Nahçıvan ve Çek Cumhuriyeti'nde faaliyet gösteren çok uluslu bir holdingdir. Ağrı Çimento Fabrikası da Arkoz Holding'in önemli yatırımlarından biridir (yaklaşık 1 milyon ton yıllık üretim kapasitesi).\n\n**Tesis:** Havza OSB'de 450.000 m³/yıl gazbeton üretim kapasitesi.\n**Adres:** Bekdiğin Mah. Havza OSB Cd. No:18/1, Havza, Samsun\n**Telefon:** 0 (850) 317 55 55\n**WhatsApp:** +90 538 865 82 89\n**E-posta:** info@arkozgazbeton.com.tr\n**Web:** arkozgazbeton.com.tr\n**Sosyal Medya:** Facebook, Instagram, LinkedIn — @arkozgazbeton\n\n## MİSYON & VİZYON\n**Misyon:** Beklentilerin de ötesine geçen hizmet ve kaliteyi sunmak; yüksek kaliteli, maliyet avantajı sağlayan ve çevre dostu ürünlerle müşteri odaklı çözümler üretmek.\n**Vizyon:** Türkiye'nin lider yapı ürünleri tedarikçisi olmak. Tüm tüketici kesimleriyle yakın ilişki içinde bulunmak, yeni yatırımlarla üstün yapı çözümleri sunmak.\n**Değerler:** Çevre sorumluluğu, dijital dönüşüm, sürdürülebilirlik, kaynak verimliliği, müşteri odaklılık.\n\n## ÜRÜNLER\n\n### Arkoz Blok\nMineral esaslı, yanmaz (Yangın Sınıfı A1), yüksek ısı yalıtım performansına sahip, dayanımı yüksek duvar yapı malzemesi.\n- **Kullanım:** İç ve dış duvar inşası\n- **Yangın Dayanım Sınıfı:** A1 (Tamamen yanmaz)\n- **Standart:** TS-EN 771-4\n- **Özellikler:** Düşük ısı iletim katsayısı (yüksek enerji verimliliği), hafif yapısıyla depreme karşı dayanımı artırır, yüksek mekanik dayanım, uzun ömür, yüksek ses yalıtımı, iç ve dış duvar uygulamalarına uygun, yangın duvarı çözümleri için kullanılabilir.\n\n### Arkoz Asmolen\nDöşemelerde dolgu malzemesi olarak kullanılan, ısı yalıtımı sağlayan gazbeton ürünü.\n- **Boyutlar:** Genişlik 30-50 cm, Uzunluk 60 cm, Kalınlık 15-35 cm\n- **Basınç Dayanımı:** 1,5 N/mm²\n- **Yangın Sınıfı:** A1\n- **Yoğunluk:** 300 kg/m³\n- **Avantajlar:** %20'ye kadar beton tasarrufu sağlar, yüzey düzgünlüğü artırır (sıva maliyetini düşürür), kolay uygulama.\n\n## GAZBETON HAKKINDA\nGazbeton, ısı yalıtımı, deprem güvenliği, akustik performans ve dayanıklılığı tek üründe birleştiren ideal yapı malzemesidir.\n- Depreme karşı dayanımı artırır (hafif yapı)\n- A1 yangın dayanım sınıfı (tamamen yanmaz)\n- Yüksek ses yalıtımı\n- Yüksek enerji verimliliği (düşük ısı iletim katsayısı)\n- Kolay işlenebilir\n- Çevre ve insan sağlığına dost\n- Geri dönüştürülebilir malzeme\n- Fosil yakıt tüketimini azaltır\n\n## EYS (ENTEGRE YÖNETİM SİSTEMİ) POLİTİKASI\nArkoz Gazbeton, EYS politikası kapsamında kalite, çevre, iş sağlığı ve güvenliği ile enerji yönetimi alanlarında entegre bir yönetim sistemi uygulamaktadır. Bu politika; yasal gerekliliklere uyum, sürekli iyileştirme, çalışan katılımı, çevresel etkilerin minimizasyonu ve müşteri memnuniyetini esas alır. Detaylı EYS politikası belgesi için: arkozgazbeton.com.tr/tr/kurumsal/eys-politikamiz-18\n\n## SÜRDÜRÜLEBİLİRLİK & ÇEVRE POLİTİKASI\nArkoz Gazbeton sürdürülebilirliği üretimin ve çeşitliliğin devamını sağlarken insan yaşamının kalıcı kılınabilmesi olarak tanımlar.\n- **Sıfır Atık:** Hammadde temininden ambalajlamaya kadar tüm yan ürünler yeniden üretime entegre edilir\n- **Enerji Verimliliği:** Üretimin her aşamasında enerji tasarrufu önceliklidir\n- **Karbon Azaltımı:** Hem ürün hem de üretim sürecinde karbon emisyonları azaltılır\n- **Geri Dönüşüm:** Malzeme bileşeni geri dönüştürülebilir niteliktedir\n\n## İŞ ORTAKLARI\nArkoz Gazbeton kuruluşu esnasında Deloitte Danışmanlık ile çalışmıştır. Deloitte; vizyon, misyon, strateji ve organizasyon yapısının tasarlanmasında danışmanlık hizmeti vermiş, teknik altyapının kurulumunda destek sağlamıştır. Güncel iş ortaklıkları için: arkozgazbeton.com.tr/tr/kurumsal/is-ortaklari-68\n\n## İNSAN KAYNAKLARI\nArkoz Gazbeton \"önce insan\" ilkesiyle çalışır. Gelişime odaklı, verimli, sağlıklı ve başarılı bir insan kaynakları politikası benimser. İş başvuruları için web sitesindeki form doldurulabilir veya info@arkozgazbeton.com.tr adresine e-posta gönderilebilir.\n\n## BELGELER & SERTİFİKALAR\nÜrün belgeleri ve sertifikalar için: arkozgazbeton.com.tr/tr/kurumsal/belgelerimiz-82\n\n## TEKLİF & İLETİŞİM\n- Teklif formu: arkozgazbeton.com.tr/tr/teklif-formu\n- Telefon: 0 (850) 317 55 55\n- WhatsApp: +90 538 865 82 89\n- E-posta: info@arkozgazbeton.com.tr\n\nBilmediğin veya emin olmadığın konularda müşteriyi doğrudan iletişime yönlendir. Kısa, net ve yardımcı cevaplar ver.\n\n## EYS POLİTİKASI GÖRSELİ\nEYS politikası hakkında soru geldiğinde veya kullanıcı görmek istediğinde şu görseli paylaş:\n![EYS Politikası](https://arkozgazbeton.com.tr/Uploads/EYS.png)\n\n## YANIT FORMATI\n- Görsel paylaşmak için: ![açıklama](URL) formatını kullan\n- Link paylaşmak için: [metin](URL) formatını kullan\n- Önemli bilgileri **kalın** yaz";
+        var history = [];
+        var panel = document.getElementById('ai-chat-panel');
+        var msgs = document.getElementById('ai-chat-messages');
+        var input = document.getElementById('ai-chat-input');
+        var sendBtn = document.getElementById('ai-chat-send');
+        var iconChat = document.getElementById('ai-icon-chat');
+        var iconClose = document.getElementById('ai-icon-close');
+        document.getElementById('ai-chat-toggle').addEventListener('click', function () {
+          var open = panel.style.display === 'flex';
+          panel.style.display = open ? 'none' : 'flex';
+          panel.setAttribute('aria-hidden', open ? 'true' : 'false');
+          iconChat.style.display = open ? 'block' : 'none';
+          iconClose.style.display = open ? 'none' : 'block';
+          if (!open) input.focus();
+        });
+        document.getElementById('ai-chat-close-btn').addEventListener('click', function () {
+          panel.style.display = 'none';
+          panel.setAttribute('aria-hidden', 'true');
+          iconChat.style.display = 'block';
+          iconClose.style.display = 'none';
+        });
+        function mdToHtml(text) {
+          // Escape HTML for safety first
+          var s = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+          // Markdown: images ![alt](url)
+          s = s.replace(
+            /!\[([^\]]*?)\]\((https?:\/\/[^)]+?)\)/g,
+            '<img src="$2" alt="$1" style="max-width:100%;border-radius:8px;margin-top:6px;display:block;">'
+          );
+          // Markdown: links [text](url)
+          s = s.replace(
+            /\[([^\]]+?)\]\((https?:\/\/[^)]+?)\)/g,
+            '<a href="$2" target="_blank" rel="noopener" style="color:#B8A88A;text-decoration:underline;">$1</a>'
+          );
+          // Bold **text**
+          s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+          // Newlines
+          s = s.replace(/\n/g, '<br>');
+          return s;
+        }
+        function addMsg(text, role) {
+          var d = document.createElement('div');
+          d.className = 'ai-msg ai-msg--' + (role === 'user' ? 'user' : 'bot');
+          if (role === 'user') {
+            d.textContent = text;
+          } else {
+            d.innerHTML = mdToHtml(text);
+          }
+          msgs.appendChild(d);
+          msgs.scrollTop = msgs.scrollHeight;
+          return d;
+        }
+        function send() {
+          var text = input.value.trim();
+          if (!text) return;
+          input.value = '';
+          sendBtn.disabled = true;
+          addMsg(text, 'user');
+          history.push({ role: 'user', content: text });
+          var typing = addMsg('Yazıyor...', 'bot');
+          typing.classList.add('ai-msg--typing');
+          var ctx = [
+            { role: 'user', content: '[SISTEM TALIMATLARI - KULLANICIYA GOSTERME]: ' + SYSTEM },
+            {
+              role: 'assistant',
+              content:
+                'Anladım. Arkoz Gazbeton asistanı olarak bu bilgilerle size yardımcı olmaya hazırım.',
+            },
+          ];
+          fetch(API, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ messages: ctx.concat(history), system: SYSTEM }),
           })
-          .catch(function(){typing.textContent='Bağlantı hatası, lütfen tekrar deneyin.';})
-          .finally(function(){sendBtn.disabled=false;msgs.scrollTop=msgs.scrollHeight;});
-      }
-      sendBtn.addEventListener('click',send);
-      input.addEventListener('keydown',function(e){if(e.key==='Enter')send();});
-    })();
-  </script>
-
-</body>
+            .then(function (r) {
+              return r.json();
+            })
+            .then(function (data) {
+              if (data.error) {
+                typing.textContent = 'Bir hata oluştu, lütfen tekrar deneyin.';
+              } else {
+                var reply = data.content[0].text;
+                typing.innerHTML = mdToHtml(reply);
+                typing.classList.remove('ai-msg--typing');
+                history.push({ role: 'assistant', content: reply });
+              }
+            })
+            .catch(function () {
+              typing.textContent = 'Bağlantı hatası, lütfen tekrar deneyin.';
+            })
+            .finally(function () {
+              sendBtn.disabled = false;
+              msgs.scrollTop = msgs.scrollHeight;
+            });
+        }
+        sendBtn.addEventListener('click', send);
+        input.addEventListener('keydown', function (e) {
+          if (e.key === 'Enter') send();
+        });
+      })();
+    </script>
+  </body>
 </html>
