@@ -1075,6 +1075,18 @@ strong {
   min-height: 280px;
 }
 
+.quake-banner__photo {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  object-position: center;
+  border-radius: var(--r-lg);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.5);
+  display: block;
+}
+
 .quake-banner__visual svg {
   width: 100%;
   max-width: 380px;
