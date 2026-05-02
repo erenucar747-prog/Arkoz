@@ -421,6 +421,118 @@ if (document.readyState === 'loading') {
   document.body.appendChild(btn);
 })();
 
+/* ── 13.4 Cookie Banner (KVKK) ──────────────────────────── */
+(function initCookieBanner() {
+  const banner = document.getElementById('cookieBanner');
+  if (!banner) return;
+  if (localStorage.getItem('arkoz_cookie_consent')) return;
+  setTimeout(() => banner.classList.add('is-visible'), 1200);
+  const accept = document.getElementById('cookieAccept');
+  const reject = document.getElementById('cookieReject');
+  const dismiss = (val) => {
+    localStorage.setItem('arkoz_cookie_consent', val);
+    banner.classList.remove('is-visible');
+    setTimeout(() => banner.style.display = 'none', 350);
+  };
+  accept && accept.addEventListener('click', () => dismiss('all'));
+  reject && reject.addEventListener('click', () => dismiss('necessary'));
+})();
+
+/* ── 13.45 Scroll Progress + Sticky CTA Visibility ──────── */
+(function initScrollUI() {
+  const progressBar = document.getElementById('scrollProgressBar');
+  const stickyCta = document.getElementById('stickyCta');
+  let raf = null;
+  const update = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = null;
+      const sy = window.scrollY;
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = max > 0 ? (sy / max) * 100 : 0;
+      if (progressBar) progressBar.style.width = pct + '%';
+      if (stickyCta) {
+        if (sy > 600) stickyCta.classList.add('is-visible');
+        else stickyCta.classList.remove('is-visible');
+      }
+    });
+  };
+  window.addEventListener('scroll', update, { passive: true });
+  if (lenis && typeof lenis.on === 'function') lenis.on('scroll', update);
+  update();
+})();
+
+/* ── 13.5 Savings Calculator ────────────────────────────── */
+(function initCalculator() {
+  const slider = document.getElementById('calcArea');
+  if (!slider) return;
+  const areaVal = document.getElementById('calcAreaVal');
+  const co2 = document.getElementById('calcCO2');
+  const energy = document.getElementById('calcEnergy');
+  const labor = document.getElementById('calcLabor');
+  const total = document.getElementById('calcTotal');
+
+  const fmt = (n) => Math.round(n).toLocaleString('tr-TR');
+
+  // Sektör verilerine göre gerçekçi katsayılar:
+  // - Karbon: gazbeton vs tuğla yıllık 12 kg CO₂/m² fark
+  // - Enerji: 48 ₺/m² yıllık ortalama (TR enerji birim fiyat 2025)
+  // - İşçilik: 0.8 saat/m² fark (hızlı uygulanabilirlik)
+  // - Toplam yıllık kazanç: enerji + işçilik (~50 ₺/saat) + ek bakım tasarrufu
+
+  const update = (area) => {
+    const co2Saving = area * 12;
+    const energySaving = area * 48;
+    const laborSaving = Math.round(area * 0.8);
+    const totalSaving = energySaving + laborSaving * 50 + area * 38;
+
+    areaVal.textContent = fmt(area);
+    co2.textContent = fmt(co2Saving);
+    energy.textContent = fmt(energySaving);
+    labor.textContent = fmt(laborSaving);
+    total.textContent = fmt(totalSaving);
+  };
+
+  slider.addEventListener('input', (e) => update(+e.target.value));
+  update(+slider.value);
+})();
+
+/* ── 13.6 Gallery Lightbox ──────────────────────────────── */
+(function initLightbox() {
+  const items = document.querySelectorAll('.gallery__item[data-src]');
+  const lb = document.getElementById('lightbox');
+  const lbImg = document.getElementById('lightboxImg');
+  const lbClose = document.getElementById('lightboxClose');
+  if (!items.length || !lb) return;
+
+  const open = (src, alt) => {
+    lbImg.src = src;
+    lbImg.alt = alt;
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+  const close = () => {
+    lb.classList.remove('is-open');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  };
+
+  items.forEach((item) => {
+    item.addEventListener('click', () => {
+      const img = item.querySelector('img');
+      open(item.dataset.src, img ? img.alt : '');
+    });
+  });
+  lbClose.addEventListener('click', close);
+  lb.addEventListener('click', (e) => {
+    if (e.target === lb) close();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && lb.classList.contains('is-open')) close();
+  });
+})();
+
 /* ── 13. Tabs (kurumsal.html) ───────────────────────────── */
 (function initTabs() {
   const tabs = document.querySelectorAll('.tab, .tab-btn');
