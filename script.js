@@ -316,52 +316,6 @@ if (document.readyState === 'loading') {
   startTimer();
 })();
 
-/* ── 10. Adv slideshow (gazbeton poster gallery) ────────── */
-(function initAdvSlideshow() {
-  const el = document.getElementById('advSlideshow');
-  if (!el) return;
-  const slides = el.querySelectorAll('.adv-slide');
-  const dots = el.querySelectorAll('.adv-slide-dot');
-  if (!slides.length) return;
-
-  let current = 0;
-  let timer = null;
-
-  const goTo = (i) => {
-    slides[current].classList.remove('active');
-    if (dots[current]) dots[current].classList.remove('active');
-    current = (i + slides.length) % slides.length;
-    slides[current].classList.add('active');
-    if (dots[current]) dots[current].classList.add('active');
-  };
-
-  const start = () => {
-    if (timer) return;
-    timer = setInterval(() => goTo(current + 1), 4500);
-  };
-  const stop = () => {
-    clearInterval(timer);
-    timer = null;
-  };
-
-  dots.forEach((dot, i) => {
-    dot.addEventListener('click', () => {
-      goTo(i);
-      stop();
-      start();
-    });
-  });
-  el.addEventListener('mouseenter', stop);
-  el.addEventListener('mouseleave', start);
-
-  new IntersectionObserver(
-    (entries) => {
-      entries[0].isIntersecting ? start() : stop();
-    },
-    { threshold: 0.2 }
-  ).observe(el);
-})();
-
 /* ── 11. Stats counter (animated count-up) ──────────────── */
 (function initStatsCounter() {
   const items = document.querySelectorAll('.stats-bar__num[data-target]');
