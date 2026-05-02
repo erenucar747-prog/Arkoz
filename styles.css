@@ -3003,6 +3003,276 @@ strong {
   }
 }
 
+/* ── PRODUCTION TOUR (YouTube Embeds) ──────────────────────── */
+.production-tour {
+  background: var(--c-bg);
+  padding-block: var(--section-y);
+}
+.production-tour__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-5);
+  margin-top: var(--s-12);
+}
+.production-tour__video {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--c-surface-2);
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--c-line);
+  box-shadow: var(--sh-md);
+  transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+.production-tour__video:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sh-lg);
+}
+.production-tour__video iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+.production-tour__caption {
+  margin-top: var(--s-3);
+  font-size: var(--fs-13);
+  color: var(--c-text-muted);
+  font-weight: 500;
+}
+@media (max-width: 960px) {
+  .production-tour__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── GLOBAL REACH (9 Country Grid) ─────────────────────────── */
+.global-reach {
+  background: var(--c-bg-soft);
+  padding-block: var(--section-y);
+  position: relative;
+  overflow: hidden;
+}
+.global-reach::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(32, 17, 97, 0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(77, 184, 72, 0.05) 0%, transparent 60%);
+  pointer-events: none;
+}
+.global-reach__inner {
+  position: relative;
+  z-index: 1;
+}
+.global-reach__hub {
+  text-align: center;
+  margin-bottom: var(--s-12);
+  padding: var(--s-6);
+  background: var(--c-primary);
+  color: #fff;
+  border-radius: var(--r-lg);
+  box-shadow: var(--sh-md);
+  max-width: 540px;
+  margin-inline: auto;
+}
+.global-reach__hub-flag {
+  font-size: 2.4rem;
+  margin-bottom: var(--s-2);
+  line-height: 1;
+}
+.global-reach__hub-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-24);
+  margin-bottom: 4px;
+}
+.global-reach__hub-meta {
+  font-size: var(--fs-13);
+  color: rgba(255, 255, 255, 0.8);
+}
+.global-reach__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--s-4);
+  margin-top: var(--s-8);
+}
+.country-card {
+  background: var(--c-surface-1);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  padding: var(--s-5) var(--s-6);
+  display: flex;
+  align-items: center;
+  gap: var(--s-4);
+  transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+.country-card:hover {
+  border-color: var(--c-primary-20);
+  transform: translateY(-2px);
+  box-shadow: var(--sh-sm);
+}
+.country-card__flag {
+  font-size: 2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.country-card__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-16);
+  color: var(--c-text-strong);
+  display: block;
+  margin-bottom: 2px;
+}
+.country-card__region {
+  font-size: var(--fs-12);
+  color: var(--c-text-muted);
+  letter-spacing: 0.02em;
+}
+@media (max-width: 768px) {
+  .global-reach__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (max-width: 480px) {
+  .global-reach__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ── DEALERS (Bayi Ağımız) ──────────────────────────────────── */
+.dealers {
+  background: var(--c-bg);
+  padding-block: var(--section-y);
+}
+.dealers__grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--s-5);
+  max-width: 920px;
+  margin: 0 auto;
+}
+.dealer-card {
+  background: var(--c-surface-1);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  padding: var(--s-7);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-3);
+  position: relative;
+  transition: border-color var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+.dealer-card:hover {
+  border-color: var(--c-primary-20);
+  transform: translateY(-4px);
+  box-shadow: var(--sh-md);
+}
+.dealer-card__pin {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--r-sm);
+  background: var(--c-primary-50);
+  color: var(--c-primary);
+  margin-bottom: var(--s-2);
+}
+.dealer-card__name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-20);
+  color: var(--c-text-strong);
+}
+.dealer-card__city {
+  font-size: var(--fs-13);
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--c-primary);
+  margin-bottom: var(--s-2);
+}
+.dealer-card__address {
+  font-size: var(--fs-14);
+  line-height: 1.55;
+  color: var(--c-text-muted);
+}
+.dealer-card__contacts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-1);
+  margin-top: var(--s-2);
+  padding-top: var(--s-3);
+  border-top: 1px solid var(--c-line);
+}
+.dealer-card__contacts a {
+  font-size: var(--fs-13);
+  color: var(--c-text);
+  text-decoration: none;
+  transition: color var(--dur-fast);
+}
+.dealer-card__contacts a:hover {
+  color: var(--c-primary);
+}
+.dealer-card__products {
+  display: flex;
+  gap: var(--s-2);
+  flex-wrap: wrap;
+  margin-top: var(--s-3);
+}
+.dealer-card__chip {
+  display: inline-flex;
+  padding: 4px 10px;
+  font-size: var(--fs-12);
+  font-weight: 600;
+  background: var(--c-accent-12);
+  color: var(--c-accent-dark);
+  border: 1px solid var(--c-accent-20);
+  border-radius: var(--r-pill);
+}
+.dealer-card--cta {
+  background: var(--grad-primary);
+  color: #fff;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.dealer-card--cta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 48px rgba(32, 17, 97, 0.3);
+}
+.dealer-card--cta h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--fs-24);
+  color: #fff;
+  margin-bottom: var(--s-3);
+}
+.dealer-card--cta p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--fs-14);
+  line-height: 1.55;
+  margin-bottom: var(--s-5);
+}
+.dealer-card--cta .btn {
+  background: var(--c-accent);
+  color: var(--c-ink);
+  border: none;
+}
+.dealer-card--cta .btn:hover {
+  background: var(--c-accent-light);
+  color: var(--c-ink);
+}
+@media (max-width: 768px) {
+  .dealers__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ── LIFESTYLE BANNER (Sürdürülebilir) ─────────────────────── */
 .lifestyle-banner {
   position: relative;
