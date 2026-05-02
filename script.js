@@ -91,47 +91,66 @@ if (lenis) {
   });
 })();
 
-/* ── 5. Scroll reveal (IntersectionObserver, one-shot) ──── */
+/* ── 5. Scroll reveal — viewport-aware, Lenis-safe ──── */
 function initReveal() {
-  const targets = document.querySelectorAll(
-    '.service-card, .advantage-card, .about__card, .contact__item, .section__header, .mission__card, .mission__photo, .news-card, .cert-card, .partners-strip__partner'
+  // Auto-collect targets (don't pre-mark — only initial-viewport gets revealed-on-load)
+  const autoTargets = document.querySelectorAll(
+    '.service-card, .advantage-card, .about__card, .contact__item, .section__header, .mission__card, .mission__photo, .news-card, .cert-card, .partners-strip__partner, .adv-strip__card, .showcase__card, .faq__item, .quake-banner__content, .quake-banner__visual'
   );
-  if (!targets.length) return;
-
-  targets.forEach((el, i) => {
+  autoTargets.forEach((el, i) => {
     el.classList.add('reveal');
-    el.style.setProperty('--reveal-i', (i % 4).toString());
-  });
-
-  if (REDUCE_MOTION || !('IntersectionObserver' in window)) {
-    targets.forEach((el) => el.classList.add('is-in'));
-    return;
-  }
-
-  // Reveal elements already in viewport immediately
-  const vh = window.innerHeight;
-  targets.forEach((el) => {
-    const r = el.getBoundingClientRect();
-    if (r.top < vh && r.bottom > 0) {
-      el.classList.add('is-in');
+    if (!el.style.getPropertyValue('--reveal-i')) {
+      el.style.setProperty('--reveal-i', (i % 4).toString());
     }
   });
 
-  const obs = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((e) => {
-        if (e.isIntersecting) {
-          e.target.classList.add('is-in');
-          obs.unobserve(e.target);
-        }
-      });
-    },
-    { threshold: 0, rootMargin: '0px 0px -40px 0px' }
-  );
+  const allTargets = document.querySelectorAll('.reveal');
+  if (!allTargets.length) return;
 
-  targets.forEach((el) => {
-    if (!el.classList.contains('is-in')) obs.observe(el);
-  });
+  if (REDUCE_MOTION || !('IntersectionObserver' in window)) {
+    allTargets.forEach((el) => el.classList.add('is-in'));
+    return;
+  }
+
+  // Single scroll-driven check (fires on native + Lenis scroll + load)
+  const check = () => {
+    const vh = window.innerHeight;
+    allTargets.forEach((el) => {
+      if (el.classList.contains('is-in')) return;
+      const r = el.getBoundingClientRect();
+      if (r.top < vh + 200 && r.bottom > -200) {
+        el.classList.add('is-in');
+      }
+    });
+  };
+
+  let raf = null;
+  const onScroll = () => {
+    if (raf) return;
+    raf = requestAnimationFrame(() => {
+      raf = null;
+      check();
+    });
+  };
+
+  window.addEventListener('scroll', onScroll, { passive: true });
+  if (lenis && typeof lenis.on === 'function') {
+    lenis.on('scroll', onScroll);
+  }
+
+  // Initial reveal pass — multiple times to catch elements as fonts/images load
+  check();
+  setTimeout(check, 50);
+  setTimeout(check, 250);
+  setTimeout(check, 600);
+  setTimeout(check, 1500);
+
+  // Fallback safety net: after 3s, reveal anything still hidden (better visible than empty)
+  setTimeout(() => {
+    allTargets.forEach((el) => {
+      if (!el.classList.contains('is-in')) el.classList.add('is-in');
+    });
+  }, 3000);
 }
 
 if (document.readyState === 'loading') {
