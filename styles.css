@@ -393,6 +393,16 @@ strong {
   padding: var(--s-3) var(--s-4);
   border-radius: var(--r-sm);
   transition: color var(--dur-fast) var(--ease-out);
+  white-space: nowrap;
+}
+@media (min-width: 961px) and (max-width: 1280px) {
+  .nav__link {
+    padding: var(--s-3) var(--s-2);
+    font-size: var(--fs-13);
+  }
+  .nav {
+    gap: var(--s-4);
+  }
 }
 .nav__link::after {
   content: '';
@@ -2471,6 +2481,108 @@ strong {
 .hero__scroll,
 canvas#beams-canvas {
   display: none !important;
+}
+
+/* 26c. NAV WHATSAPP HATTI + BAYİ PORTALI (header right side) ── */
+.nav__cta-group {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-left: auto;
+}
+.nav__whatsapp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-4);
+  border-radius: var(--r-pill);
+  background: rgba(37, 211, 102, 0.08);
+  border: 1px solid rgba(37, 211, 102, 0.25);
+  color: var(--c-text);
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out);
+}
+.nav__whatsapp:hover {
+  background: rgba(37, 211, 102, 0.14);
+  border-color: rgba(37, 211, 102, 0.5);
+  color: var(--c-text);
+}
+.nav__whatsapp svg {
+  width: 18px;
+  height: 18px;
+  color: #25d366;
+  flex-shrink: 0;
+}
+.nav__whatsapp-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.nav__whatsapp-text small {
+  font-size: 0.625rem;
+  font-weight: 600;
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
+  color: var(--c-text-muted);
+}
+.nav__whatsapp-text strong {
+  font-size: var(--fs-13);
+  font-weight: 700;
+  color: var(--c-text-strong);
+  letter-spacing: -0.005em;
+}
+.nav__bayi {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-5);
+  border-radius: var(--r-pill);
+  background: var(--c-red);
+  color: #fff !important;
+  font-size: var(--fs-13);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(206, 14, 45, 0.25);
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    transform var(--dur-fast) var(--ease-out),
+    box-shadow var(--dur-fast) var(--ease-out);
+}
+.nav__bayi:hover {
+  background: var(--c-red-dark);
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(206, 14, 45, 0.4);
+}
+.nav__bayi svg {
+  width: 14px;
+  height: 14px;
+}
+@media (max-width: 1100px) {
+  .nav__whatsapp-text {
+    display: none;
+  }
+  .nav__whatsapp {
+    padding: var(--s-2);
+  }
+}
+@media (max-width: 960px) {
+  .nav__cta-group {
+    display: none;
+  }
+  .nav__list .nav__whatsapp,
+  .nav__list .nav__bayi {
+    display: inline-flex;
+    margin-top: var(--s-3);
+    align-self: stretch;
+    justify-content: center;
+  }
+  .nav__list .nav__whatsapp-text {
+    display: flex;
+  }
 }
 
 /* 26b. WHATSAPP FLOAT BUTTON ─────────────────────────────── */
