@@ -267,7 +267,7 @@ if (document.readyState === 'loading') {
   let current = 0;
   let timer;
   const heroContent = document.querySelector('.hero__content');
-  const TEXT_HIDDEN = [0, 1];
+  const TEXT_HIDDEN = [0, 1, 2, 3];
 
   const updateText = () => {
     if (heroContent) {
