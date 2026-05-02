@@ -2849,15 +2849,20 @@ strong {
 .adv-slideshow {
   position: relative;
   margin-top: var(--s-12);
+  margin-inline: auto;
+  max-width: 880px;
   border-radius: var(--r-lg);
   overflow: hidden;
-  background: var(--c-bg-3);
-  aspect-ratio: 16 / 9;
+  background:
+    radial-gradient(ellipse at 50% 0%, #d9eaff 0%, #ecf3fa 55%, #f5f5f7 100%);
+  aspect-ratio: 4 / 3;
   border: 1px solid var(--c-line);
+  box-shadow: var(--sh-md);
+  padding: var(--s-3);
 }
 .adv-slide {
   position: absolute;
-  inset: 0;
+  inset: var(--s-3);
   opacity: 0;
   transition: opacity 0.7s var(--ease-out);
 }
@@ -2867,7 +2872,8 @@ strong {
 .adv-slide img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center;
 }
 .adv-slide-dots {
   position: absolute;
@@ -2893,7 +2899,8 @@ strong {
 }
 @media (max-width: 768px) {
   .adv-slideshow {
-    aspect-ratio: 4 / 3;
+    max-width: 100%;
+    aspect-ratio: 1 / 1;
   }
 }
 
