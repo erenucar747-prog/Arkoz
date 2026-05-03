@@ -1893,11 +1893,33 @@ strong {
   .hero__arrow {
     display: none;
   }
+  .hero {
+    min-height: auto;
+  }
+  .hero__slide--banner img {
+    object-fit: contain;
+    object-position: center;
+    background: var(--c-ink);
+  }
   .hero__content {
     padding-top: var(--s-24);
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+    max-width: 100%;
+  }
+  .hero__title {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+    line-height: 1.15;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
   }
   .hero__title br {
     display: none;
+  }
+}
+@media (max-width: 480px) {
+  .hero__title {
+    font-size: clamp(1.5rem, 7vw, 2rem);
   }
 }
 
