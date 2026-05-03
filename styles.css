@@ -1899,12 +1899,14 @@ strong {
   .hero {
     min-height: auto;
     aspect-ratio: 4 / 3;
+    margin-top: 76px;
   }
   /* İstisna: aktif slayt banner DEĞİLSE (slayt 5 - content overlay'li fabrika
      görseli), hero tam viewport yüksekliğine genişler ki içerik metni sığsın. */
   .hero:has(.hero__slide--active:not(.hero__slide--banner)) {
     aspect-ratio: auto;
     min-height: 100dvh;
+    margin-top: 0;
   }
   .hero__content {
     padding-top: var(--s-24);
