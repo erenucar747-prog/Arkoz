@@ -1893,6 +1893,10 @@ strong {
   .hero__arrow {
     display: none;
   }
+  /* Margin collapse'i engelle ki .hero'nun margin-top'ı <main>'in dışına atılmasın */
+  main {
+    display: flow-root;
+  }
   /* Banner slaytları aktifken: hero, banner görsellerinin gerçek oranına eşitlenir
      (1920/940 ≈ 2.04:1). Bu sayede object-fit: cover hiçbir kırpma yapmaz ve
      görselin etrafında lacivert boşluk kalmaz. */
