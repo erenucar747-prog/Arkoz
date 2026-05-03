@@ -1898,7 +1898,7 @@ strong {
      görselin etrafında lacivert boşluk kalmaz. */
   .hero {
     min-height: auto;
-    aspect-ratio: 1920 / 940;
+    aspect-ratio: 4 / 3;
   }
   /* İstisna: aktif slayt banner DEĞİLSE (slayt 5 - content overlay'li fabrika
      görseli), hero tam viewport yüksekliğine genişler ki içerik metni sığsın. */
