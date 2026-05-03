@@ -1893,14 +1893,6 @@ strong {
   .hero__arrow {
     display: none;
   }
-  .hero {
-    min-height: auto;
-  }
-  .hero__slide--banner img {
-    object-fit: contain;
-    object-position: center;
-    background: var(--c-ink);
-  }
   .hero__content {
     padding-top: var(--s-24);
     padding-left: 1.25rem;
