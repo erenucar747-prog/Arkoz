@@ -1893,6 +1893,19 @@ strong {
   .hero__arrow {
     display: none;
   }
+  /* Banner slaytları aktifken: hero, banner görsellerinin gerçek oranına eşitlenir
+     (1920/940 ≈ 2.04:1). Bu sayede object-fit: cover hiçbir kırpma yapmaz ve
+     görselin etrafında lacivert boşluk kalmaz. */
+  .hero {
+    min-height: auto;
+    aspect-ratio: 1920 / 940;
+  }
+  /* İstisna: aktif slayt banner DEĞİLSE (slayt 5 - content overlay'li fabrika
+     görseli), hero tam viewport yüksekliğine genişler ki içerik metni sığsın. */
+  .hero:has(.hero__slide--active:not(.hero__slide--banner)) {
+    aspect-ratio: auto;
+    min-height: 100dvh;
+  }
   .hero__content {
     padding-top: var(--s-24);
     padding-left: 1.25rem;
