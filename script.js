@@ -507,3 +507,181 @@ if (document.readyState === 'loading') {
     });
   });
 })();
+
+/* ============================================================
+   FAZ 4 — Lightbox + Quote Modal + WhatsApp form deeplink
+   ============================================================ */
+
+(function () {
+  'use strict';
+
+  // --- Lightbox: data-lightbox-src attribute ---
+  let lightboxEl = null;
+
+  function ensureLightbox() {
+    if (lightboxEl) return lightboxEl;
+    lightboxEl = document.createElement('div');
+    lightboxEl.className = 'lightbox';
+    lightboxEl.setAttribute('aria-hidden', 'true');
+    lightboxEl.innerHTML =
+      '<button type="button" class="lightbox__close" aria-label="Kapat">' +
+      '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>' +
+      '</button>' +
+      '<img class="lightbox__img" alt="" />';
+    document.body.appendChild(lightboxEl);
+    lightboxEl.addEventListener('click', (e) => {
+      if (e.target === lightboxEl || e.target.closest('.lightbox__close')) {
+        closeLightbox();
+      }
+    });
+    return lightboxEl;
+  }
+
+  function openLightbox(src, alt) {
+    const lb = ensureLightbox();
+    const img = lb.querySelector('.lightbox__img');
+    img.src = src;
+    img.alt = alt || '';
+    lb.classList.add('is-open');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+  }
+
+  function closeLightbox() {
+    if (!lightboxEl) return;
+    lightboxEl.classList.remove('is-open');
+    lightboxEl.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+
+  document.addEventListener('click', (e) => {
+    const trigger = e.target.closest('[data-lightbox-src]');
+    if (!trigger) return;
+    e.preventDefault();
+    openLightbox(trigger.dataset.lightboxSrc, trigger.dataset.lightboxAlt || '');
+  });
+
+  // --- Quote Modal (Teklif İste) ---
+  const quoteModal = document.getElementById('quote-modal');
+  const quoteForm = document.getElementById('quote-form');
+
+  function openQuoteModal(productKey) {
+    if (!quoteModal) return;
+    quoteModal.classList.add('is-open');
+    quoteModal.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('modal-open');
+    if (productKey && quoteForm) {
+      const productSelect = quoteForm.querySelector('#qf-product');
+      if (productSelect) productSelect.value = productKey;
+      setTimeout(() => {
+        const nameInput = quoteForm.querySelector('#qf-name');
+        if (nameInput) nameInput.focus();
+      }, 80);
+    }
+  }
+
+  function closeQuoteModal() {
+    if (!quoteModal) return;
+    quoteModal.classList.remove('is-open');
+    quoteModal.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('modal-open');
+  }
+
+  if (quoteModal) {
+    document.addEventListener('click', (e) => {
+      const trigger = e.target.closest('[data-quote-product]');
+      if (trigger) {
+        e.preventDefault();
+        openQuoteModal(trigger.dataset.quoteProduct);
+        return;
+      }
+      if (e.target.closest('[data-modal-close]')) {
+        e.preventDefault();
+        closeQuoteModal();
+      }
+    });
+  }
+
+  // ESC closes lightbox or modal
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (lightboxEl && lightboxEl.classList.contains('is-open')) closeLightbox();
+    if (quoteModal && quoteModal.classList.contains('is-open')) closeQuoteModal();
+  });
+
+  // --- Quote form submission via WhatsApp deeplink ---
+  if (quoteForm) {
+    const productNames = {
+      blok: 'Arkoz Blok',
+      asmolen: 'Arkoz Asmolen',
+      lento: 'Arkoz Lento',
+      sove: 'Arkoz Söve',
+      panel: 'Arkoz Panel',
+    };
+
+    quoteForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(quoteForm);
+      const name = (data.get('name') || '').toString().trim();
+      const phone = (data.get('phone') || '').toString().trim();
+      const email = (data.get('email') || '').toString().trim();
+      const productKey = (data.get('product') || '').toString().trim();
+      const message = (data.get('message') || '').toString().trim();
+
+      if (!name || !phone || !productKey) {
+        alert('Lütfen Ad Soyad, Telefon ve Ürün alanlarını doldurun.');
+        return;
+      }
+
+      const productLabel = productNames[productKey] || productKey;
+      const lines = [
+        'Merhaba, Arkoz Gazbeton için teklif almak istiyorum.',
+        '',
+        '• Ad Soyad: ' + name,
+        '• Telefon: ' + phone,
+      ];
+      if (email) lines.push('• E-posta: ' + email);
+      lines.push('• Ürün: ' + productLabel);
+      if (message) {
+        lines.push('• Detay: ' + message);
+      }
+      const text = encodeURIComponent(lines.join('\n'));
+      const url = 'https://wa.me/905388658289?text=' + text;
+      window.open(url, '_blank', 'noopener');
+      closeQuoteModal();
+      quoteForm.reset();
+    });
+  }
+
+  // --- Anasayfa contact form da aynı WhatsApp deeplink mantığı ---
+  const contactForm = document.getElementById('contact-form');
+  if (contactForm && !contactForm.dataset.bound) {
+    contactForm.dataset.bound = 'true';
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(contactForm);
+      const name = (data.get('name') || '').toString().trim();
+      const phone = (data.get('phone') || '').toString().trim();
+      const email = (data.get('email') || '').toString().trim();
+      const product = (data.get('product') || '').toString().trim();
+      const message = (data.get('message') || '').toString().trim();
+
+      if (!name) {
+        alert('Lütfen Ad Soyad alanını doldurun.');
+        return;
+      }
+
+      const lines = ['Merhaba, Arkoz Gazbeton ile iletişime geçmek istiyorum.', ''];
+      lines.push('• Ad Soyad: ' + name);
+      if (phone) lines.push('• Telefon: ' + phone);
+      if (email) lines.push('• E-posta: ' + email);
+      if (product) lines.push('• İlgilendiğim ürün: ' + product);
+      if (message) lines.push('• Mesaj: ' + message);
+
+      const text = encodeURIComponent(lines.join('\n'));
+      const url = 'https://wa.me/905388658289?text=' + text;
+      window.open(url, '_blank', 'noopener');
+      contactForm.reset();
+    });
+  }
+})();

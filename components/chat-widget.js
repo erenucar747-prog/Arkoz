@@ -11,6 +11,15 @@
   const MAX_INPUT_LENGTH = 1000;
   const MAX_HISTORY = 20;
   const SEND_DEBOUNCE_MS = 800;
+
+  const SUGGESTED_QUESTIONS = [
+    'Arkoz Blok özellikleri nelerdir?',
+    'Gazbetonun deprem güvenliğine katkısı?',
+    'ISO sertifikalarınız neler?',
+    'Bayi listesi nedir?',
+    'Teklif nasıl alabilirim?',
+    'Üretim kapasiteniz ne kadar?',
+  ];
   const LOGO_SRC = (function () {
     // Find existing logo path on the page (works whether root or subpath)
     const navLogo = document.querySelector('img[src$="logo.png"]');
@@ -101,9 +110,35 @@
       if (welcomed) return;
       welcomed = true;
       addMsg(
-        'Merhaba! Ben **Arkoz Gazbeton**’un yapay zeka asistanıyım. Ürünler, teknik özellikler veya teklif hakkında yardımcı olabilirim.',
+        'Merhaba! Ben **Arkoz Gazbeton**’un yapay zeka asistanıyım. Aşağıdaki sorulardan birine tıklayabilir veya kendi sorunuzu yazabilirsiniz.',
         'bot'
       );
+      renderSuggestions();
+    }
+
+    function renderSuggestions() {
+      const wrap = document.createElement('div');
+      wrap.id = 'ai-chat-suggestions';
+      SUGGESTED_QUESTIONS.forEach((q) => {
+        const chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'ai-suggest';
+        chip.textContent = q;
+        chip.addEventListener('click', () => {
+          input.value = q;
+          updateCounter();
+          hideSuggestions();
+          send();
+        });
+        wrap.appendChild(chip);
+      });
+      msgs.appendChild(wrap);
+      msgs.scrollTop = msgs.scrollHeight;
+    }
+
+    function hideSuggestions() {
+      const w = document.getElementById('ai-chat-suggestions');
+      if (w) w.remove();
     }
 
     function setOpen(open) {
@@ -160,6 +195,7 @@
 
       input.value = '';
       updateCounter();
+      hideSuggestions();
       sending = true;
       sendBtn.disabled = true;
       input.disabled = true;
