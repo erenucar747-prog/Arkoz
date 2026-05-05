@@ -4332,6 +4332,94 @@ canvas#beams-canvas {
    FAZ 4 — STAKEHOLDER FEEDBACK FIXES
    ============================================================ */
 
+/* --- Misyon-Vizyon İki Büyük Kart (kurumsal.html) ---
+   Note: kurumsal sayfası için ayrı .mv-* class'ları kullanıyoruz
+   çünkü .mission__* class'ları index.html'deki shader-tabanlı
+   Mission bölümüne ait koyu tema CSS'iyle çakışıyor. */
+.mv-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+  margin-bottom: 48px;
+}
+.mv-card {
+  position: relative;
+  background: var(--c-bg);
+  border: 1px solid rgba(32, 17, 97, 0.08);
+  border-radius: 14px;
+  padding: 32px 28px 28px;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mv-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  border-radius: 14px 14px 0 0;
+}
+.mv-card--mission::before {
+  background: linear-gradient(90deg, var(--c-primary), #2e1a8a);
+}
+.mv-card--vision::before {
+  background: linear-gradient(90deg, var(--c-accent), #6fca68);
+}
+.mv-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 36px rgba(15, 8, 50, 0.1);
+  border-color: rgba(32, 17, 97, 0.16);
+}
+.mv-card__label {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--c-primary);
+  background: rgba(32, 17, 97, 0.08);
+  padding: 5px 12px;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+.mv-card--vision .mv-card__label {
+  color: var(--c-accent-dark);
+  background: rgba(77, 184, 72, 0.12);
+}
+.mv-card__title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--c-text-strong);
+  margin: 0;
+}
+.mv-card__body {
+  font-size: 0.95rem;
+  line-height: 1.75;
+  color: var(--c-text);
+  margin: 0;
+}
+.mv-card__body strong {
+  color: var(--c-primary);
+  font-weight: 700;
+}
+.mv-card--vision .mv-card__body strong {
+  color: var(--c-accent-dark);
+}
+
+@media (max-width: 640px) {
+  .mv-card {
+    padding: 24px 20px 20px;
+  }
+  .mv-card__title {
+    font-size: 1.15rem;
+  }
+}
+
 /* --- Misyon-Vizyon Değerler Grid --- */
 .values-heading {
   font-size: 1.3rem;
