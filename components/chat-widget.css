@@ -282,6 +282,39 @@
   align-self: flex-start;
 }
 
+/* ------------ Suggested questions ------------ */
+#ai-chat-suggestions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 4px 0 6px;
+  align-self: stretch;
+  animation: ai-msg-in 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.ai-suggest {
+  background: #ffffff;
+  border: 1.5px solid rgba(32, 17, 97, 0.18);
+  color: #201161;
+  padding: 7px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: inherit;
+  text-align: left;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.12s ease, color 0.18s ease;
+  line-height: 1.3;
+}
+.ai-suggest:hover {
+  background: #201161;
+  border-color: #201161;
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+.ai-suggest:active {
+  transform: translateY(0);
+}
+
 /* ------------ Input row ------------ */
 #ai-chat-input-row {
   display: flex;
