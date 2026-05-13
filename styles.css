@@ -1720,9 +1720,8 @@ strong {
   border-color: rgba(32, 17, 97, 0.2);
   box-shadow: 0 8px 20px rgba(15, 8, 50, 0.08);
 }
-.matcompare__material--featured {
-  /* Diğer kartlarla görsel tutarlılık: ekstra border/inset shadow ve top gradient şerit kaldırıldı.
-     Sadece içerikten (logo, başlık, alt yazı, pin) anlaşılır kalır. */
+.matcompare__material--featured .matcompare__material-text {
+  padding-right: 52px;
 }
 .matcompare__material-mono {
   width: 44px;
@@ -1769,11 +1768,11 @@ strong {
   right: 10px;
   background: var(--c-accent);
   color: #ffffff;
-  font-size: 0.6rem;
+  font-size: 0.55rem;
   font-weight: 800;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 2px 7px;
+  padding: 2px 6px;
   border-radius: 999px;
 }
 
