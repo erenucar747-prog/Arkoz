@@ -258,14 +258,15 @@ strong {
   color: var(--c-primary);
   margin-bottom: var(--s-5);
   padding-left: 14px;
+  padding-right: 14px;
   position: relative;
   background: transparent;
   border: none;
 }
-.section__tag::before {
+.section__tag::before,
+.section__tag::after {
   content: '';
   position: absolute;
-  left: 0;
   top: 50%;
   transform: translateY(-50%);
   width: 3px;
@@ -273,6 +274,8 @@ strong {
   background: linear-gradient(180deg, var(--c-accent) 0%, var(--c-primary) 100%);
   border-radius: 2px;
 }
+.section__tag::before { left: 0; }
+.section__tag::after  { right: 0; background: linear-gradient(180deg, var(--c-primary) 0%, var(--c-accent) 100%); }
 .section__title {
   font-family: var(--font-display);
   font-weight: 700;
@@ -2561,12 +2564,13 @@ strong {
   color: var(--c-primary);
   margin-bottom: var(--s-5);
   padding-left: 14px;
+  padding-right: 14px;
   position: relative;
 }
-.page-hero__tag::before {
+.page-hero__tag::before,
+.page-hero__tag::after {
   content: '';
   position: absolute;
-  left: 0;
   top: 50%;
   transform: translateY(-50%);
   width: 3px;
@@ -2574,8 +2578,14 @@ strong {
   background: linear-gradient(180deg, var(--c-accent) 0%, var(--c-primary) 100%);
   border-radius: 2px;
 }
-.page-hero--dark .page-hero__tag::before {
+.page-hero__tag::before { left: 0; }
+.page-hero__tag::after  { right: 0; background: linear-gradient(180deg, var(--c-primary) 0%, var(--c-accent) 100%); }
+.page-hero--dark .page-hero__tag::before,
+.page-hero--dark .page-hero__tag::after {
   background: linear-gradient(180deg, var(--c-accent-light) 0%, rgba(255, 255, 255, 0.6) 100%);
+}
+.page-hero--dark .page-hero__tag::after {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, var(--c-accent-light) 100%);
 }
 .page-hero__title {
   font-family: var(--font-display);
@@ -2715,6 +2725,9 @@ strong {
 }
 .about__hero .section__tag::before {
   background: linear-gradient(180deg, var(--c-accent-light) 0%, rgba(255, 255, 255, 0.6) 100%);
+}
+.about__hero .section__tag::after {
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.6) 0%, var(--c-accent-light) 100%);
 }
 .about__hero .section__title,
 .about__hero .section__title span {
