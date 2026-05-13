@@ -1721,21 +1721,8 @@ strong {
   box-shadow: 0 8px 20px rgba(15, 8, 50, 0.08);
 }
 .matcompare__material--featured {
-  background: linear-gradient(135deg, #ffffff 0%, #fafaff 100%);
-  border-color: rgba(32, 17, 97, 0.25);
-  box-shadow:
-    0 4px 14px rgba(32, 17, 97, 0.08),
-    inset 0 0 0 1px rgba(32, 17, 97, 0.05);
-}
-.matcompare__material--featured::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--c-accent) 0%, var(--c-primary) 100%);
-  border-radius: 12px 12px 0 0;
+  /* Diğer kartlarla görsel tutarlılık: ekstra border/inset shadow ve top gradient şerit kaldırıldı.
+     Sadece içerikten (logo, başlık, alt yazı, pin) anlaşılır kalır. */
 }
 .matcompare__material-mono {
   width: 44px;
@@ -1778,17 +1765,16 @@ strong {
 }
 .matcompare__material-pin {
   position: absolute;
-  top: -8px;
+  top: 8px;
   right: 10px;
   background: var(--c-accent);
   color: #ffffff;
-  font-size: 0.62rem;
+  font-size: 0.6rem;
   font-weight: 800;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 3px 8px;
+  padding: 2px 7px;
   border-radius: 999px;
-  box-shadow: 0 2px 6px rgba(77, 184, 72, 0.4);
 }
 
 .matcompare__wrap {
