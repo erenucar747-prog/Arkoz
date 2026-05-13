@@ -73,19 +73,87 @@
       </nav>
     </header>
 
-    <div class="page-hero">
+    <div class="page-hero page-hero--ik">
+      <div class="page-hero__deco-text" aria-hidden="true">KARİYER</div>
       <div class="container">
-        <span class="page-hero__tag">Kariyer</span>
-        <h1 class="page-hero__title">İnsan <span>Kaynakları</span></h1>
+        <div class="page-hero__inner page-hero__inner--split">
+          <div class="page-hero__col page-hero__col--text">
+            <span class="page-hero__tag">— Kariyer</span>
+            <h1 class="page-hero__title">İnsan <span>Kaynakları</span></h1>
+            <p class="page-hero__lead">
+              Türkiye'nin en modern gazbeton tesisinde profesyonel kariyerinizi inşa edin.
+              Açık iletişim, sürekli gelişim ve insan-odaklı bir kurum kültürüyle ekibimize katılın.
+            </p>
+            <div class="page-hero__cta-row">
+              <a href="#ik-form" class="btn btn--primary">
+                <span>Başvuru Yap</span>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+              <a href="#ik-pillars" class="btn btn--secondary">Çalışma Kültürümüz</a>
+            </div>
+          </div>
+          <div class="page-hero__col page-hero__col--photo">
+            <div class="page-hero__photo-frame">
+              <img src="images/factory-2.jpg" alt="Arkoz Gazbeton fabrikası — sevkiyat alanı ve çalışan" loading="eager" fetchpriority="high" />
+              <div class="page-hero__photo-badge">
+                <span class="page-hero__photo-badge-eyebrow">Havza · Samsun</span>
+                <span class="page-hero__photo-badge-text">Türkiye'nin En Modern Gazbeton Tesisi</span>
+              </div>
+              <div class="page-hero__photo-seal" aria-hidden="true">
+                <img src="logo.png" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <a href="#ik-stats" class="page-hero__scroll-cue" aria-label="Aşağı kaydır — Rakamlarla Arkoz">
+          <span>Rakamlarla Arkoz</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg>
+        </a>
       </div>
     </div>
 
     <main>
+      <section class="ik__stats" id="ik-stats" aria-label="Rakamlarla Arkoz">
+        <div class="container">
+          <ul class="ik__stats-list">
+            <li class="ik__stat">
+              <span class="ik__stat-eyebrow">Ekip</span>
+              <span class="ik__stat-num">100<small>+</small></span>
+              <hr class="ik__stat-rule" />
+              <span class="ik__stat-label">Çalışan</span>
+              <span class="ik__stat-sub">Tam zamanlı, 7 departman</span>
+            </li>
+            <li class="ik__stat">
+              <span class="ik__stat-eyebrow">Üretim</span>
+              <span class="ik__stat-num">450.000<small>m³/yıl</small></span>
+              <hr class="ik__stat-rule" />
+              <span class="ik__stat-label">Kapasite</span>
+              <span class="ik__stat-sub">KEDA Suremaker üretim hattı</span>
+            </li>
+            <li class="ik__stat">
+              <span class="ik__stat-eyebrow">Kalite</span>
+              <span class="ik__stat-num">4<small>ISO</small></span>
+              <hr class="ik__stat-rule" />
+              <span class="ik__stat-label">Sertifika</span>
+              <span class="ik__stat-sub">9001 · 14001 · 50001 · 45001</span>
+            </li>
+            <li class="ik__stat">
+              <span class="ik__stat-eyebrow">İhracat</span>
+              <span class="ik__stat-num">9<small>Ülke</small></span>
+              <hr class="ik__stat-rule" />
+              <span class="ik__stat-label">Küresel Erişim</span>
+              <span class="ik__stat-sub">Rusya · Romanya · Ukrayna ve daha fazlası</span>
+            </li>
+          </ul>
+        </div>
+      </section>
+
       <section class="section" style="background: var(--color-bg)">
         <div class="container">
           <div class="ik__grid">
             <div class="ik__values">
               <div class="ik__hero">
+                <span class="ik__hero-eyebrow">— Çalışma kültürümüz</span>
                 <h2 class="ik__title">
                   Kariyer Yolculuğunuz
                   <span class="ik__title-highlight">Arkoz'da</span>
@@ -103,7 +171,7 @@
                 </p>
               </div>
 
-              <div class="ik__pillars">
+              <div class="ik__pillars" id="ik-pillars">
                 <h3 class="ik__pillars-title">Çalışma Kültürümüz</h3>
 
                 <div class="ik__value">
@@ -233,6 +301,7 @@
               <form
                 class="contact__form"
                 id="ik-form"
+                name="ik-form"
                 novalidate
                 style="grid-template-columns: 1fr"
               >
