@@ -98,7 +98,7 @@ Arkoz/
 
 Projede birden fazla WebGL/shader animasyonu kullanılmaktadır:
 
-- **Intro ekranı (v3):** GSAP timeline ile SVG seedling → tree → logo sekansı (~2.7s); `script.js` `initIntro()` IIFE'de implement edilir. GSAP CDN bağımlılığı; CDN yoksa basit logo fade-in fallback. SessionStorage anahtarı `arkoz_intro_v3`. `?intro=force` query ile dev bypass. Sadece homepage'de, `prefers-reduced-motion: reduce` ise tamamen atlanır. Marka renkleri korunur — `--c-accent` (yeşil) + intro-spesifik toprak tonu `#92745b`.
+- **Intro ekranı:** Saf WebGL GLSL shader (sin tabanlı dalgalar), logo fade-in; `pageshow` eventi ile her yüklemede tetiklenir
 - **Mission bölümü:** Three.js `MeshStandardMaterial.onBeforeCompile` ile "Ethereal Beams" shader; PMREMGenerator ile env map (sol taraf karanlığını giderir)
 - **Kurumsal hero:** GodRays WebGL shader (köşegen ışık huzmesi, koyu zemin)
 - **Politikalar hero:** Background Paths SVG animasyonu (21st.dev stili)

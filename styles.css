@@ -4425,7 +4425,7 @@ strong {
   }
 }
 
-/* 20. INTRO OVERLAY (v3 — seedling → tree → logo) ─────── */
+/* 20. INTRO OVERLAY ─────────────────────────────────────── */
 #intro-overlay,
 #intro {
   position: fixed;
@@ -4436,7 +4436,6 @@ strong {
   place-items: center;
   transition: opacity 0.4s var(--ease-out);
   overflow: hidden;
-  will-change: opacity;
 }
 #intro-overlay.fade-out,
 #intro.is-out {
@@ -4446,32 +4445,45 @@ strong {
 #intro-canvas-container {
   display: none;
 }
-#intro > #intro-tree,
-#intro > .intro__logo {
-  grid-area: 1 / 1;
-  justify-self: center;
-  align-self: center;
-}
-#intro-tree {
-  width: clamp(160px, 26vw, 260px);
-  height: auto;
-  aspect-ratio: 200 / 300;
-  overflow: visible;
-  will-change: transform, opacity;
-  pointer-events: none;
-}
-.intro-leaf {
-  transform-box: fill-box;
-  transform-origin: center;
-}
 #intro-logo,
 .intro__logo {
   position: relative;
   z-index: 2;
+  opacity: 0;
+  animation: introIn 1100ms var(--ease-out) forwards;
+}
+#intro-logo img,
+.intro__logo {
   width: clamp(140px, 22vw, 220px);
   max-width: 60vw;
   height: auto;
-  will-change: transform, opacity;
+}
+@keyframes introIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+#intro::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(115deg, transparent 30%, rgba(32, 17, 97, 0.04) 50%, transparent 70%);
+  transform: translateX(-100%);
+  animation: introSweep 1100ms var(--ease-out) 200ms forwards;
+}
+@keyframes introSweep {
+  to {
+    transform: translateX(100%);
+  }
 }
 
 /* 21. REVEAL ──────────────────────────────────────────────── */
