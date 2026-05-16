@@ -2583,6 +2583,7 @@ strong {
      iOS Safari adres barı genişleyip daralırken yeniden hesaplanmadığı için 100dvh'nin
      getirdiği ikincil titreme de yok olur. */
   .hero {
+    min-height: 100vh; /* iOS Safari < 15.4 + in-app browser fallback (matches pattern at line 501) */
     min-height: 100svh;
     aspect-ratio: auto;
     margin-top: 0;
