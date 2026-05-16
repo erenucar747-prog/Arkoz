@@ -6,8 +6,7 @@
 'use strict';
 
 const REDUCE_MOTION =
-  window.matchMedia &&
-  window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 /* ── 1. Lenis smooth scroll ─────────────────────────────── */
 const lenis =
@@ -26,7 +25,7 @@ if (lenis) {
   })();
 }
 
-/* ── 2. Lightweight intro overlay (CSS + logo) ──────────── */
+/* ── 2. Cinematic intro: seedling → tree → logo (~2.7s) ─── */
 (function initIntro() {
   if (REDUCE_MOTION) return;
 
@@ -34,23 +33,219 @@ if (lenis) {
   const isHome = path === '' || path === 'index.html' || path === '/';
   if (!isHome) return;
 
-  if (sessionStorage.getItem('arkoz_intro_v2')) return;
+  const forceIntro = /[?&]intro=force\b/.test(window.location.search);
+  if (!forceIntro && sessionStorage.getItem('arkoz_intro_v3')) return;
 
   const overlay = document.createElement('div');
   overlay.id = 'intro';
   overlay.setAttribute('aria-hidden', 'true');
-  overlay.innerHTML = '<img src="logo.png" alt="" class="intro__logo" />';
+  overlay.innerHTML = `
+    <svg id="intro-tree" viewBox="0 0 200 300" aria-hidden="true">
+      <defs>
+        <radialGradient id="leafLight" cx="35%" cy="25%" r="80%">
+          <stop offset="0%" stop-color="#c4f0bd" />
+          <stop offset="45%" stop-color="#7fd178" />
+          <stop offset="100%" stop-color="#3a9436" />
+        </radialGradient>
+        <radialGradient id="leafMid" cx="35%" cy="25%" r="80%">
+          <stop offset="0%" stop-color="#86d97e" />
+          <stop offset="45%" stop-color="#4db848" />
+          <stop offset="100%" stop-color="#256b22" />
+        </radialGradient>
+        <radialGradient id="leafDeep" cx="35%" cy="25%" r="80%">
+          <stop offset="0%" stop-color="#5fb958" />
+          <stop offset="45%" stop-color="#3a9436" />
+          <stop offset="100%" stop-color="#184e1c" />
+        </radialGradient>
+        <linearGradient id="barkGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#a8896c" />
+          <stop offset="100%" stop-color="#6b4e36" />
+        </linearGradient>
+        <filter id="treeShadow" x="-15%" y="-15%" width="130%" height="130%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="1.4" />
+          <feOffset dx="0.5" dy="2" />
+          <feComponentTransfer>
+            <feFuncA type="linear" slope="0.32" />
+          </feComponentTransfer>
+          <feMerge>
+            <feMergeNode />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+        <symbol id="leafShape" viewBox="-10 -14 20 28" overflow="visible">
+          <path d="M0,-14 C4,-13 8,-9 9.2,-3 C10,5 7,12 1.5,14 C-0.5,14 -2.5,13.2 -4.5,11.5 C-7.5,8 -9,2 -8,-4 C-7,-10 -3,-13 0,-14 Z" stroke="rgba(15,45,15,0.32)" stroke-width="0.55" stroke-linejoin="round" />
+          <path d="M0.2,-13 C0.8,-7 1.2,0 0.8,7 C0.5,11 0,13 -0.2,13.5" stroke="rgba(15,45,15,0.38)" stroke-width="0.5" stroke-linecap="round" fill="none" />
+          <path d="M0.5,-8 Q3,-7 6,-5.5" stroke="rgba(15,45,15,0.22)" stroke-width="0.32" stroke-linecap="round" fill="none" />
+          <path d="M0.7,-3 Q4,-1.5 7,1" stroke="rgba(15,45,15,0.22)" stroke-width="0.32" stroke-linecap="round" fill="none" />
+          <path d="M0.6,3 Q3,5 5.5,8" stroke="rgba(15,45,15,0.22)" stroke-width="0.3" stroke-linecap="round" fill="none" />
+          <path d="M-0.2,-8 Q-3,-7 -5,-5" stroke="rgba(15,45,15,0.18)" stroke-width="0.3" stroke-linecap="round" fill="none" />
+          <path d="M-0.2,-2 Q-4,-0.5 -6.5,2" stroke="rgba(15,45,15,0.18)" stroke-width="0.3" stroke-linecap="round" fill="none" />
+          <path d="M-0.5,4 Q-3,6 -4.5,9" stroke="rgba(15,45,15,0.18)" stroke-width="0.3" stroke-linecap="round" fill="none" />
+        </symbol>
+      </defs>
+
+      <g class="intro-tree-group" filter="url(#treeShadow)">
+        <circle class="intro-seed" cx="100" cy="278" r="0" fill="#92745b" />
+        <path class="intro-trunk" d="M100,280 Q92,200 100,130 Q108,80 100,30" fill="none" stroke="url(#barkGrad)" stroke-width="7" stroke-linecap="round" />
+        <path class="intro-branch" data-order="0" d="M100,210 Q80,200 60,196" fill="none" stroke="#7d5e44" stroke-width="5" stroke-linecap="round" />
+        <path class="intro-branch" data-order="0" d="M100,230 Q120,224 138,220" fill="none" stroke="#7d5e44" stroke-width="4.5" stroke-linecap="round" />
+        <path class="intro-branch" data-order="0" d="M100,170 Q130,156 162,120" fill="none" stroke="#7d5e44" stroke-width="5" stroke-linecap="round" />
+        <path class="intro-branch" data-order="0" d="M98,130 Q60,110 38,72" fill="none" stroke="#7d5e44" stroke-width="4.5" stroke-linecap="round" />
+        <path class="intro-branch" data-order="0" d="M102,80 Q128,62 144,38" fill="none" stroke="#7d5e44" stroke-width="4" stroke-linecap="round" />
+        <path class="intro-branch" data-order="1" d="M162,120 Q175,108 184,90" fill="none" stroke="#8d6c4d" stroke-width="3.5" stroke-linecap="round" />
+        <path class="intro-branch" data-order="1" d="M152,128 Q172,134 188,138" fill="none" stroke="#8d6c4d" stroke-width="3" stroke-linecap="round" />
+        <path class="intro-branch" data-order="1" d="M38,72 Q26,58 18,42" fill="none" stroke="#8d6c4d" stroke-width="3.5" stroke-linecap="round" />
+        <path class="intro-branch" data-order="1" d="M48,82 Q34,92 22,104" fill="none" stroke="#8d6c4d" stroke-width="3" stroke-linecap="round" />
+        <path class="intro-branch" data-order="1" d="M144,38 Q150,26 156,12" fill="none" stroke="#8d6c4d" stroke-width="3" stroke-linecap="round" />
+        <g class="intro-leaves"></g>
+      </g>
+    </svg>
+    <img src="logo.png" alt="" class="intro__logo" />
+  `;
   document.body.prepend(overlay);
   document.documentElement.style.overflow = 'hidden';
 
-  const dismiss = () => {
-    sessionStorage.setItem('arkoz_intro_v2', '1');
+  const finish = () => {
+    sessionStorage.setItem('arkoz_intro_v3', '1');
     overlay.classList.add('is-out');
     document.documentElement.style.overflow = '';
-    setTimeout(() => overlay.remove(), 500);
+    setTimeout(() => overlay.remove(), 450);
   };
 
-  setTimeout(dismiss, 1100);
+  // Fallback: GSAP yoksa, basit fade-in/out davranışı
+  if (typeof window.gsap === 'undefined') {
+    const logo = overlay.querySelector('.intro__logo');
+    if (logo) logo.style.opacity = '1';
+    setTimeout(finish, 1100);
+    return;
+  }
+
+  const gsap = window.gsap;
+  const tree = overlay.querySelector('#intro-tree');
+  const seed = overlay.querySelector('.intro-seed');
+  const trunk = overlay.querySelector('.intro-trunk');
+  const branches = overlay.querySelectorAll('.intro-branch');
+  const leavesGroup = overlay.querySelector('.intro-leaves');
+  const logo = overlay.querySelector('.intro__logo');
+
+  // Path-draw setup
+  overlay.querySelectorAll('.intro-trunk, .intro-branch').forEach((p) => {
+    const len = p.getTotalLength();
+    p.style.strokeDasharray = String(len);
+    p.style.strokeDashoffset = String(len);
+  });
+
+  // Generate ~200 leaves programmatically: sample along branch + trunk top
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  const gradFills = ['url(#leafLight)', 'url(#leafMid)', 'url(#leafDeep)'];
+  const TARGET_LEAVES = 200;
+  const trunkLen = trunk.getTotalLength();
+  const branchLens = Array.from(branches).map((b) => b.getTotalLength());
+
+  const makeLeaf = (cx, cy, size, gradIdx, jitter = 4) => {
+    const w = size;
+    const h = size * 1.4;
+    const px = cx + (Math.random() - 0.5) * jitter * 2;
+    const py = cy + (Math.random() - 0.5) * jitter * 2;
+    const use = document.createElementNS(SVG_NS, 'use');
+    use.setAttribute('href', '#leafShape');
+    use.setAttribute('class', 'intro-leaf');
+    use.setAttribute('x', String(px - w / 2));
+    use.setAttribute('y', String(py - h / 2));
+    use.setAttribute('width', String(w));
+    use.setAttribute('height', String(h));
+    use.setAttribute('fill', gradFills[gradIdx]);
+    leavesGroup.appendChild(use);
+  };
+
+  // 70% leaves distributed along branches (denser near tips)
+  const branchLeafCount = Math.floor(TARGET_LEAVES * 0.7);
+  for (let i = 0; i < branchLeafCount; i++) {
+    const bIdx = Math.floor(Math.random() * branches.length);
+    const branch = branches[bIdx];
+    const len = branchLens[bIdx];
+    // bias toward branch tips (t = 0.4 to 1.0, squared for tip concentration)
+    const tBase = 0.4 + Math.random() * 0.6;
+    const t = 0.4 + Math.pow(tBase - 0.4, 0.6) * 0.6 * 1.0;
+    const pt = branch.getPointAtLength(len * Math.min(t, 1));
+    const isSecondary = branch.getAttribute('data-order') === '1';
+    const size = isSecondary ? 4 + Math.random() * 5 : 5 + Math.random() * 6;
+    // upper-canopy leaves get lighter gradient
+    const gradIdx = pt.y < 80 ? 0 : pt.y < 150 ? 1 : 2;
+    makeLeaf(pt.x, pt.y, size, gradIdx, 6);
+  }
+
+  // 30% leaves clustered at trunk top (the crown)
+  const crownLeafCount = TARGET_LEAVES - branchLeafCount;
+  for (let i = 0; i < crownLeafCount; i++) {
+    // sample upper 35% of trunk
+    const t = 0.65 + Math.random() * 0.35;
+    const pt = trunk.getPointAtLength(trunkLen * t);
+    const size = 4 + Math.random() * 7;
+    // crown: light dominant, occasional mid
+    const gradIdx = Math.random() < 0.7 ? 0 : 1;
+    makeLeaf(pt.x, pt.y, size, gradIdx, 14);
+  }
+
+  const leaves = overlay.querySelectorAll('.intro-leaf');
+
+  gsap.set(leaves, {
+    scale: 0,
+    opacity: 0,
+    transformOrigin: 'center',
+    rotation: () => gsap.utils.random(-55, 55),
+  });
+  gsap.set(logo, { opacity: 0, scale: 0.85, transformOrigin: 'center' });
+
+  const tl = gsap.timeline({
+    defaults: { ease: 'power3.out' },
+    onComplete: finish,
+  });
+
+  // Act 1: kahverengi fidan pop (0.45s)
+  tl.to(seed, { duration: 0.45, attr: { r: 5 }, ease: 'back.out(1.7)' });
+
+  // Act 2: gövde + dallar (gür dallanma, hiyerarşik 11 dal)
+  tl.to(trunk, { duration: 0.85, strokeDashoffset: 0, ease: 'power2.inOut' }, '-=0.15');
+  tl.to(seed, { duration: 0.35, opacity: 0, scale: 0.4 }, '<0.2');
+  tl.to(
+    branches,
+    {
+      duration: 0.45,
+      strokeDashoffset: 0,
+      stagger: { each: 0.055, from: 'start' },
+      ease: 'power2.out',
+    },
+    '-=0.55'
+  );
+
+  // Act 3: 200 yaprak açıyor (random stagger, çok kısa each = yoğun bloom)
+  tl.to(
+    leaves,
+    {
+      duration: 0.4,
+      scale: 1,
+      opacity: 1,
+      stagger: { each: 0.005, from: 'random' },
+      ease: 'back.out(1.8)',
+    },
+    '-=0.35'
+  );
+
+  // Act 4: ağaç çık, logo gel, overlay fade (0.65s + 0.30s hold)
+  tl.to(
+    tree,
+    {
+      duration: 0.4,
+      scale: 0.85,
+      opacity: 0,
+      ease: 'power3.in',
+      transformOrigin: '50% 95%',
+    },
+    '+=0.15'
+  );
+  tl.to(logo, { duration: 0.45, opacity: 1, scale: 1, ease: 'expo.out' }, '-=0.25');
+  tl.to(overlay, { duration: 0.35, opacity: 0, ease: 'power2.out' }, '+=0.35');
 })();
 
 /* ── 3. Header scroll state ─────────────────────────────── */
@@ -172,10 +367,7 @@ if (document.readyState === 'loading') {
         if (e.isIntersecting) {
           const id = e.target.id;
           links.forEach((l) =>
-            l.classList.toggle(
-              'nav__link--active',
-              l.getAttribute('href') === '#' + id
-            )
+            l.classList.toggle('nav__link--active', l.getAttribute('href') === '#' + id)
           );
         }
       });
@@ -232,14 +424,11 @@ if (document.readyState === 'loading') {
     data.append('_captcha', 'false');
 
     try {
-      const res = await fetch(
-        'https://formsubmit.co/ajax/info@arkozgazbeton.com.tr',
-        {
-          method: 'POST',
-          headers: { Accept: 'application/json' },
-          body: data,
-        }
-      );
+      const res = await fetch('https://formsubmit.co/ajax/info@arkozgazbeton.com.tr', {
+        method: 'POST',
+        headers: { Accept: 'application/json' },
+        body: data,
+      });
       const json = await res.json();
       btn.disabled = false;
       btn.innerHTML = original;
@@ -272,10 +461,7 @@ if (document.readyState === 'loading') {
 
   const updateText = () => {
     if (heroContent) {
-      heroContent.classList.toggle(
-        'hero__content--hidden',
-        TEXT_HIDDEN.includes(current)
-      );
+      heroContent.classList.toggle('hero__content--hidden', TEXT_HIDDEN.includes(current));
     }
   };
 
@@ -387,7 +573,7 @@ if (document.readyState === 'loading') {
   const dismiss = (val) => {
     localStorage.setItem('arkoz_cookie_consent', val);
     banner.classList.remove('is-visible');
-    setTimeout(() => banner.style.display = 'none', 350);
+    setTimeout(() => (banner.style.display = 'none'), 350);
   };
   accept && accept.addEventListener('click', () => dismiss('all'));
   reject && reject.addEventListener('click', () => dismiss('necessary'));
@@ -524,10 +710,7 @@ if (document.readyState === 'loading') {
       const target = tab.dataset.tab;
       tabs.forEach((t) => t.classList.toggle('active', t === tab));
       panels.forEach((p) =>
-        p.classList.toggle(
-          'active',
-          p.id === 'tab-' + target || p.dataset.tab === target
-        )
+        p.classList.toggle('active', p.id === 'tab-' + target || p.dataset.tab === target)
       );
     });
   });
