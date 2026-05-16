@@ -154,7 +154,8 @@
 
     function addMsg(text, role) {
       const d = document.createElement('div');
-      d.className = 'ai-msg ai-msg--' + (role === 'user' ? 'user' : role === 'error' ? 'error' : 'bot');
+      d.className =
+        'ai-msg ai-msg--' + (role === 'user' ? 'user' : role === 'error' ? 'error' : 'bot');
       if (role === 'user') {
         d.textContent = text;
       } else {
