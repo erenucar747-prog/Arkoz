@@ -366,21 +366,96 @@ if (document.readyState === 'loading') {
   document.body.appendChild(btn);
 })();
 
-/* ── 13.4 Cookie Banner (KVKK) ──────────────────────────── */
+/* ── 13.4 Cookie Banner (KVKK granular consent) ──────────── */
 (function initCookieBanner() {
   const banner = document.getElementById('cookieBanner');
   if (!banner) return;
-  if (localStorage.getItem('arkoz_cookie_consent')) return;
+
+  // Mevcut kullanıcı kararı varsa banner'ı gösterme
+  // Geriye dönük uyum: eski string ('all', 'necessary') → yeni JSON yapısı
+  const STORAGE_KEY = 'arkoz_cookie_consent';
+  const existing = localStorage.getItem(STORAGE_KEY);
+  if (existing) {
+    try {
+      const parsed = JSON.parse(existing);
+      applyConsent(parsed);
+      return;
+    } catch {
+      // Eski string format → yeni yapıya migrate et
+      const migrated = existing === 'all'
+        ? { necessary: true, analytics: true, marketing: true, v: 2, ts: Date.now() }
+        : { necessary: true, analytics: false, marketing: false, v: 2, ts: Date.now() };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
+      applyConsent(migrated);
+      return;
+    }
+  }
+
   setTimeout(() => banner.classList.add('is-visible'), 1200);
+
   const accept = document.getElementById('cookieAccept');
   const reject = document.getElementById('cookieReject');
-  const dismiss = (val) => {
-    localStorage.setItem('arkoz_cookie_consent', val);
+  const save = document.getElementById('cookieSave');
+  const analyticsToggle = document.getElementById('cookieAnalyticsToggle');
+  const marketingToggle = document.getElementById('cookieMarketingToggle');
+
+  const persist = (consent) => {
+    consent.v = 2;
+    consent.ts = Date.now();
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(consent));
     banner.classList.remove('is-visible');
     setTimeout(() => (banner.style.display = 'none'), 350);
+    applyConsent(consent);
   };
-  accept && accept.addEventListener('click', () => dismiss('all'));
-  reject && reject.addEventListener('click', () => dismiss('necessary'));
+
+  accept && accept.addEventListener('click', () =>
+    persist({ necessary: true, analytics: true, marketing: true })
+  );
+  reject && reject.addEventListener('click', () =>
+    persist({ necessary: true, analytics: false, marketing: false })
+  );
+  save && save.addEventListener('click', () =>
+    persist({
+      necessary: true,
+      analytics: !!(analyticsToggle && analyticsToggle.checked),
+      marketing: !!(marketingToggle && marketingToggle.checked),
+    })
+  );
+
+  // İlk açılışta consent'e göre sayfa davranışını uygula
+  function applyConsent(consent) {
+    if (consent.analytics) {
+      window.__arkoz_consent_analytics = true;
+      loadVercelAnalytics();
+    } else {
+      window.__arkoz_consent_analytics = false;
+    }
+    if (consent.marketing) {
+      window.__arkoz_consent_marketing = true;
+    } else {
+      window.__arkoz_consent_marketing = false;
+    }
+  }
+
+  // Vercel Web Analytics — yalnızca analytics consent verilmişse + script tek seferlik
+  // yüklenir. Privacy-friendly, cookie-less. Site Vercel'de host ediliyorsa otomatik
+  // aktive olur; GitHub Pages gibi başka yerde host edilirse script 404 olur ve
+  // sessizce başarısız olur (zarar vermez).
+  function loadVercelAnalytics() {
+    if (window.__arkoz_va_loaded) return;
+    window.__arkoz_va_loaded = true;
+    window.va = window.va || function () {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+    const s = document.createElement('script');
+    s.defer = true;
+    s.src = '/_vercel/insights/script.js';
+    s.onerror = () => {
+      // GitHub Pages veya başka host'ta script yoksa — sessizce sus
+      window.__arkoz_va_loaded = false;
+    };
+    document.head.appendChild(s);
+  }
 })();
 
 /* ── 13.45 Scroll Progress + Sticky CTA Visibility ──────── */
