@@ -4863,7 +4863,7 @@ canvas#beams-canvas {
   bottom: 24px;
   left: 24px;
   right: 24px;
-  max-width: 480px;
+  max-width: 520px;
   margin: 0 auto;
   background: var(--c-text-strong);
   color: #fff;
@@ -4874,6 +4874,47 @@ canvas#beams-canvas {
   display: none;
   transform: translateY(120%);
   transition: transform var(--dur-base) var(--ease-out);
+}
+.cookie-banner__toggles {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+.cookie-toggle {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: auto auto;
+  column-gap: 10px;
+  row-gap: 2px;
+  cursor: pointer;
+}
+.cookie-toggle input[type="checkbox"] {
+  grid-row: 1 / 3;
+  align-self: center;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--c-accent);
+}
+.cookie-toggle--locked input[type="checkbox"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.cookie-toggle__title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: #fff;
+  text-transform: uppercase;
+}
+.cookie-toggle__desc {
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(255, 255, 255, 0.7);
 }
 .cookie-banner.is-visible {
   display: block;
@@ -4918,6 +4959,14 @@ canvas#beams-canvas {
 }
 .cookie-banner__btn--reject:hover {
   background: rgba(255, 255, 255, 0.18);
+}
+.cookie-banner__btn--save {
+  background: var(--c-primary);
+  color: #fff;
+  border: 1px solid var(--c-primary-light);
+}
+.cookie-banner__btn--save:hover {
+  background: var(--c-primary-light);
 }
 @media (max-width: 480px) {
   .cookie-banner {
