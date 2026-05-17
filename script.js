@@ -422,39 +422,11 @@ if (document.readyState === 'loading') {
     })
   );
 
-  // İlk açılışta consent'e göre sayfa davranışını uygula
+  // Consent flag'leri — gelecekte bir analytics tool eklendiğinde bu flag'lere bakar
+  // Şu an aktif bir analytics yok; consent infrastructure ileri sürüm için hazır
   function applyConsent(consent) {
-    if (consent.analytics) {
-      window.__arkoz_consent_analytics = true;
-      loadVercelAnalytics();
-    } else {
-      window.__arkoz_consent_analytics = false;
-    }
-    if (consent.marketing) {
-      window.__arkoz_consent_marketing = true;
-    } else {
-      window.__arkoz_consent_marketing = false;
-    }
-  }
-
-  // Vercel Web Analytics — yalnızca analytics consent verilmişse + script tek seferlik
-  // yüklenir. Privacy-friendly, cookie-less. Site Vercel'de host ediliyorsa otomatik
-  // aktive olur; GitHub Pages gibi başka yerde host edilirse script 404 olur ve
-  // sessizce başarısız olur (zarar vermez).
-  function loadVercelAnalytics() {
-    if (window.__arkoz_va_loaded) return;
-    window.__arkoz_va_loaded = true;
-    window.va = window.va || function () {
-      (window.vaq = window.vaq || []).push(arguments);
-    };
-    const s = document.createElement('script');
-    s.defer = true;
-    s.src = '/_vercel/insights/script.js';
-    s.onerror = () => {
-      // GitHub Pages veya başka host'ta script yoksa — sessizce sus
-      window.__arkoz_va_loaded = false;
-    };
-    document.head.appendChild(s);
+    window.__arkoz_consent_analytics = !!consent.analytics;
+    window.__arkoz_consent_marketing = !!consent.marketing;
   }
 })();
 
