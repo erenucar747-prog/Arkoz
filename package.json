@@ -4,11 +4,13 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
-    "format": "prettier --write \"**/*.{js,css,html}\""
+    "format": "prettier --write \"**/*.{js,css,html}\"",
+    "favicons": "node scripts/generate-favicons.mjs"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.2.1",
+    "png-to-ico": "^2.1.8",
     "prettier": "^3.8.3",
     "sharp": "^0.34.5",
     "vite": "^8.0.10",
