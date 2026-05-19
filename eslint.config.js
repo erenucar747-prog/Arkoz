@@ -19,6 +19,10 @@ export default [
         cancelAnimationFrame: 'readonly',
         IntersectionObserver: 'readonly',
         sessionStorage: 'readonly',
+        localStorage: 'readonly',
+        alert: 'readonly',
+        confirm: 'readonly',
+        prompt: 'readonly',
         FormData: 'readonly',
         fetch: 'readonly',
         performance: 'readonly',
@@ -27,7 +31,11 @@ export default [
       },
     },
     rules: {
-      'no-unused-vars': 'warn',
+      'no-unused-vars': [
+        'warn',
+        { argsIgnorePattern: '^_', varsIgnorePattern: '^_', caughtErrorsIgnorePattern: '^_' },
+      ],
+      'no-empty': ['error', { allowEmptyCatch: true }],
       'no-console': 'off',
     },
   },

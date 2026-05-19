@@ -33,14 +33,10 @@ async function buildSquareIcon() {
   console.log(`[i] Kaynak: ${SOURCE} (${meta.width}x${meta.height}, ${meta.channels}ch)`);
 
   // 1) Bolge cikar
-  const cropped = await sharp(SOURCE)
-    .extract(ICON_REGION)
-    .toBuffer();
+  const cropped = await sharp(SOURCE).extract(ICON_REGION).toBuffer();
 
   // 2) Transparan kenarlari trim et (threshold 10/255)
-  const trimmed = await sharp(cropped)
-    .trim({ threshold: 10 })
-    .toBuffer();
+  const trimmed = await sharp(cropped).trim({ threshold: 10 }).toBuffer();
 
   const trimmedMeta = await sharp(trimmed).metadata();
   console.log(`[i] Trim sonrasi: ${trimmedMeta.width}x${trimmedMeta.height}`);
@@ -66,7 +62,7 @@ async function buildSquareIcon() {
     .toBuffer();
 
   console.log(
-    `[i] Kare olusturuldu: ${padded}x${padded} (icon ${tight}x${tight}, safe area %${SAFE_AREA_RATIO * 100})`,
+    `[i] Kare olusturuldu: ${padded}x${padded} (icon ${tight}x${tight}, safe area %${SAFE_AREA_RATIO * 100})`
   );
   return square;
 }
@@ -91,12 +87,12 @@ async function main() {
   console.log('[i] Onizleme yazildi: scripts/_preview-crop.png');
 
   const targets = [
-    { name: 'favicon-16x16.png',           size: 16,  transparent: true },
-    { name: 'favicon-32x32.png',           size: 32,  transparent: true },
-    { name: 'android-chrome-192x192.png',  size: 192, transparent: true },
-    { name: 'android-chrome-512x512.png',  size: 512, transparent: true },
+    { name: 'favicon-16x16.png', size: 16, transparent: true },
+    { name: 'favicon-32x32.png', size: 32, transparent: true },
+    { name: 'android-chrome-192x192.png', size: 192, transparent: true },
+    { name: 'android-chrome-512x512.png', size: 512, transparent: true },
     // iOS bazi surumleri transparenti siyah render ediyor -> beyaz BG
-    { name: 'apple-touch-icon.png',        size: 180, transparent: false },
+    { name: 'apple-touch-icon.png', size: 180, transparent: false },
   ];
 
   for (const t of targets) {
@@ -106,7 +102,9 @@ async function main() {
         : { r: 255, g: 255, b: 255, alpha: 1 },
     });
     await writeFile(join(repoRoot, t.name), buf);
-    console.log(`[+] ${t.name} (${t.size}x${t.size}${t.transparent ? ', transparan' : ', beyaz BG'})`);
+    console.log(
+      `[+] ${t.name} (${t.size}x${t.size}${t.transparent ? ', transparan' : ', beyaz BG'})`
+    );
   }
 
   // favicon.ico: 16+32+48 multi-size
