@@ -382,9 +382,10 @@ if (document.readyState === 'loading') {
       return;
     } catch {
       // Eski string format → yeni yapıya migrate et
-      const migrated = existing === 'all'
-        ? { necessary: true, analytics: true, marketing: true, v: 2, ts: Date.now() }
-        : { necessary: true, analytics: false, marketing: false, v: 2, ts: Date.now() };
+      const migrated =
+        existing === 'all'
+          ? { necessary: true, analytics: true, marketing: true, v: 2, ts: Date.now() }
+          : { necessary: true, analytics: false, marketing: false, v: 2, ts: Date.now() };
       localStorage.setItem(STORAGE_KEY, JSON.stringify(migrated));
       applyConsent(migrated);
       return;
@@ -408,19 +409,22 @@ if (document.readyState === 'loading') {
     applyConsent(consent);
   };
 
-  accept && accept.addEventListener('click', () =>
-    persist({ necessary: true, analytics: true, marketing: true })
-  );
-  reject && reject.addEventListener('click', () =>
-    persist({ necessary: true, analytics: false, marketing: false })
-  );
-  save && save.addEventListener('click', () =>
-    persist({
-      necessary: true,
-      analytics: !!(analyticsToggle && analyticsToggle.checked),
-      marketing: !!(marketingToggle && marketingToggle.checked),
-    })
-  );
+  accept &&
+    accept.addEventListener('click', () =>
+      persist({ necessary: true, analytics: true, marketing: true })
+    );
+  reject &&
+    reject.addEventListener('click', () =>
+      persist({ necessary: true, analytics: false, marketing: false })
+    );
+  save &&
+    save.addEventListener('click', () =>
+      persist({
+        necessary: true,
+        analytics: !!(analyticsToggle && analyticsToggle.checked),
+        marketing: !!(marketingToggle && marketingToggle.checked),
+      })
+    );
 
   // Consent flag'leri — gelecekte bir analytics tool eklendiğinde bu flag'lere bakar
   // Şu an aktif bir analytics yok; consent infrastructure ileri sürüm için hazır
