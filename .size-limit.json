@@ -1,27 +1,17 @@
 [
   {
     "name": "Total CSS",
-    "path": [
-      "**/*.css",
-      "!node_modules/**"
-    ],
+    "path": ["**/*.css", "!node_modules/**"],
     "limit": "40 KB"
   },
   {
     "name": "Total JS",
-    "path": [
-      "**/*.js",
-      "**/*.mjs",
-      "!node_modules/**"
-    ],
+    "path": ["**/*.js", "**/*.mjs", "!node_modules/**"],
     "limit": "60 KB"
   },
   {
     "name": "Total HTML",
-    "path": [
-      "**/*.html",
-      "!node_modules/**"
-    ],
+    "path": ["**/*.html", "!node_modules/**"],
     "limit": "120 KB"
   }
 ]
