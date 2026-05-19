@@ -24,6 +24,10 @@ const SOURCE = join(repoRoot, 'logo.png');
 // elle hesaplamak zorunda kalmiyoruz.
 const ICON_REGION = { left: 0, top: 0, width: 230, height: 260 };
 
+// Trimlenmis ikon karenin kenarlarina dayandiginda tarayici sekmesi ust
+// pikselleri visually kirpiyor. Her kenarda %12 transparan inset birakiyoruz.
+const SAFE_AREA_RATIO = 0.12;
+
 async function buildSquareIcon() {
   const meta = await sharp(SOURCE).metadata();
   console.log(`[i] Kaynak: ${SOURCE} (${meta.width}x${meta.height}, ${meta.channels}ch)`);
@@ -41,15 +45,18 @@ async function buildSquareIcon() {
   const trimmedMeta = await sharp(trimmed).metadata();
   console.log(`[i] Trim sonrasi: ${trimmedMeta.width}x${trimmedMeta.height}`);
 
-  // 3) Kare yap (en uzun kenara gore transparan padding ekle)
-  const size = Math.max(trimmedMeta.width, trimmedMeta.height);
-  const padX = Math.floor((size - trimmedMeta.width) / 2);
-  const padY = Math.floor((size - trimmedMeta.height) / 2);
+  // 3) Kare yap + safe area ekle
+  //    tight = trim sonrasi minimum kare (mevcut davranis)
+  //    padded = her kenarda SAFE_AREA_RATIO kadar transparan inset eklenmis kare
+  const tight = Math.max(trimmedMeta.width, trimmedMeta.height);
+  const padded = Math.round(tight / (1 - 2 * SAFE_AREA_RATIO));
+  const padX = Math.floor((padded - trimmedMeta.width) / 2);
+  const padY = Math.floor((padded - trimmedMeta.height) / 2);
 
   const square = await sharp({
     create: {
-      width: size,
-      height: size,
+      width: padded,
+      height: padded,
       channels: 4,
       background: { r: 0, g: 0, b: 0, alpha: 0 },
     },
@@ -58,7 +65,9 @@ async function buildSquareIcon() {
     .png()
     .toBuffer();
 
-  console.log(`[i] Kare olusturuldu: ${size}x${size}`);
+  console.log(
+    `[i] Kare olusturuldu: ${padded}x${padded} (icon ${tight}x${tight}, safe area %${SAFE_AREA_RATIO * 100})`,
+  );
   return square;
 }
 
