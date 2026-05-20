@@ -22,11 +22,29 @@ const SOURCE = join(repoRoot, 'logo.png');
 // "A + yaprak" amblemi logonun sol bolumunde. Genis bir kutu alip
 // transparan kenarlari sharp ile trimleyecegiz; bu sayede tam piksel sinirini
 // elle hesaplamak zorunda kalmiyoruz.
-const ICON_REGION = { left: 0, top: 0, width: 230, height: 260 };
+// Pixel-level alpha scan (logo.png 827x368) ile dogrulandi:
+//   - Ucgenin sag vertex'i (x=274, y=229)
+//   - Ucgenin apex'i ~(x=115, y=0)
+//   - R harfi x=237'den itibaren slope ile cakisiyor (ust bowl ucgenin
+//     sag slope'unun ic tarafina sarkiyor) - bu yuzden duz rectangular
+//     crop yetmiyor; sag slope'un disindaki pikselleri MASK ile eriyoruz.
+//   - ARKOZ satir bandi rows 0-232; gap 233-277; GAZBETON 278+
+const ICON_REGION = { left: 0, top: 0, width: 290, height: 240 };
+
+// Sag slope'un geometrik tanimi (apex'ten sag vertex'e dogru cizgi).
+// (x, y) noktasi sag slope'un SAG tarafinda ise (yani x > slope_line(y))
+// onu sil - bu R harfinin slope icine sarkan ust bowl'unu temizler.
+// Slope merkez cizgisi: x = APEX_X + (RIGHT_VX - APEX_X) * (y / RIGHT_VY)
+// Margin: slope stroke kalinligi ~12-15px; merkezden +18px tolerans biraktik.
+const APEX_X = 115;
+const APEX_Y = 0;
+const RIGHT_VX = 274;
+const RIGHT_VY = 229;
+const SLOPE_RIGHT_MARGIN = 18;
 
 // Trimlenmis ikon karenin kenarlarina dayandiginda tarayici sekmesi ust
-// pikselleri visually kirpiyor. Her kenarda %12 transparan inset birakiyoruz.
-const SAFE_AREA_RATIO = 0.12;
+// pikselleri visually kirpiyor. Her kenarda %18 transparan inset birakiyoruz.
+const SAFE_AREA_RATIO = 0.18;
 
 async function buildSquareIcon() {
   const meta = await sharp(SOURCE).metadata();
@@ -35,8 +53,40 @@ async function buildSquareIcon() {
   // 1) Bolge cikar
   const cropped = await sharp(SOURCE).extract(ICON_REGION).toBuffer();
 
+  // 1b) Sag slope disindaki pikselleri sil (R harfinin ucgene sarkan bolumu)
+  //    Slope merkez cizgisi: x_slope(y) = APEX_X + (RIGHT_VX - APEX_X) * y / RIGHT_VY
+  //    Bir piksel (x, y) icin x > x_slope(y) + SLOPE_RIGHT_MARGIN ise alpha=0
+  const { data: rawData, info: rawInfo } = await sharp(cropped)
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const W = rawInfo.width;
+  const H = rawInfo.height;
+  const CH = rawInfo.channels;
+  const masked = Buffer.from(rawData);
+  let erasedCount = 0;
+  for (let y = 0; y < H; y++) {
+    const slopeX = APEX_X + ((RIGHT_VX - APEX_X) * (y - APEX_Y)) / (RIGHT_VY - APEX_Y);
+    const cutoffX = slopeX + SLOPE_RIGHT_MARGIN;
+    for (let x = 0; x < W; x++) {
+      if (x > cutoffX) {
+        const idx = (y * W + x) * CH + 3;
+        if (masked[idx] > 0) {
+          masked[idx] = 0;
+          erasedCount++;
+        }
+      }
+    }
+  }
+  console.log(`[i] Mask: ${erasedCount} piksel silindi (sag slope disindaki R kalintilari)`);
+
+  const maskedBuffer = await sharp(masked, {
+    raw: { width: W, height: H, channels: CH },
+  })
+    .png()
+    .toBuffer();
+
   // 2) Transparan kenarlari trim et (threshold 10/255)
-  const trimmed = await sharp(cropped).trim({ threshold: 10 }).toBuffer();
+  const trimmed = await sharp(maskedBuffer).trim({ threshold: 10 }).toBuffer();
 
   const trimmedMeta = await sharp(trimmed).metadata();
   console.log(`[i] Trim sonrasi: ${trimmedMeta.width}x${trimmedMeta.height}`);
