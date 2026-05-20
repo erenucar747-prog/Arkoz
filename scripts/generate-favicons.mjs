@@ -43,8 +43,9 @@ const RIGHT_VY = 229;
 const SLOPE_RIGHT_MARGIN = 18;
 
 // Trimlenmis ikon karenin kenarlarina dayandiginda tarayici sekmesi ust
-// pikselleri visually kirpiyor. Her kenarda %18 transparan inset birakiyoruz.
-const SAFE_AREA_RATIO = 0.18;
+// pikselleri visually kirpiyor. Her kenarda %10 transparan inset birakiyoruz
+// (logo kanvasin %80'ini kaplar, %18 padding'e gore lineer ~%25 daha buyuk).
+const SAFE_AREA_RATIO = 0.1;
 
 async function buildSquareIcon() {
   const meta = await sharp(SOURCE).metadata();
