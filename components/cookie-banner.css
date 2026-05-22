@@ -1,0 +1,420 @@
+/* ──────────────────────────────────────────────────────────────
+   Arkoz Gazbeton — KVKK Cookie Consent (component, opt-in)
+   Self-contained. Uses design tokens from styles.css.
+   ────────────────────────────────────────────────────────────── */
+
+.cb-banner {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  right: 24px;
+  max-width: 520px;
+  margin: 0 auto;
+  background: var(--c-text-strong, #0a0a0a);
+  color: #fff;
+  padding: 20px 24px;
+  border-radius: 16px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.45);
+  z-index: 60;
+  transform: translateY(140%);
+  opacity: 0;
+  transition:
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease;
+  font-family: inherit;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.cb-banner.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cb-banner__title {
+  font-size: 15px;
+  font-weight: 700;
+  margin: 0 0 6px;
+  color: #fff;
+  letter-spacing: 0.01em;
+}
+
+.cb-banner__text {
+  font-size: 13px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0 0 16px;
+}
+
+.cb-banner__text a {
+  color: var(--c-accent-light, #d4c4a0);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.cb-banner__text a:hover {
+  color: #fff;
+}
+
+.cb-banner__actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.cb-banner__btn {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 11px 14px;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 13px;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition:
+    background 0.18s ease,
+    transform 0.12s ease;
+  white-space: nowrap;
+}
+
+.cb-banner__btn:active {
+  transform: translateY(1px);
+}
+
+.cb-banner__btn--accept {
+  background: var(--c-accent, #b8a88a);
+  color: var(--c-ink, #0a0a0a);
+}
+
+.cb-banner__btn--accept:hover {
+  background: var(--c-accent-light, #d4c4a0);
+}
+
+.cb-banner__btn--reject {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.cb-banner__btn--reject:hover {
+  background: rgba(255, 255, 255, 0.16);
+}
+
+.cb-banner__btn--manage {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+}
+
+.cb-banner__btn--manage:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+@media (max-width: 560px) {
+  .cb-banner {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    padding: 18px 18px;
+  }
+
+  .cb-banner__actions {
+    flex-direction: column;
+  }
+
+  .cb-banner__btn {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+/* Avoid overlapping the AI chat FAB on mobile */
+@media (max-width: 560px) {
+  body.has-ai-fab .cb-banner {
+    bottom: 86px;
+  }
+}
+
+/* ─────────────────── PREFERENCES MODAL ────────────────────── */
+
+.cb-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 70;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.cb-modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cb-modal__panel {
+  background: #fff;
+  color: var(--c-ink, #1a1a1a);
+  max-width: 560px;
+  width: 100%;
+  max-height: 85vh;
+  overflow-y: auto;
+  border-radius: 18px;
+  padding: 28px 28px 22px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.4);
+  transform: translateY(20px) scale(0.98);
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cb-modal.is-open .cb-modal__panel {
+  transform: translateY(0) scale(1);
+}
+
+.cb-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.cb-modal__title {
+  font-size: 19px;
+  font-weight: 700;
+  margin: 0;
+  color: var(--c-ink, #1a1a1a);
+}
+
+.cb-modal__close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #777;
+  padding: 6px;
+  border-radius: 6px;
+  font-size: 22px;
+  line-height: 1;
+}
+
+.cb-modal__close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: #1a1a1a;
+}
+
+.cb-modal__intro {
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #555;
+  margin: 0 0 18px;
+}
+
+.cb-modal__intro a {
+  color: var(--c-accent, #b8a88a);
+  text-decoration: underline;
+}
+
+.cb-category {
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  transition: border-color 0.2s ease;
+}
+
+.cb-category:hover {
+  border-color: rgba(0, 0, 0, 0.14);
+}
+
+.cb-category__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-bottom: 4px;
+}
+
+.cb-category__title {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--c-ink, #1a1a1a);
+}
+
+.cb-category__desc {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: #666;
+  margin: 0;
+}
+
+.cb-category__lock {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--c-accent, #b8a88a);
+  background: rgba(184, 168, 138, 0.12);
+  padding: 3px 8px;
+  border-radius: 99px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* Toggle switch */
+.cb-toggle {
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 24px;
+  flex-shrink: 0;
+}
+
+.cb-toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.cb-toggle__slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.18);
+  border-radius: 24px;
+  cursor: pointer;
+  transition:
+    background 0.22s ease,
+    box-shadow 0.22s ease;
+}
+
+.cb-toggle__slider::before {
+  content: '';
+  position: absolute;
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  top: 3px;
+  background: #fff;
+  border-radius: 50%;
+  transition: transform 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.cb-toggle input:checked + .cb-toggle__slider {
+  background: var(--c-accent, #b8a88a);
+}
+
+.cb-toggle input:checked + .cb-toggle__slider::before {
+  transform: translateX(18px);
+}
+
+.cb-toggle input:disabled + .cb-toggle__slider {
+  background: rgba(184, 168, 138, 0.5);
+  cursor: not-allowed;
+}
+
+.cb-toggle input:focus-visible + .cb-toggle__slider {
+  box-shadow: 0 0 0 3px rgba(184, 168, 138, 0.35);
+}
+
+.cb-modal__actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.cb-modal__btn {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 13.5px;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  transition:
+    background 0.18s ease,
+    transform 0.12s ease;
+}
+
+.cb-modal__btn:active {
+  transform: translateY(1px);
+}
+
+.cb-modal__btn--save {
+  background: var(--c-accent, #b8a88a);
+  color: var(--c-ink, #0a0a0a);
+}
+
+.cb-modal__btn--save:hover {
+  background: var(--c-accent-light, #d4c4a0);
+}
+
+.cb-modal__btn--secondary {
+  background: rgba(0, 0, 0, 0.06);
+  color: var(--c-ink, #1a1a1a);
+}
+
+.cb-modal__btn--secondary:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+/* Footer link to reopen preferences (for users who want to change later) */
+.cb-reopen {
+  position: fixed;
+  bottom: 16px;
+  left: 16px;
+  z-index: 40;
+  background: rgba(10, 10, 10, 0.78);
+  color: #fff;
+  font-size: 11.5px;
+  font-weight: 500;
+  padding: 7px 11px;
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  cursor: pointer;
+  opacity: 0;
+  transform: translateY(10px);
+  pointer-events: none;
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+  font-family: inherit;
+}
+
+.cb-reopen.is-visible {
+  opacity: 0.85;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.cb-reopen:hover {
+  opacity: 1;
+  background: #1a1a1a;
+}
+
+@media (max-width: 560px) {
+  .cb-reopen {
+    bottom: 12px;
+    left: 12px;
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cb-banner,
+  .cb-modal,
+  .cb-modal__panel,
+  .cb-reopen,
+  .cb-toggle__slider,
+  .cb-toggle__slider::before {
+    transition: none;
+  }
+}
