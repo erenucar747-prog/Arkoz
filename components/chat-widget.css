@@ -178,7 +178,14 @@
     opacity: 0.55;
   }
 }
-#ai-chat-close-btn {
+#ai-chat-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+}
+#ai-chat-close-btn,
+#ai-chat-clear-btn {
   background: rgba(255, 255, 255, 0.08);
   border: none;
   color: rgba(255, 255, 255, 0.85);
@@ -194,7 +201,8 @@
     color 0.18s ease;
   position: relative;
 }
-#ai-chat-close-btn:hover {
+#ai-chat-close-btn:hover,
+#ai-chat-clear-btn:hover {
   background: rgba(255, 255, 255, 0.18);
   color: #ffffff;
 }
@@ -415,19 +423,29 @@
   box-shadow: none;
 }
 
-/* ------------ Footer ------------ */
+/* ------------ Footer (KVKK disclosure) ------------ */
 #ai-chat-footer {
-  font-size: 0.65rem;
-  color: #aaa;
+  font-size: 0.68rem;
+  line-height: 1.5;
+  color: #666;
   text-align: center;
-  padding: 6px 12px 10px;
-  background: #ffffff;
-  letter-spacing: 0.02em;
+  padding: 8px 14px 10px;
+  background: #fafafc;
+  border-top: 1px solid rgba(32, 17, 97, 0.06);
+  letter-spacing: 0.01em;
   flex-shrink: 0;
 }
 #ai-chat-footer strong {
   color: #201161;
   font-weight: 600;
+}
+#ai-chat-footer a {
+  color: #2e1a8a;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+#ai-chat-footer a:hover {
+  color: #4db848;
 }
 
 /* ------------ Mobile ------------ */

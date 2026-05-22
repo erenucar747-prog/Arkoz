@@ -179,53 +179,7 @@
       </a>
     </div>
 
-    <!-- KVKK GRANULAR COOKIE BANNER -->
-    <aside class="cookie-banner" id="cookieBanner" role="dialog" aria-label="Çerez Tercihleri">
-      <p class="cookie-banner__text">
-        Bu site deneyiminizi geliştirmek ve site kullanımını analiz etmek için çerez kullanır.
-        Tercihlerinizi aşağıdan ayarlayabilirsiniz. Detaylar:
-        <a href="politikalar.html#cerez">Çerez Politikası</a> ·
-        <a href="politikalar.html#kvkk">KVKK Aydınlatma</a>.
-      </p>
-
-      <div class="cookie-banner__toggles">
-        <label class="cookie-toggle cookie-toggle--locked">
-          <input type="checkbox" checked disabled />
-          <span class="cookie-toggle__title">Zorunlu (her zaman açık)</span>
-          <span class="cookie-toggle__desc"
-            >Oturum, güvenlik, dil tercihi gibi sitenin çalışması için gerekli çerezler.</span
-          >
-        </label>
-
-        <label class="cookie-toggle">
-          <input type="checkbox" id="cookieAnalyticsToggle" />
-          <span class="cookie-toggle__title">Analitik</span>
-          <span class="cookie-toggle__desc"
-            >Anonim ziyaret istatistikleri — şu an pasif, ileride etkinleştirilebilir.</span
-          >
-        </label>
-
-        <label class="cookie-toggle">
-          <input type="checkbox" id="cookieMarketingToggle" />
-          <span class="cookie-toggle__title">Pazarlama</span>
-          <span class="cookie-toggle__desc"
-            >Şu an aktif kullanım yok; gelecekte kampanya yönlendirmesi için.</span
-          >
-        </label>
-      </div>
-
-      <div class="cookie-banner__actions">
-        <button class="cookie-banner__btn cookie-banner__btn--reject" id="cookieReject">
-          Sadece Zorunlu
-        </button>
-        <button class="cookie-banner__btn cookie-banner__btn--save" id="cookieSave">
-          Tercihleri Kaydet
-        </button>
-        <button class="cookie-banner__btn cookie-banner__btn--accept" id="cookieAccept">
-          Hepsini Kabul Et
-        </button>
-      </div>
-    </aside>
+    <!-- KVKK Cookie Consent (injected by components/cookie-banner.js) -->
 
     <!-- NAVİGASYON -->
     <header class="header" id="header">
@@ -2887,6 +2841,14 @@
                 ></textarea>
                 <label for="message">Mesaj</label>
               </div>
+              <div class="form__consent">
+                <input type="checkbox" id="contact-kvkk" name="kvkk-consent" required />
+                <label for="contact-kvkk">
+                  <a href="politikalar.html#kvk" target="_blank" rel="noopener">KVKK Aydınlatma Metni</a>'ni
+                  ve <a href="politikalar.html#gizlilik" target="_blank" rel="noopener">Gizlilik Politikası</a>'nı
+                  okudum; kişisel verilerimin işlenmesine açık rıza veriyorum. *
+                </label>
+              </div>
               <button type="submit" class="btn btn--primary btn--full">
                 <span>Teklif Formu Gönder</span>
                 <svg
@@ -2901,6 +2863,10 @@
                   <polygon points="22 2 15 22 11 13 2 9 22 2" />
                 </svg>
               </button>
+              <p class="form__note">
+                Form, <a href="https://formsubmit.co" target="_blank" rel="noopener">FormSubmit.co</a> (ABD) aracılığıyla
+                <strong>info@arkozgazbeton.com.tr</strong> adresine iletilir.
+              </p>
             </form>
           </div>
         </div>
@@ -3138,6 +3104,10 @@
     </footer>
 
     <script src="script.js" defer></script>
+
+    <!-- KVKK Cookie Consent (shared component, opt-in) -->
+    <link rel="stylesheet" href="components/cookie-banner.css" />
+    <script src="components/cookie-banner.js" defer></script>
 
     <!-- AI Chat Widget (shared component) -->
     <link rel="stylesheet" href="components/chat-widget.css" />
