@@ -1,11 +1,10 @@
 /**
- * Arkoz Gazbeton — AI Chat Widget
- * - System prompt server-side (güvenlik: frontend prompt sızdırmıyor)
+ * Arkoz Gazbeton — Yapay Zeka Asistan Widget
+ * - System prompt sunucu tarafında (güvenlik: frontend prompt sızdırmıyor)
  * - Input length 1000 chars, history son 20 mesaj
  * - 800ms send debounce, kullanıcı dostu hata mesajları
- * - KVKK Md. 9: yurt dışı veri aktarımı (Anthropic, ABD) — widget yalnızca
- *   kullanıcı `arkoz_cookie_consent_v2.ai === true` verdiğinde yüklenir;
- *   `arkoz:consent-changed` ile canlı bağlantılıdır.
+ * - Çerez tercihleri "ai" kategorisi açıksa widget yüklenir; ayrıca asistan
+ *   açıldığında oturuma özel iç onay ekranı gösterilir (sessionStorage gate).
  */
 (function () {
   'use strict';
@@ -15,6 +14,7 @@
   const MAX_HISTORY = 20;
   const SEND_DEBOUNCE_MS = 800;
   const CONSENT_KEY = 'arkoz_cookie_consent_v2';
+  const SESSION_CONSENT_KEY = 'arkoz_ai_session_consent';
 
   const SUGGESTED_QUESTIONS = [
     'Arkoz Blok özellikleri nelerdir?',
@@ -71,8 +71,25 @@
           </button>
         </div>
         <div id="ai-chat-footer">
-          <strong>Arkoz</strong> AI Asistan — Anthropic Claude API ile çalışır.
-          Yanıtlar bağlayıcı değildir. <a href="politikalar.html#ai" target="_blank" rel="noopener">Veri işleme detayları</a>
+          <strong>Arkoz</strong> Yapay Zeka Asistan —
+          <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
+        </div>
+
+        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zeka Asistan Onayı">
+          <div id="ai-chat-consent__card">
+            <h4 id="ai-chat-consent__title">Yapay Zeka Asistan</h4>
+            <p id="ai-chat-consent__text">
+              Bilgileriniz yapay zeka asistanı tarafından işlenmektedir.
+              Kabul ediyor musunuz?
+            </p>
+            <p id="ai-chat-consent__link">
+              <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni →</a>
+            </p>
+            <div id="ai-chat-consent__actions">
+              <button id="ai-chat-consent-decline" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--secondary">Vazgeç</button>
+              <button id="ai-chat-consent-accept" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--primary">Kabul Et</button>
+            </div>
+          </div>
         </div>
       </div>
       <button id="ai-chat-toggle" aria-label="AI Asistan ile konuş" type="button">
@@ -121,6 +138,9 @@
     const toggleBtn = document.getElementById('ai-chat-toggle');
     const closeBtn = document.getElementById('ai-chat-close-btn');
     const clearBtn = document.getElementById('ai-chat-clear-btn');
+    const consentEl = document.getElementById('ai-chat-consent');
+    const consentAcceptBtn = document.getElementById('ai-chat-consent-accept');
+    const consentDeclineBtn = document.getElementById('ai-chat-consent-decline');
     const iconChat = document.getElementById('ai-icon-chat');
     const iconClose = document.getElementById('ai-icon-close');
 
@@ -133,7 +153,7 @@
       if (welcomed) return;
       welcomed = true;
       addMsg(
-        'Merhaba! Ben **Arkoz Gazbeton**’un yapay zeka asistanıyım. ⚠ Verdiğim bilgiler **bağlayıcı değildir** — kesin fiyat ve teknik detaylar için bayi ile teyit edin. Mesajlarınız KVKK Md. 9 uyarınca ABD\'deki Anthropic sunucularına iletilir ([detay](politikalar.html#ai)).',
+        'Merhaba! Ben **Arkoz Gazbeton**’un yapay zeka asistanıyım. Size nasıl yardımcı olabilirim?',
         'bot'
       );
       renderSuggestions();
@@ -172,14 +192,50 @@
       if (w) w.remove();
     }
 
+    function hasSessionConsent() {
+      try {
+        return sessionStorage.getItem(SESSION_CONSENT_KEY) === '1';
+      } catch (_e) {
+        return false;
+      }
+    }
+
+    function setSessionConsent(value) {
+      try {
+        if (value) sessionStorage.setItem(SESSION_CONSENT_KEY, '1');
+        else sessionStorage.removeItem(SESSION_CONSENT_KEY);
+      } catch (_e) {
+        // sessionStorage unavailable — non-fatal
+      }
+    }
+
+    function showConsentGate() {
+      consentEl.classList.add('is-visible');
+      setTimeout(() => {
+        const acceptBtn = document.getElementById('ai-chat-consent-accept');
+        if (acceptBtn) acceptBtn.focus();
+      }, 60);
+    }
+
+    function hideConsentGate() {
+      consentEl.classList.remove('is-visible');
+    }
+
     function setOpen(open) {
       panel.style.display = open ? 'flex' : 'none';
       panel.setAttribute('aria-hidden', open ? 'false' : 'true');
       iconChat.style.display = open ? 'none' : 'block';
       iconClose.style.display = open ? 'block' : 'none';
       if (open) {
-        showWelcome();
-        setTimeout(() => input.focus(), 50);
+        if (hasSessionConsent()) {
+          hideConsentGate();
+          showWelcome();
+          setTimeout(() => input.focus(), 50);
+        } else {
+          showConsentGate();
+        }
+      } else {
+        hideConsentGate();
       }
     }
 
@@ -302,6 +358,21 @@
       }
     });
 
+    if (consentAcceptBtn) {
+      consentAcceptBtn.addEventListener('click', function () {
+        setSessionConsent(true);
+        hideConsentGate();
+        showWelcome();
+        setTimeout(() => input.focus(), 50);
+      });
+    }
+    if (consentDeclineBtn) {
+      consentDeclineBtn.addEventListener('click', function () {
+        setSessionConsent(false);
+        setOpen(false);
+      });
+    }
+
     updateCounter();
   }
 
@@ -312,7 +383,7 @@
     initialized = false;
   }
 
-  // ------------ Consent Gate (KVKK Md. 9) ------------
+  // ------------ Çerez Onayı Kontrolü ------------
   function isAIConsented() {
     if (window.ArkozConsent && typeof window.ArkozConsent.isGranted === 'function') {
       return window.ArkozConsent.isGranted('ai');
