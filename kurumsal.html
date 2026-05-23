@@ -15,7 +15,11 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
     <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
   </head>
@@ -59,11 +63,7 @@
               <strong>0538 865 82 89</strong>
             </span>
           </a>
-          <a
-            class="nav__bayi"
-            href="index.html#bayiler"
-            target="_blank"
-            rel="noopener"
+          <a class="nav__bayi" href="index.html#bayiler" target="_blank" rel="noopener"
             >Bayi Portalı</a
           >
         </div>
@@ -152,24 +152,27 @@
           <div class="tab-panel" id="tab-misyon">
             <div class="content-block">
               <h3>Misyon, Vizyon ve Değerlerimiz</h3>
-              <div class="mission__grid" style="margin-bottom: 48px">
-                <div class="mission__card">
-                  <h3>Misyonumuz</h3>
-                  <p>
-                    Müşteri odaklı olmayı tüm organizasyonumuzun merkezine entegre eden Arkoz Gazbeton,
-                    <strong>beklentilerin ötesine geçen hizmet ve kaliteyi</strong> sunmayı misyon edinmiştir.
-                    Yüksek kaliteli, maliyet avantajı sağlayan ve çevre dostu yapı ürünlerimiz ile
-                    her seviyede müşteri memnuniyetini önceliklendiriyoruz.
+              <div class="mv-grid">
+                <article class="mv-card mv-card--mission">
+                  <span class="mv-card__label">Misyonumuz</span>
+                  <h4 class="mv-card__title">Beklentilerin Ötesinde Hizmet ve Kalite</h4>
+                  <p class="mv-card__body">
+                    Müşteri odaklı olmayı tüm organizasyonumuzun merkezine entegre eden Arkoz
+                    Gazbeton, beklentilerin de ötesine geçen hizmet ve kaliteyi sunmayı misyon
+                    edinmiştir. Yüksek kaliteli, maliyet avantajı sağlayan ve çevre dostu yapı
+                    ürünlerimiz ile her seviyede müşteri memnuniyetini önceliklendiriyoruz.
                   </p>
-                </div>
-                <div class="mission__card mission__card--center">
-                  <h3>Vizyonumuz</h3>
-                  <p>
-                    <strong>Türkiye'nin lider yapı ürünleri tedarikçisi</strong> olmayı amaçlıyoruz.
+                </article>
+                <article class="mv-card mv-card--vision">
+                  <span class="mv-card__label">Vizyonumuz</span>
+                  <h4 class="mv-card__title">Türkiye'nin Lider Yapı Ürünleri Tedarikçisi</h4>
+                  <p class="mv-card__body">
                     Sürekli yatırımlar ve yüksek kaliteli çözümlerle inşaat sektöründe öncü olmayı,
-                    tüm tüketici gruplarına en yakın marka olmayı hedefliyoruz.
+                    tüm tüketici gruplarına en yakın marka olmayı hedefliyoruz. Sürdürülebilirlik
+                    ilkesine bağlı kalarak en yüksek kalite standartlarında yapı çözümleri
+                    sunuyoruz.
                   </p>
-                </div>
+                </article>
               </div>
 
               <h4 class="values-heading">Değerlerimiz</h4>
@@ -178,56 +181,82 @@
                   <h5>Müşteri Odaklılık</h5>
                   <p>
                     Müşterilerimizi tüm organizasyonun merkezine yerleştirir, beklentilerinin
-                    ötesinde hizmet sunmaya odaklanırız.
+                    ötesinde hizmet sunmaya odaklanırız. Müşteri odaklılık, kurumsal kültürümüzün
+                    temel taşıdır.
                   </p>
                 </div>
                 <div class="value-card">
-                  <h5>Ürün Kalitesi</h5>
+                  <h5>Yüksek Kalite</h5>
                   <p>
-                    En yüksek kalite standartlarında, maliyet avantajı sağlayan, çevre dostu
-                    yapı ürünleri üretiriz.
+                    Kaliteli ürün ve hizmet üretmeyi her zaman önemseriz. Maliyet avantajı sağlayan
+                    ve çevre dostu ürünlerimizle yüksek kalite standartlarını esas alırız.
+                  </p>
+                </div>
+                <div class="value-card">
+                  <h5>Yerli Üretim ve Kaynak Geliştirme</h5>
+                  <p>
+                    Dışa bağımlılığı azaltarak yerel kaynakları harekete geçirmeyi birinci öncelik
+                    sayarız. Yerli üretimle Türkiye ekonomisine katkı sağlamayı görev biliriz.
+                  </p>
+                </div>
+                <div class="value-card">
+                  <h5>Araştırma ve Sosyal Sorumluluk</h5>
+                  <p>
+                    Araştırma ve bilgiyi bir sosyal sorumluluk olarak görür; sektöre ve topluma
+                    katkı sağlayacak yenilikçi çözümler geliştirmeye yatırım yaparız.
                   </p>
                 </div>
                 <div class="value-card">
                   <h5>Çevre Sorumluluğu</h5>
                   <p>
-                    Çevreye duyarlı yaklaşımlar geliştirir, gelecek nesillere daha yaşanabilir
-                    bir dünya bırakmayı taahhüt ederiz.
+                    Çevreye duyarlı yaklaşımlar geliştirir, gelecek nesillere daha yaşanabilir bir
+                    dünya bırakmayı taahhüt ederiz. İnsan odaklı çevre değerlerine saygıyla hareket
+                    ederiz.
                   </p>
                 </div>
                 <div class="value-card">
                   <h5>Sürdürülebilirlik</h5>
                   <p>
-                    Üretim süreçlerimizden ürün ömrüne kadar her aşamada sürdürülebilir
-                    yapı çözümleri sunarız.
+                    Üretim süreçlerimizden ürün ömrüne kadar her aşamada sürdürülebilir yapı
+                    çözümleri sunarız. Sıfır atık projemiz ile döngüsel ekonomiyi destekleriz.
                   </p>
                 </div>
                 <div class="value-card">
                   <h5>Kaynak Verimliliği</h5>
                   <p>
                     Etkin proseslerle kaynakları verimli kullanır, atık ve enerji tüketimini
-                    minimumda tutarız.
+                    minimumda tutarız. ISO 50001 Enerji Yönetim Sistemi ile bu ilkeyi sistematik
+                    olarak yönetiriz.
                   </p>
                 </div>
                 <div class="value-card">
                   <h5>Dijital Dönüşüm</h5>
                   <p>
                     Operasyonlarımızın her aşamasında dijitalleşmeyi öncelikli hedef olarak
-                    benimser, sürekli iyileştirmeyi yaşatırız.
+                    benimser, sürekli iyileştirmeyi yaşatırız. Veri odaklı karar süreçlerimizle çağa
+                    ayak uydururuz.
                   </p>
                 </div>
                 <div class="value-card">
                   <h5>Paydaş Değeri</h5>
                   <p>
-                    Çalışanlarımız, iş ortaklarımız ve toplumumuzla güvene dayalı ilişkiler kurar,
-                    her paydaşa değer katmayı önemseriz.
+                    Çalışanlarımız ve iş ortaklarımızla güvene dayalı ilişkiler kurar, her paydaşa
+                    değer katmayı önemseriz. Şeffaflık ve karşılıklı saygı temel yaklaşımımızdır.
+                  </p>
+                </div>
+                <div class="value-card">
+                  <h5>Toplumsal Sorumluluk</h5>
+                  <p>
+                    Topluma ve çevreye karşı sorumluluklarımızın bilinciyle hareket ederiz. Faaliyet
+                    bölgemize ekonomik, sosyal ve ekolojik fayda yaratmayı görev biliriz.
                   </p>
                 </div>
                 <div class="value-card">
                   <h5>İnsan Odaklılık</h5>
                   <p>
                     "Önce insan" ilkesiyle çalışır, çalışanlarımızın gelişimini, sağlığını ve
-                    mutluluğunu en yüksek değerimiz sayarız.
+                    mutluluğunu en yüksek değerimiz sayarız. ISO 45001 İSG sertifikasıyla bu ilkeyi
+                    tescilledik.
                   </p>
                 </div>
               </div>
@@ -248,9 +277,9 @@
                   >Arkoz Holding</a
                 >
                 bünyesinde, Samsun'un Havza ilçesinde Türkiye'nin en yeni ve en modern gazbeton
-                üretim tesisini hayata geçiren bir yapı malzemeleri şirketidir.
-                Üretime başladığı günden itibaren kalite, sürdürülebilirlik ve
-                müşteri odaklı yaklaşımıyla sektöre yön vermeyi hedefliyoruz.
+                üretim tesisini hayata geçiren bir yapı malzemeleri şirketidir. Üretime başladığı
+                günden itibaren kalite, sürdürülebilirlik ve müşteri odaklı yaklaşımıyla sektöre yön
+                vermeyi hedefliyoruz.
               </p>
 
               <ul class="timeline">
@@ -259,8 +288,8 @@
                   <div class="timeline__body">
                     <h4>Üretime Başlangıç</h4>
                     <p>
-                      Havza Organize Sanayi Bölgesi'nde, KEDA Suremaker üretim hattı ile
-                      Türkiye'nin en yeni gazbeton fabrikası faaliyete geçti. Yıllık
+                      Havza Organize Sanayi Bölgesi'nde, KEDA Suremaker üretim hattı ile Türkiye'nin
+                      en yeni gazbeton fabrikası faaliyete geçti. Yıllık
                       <strong>450.000 m³</strong> kapasite ile üretime başlandı.
                     </p>
                   </div>
@@ -293,19 +322,19 @@
                     <h4>100+ Çalışan, %70-80 Kapasite Kullanımı</h4>
                     <p>
                       Arkoz Blok ve Arkoz Asmolen ürünlerimizi yurt içi ve dış pazarlara sunuyoruz.
-                      Genel Müdür İbrahim Çelebi liderliğinde, sürdürülebilir büyüme ve
-                      teknolojiye sürekli yatırım stratejimizi uyguluyoruz.
+                      Genel Müdür İbrahim Çelebi liderliğinde, sürdürülebilir büyüme ve teknolojiye
+                      sürekli yatırım stratejimizi uyguluyoruz.
                     </p>
                   </div>
                 </li>
               </ul>
 
               <p class="tarihce-outro">
-                Grup şirketleri kapsamında <strong>Ağrı Çimento Fabrikası</strong> (yıllık
-                ~1 milyon ton kapasite) gibi önemli yatırımlarla beraber Arkoz markası,
-                Türkiye, Gürcistan, Azerbaycan, Nahçıvan, Çek Cumhuriyeti, Ukrayna ve
-                Belarus'ta sektörel varlığını sürdürmektedir. Yapı sektörünün öncü
-                markası olma yolunda emin adımlarla ilerliyoruz.
+                Grup şirketleri kapsamında <strong>Ağrı Çimento Fabrikası</strong> (yıllık ~1 milyon
+                ton kapasite) gibi önemli yatırımlarla beraber Arkoz markası, Türkiye, Gürcistan,
+                Azerbaycan, Nahçıvan, Çek Cumhuriyeti, Ukrayna ve Belarus'ta sektörel varlığını
+                sürdürmektedir. Yapı sektörünün öncü markası olma yolunda emin adımlarla
+                ilerliyoruz.
               </p>
             </div>
           </div>
@@ -315,16 +344,16 @@
             <div class="content-block">
               <h3>EYS Politikamız</h3>
               <p class="eys-intro">
-                <strong>ARKOZ GAZBETON A.Ş.</strong> olarak <em>DEĞER KATAR</em> sloganıyla
-                bilimsel gelişime ve çağdaş teknolojilere uygun, sürdürülebilir gazbeton üretimi
-                yapıyoruz. <strong>1 Aralık 2022'de</strong> yürürlüğe giren ve o günden bu yana
-                titizle uyguladığımız Entegre Yönetim Sistemi politikamızın temel taahhütleri:
+                <strong>ARKOZ GAZBETON A.Ş.</strong> olarak <em>DEĞER KATAR</em> sloganıyla bilimsel
+                gelişime ve çağdaş teknolojilere uygun, sürdürülebilir gazbeton üretimi yapıyoruz.
+                <strong>1 Aralık 2022'de</strong> yürürlüğe giren ve o günden bu yana titizle
+                uyguladığımız Entegre Yönetim Sistemi politikamızın temel taahhütleri:
               </p>
 
               <ul class="eys-list">
                 <li>
-                  <strong>Yasal Uyum:</strong> Faaliyet alanlarımızda ilgili yasal mevzuata,
-                  ulusal ve uluslararası standartlara tam uyum sağlamak.
+                  <strong>Yasal Uyum:</strong> Faaliyet alanlarımızda ilgili yasal mevzuata, ulusal
+                  ve uluslararası standartlara tam uyum sağlamak.
                 </li>
                 <li>
                   <strong>Çevre Sorumluluğu:</strong> Çevre ve insan sağlığına duyarlı, çevresel
@@ -335,14 +364,14 @@
                   seviyeye çıkarmak, beklentilerin ötesinde hizmet sunmak.
                 </li>
                 <li>
-                  <strong>İş Sağlığı ve Güvenliği:</strong> Çalışmalarımız sırasında tüm sağlık
-                  ve güvenlik kurallarına uymak; tehlikeleri ortadan kaldırarak yaralanmaların
-                  ve sağlık bozukluklarının önlenmesini sağlamak.
+                  <strong>İş Sağlığı ve Güvenliği:</strong> Çalışmalarımız sırasında tüm sağlık ve
+                  güvenlik kurallarına uymak; tehlikeleri ortadan kaldırarak yaralanmaların ve
+                  sağlık bozukluklarının önlenmesini sağlamak.
                 </li>
                 <li>
                   <strong>Enerji Verimliliği:</strong> Enerji yönetimi bilinciyle verimli enerji
-                  kullanan yeni nesil makine ve ekipmanlarla çalışmak; enerji performansını
-                  sürekli iyileştirmek.
+                  kullanan yeni nesil makine ve ekipmanlarla çalışmak; enerji performansını sürekli
+                  iyileştirmek.
                 </li>
                 <li>
                   <strong>Çalışan Katılımı:</strong> Sistemin iyileştirilmesi çalışmalarında
@@ -350,8 +379,8 @@
                   oluşturmak.
                 </li>
                 <li>
-                  <strong>Paydaş İlişkileri:</strong> Tüm paydaşlarımızla güven ilkesiyle, içten
-                  ve tutarlı ilişkiler kurmak.
+                  <strong>Paydaş İlişkileri:</strong> Tüm paydaşlarımızla güven ilkesiyle, içten ve
+                  tutarlı ilişkiler kurmak.
                 </li>
                 <li>
                   <strong>Sürekli İyileştirme:</strong> Entegre yönetim sistemlerinin şartlarına
@@ -378,124 +407,285 @@
               </div>
 
               <p class="eys__doc-ref">
-                Belge No: <strong>POL.01</strong> &nbsp;|&nbsp;
-                Yürürlük: <strong>01.12.2022</strong> &nbsp;|&nbsp;
-                Revizyon: <strong>REV.00</strong> &nbsp;|&nbsp;
-                Onay: <strong>GENEL MÜDÜR</strong>
+                Belge No: <strong>POL.01</strong> &nbsp;|&nbsp; Yürürlük:
+                <strong>01.12.2022</strong> &nbsp;|&nbsp; Revizyon:
+                <strong>REV.00</strong> &nbsp;|&nbsp; Onay: <strong>GENEL MÜDÜR</strong>
               </p>
             </div>
           </div>
 
-          <!-- Sürdürülebilirlik -->
+          <!-- Sürdürülebilirlik (Faz 22 — Eco/Green Redesign) -->
           <div class="tab-panel" id="tab-surdurulebilirlik">
-            <div class="content-block" style="max-width: 100%">
+            <div class="eco-bg-decor" aria-hidden="true">
+              <svg class="eco-bg-leaf" viewBox="0 0 200 200" fill="none">
+                <path
+                  d="M100 10 C 60 30, 30 70, 30 110 C 30 150, 60 180, 100 190 C 100 150, 120 110, 160 90 C 130 90, 110 60, 100 10 Z"
+                  fill="currentColor"
+                />
+              </svg>
+              <span class="eco-bg-blob"></span>
+            </div>
+
+            <div class="content-block eco-content" style="max-width: 100%">
               <h3>Sürdürülebilirlik — Çevre Politikası</h3>
-              <h4
-                style="
-                  font-size: 1.1rem;
-                  font-weight: 700;
-                  margin: 24px 0 12px;
-                  color: var(--color-primary);
-                "
-              >
-                ARKOZ GAZBETON SÜRDÜRÜLEBİLİRLİK ADINA NELER YAPIYOR?
-              </h4>
-              <p>
-                <strong>Arkoz Gazbeton</strong> için sürdürülebilirlik, üretimin ve çeşitliliğin
-                devamı sağlanırken insan yaşamının daimî kılınabilmesidir. Kendi ihtiyaçlarımızı
-                karşılarken gelecek kuşakların ihtiyaçlarından ödün vermeme durumudur. Gelişen,
-                değişen dünya teknolojilerinde artan enerji maliyetleri sebebiyle enerji ve hammadde
-                kaynaklarına duyulan ihtiyaç artmaktadır. Çare, üretimin yavaşlatılması değil,
-                kullanılan enerjinin daha verimli bir şekilde tüketilmesinde yatmaktadır.
-              </p>
-              <p>
-                <strong>Arkoz Gazbeton</strong>, sürdürülebilirlik projeleri kapsamında üretim
-                çeşitliliğini ve verimliliğini arttırırken, gelecek nesillere daha yaşanabilir bir
-                dünya bırakmak hedefiyle tüm üretim süreçlerini çevreye ve sağlığa dost prosesler
-                ile devam ettirmektedir. Arkoz Gazbeton, üretim yaparken sıfır atık projesiyle
-                çalışmaktadır. Hammaddelerin tedariğinden mamül haline dönüşüp paketlenme sürecine
-                kadar her bir adımda atıklar tekrar geri dönüştürülmek üzere prosese dahil edilir.
-              </p>
-              <p>
-                Sürdürülebilir yapı söz konusu olduğunda yapılacak ilk şey yapı malzemelerinin
-                kalitesini, güvenilirliğini ve verimliliğini artırmaktır. Bunun yanında çevresel
-                faktörler, teknolojik gelişmeler, kaynak kullanımı ve sosyoekonomik parametreler de
-                göz önünde bulundurulmalıdır. Temel başlıklar altında sürdürülebilirlik
-                faaliyetlerimiz aşağıda yer almaktadır.
-              </p>
 
-              <h4
-                style="
-                  font-size: 1.05rem;
-                  font-weight: 700;
-                  margin: 28px 0 10px;
-                  color: var(--color-text);
-                "
-              >
-                Enerji Verimliliği
-              </h4>
-              <p>
-                Arkoz Gazbeton ürünleri diğer duvar malzemelerine oranla yüksek enerji verimliliği
-                sağlayarak yapılardaki enerji tüketimini ve karbon salınımını büyük oranda azaltır.
-                Yapılarda doğru, dayanıklı ve enerji verimliliği yüksek çözümler üreterek
-                sürdürülebilir çözümler sağlar. Arkoz gazbeton ürünleri, doğal, geri
-                dönüştürülebilir ve sürdürülebilir kaynaklardan üretilir.
-              </p>
-              <p>
-                Arkoz ürünleri, yapıların ısı ve ses yalıtımına katkı sağlayarak ısıtma ve soğutma
-                için kullanılan yakıt tüketimini azaltır ve bu yakıtların yerküreye verdiği zararı
-                da minimize eder. Arkoz, üretim süreçlerinde de sürdürülebilirliğe ve enerji
-                verimliliğine büyük önem verir. Tüm üretim proseslerinin yüksek enerji verimliliği
-                ile yürütülmesi Arkoz'un öncelikli hedefidir.
-              </p>
+              <!-- 1. ECO HERO STRIP -->
+              <div class="eco-hero">
+                <svg class="eco-hero__bg-leaf" viewBox="0 0 200 200" aria-hidden="true">
+                  <path
+                    d="M100 10 C 60 30, 30 70, 30 110 C 30 150, 60 180, 100 190 C 100 150, 120 110, 160 90 C 130 90, 110 60, 100 10 Z"
+                  />
+                </svg>
+                <span class="eco-hero__eyebrow">Çevre Dostu Üretim</span>
+                <h4 class="eco-hero__title">Doğaya Saygılı, Geleceğe Yatırım</h4>
+                <p class="eco-hero__lead">
+                  Üretimin her aşamasında karbon ayak izini azaltıyor, sıfır atık prensibiyle
+                  çalışıyor, geri dönüştürülebilir hammaddelerden gelecek nesillere yaşanabilir bir
+                  dünya bırakıyoruz.
+                </p>
 
-              <h4
-                style="
-                  font-size: 1.05rem;
-                  font-weight: 700;
-                  margin: 28px 0 10px;
-                  color: var(--color-text);
-                "
-              >
-                Üretimin Her Aşamasında Yüksek Verimlilik ve Sıfır Atık
-              </h4>
-              <p>
-                Arkoz Gazbeton sıfır atık projesiyle çalışmaktadır. Hammaddenin gelişinden son ürün
-                oluşumuna kadar her adımda oluşan atıklar tekrar kullanılmak üzerine prosese
-                katılır. Ayrıca üretim proseslerinin her aşamasında verimliliği artırıcı birçok
-                uygulama bulunmaktadır. Gelecek nesillere daha yaşanabilir bir dünya bırakmak amacı
-                ile Arkoz ekibi yüksek efor sarf etmektedir.
-              </p>
-              <p>
-                Sürdürülebilirliğe katkı sağlayan ürünlerimizin yanında, çevre dostu ve verimliliği
-                yüksek üretim süreçleri ile de gelecek nesillere daha yaşanabilir bir dünya bırakmak
-                için çalışmaktadır.
-              </p>
+                <ul class="eco-hero__stats">
+                  <li class="eco-stat">
+                    <span class="eco-stat__icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c1.4 9.3-3.4 14.94-8.2 17.04Z"
+                        />
+                        <path d="M2 21c0-3 1.85-5.36 5.08-6" />
+                      </svg>
+                    </span>
+                    <span class="eco-stat__num">%50</span>
+                    <span class="eco-stat__label">Yapısal Hava Boşluğu</span>
+                    <span class="eco-stat__sub">Daha az hammadde, daha az karbon</span>
+                  </li>
+                  <li class="eco-stat">
+                    <span class="eco-stat__icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"
+                        />
+                        <path
+                          d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"
+                        />
+                        <path d="M14 16l-3 3 3 3" />
+                        <path d="M8.293 13.596L7.196 9.5 3.1 10.598" />
+                        <path
+                          d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 12.001 3a1.83 1.83 0 0 1 1.565.917l1.876 3.234"
+                        />
+                        <path d="M13.378 9.633l4.096 1.098 1.097-4.096" />
+                      </svg>
+                    </span>
+                    <span class="eco-stat__num">100<small>%</small></span>
+                    <span class="eco-stat__label">Geri Dönüştürülebilir</span>
+                    <span class="eco-stat__sub">Sıfır atık üretim prosesi</span>
+                  </li>
+                  <li class="eco-stat">
+                    <span class="eco-stat__icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="8" r="6" />
+                        <path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11" />
+                      </svg>
+                    </span>
+                    <span class="eco-stat__num">ISO<br /><small>14001 · 50001</small></span>
+                    <span class="eco-stat__label">Çevre &amp; Enerji Yönetimi</span>
+                    <span class="eco-stat__sub">Akredite sertifikalar</span>
+                  </li>
+                  <li class="eco-stat">
+                    <span class="eco-stat__icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2" />
+                        <path d="M9.6 4.6A2 2 0 1 1 11 8H2" />
+                        <path d="M12.6 19.4A2 2 0 1 0 14 16H2" />
+                      </svg>
+                    </span>
+                    <span class="eco-stat__num">↓ CO₂</span>
+                    <span class="eco-stat__label">Düşük Emisyon</span>
+                    <span class="eco-stat__sub">Enerji verimliliği yüksek tesis</span>
+                  </li>
+                </ul>
+              </div>
 
-              <h4
-                style="
-                  font-size: 1.05rem;
-                  font-weight: 700;
-                  margin: 28px 0 10px;
-                  color: var(--color-text);
-                "
-              >
-                Dayanıklılık
-              </h4>
-              <p>
-                Gazbeton, yanmaz oluşu, depreme dayanıklılığı, hafif olması nedeniyle binanın toplam
-                ağırlığının azalmasını sağlayarak kolonlara binen yükü azaltır. Bu sebeplerle
-                binanın mukavemetini, dayanıklılığını arttırır.
-              </p>
-              <p>
-                Aşağıdaki tabloda da görülebileceği üzere, gazbeton çevre, ekonomik ve sosyal
-                boyutlar kapsamında tamamen sürdürülebilir yapı çözümleri sağlar.
-              </p>
+              <!-- 2. INTRO BLOCK -->
+              <section class="eco-intro">
+                <h4 class="eco-intro__title">
+                  Arkoz Gazbeton Sürdürülebilirlik Adına Neler Yapıyor?
+                </h4>
+                <p>
+                  <strong>Arkoz Gazbeton</strong> için sürdürülebilirlik, üretimin ve çeşitliliğin
+                  devamı sağlanırken insan yaşamının daimî kılınabilmesidir. Kendi ihtiyaçlarımızı
+                  karşılarken gelecek kuşakların ihtiyaçlarından ödün vermeme durumudur. Gelişen,
+                  değişen dünya teknolojilerinde artan enerji maliyetleri sebebiyle enerji ve
+                  hammadde kaynaklarına duyulan ihtiyaç artmaktadır. Çare, üretimin yavaşlatılması
+                  değil, kullanılan enerjinin daha verimli bir şekilde tüketilmesinde yatmaktadır.
+                </p>
+                <p>
+                  <strong>Arkoz Gazbeton</strong>, sürdürülebilirlik projeleri kapsamında üretim
+                  çeşitliliğini ve verimliliğini arttırırken, gelecek nesillere daha yaşanabilir bir
+                  dünya bırakmak hedefiyle tüm üretim süreçlerini çevreye ve sağlığa dost prosesler
+                  ile devam ettirmektedir. Arkoz Gazbeton, üretim yaparken sıfır atık projesiyle
+                  çalışmaktadır. Hammaddelerin tedariğinden mamül haline dönüşüp paketlenme sürecine
+                  kadar her bir adımda atıklar tekrar geri dönüştürülmek üzere prosese dahil edilir.
+                </p>
+                <p>
+                  Sürdürülebilir yapı söz konusu olduğunda yapılacak ilk şey yapı malzemelerinin
+                  kalitesini, güvenilirliğini ve verimliliğini artırmaktır. Bunun yanında çevresel
+                  faktörler, teknolojik gelişmeler, kaynak kullanımı ve sosyoekonomik parametreler
+                  de göz önünde bulundurulmalıdır. Temel başlıklar altında sürdürülebilirlik
+                  faaliyetlerimiz aşağıda yer almaktadır.
+                </p>
+              </section>
 
-              <!-- Sürdürülebilirlik Tablosu -->
+              <!-- 3. 3 PILLAR CARDS -->
+              <ul class="eco-pillars">
+                <li class="eco-pillar">
+                  <div class="eco-pillar__icon-wrap" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <circle cx="12" cy="12" r="4" />
+                      <path d="M12 2v2" />
+                      <path d="M12 20v2" />
+                      <path d="m4.93 4.93 1.41 1.41" />
+                      <path d="m17.66 17.66 1.41 1.41" />
+                      <path d="M2 12h2" />
+                      <path d="M20 12h2" />
+                      <path d="m6.34 17.66-1.41 1.41" />
+                      <path d="m19.07 4.93-1.41 1.41" />
+                    </svg>
+                  </div>
+                  <h4 class="eco-pillar__title">Enerji Verimliliği</h4>
+                  <p class="eco-pillar__body">
+                    Arkoz ürünleri yüksek ısı ve ses yalıtımı sağlayarak yapıların yıllık enerji
+                    tüketimini ve karbon salınımını büyük oranda azaltır. Üretim proseslerimiz de
+                    enerji verimliliği önceliğiyle yürütülür; ürünlerimiz doğal, geri
+                    dönüştürülebilir ve sürdürülebilir kaynaklardan üretilir.
+                  </p>
+                  <span class="eco-pillar__tag">↓ Yakıt tüketimi · ↓ CO₂ emisyonu</span>
+                </li>
+                <li class="eco-pillar">
+                  <div class="eco-pillar__icon-wrap" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M7 19H4.815a1.83 1.83 0 0 1-1.57-.881 1.785 1.785 0 0 1-.004-1.784L7.196 9.5"
+                      />
+                      <path
+                        d="M11 19h8.203a1.83 1.83 0 0 0 1.556-.89 1.784 1.784 0 0 0 0-1.775l-1.226-2.12"
+                      />
+                      <path d="M14 16l-3 3 3 3" />
+                      <path d="M8.293 13.596L7.196 9.5 3.1 10.598" />
+                      <path
+                        d="m9.344 5.811 1.093-1.892A1.83 1.83 0 0 1 12.001 3a1.83 1.83 0 0 1 1.565.917l1.876 3.234"
+                      />
+                      <path d="M13.378 9.633l4.096 1.098 1.097-4.096" />
+                    </svg>
+                  </div>
+                  <h4 class="eco-pillar__title">Sıfır Atık Üretim</h4>
+                  <p class="eco-pillar__body">
+                    Hammaddenin gelişinden son ürün oluşumuna kadar her adımda oluşan atıklar tekrar
+                    prosese katılır. Çevre dostu, verimliliği yüksek üretim süreçleriyle gelecek
+                    nesillere daha yaşanabilir bir dünya bırakmak için Arkoz ekibi yüksek efor sarf
+                    etmektedir.
+                  </p>
+                  <span class="eco-pillar__tag">Sıfır Atık Projesi · Tam geri dönüşüm</span>
+                </li>
+                <li class="eco-pillar">
+                  <div class="eco-pillar__icon-wrap" aria-hidden="true">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="1.75"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    >
+                      <path
+                        d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+                      />
+                      <path d="m9 12 2 2 4-4" />
+                    </svg>
+                  </div>
+                  <h4 class="eco-pillar__title">Uzun Ömürlü Dayanıklılık</h4>
+                  <p class="eco-pillar__body">
+                    Gazbeton; yanmaz oluşu, depreme dayanıklılığı ve hafif yapısı sayesinde binanın
+                    toplam ağırlığını azaltır, kolonlara binen yükü düşürür, mukavemeti artırır.
+                    Uzun ömür = daha az yeniden yapım = daha düşük çevresel maliyet.
+                  </p>
+                  <span class="eco-pillar__tag">A1 yangın · Deprem güvenliği · Uzun ömür</span>
+                </li>
+              </ul>
+
+              <!-- 4. SUSTAINABILITY TABLES (reskinned) -->
+              <div class="eco-tables-intro">
+                <h4 class="eco-tables-intro__title">
+                  Üç Boyutta Sürdürülebilirlik Karşılaştırması
+                </h4>
+                <p class="eco-tables-intro__lead">
+                  Gazbeton; çevre, ekonomi ve sosyal boyutlar kapsamında tamamen sürdürülebilir yapı
+                  çözümleri sağlar.
+                </p>
+              </div>
+
               <div class="sustainability__tables">
                 <div class="sustainability__table-block">
-                  <h4 class="sustainability__table-title">🌿 Çevresel Boyut</h4>
+                  <h4 class="sustainability__table-title">
+                    <span class="eco-table-icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path
+                          d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19.2 2.96c1.4 9.3-3.4 14.94-8.2 17.04Z"
+                        />
+                        <path d="M2 21c0-3 1.85-5.36 5.08-6" />
+                      </svg>
+                    </span>
+                    Çevresel Boyut
+                    <span class="eco-badge">Çevre</span>
+                  </h4>
                   <table class="sustainability__table">
                     <thead>
                       <tr>
@@ -534,7 +724,23 @@
                 </div>
 
                 <div class="sustainability__table-block">
-                  <h4 class="sustainability__table-title">💰 Ekonomik Boyut</h4>
+                  <h4 class="sustainability__table-title">
+                    <span class="eco-table-icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M12 2v20" />
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6" />
+                      </svg>
+                    </span>
+                    Ekonomik Boyut
+                    <span class="eco-badge">Ekonomi</span>
+                  </h4>
                   <table class="sustainability__table">
                     <thead>
                       <tr>
@@ -566,7 +772,25 @@
                 </div>
 
                 <div class="sustainability__table-block">
-                  <h4 class="sustainability__table-title">👥 Sosyal Boyut</h4>
+                  <h4 class="sustainability__table-title">
+                    <span class="eco-table-icon" aria-hidden="true">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                        <circle cx="9" cy="7" r="4" />
+                        <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                      </svg>
+                    </span>
+                    Sosyal Boyut
+                    <span class="eco-badge">Sosyal</span>
+                  </h4>
                   <table class="sustainability__table">
                     <thead>
                       <tr>
@@ -600,12 +824,36 @@
               </div>
               <!-- /sustainability__tables -->
 
-              <p style="margin-top: 32px">
-                <strong>Sonuç olarak;</strong> dünyada artan çevre kirliliği dünya ülkelerine ve
-                ekonominin yapı taşı olan işletmelere sorumluluklar yüklemektedir. Bu nedenle
-                yatırımlarımızın doğal ve kültürel mirasa olan çevresel ve sosyal etkilerini ölçer
-                ve değerlendiririz; etkilerimizi azaltmaya yönelik önlemler alırız.
-              </p>
+              <!-- 5. ECO CTA BAND -->
+              <aside class="eco-cta-band">
+                <div class="eco-cta-band__icon" aria-hidden="true">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.75"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <circle cx="12" cy="12" r="10" />
+                    <path d="M2 12h20" />
+                    <path
+                      d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                    />
+                  </svg>
+                </div>
+                <div class="eco-cta-band__text">
+                  <h4>Sürdürülebilir Yapı için Doğru Tercih</h4>
+                  <p>
+                    Dünyada artan çevre kirliliği işletmelere sorumluluklar yüklemektedir.
+                    Yatırımlarımızın doğal ve kültürel mirasa olan çevresel ve sosyal etkilerini
+                    ölçer ve değerlendiririz; etkilerimizi azaltmaya yönelik önlemler alırız.
+                  </p>
+                </div>
+                <button type="button" class="eco-cta-band__btn" data-target-tab="eys">
+                  EYS Politikamızı İncele →
+                </button>
+              </aside>
             </div>
           </div>
 
@@ -653,13 +901,13 @@
                   <div class="partner-card__body">
                     <h4>KEDA Suremaker</h4>
                     <p>
-                      Türkiye'nin en yeni gazbeton üretim hattını Arkoz Gazbeton tesisine kuran
-                      KEDA Suremaker, dünyanın önde gelen otoklavlanmış hafif gazbeton (AAC)
-                      ekipman üreticilerinden biridir.
+                      Türkiye'nin en yeni gazbeton üretim hattını Arkoz Gazbeton tesisine kuran KEDA
+                      Suremaker, dünyanın önde gelen otoklavlanmış hafif gazbeton (AAC) ekipman
+                      üreticilerinden biridir.
                     </p>
                     <p>
-                      Modern üretim teknolojisi sayesinde milimetre düzeyinde ölçü hassasiyeti
-                      ve yüksek üretim kapasitesi (yıllık 450.000 m³) elde ediyoruz.
+                      Modern üretim teknolojisi sayesinde milimetre düzeyinde ölçü hassasiyeti ve
+                      yüksek üretim kapasitesi (yıllık 450.000 m³) elde ediyoruz.
                     </p>
                     <ul class="partner-card__list">
                       <li>AAC üretim hattı kurulumu</li>
@@ -700,10 +948,10 @@
                     <h4>TS EN ISO 9001</h4>
                     <p class="certificate-info__sub">Kalite Yönetim Sistemi</p>
                     <p>
-                      Ürün ve hizmet kalitesini sistematik olarak yöneten, müşteri memnuniyetini
-                      ön planda tutan ve sürekli iyileştirmeyi esas alan uluslararası standart.
-                      Tüm üretim ve hizmet süreçlerimizin tutarlı şekilde yüksek kalite
-                      standartlarında yönetildiğini belgeler.
+                      Ürün ve hizmet kalitesini sistematik olarak yöneten, müşteri memnuniyetini ön
+                      planda tutan ve sürekli iyileştirmeyi esas alan uluslararası standart. Tüm
+                      üretim ve hizmet süreçlerimizin tutarlı şekilde yüksek kalite standartlarında
+                      yönetildiğini belgeler.
                     </p>
                   </div>
                 </li>
@@ -726,9 +974,9 @@
                     <p class="certificate-info__sub">Çevre Yönetim Sistemi</p>
                     <p>
                       Üretim faaliyetlerinin çevresel etkilerini sürekli azaltmaya, atık ve
-                      emisyonları kontrol altında tutmaya odaklı uluslararası standart. Sıfır
-                      atık politikamız ve karbon ayak izi azaltma hedeflerimizin somut
-                      güvencesini oluşturur.
+                      emisyonları kontrol altında tutmaya odaklı uluslararası standart. Sıfır atık
+                      politikamız ve karbon ayak izi azaltma hedeflerimizin somut güvencesini
+                      oluşturur.
                     </p>
                   </div>
                 </li>
@@ -752,8 +1000,8 @@
                     <p>
                       Enerji verimliliğini artırmaya, enerji tüketimini sistematik olarak izleyip
                       iyileştirmeye yönelik uluslararası standart. Yeni nesil enerji-verimli
-                      ekipmanlarımız ve üretim proseslerimizin enerji performansını sürekli
-                      optimize ettiğimizi tescil eder.
+                      ekipmanlarımız ve üretim proseslerimizin enerji performansını sürekli optimize
+                      ettiğimizi tescil eder.
                     </p>
                   </div>
                 </li>
@@ -776,9 +1024,9 @@
                     <p class="certificate-info__sub">İş Sağlığı ve Güvenliği Yönetim Sistemi</p>
                     <p>
                       Çalışan sağlığı ve iş güvenliği risklerini önlemeye, sağlıklı ve güvenli
-                      çalışma ortamı sağlamaya odaklı uluslararası standart. "Önce insan"
-                      ilkemizin somut güvencesi olarak, çalışanlarımızın güvenliğini en üst
-                      seviyede tutmamızı belgeler.
+                      çalışma ortamı sağlamaya odaklı uluslararası standart. "Önce insan" ilkemizin
+                      somut güvencesi olarak, çalışanlarımızın güvenliğini en üst seviyede tutmamızı
+                      belgeler.
                     </p>
                   </div>
                 </li>
@@ -807,7 +1055,10 @@
             <div class="footer__contact-info">
               <a href="tel:08503175555">📞 0 (850) 317 55 55</a>
               <a href="mailto:info@arkozgazbeton.com.tr">✉ info@arkozgazbeton.com.tr</a>
-              <a href="https://wa.me/905388658289?text=Merhaba%2C%20Arkoz%20Gazbeton%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.">💬 WhatsApp: 0538 865 82 89</a>
+              <a
+                href="https://wa.me/905388658289?text=Merhaba%2C%20Arkoz%20Gazbeton%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
+                >💬 WhatsApp: 0538 865 82 89</a
+              >
             </div>
             <div class="footer__social">
               <a
@@ -927,14 +1178,25 @@
               <ul>
                 <li><a href="tel:08503175555">0 (850) 317 55 55</a></li>
                 <li><a href="mailto:info@arkozgazbeton.com.tr">info@arkozgazbeton.com.tr</a></li>
-                <li><a href="https://wa.me/905388658289?text=Merhaba%2C%20Arkoz%20Gazbeton%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum.">WhatsApp: 0538 865 82 89</a></li>
+                <li>
+                  <a
+                    href="https://wa.me/905388658289?text=Merhaba%2C%20Arkoz%20Gazbeton%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
+                    >WhatsApp: 0538 865 82 89</a
+                  >
+                </li>
                 <li><a href="index.html#iletisim">İletişim Formu</a></li>
               </ul>
             </div>
           </div>
         </div>
         <div class="footer__bottom">
-          <p>© 2025 Arkoz Gaz Beton San.Tic A.Ş. — Tüm hakları saklıdır.</p>
+          <p>© 2026 Arkoz GazBeton San. ve Tic. A.Ş. — Tüm hakları saklıdır.</p>
+          <p style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.55); margin-top: 6px">
+            KVKK kapsamında veri sorumlusu · Mersis: — · Vergi: — ·
+            <a href="politikalar.html" style="color: inherit; text-decoration: underline"
+              >Politikalar</a
+            >
+          </p>
           <div class="footer__bottom-links">
             <a href="politikalar.html">Gizlilik Politikası</a>
             <a href="politikalar.html">Çerez Politikası</a>
@@ -1035,10 +1297,26 @@
         const btn = document.querySelector('[data-tab="' + id + '"]');
         if (btn) btn.click();
       }
+      // [data-target-tab] (eco-cta-band buton) → ilgili tab'a geç + en üste kaydır
+      document.querySelectorAll('[data-target-tab]').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          e.preventDefault();
+          const target = el.dataset.targetTab;
+          const btn = document.querySelector('[data-tab="' + target + '"]');
+          if (btn) {
+            btn.click();
+            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        });
+      });
     </script>
 
-<!-- KVKK Cookie Consent (shared component, opt-in) -->    <link rel="stylesheet" href="components/cookie-banner.css" />    <script src="components/cookie-banner.js" defer></script>
+    <!-- KVKK Cookie Consent (shared component, opt-in) -->
+    <link rel="stylesheet" href="components/cookie-banner.css" />
+    <script src="components/cookie-banner.js" defer></script>
 
-<!-- AI Chat Widget (shared component) -->    <link rel="stylesheet" href="components/chat-widget.css" />    <script src="components/chat-widget.js" defer></script>
+    <!-- AI Chat Widget (shared component) -->
+    <link rel="stylesheet" href="components/chat-widget.css" />
+    <script src="components/chat-widget.js" defer></script>
   </body>
 </html>
