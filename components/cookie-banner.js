@@ -1,7 +1,7 @@
 /**
  * Arkoz Gazbeton — KVKK Cookie Consent (opt-in)
  *
- * - Categories: essential (always on), functional, ai (cross-border to Anthropic/US),
+ * - Categories: essential (always on), functional, ai (yapay zeka asistanı),
  *   marketing (reserved for future).
  * - Persists JSON consent in localStorage as `arkoz_cookie_consent_v2`.
  * - Until the user makes a choice, NO non-essential script is initialized.
@@ -37,7 +37,7 @@
     {
       id: 'ai',
       title: 'AI Asistan ve Yurt Dışı Veri Aktarımı',
-      desc: 'Arkoz AI Asistan, mesajlarınızı Anthropic Inc. (ABD) sunucularına aktarır. Bu, KVKK Md. 9 uyarınca yurt dışı veri aktarımı sayılır ve açık rızanızı gerektirir. Kapalıyken AI Asistan yüklenmez.',
+      desc: 'Web sitemizdeki yapay zeka asistanı hizmetini etkinleştirir. Kapalıyken asistan yüklenmez. Detay için Aydınlatma Metni.',
       locked: false,
       defaultValue: false,
     },
@@ -98,12 +98,11 @@
     wrap.innerHTML = `
       <p class="cb-banner__title" id="cb-banner-title">Çerez Tercihleriniz</p>
       <p class="cb-banner__text">
-        Bu site, deneyiminizi geliştirmek ve AI Asistan gibi özellikleri sunmak için
-        çerez ve benzer teknolojiler kullanır. AI Asistan mesajları, KVKK Md. 9
-        uyarınca yurt dışı veri aktarımı kapsamında işlenir. Onayınız olmadan
-        zorunlu olmayan hiçbir çerez yüklenmez. Detaylar:
+        Bu site, deneyiminizi geliştirmek için çerez ve benzer teknolojiler kullanır.
+        Çerez tercihinizi seçiniz; onayınız olmadan zorunlu olmayan hiçbir çerez
+        yüklenmez. Detaylar:
         <a href="${POLICY_URL}#cerez">Çerez Politikası</a> ve
-        <a href="${POLICY_URL}#kvkk">KVKK Aydınlatma Metni</a>.
+        <a href="${POLICY_URL}#kvk">KVKK Aydınlatma Metni</a>.
       </p>
       <div class="cb-banner__actions">
         <button type="button" class="cb-banner__btn cb-banner__btn--reject" data-cb-action="reject">Sadece Zorunlu</button>
