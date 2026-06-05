@@ -1003,6 +1003,14 @@ strong {
   }
 }
 
+/* Telefonda avantaj kartları bölümü gizli (kartlar alt alta dizilince çok uzun/boş duruyordu).
+   Tablet/masaüstü (≥768px) birebir aynı; bölüm DOM'da kalır, sadece responsive gizlenir. */
+@media (max-width: 767px) {
+  .adv-strip {
+    display: none;
+  }
+}
+
 /* ── DEPREME DAYANIKLI BIG BANNER (Tier 2.2) ───────────────── */
 .quake-banner {
   position: relative;
