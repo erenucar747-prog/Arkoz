@@ -4851,7 +4851,7 @@ canvas#beams-canvas {
 @media (min-width: 1101px) {
   .nav__whatsapp {
     gap: 5px;
-    padding: 8px 7px;
+    padding: 14px 7px;
     flex-shrink: 0;
     white-space: nowrap;
   }
