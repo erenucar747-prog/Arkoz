@@ -4846,6 +4846,32 @@ canvas#beams-canvas {
     display: flex;
   }
 }
+/* WhatsApp pill — masaüstünde (text görünürken) ikon + numara TEK SATIR kompakt.
+   Numara asla bölünmez; pill ezilmez. Yalnızca .nav__whatsapp* seçicileri, ≥1101px. */
+@media (min-width: 1101px) {
+  .nav__whatsapp {
+    gap: 5px;
+    padding: 8px 7px;
+    flex-shrink: 0;
+    white-space: nowrap;
+  }
+  .nav__whatsapp svg {
+    width: 14px;
+    height: 14px;
+  }
+  .nav__whatsapp-text {
+    flex-direction: row;
+    align-items: center;
+  }
+  .nav__whatsapp-text small {
+    display: none;
+  }
+  .nav__whatsapp-text strong {
+    white-space: nowrap;
+    font-size: 0.6875rem;
+    letter-spacing: -0.02em;
+  }
+}
 
 /* ── STICKY MOBILE CTA BAR (Tier 3.1) ──────────────────────── */
 .sticky-cta {
