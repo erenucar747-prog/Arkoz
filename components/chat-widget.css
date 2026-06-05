@@ -561,6 +561,14 @@
   }
 }
 
+/* Telefon/tablet-dikey: alttaki sabit bar (WhatsApp/Teklif Al) ile çakışmasın diye
+   sohbet butonunu yukarı al. Masaüstü (>768px) konumu değişmez. */
+@media (max-width: 768px) {
+  #ai-chat-widget {
+    bottom: 88px;
+  }
+}
+
 /* ------------ Reduced motion ------------ */
 @media (prefers-reduced-motion: reduce) {
   #ai-chat-toggle::before {
