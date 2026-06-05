@@ -4872,6 +4872,29 @@ canvas#beams-canvas {
     letter-spacing: -0.02em;
   }
 }
+/* İletişim + Bayi butonlarını birbirine VE WhatsApp pill'e eşitle (yükseklik/font/yazım);
+   İletişim · WhatsApp · Bayi arasında tek tutarlı 12px boşluk. Sadece header, ≥961px. */
+@media (min-width: 961px) {
+  .nav__link--cta,
+  .nav__bayi {
+    font-size: var(--fs-14);
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    text-transform: none;
+    display: inline-flex;
+    align-items: center;
+  }
+  .nav__logo {
+    margin-right: auto;
+  }
+  .nav {
+    gap: var(--s-3);
+  }
+  .nav__cta-group {
+    margin-left: 0;
+  }
+}
 
 /* ── STICKY MOBILE CTA BAR (Tier 3.1) ──────────────────────── */
 .sticky-cta {
