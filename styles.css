@@ -4981,7 +4981,7 @@ canvas#beams-canvas {
     padding-bottom: 72px;
   }
   .whatsapp-float {
-    display: none;
+    display: none !important;
   }
 }
 
