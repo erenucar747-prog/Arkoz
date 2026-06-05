@@ -2603,6 +2603,29 @@ strong {
   .hero__title br {
     display: none;
   }
+  /* Mobil hero: gömülü yazılı geniş reklam banner'ları dikey ekranda berbat kırpılıyordu.
+     Banner'ları gizle; temiz fabrika fotoğrafı slaytını + designed overlay içeriği hep göster. */
+  .hero__slide--banner {
+    display: none !important;
+  }
+  .hero__slide:not(.hero__slide--banner) {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  .hero__content,
+  .hero__content--hidden {
+    opacity: 1 !important;
+    pointer-events: auto !important;
+  }
+  .hero__dots {
+    display: none !important;
+  }
+  .hero__watermark {
+    display: none !important;
+  }
+  .hero__video-overlay {
+    background: linear-gradient(180deg, rgba(10, 20, 15, 0.55), rgba(10, 20, 15, 0.78));
+  }
 }
 @media (max-width: 480px) {
   .hero__title {
