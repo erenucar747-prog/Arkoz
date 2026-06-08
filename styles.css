@@ -1128,30 +1128,6 @@ strong {
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
 }
 
-.quake-banner__waves {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  display: grid;
-  place-items: center;
-}
-
-.quake-banner__wave {
-  position: absolute;
-  border: 2px solid rgba(77, 184, 72, 0.5);
-  border-radius: 50%;
-  width: 100px;
-  height: 100px;
-  animation: waveExpand 3s ease-out infinite;
-}
-
-.quake-banner__wave:nth-child(2) {
-  animation-delay: 1s;
-}
-.quake-banner__wave:nth-child(3) {
-  animation-delay: 2s;
-}
-
 @keyframes waveExpand {
   0% {
     transform: scale(1);
@@ -3439,10 +3415,6 @@ strong {
 .service-card:hover .service-card__img img {
   transform: scale(1.04);
 }
-.service-card__icon {
-  font-size: 2rem;
-  margin-bottom: var(--s-3);
-}
 .service-card__title {
   font-family: var(--font-display);
   font-weight: 700;
@@ -3561,17 +3533,6 @@ strong {
 }
 
 /* 14. ADVANTAGES (9 gazbeton benefit cards) ─────────────── */
-.projects {
-  background: var(--c-bg-soft);
-  padding-block: var(--section-y);
-}
-.projects__grid,
-.advantages__grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--s-5);
-  margin-top: var(--s-12);
-}
 .advantage-card {
   background: var(--c-surface-1);
   border: 1px solid var(--c-line);
@@ -3587,36 +3548,15 @@ strong {
     transform var(--dur-base) var(--ease-out),
     box-shadow var(--dur-base) var(--ease-out);
 }
-.advantage-card__glow {
-  display: none !important;
-}
 .advantage-card:hover {
   border-color: var(--c-accent);
   transform: translateY(-4px);
   box-shadow: 0 12px 32px rgba(77, 184, 72, 0.15);
 }
-.advantage-card__icon-wrap {
-  width: 56px;
-  height: 56px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--r-md);
-  background: var(--c-primary-50);
-  color: var(--c-primary);
-  border: 1px solid var(--c-primary-12);
-  margin-bottom: var(--s-2);
-  transition:
-    background var(--dur-base) var(--ease-out),
-    color var(--dur-base) var(--ease-out),
-    border-color var(--dur-base) var(--ease-out);
-}
 .advantage-card:hover .advantage-card__icon-wrap {
   background: var(--c-accent-12);
   color: var(--c-accent-dark);
   border-color: var(--c-accent-20);
-}
-.advantage-card__icon {
-  display: none;
 }
 .advantage-card h3 {
   font-family: var(--font-display);
@@ -3630,18 +3570,6 @@ strong {
   font-size: var(--fs-14);
   line-height: var(--lh-base);
   color: var(--c-text-muted);
-}
-@media (max-width: 960px) {
-  .advantages__grid,
-  .projects__grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-@media (max-width: 600px) {
-  .advantages__grid,
-  .projects__grid {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* 16. NEWS ───────────────────────────────────────────────── */
@@ -4705,101 +4633,12 @@ strong {
 }
 
 /* 23. RICH CONTENT ──────────────────────────────────────── */
-.kurumsal-content,
-.rich-content {
-  max-width: 920px;
-}
-.kurumsal-content h3,
-.rich-content h3 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-28);
-  letter-spacing: var(--tracking-tight);
-  color: var(--c-text-strong);
-  margin-bottom: var(--s-5);
-  margin-top: var(--s-8);
-}
-.kurumsal-content h3:first-child,
-.rich-content h3:first-child {
-  margin-top: 0;
-}
-.kurumsal-content h4,
-.rich-content h4 {
-  font-weight: 700;
-  font-size: var(--fs-18);
-  color: var(--c-primary);
-  margin-bottom: var(--s-3);
-  margin-top: var(--s-6);
-}
-.kurumsal-content p,
-.rich-content p {
-  font-size: var(--fs-16);
-  line-height: var(--lh-body);
-  color: var(--c-text);
-  margin-bottom: var(--s-4);
-}
-.kurumsal-content ul,
-.rich-content ul {
-  margin-bottom: var(--s-5);
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-2);
-}
-.kurumsal-content ul li,
-.rich-content ul li {
-  position: relative;
-  padding-left: var(--s-5);
-  font-size: var(--fs-15);
-  line-height: var(--lh-base);
-  color: var(--c-text);
-}
-.kurumsal-content ul li::before,
-.rich-content ul li::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 11px;
-  width: 12px;
-  height: 1px;
-  background: var(--c-accent);
-}
 
 /* 24. HABERLER GRID ─────────────────────────────────────── */
-.haberler-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--s-6);
-}
-@media (max-width: 768px) {
-  .haberler-grid {
-    grid-template-columns: 1fr;
-  }
-}
 
 /* 25. INSAN KAYNAKLARI ──────────────────────────────────── */
-.hr-content {
-  max-width: 920px;
-  margin: 0 auto;
-}
-.hr-form {
-  background: var(--c-surface-1);
-  border: 1px solid var(--c-line);
-  border-radius: var(--r-lg);
-  padding: var(--s-8);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--s-4);
-  margin-top: var(--s-8);
-  box-shadow: var(--sh-sm);
-}
 .hr-form .form__group--full {
   grid-column: 1 / -1;
-}
-@media (max-width: 600px) {
-  .hr-form {
-    grid-template-columns: 1fr;
-    padding: var(--s-5);
-  }
 }
 
 /* 26. DEAD CONTAINERS NEUTRALIZE ─────────────────────────── */
@@ -5044,75 +4883,13 @@ canvas#beams-canvas {
   transform: translateY(120%);
   transition: transform var(--dur-base) var(--ease-out);
 }
-.cookie-banner__toggles {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  margin-bottom: 16px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.04);
-  border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-}
-.cookie-toggle {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: auto auto;
-  column-gap: 10px;
-  row-gap: 2px;
-  cursor: pointer;
-}
-.cookie-toggle input[type="checkbox"] {
-  grid-row: 1 / 3;
-  align-self: center;
-  width: 18px;
-  height: 18px;
-  accent-color: var(--c-accent);
-}
 .cookie-toggle--locked input[type="checkbox"] {
   opacity: 0.6;
   cursor: not-allowed;
 }
-.cookie-toggle__title {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  color: #fff;
-  text-transform: uppercase;
-}
-.cookie-toggle__desc {
-  font-size: 0.72rem;
-  line-height: 1.45;
-  color: rgba(255, 255, 255, 0.7);
-}
 .cookie-banner.is-visible {
   display: block;
   transform: translateY(0);
-}
-.cookie-banner__text {
-  font-size: var(--fs-13);
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.9);
-  margin-bottom: var(--s-4);
-}
-.cookie-banner__text a {
-  color: var(--c-accent-light);
-  text-decoration: underline;
-}
-.cookie-banner__actions {
-  display: flex;
-  gap: var(--s-3);
-  flex-wrap: wrap;
-}
-.cookie-banner__btn {
-  flex: 1;
-  padding: var(--s-3) var(--s-4);
-  border-radius: var(--r-sm);
-  font-weight: 600;
-  font-size: var(--fs-13);
-  cursor: pointer;
-  border: none;
-  transition: background var(--dur-fast);
 }
 .cookie-banner__btn--accept {
   background: var(--c-accent);
@@ -6426,13 +6203,6 @@ canvas#beams-canvas {
   color: var(--c-text-muted);
   margin-top: 4px;
   margin-bottom: -4px;
-}
-.modal__small {
-  font-size: 0.74rem;
-  color: var(--c-text-muted);
-  text-align: center;
-  margin: 8px 0 0;
-  line-height: 1.5;
 }
 body.modal-open {
   overflow: hidden;
