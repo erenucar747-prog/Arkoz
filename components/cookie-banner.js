@@ -81,9 +81,7 @@
       // localStorage unavailable (private mode) — fall through. The banner will
       // simply re-appear next visit, which is the safer default for KVKK.
     }
-    window.dispatchEvent(
-      new CustomEvent('arkoz:consent-changed', { detail: consent })
-    );
+    window.dispatchEvent(new CustomEvent('arkoz:consent-changed', { detail: consent }));
   }
 
   // ---------- DOM Injection ----------
@@ -124,9 +122,7 @@
     const categoriesHTML = CATEGORIES.map((c) => {
       const checked = currentConsent[c.id] ? 'checked' : '';
       const disabled = c.locked ? 'disabled' : '';
-      const lockBadge = c.locked
-        ? '<span class="cb-category__lock">Zorunlu</span>'
-        : '';
+      const lockBadge = c.locked ? '<span class="cb-category__lock">Zorunlu</span>' : '';
       return `
         <div class="cb-category">
           <div class="cb-category__head">
@@ -190,9 +186,7 @@
   function openModal(modal) {
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
-    const firstFocus = modal.querySelector(
-      'input:not([disabled]), button[data-cb-action="save"]'
-    );
+    const firstFocus = modal.querySelector('input:not([disabled]), button[data-cb-action="save"]');
     if (firstFocus) firstFocus.focus();
   }
 
@@ -308,9 +302,7 @@
       // User already chose — keep banner hidden, show reopen pill so they can revisit.
       reopen.classList.add('is-visible');
       // Re-broadcast current consent so late-loading components can initialize.
-      window.dispatchEvent(
-        new CustomEvent('arkoz:consent-changed', { detail: existing })
-      );
+      window.dispatchEvent(new CustomEvent('arkoz:consent-changed', { detail: existing }));
     } else {
       // First visit — show banner, do NOT broadcast (no consent yet).
       showBanner(banner);
