@@ -608,16 +608,6 @@ strong {
   width: 18px;
   height: 18px;
 }
-.hero__actions .btn--ghost {
-  color: #fff;
-  border-color: rgba(255, 255, 255, 0.4);
-  background: rgba(255, 255, 255, 0.06);
-}
-.hero__actions .btn--ghost:hover {
-  background: rgba(255, 255, 255, 0.12);
-  border-color: #fff;
-  color: #fff;
-}
 
 /* 7. HERO (homepage slider) ─────────────────────────────── */
 .hero {
@@ -3516,44 +3506,6 @@ strong {
 }
 
 /* 14. ADVANTAGES (9 gazbeton benefit cards) ─────────────── */
-.advantage-card {
-  background: var(--c-surface-1);
-  border: 1px solid var(--c-line);
-  border-radius: var(--r-lg);
-  padding: var(--s-7);
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-4);
-  position: relative;
-  text-align: left;
-  transition:
-    border-color var(--dur-base) var(--ease-out),
-    transform var(--dur-base) var(--ease-out),
-    box-shadow var(--dur-base) var(--ease-out);
-}
-.advantage-card:hover {
-  border-color: var(--c-accent);
-  transform: translateY(-4px);
-  box-shadow: 0 12px 32px rgba(77, 184, 72, 0.15);
-}
-.advantage-card:hover .advantage-card__icon-wrap {
-  background: var(--c-accent-12);
-  color: var(--c-accent-dark);
-  border-color: var(--c-accent-20);
-}
-.advantage-card h3 {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-18);
-  line-height: var(--lh-snug);
-  letter-spacing: var(--tracking-snug);
-  color: var(--c-text-strong);
-}
-.advantage-card p {
-  font-size: var(--fs-14);
-  line-height: var(--lh-base);
-  color: var(--c-text-muted);
-}
 
 /* 16. NEWS ───────────────────────────────────────────────── */
 .news__grid {
@@ -4417,7 +4369,6 @@ strong {
 }
 
 /* 20. INTRO OVERLAY ─────────────────────────────────────── */
-#intro-overlay,
 #intro {
   position: fixed;
   inset: 0;
@@ -4428,22 +4379,16 @@ strong {
   transition: opacity 0.4s var(--ease-out);
   overflow: hidden;
 }
-#intro-overlay.fade-out,
 #intro.is-out {
   opacity: 0;
   pointer-events: none;
 }
-#intro-canvas-container {
-  display: none;
-}
-#intro-logo,
 .intro__logo {
   position: relative;
   z-index: 2;
   opacity: 0;
   animation: introIn 1100ms var(--ease-out) forwards;
 }
-#intro-logo img,
 .intro__logo {
   width: clamp(140px, 22vw, 220px);
   max-width: 60vw;
@@ -4486,8 +4431,7 @@ strong {
     transform var(--dur-slow) var(--ease-out);
   transition-delay: calc(var(--reveal-i, 0) * 60ms);
 }
-.reveal.is-in,
-.reveal.in-view {
+.reveal.is-in {
   opacity: 1;
   transform: none;
 }
@@ -4620,9 +4564,6 @@ strong {
 /* 24. HABERLER GRID ─────────────────────────────────────── */
 
 /* 25. INSAN KAYNAKLARI ──────────────────────────────────── */
-.hr-form .form__group--full {
-  grid-column: 1 / -1;
-}
 
 /* 26. DEAD CONTAINERS NEUTRALIZE ─────────────────────────── */
 #about-bg-paths,
@@ -4949,9 +4890,6 @@ canvas#beams-canvas {
     width: calc(100% + var(--s-12));
     margin: calc(-1 * var(--s-6)) calc(-1 * var(--s-6)) var(--s-3);
   }
-  .advantage-card {
-    padding: var(--s-5);
-  }
   .news-card__body {
     padding: var(--s-5);
   }
@@ -4979,8 +4917,7 @@ canvas#beams-canvas {
     opacity: 1 !important;
     transform: none !important;
   }
-  #intro,
-  #intro-overlay {
+  #intro {
     display: none;
   }
 }

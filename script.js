@@ -95,7 +95,7 @@ if (lenis) {
 function initReveal() {
   // Auto-collect targets (don't pre-mark — only initial-viewport gets revealed-on-load)
   const autoTargets = document.querySelectorAll(
-    '.service-card, .advantage-card, .about__card, .contact__item, .section__header, .mission__card, .mission__photo, .news-card, .cert-card, .partners-strip__partner, .adv-strip__card, .showcase__card, .faq__item, .quake-banner__content, .quake-banner__visual'
+    '.service-card, .about__card, .contact__item, .section__header, .mission__card, .mission__photo, .news-card, .cert-card, .partners-strip__partner, .adv-strip__card, .showcase__card, .faq__item, .quake-banner__content, .quake-banner__visual'
   );
   autoTargets.forEach((el, i) => {
     el.classList.add('reveal');
