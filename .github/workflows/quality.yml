@@ -1,0 +1,37 @@
+name: Code Quality
+
+# Her push (main) ve PR'da kod kalitesini denetler.
+# ESLint = bloklayıcı (gerçek JS hataları). Prettier = bilgilendirici (format kayması raporu).
+# Siteyi deploy ETMEZ; sadece "kod düzenli/profesyonel mi" kontrolü.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    name: Lint & Format
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Lint araçlarını kur
+        run: npm install --no-save --no-audit --no-fund eslint@^10 @eslint/js@^10 prettier@^3
+
+      - name: ESLint — JS kalite (bloklayıcı)
+        run: npx eslint .
+
+      - name: Prettier — format denetimi (bilgilendirici, bloklamaz)
+        run: npx prettier --check "**/*.{js,css,html}"
+        continue-on-error: true
