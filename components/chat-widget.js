@@ -3,8 +3,8 @@
  * - System prompt sunucu tarafında (güvenlik: frontend prompt sızdırmıyor)
  * - Input length 1000 chars, history son 20 mesaj
  * - 800ms send debounce, kullanıcı dostu hata mesajları
- * - Çerez tercihleri "ai" kategorisi açıksa widget yüklenir; ayrıca asistan
- *   açıldığında oturuma özel iç onay ekranı gösterilir (sessionStorage gate).
+ * - Asistan her zaman yüklenir ve mavi butona basınca doğrudan açılır
+ *   (önceki çerez "ai" kategorisi ve oturum-içi onay ekranı kaldırıldı).
  */
 (function () {
   'use strict';
@@ -13,8 +13,6 @@
   const MAX_INPUT_LENGTH = 1000;
   const MAX_HISTORY = 20;
   const SEND_DEBOUNCE_MS = 800;
-  const CONSENT_KEY = 'arkoz_cookie_consent_v2';
-  const SESSION_CONSENT_KEY = 'arkoz_ai_session_consent';
 
   const SUGGESTED_QUESTIONS = [
     'Arkoz Blok özellikleri nelerdir?',
@@ -74,23 +72,6 @@
           <strong>Arkoz</strong> Yapay Zeka Asistan —
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
         </div>
-
-        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zeka Asistan Onayı">
-          <div id="ai-chat-consent__card">
-            <h4 id="ai-chat-consent__title">Yapay Zeka Asistan</h4>
-            <p id="ai-chat-consent__text">
-              Bilgileriniz yapay zeka asistanı tarafından işlenmektedir.
-              Kabul ediyor musunuz?
-            </p>
-            <p id="ai-chat-consent__link">
-              <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni →</a>
-            </p>
-            <div id="ai-chat-consent__actions">
-              <button id="ai-chat-consent-decline" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--secondary">Vazgeç</button>
-              <button id="ai-chat-consent-accept" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--primary">Kabul Et</button>
-            </div>
-          </div>
-        </div>
       </div>
       <button id="ai-chat-toggle" aria-label="AI Asistan ile konuş" type="button">
         <svg id="ai-icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -138,9 +119,6 @@
     const toggleBtn = document.getElementById('ai-chat-toggle');
     const closeBtn = document.getElementById('ai-chat-close-btn');
     const clearBtn = document.getElementById('ai-chat-clear-btn');
-    const consentEl = document.getElementById('ai-chat-consent');
-    const consentAcceptBtn = document.getElementById('ai-chat-consent-accept');
-    const consentDeclineBtn = document.getElementById('ai-chat-consent-decline');
     const iconChat = document.getElementById('ai-icon-chat');
     const iconClose = document.getElementById('ai-icon-close');
 
@@ -192,50 +170,14 @@
       if (w) w.remove();
     }
 
-    function hasSessionConsent() {
-      try {
-        return sessionStorage.getItem(SESSION_CONSENT_KEY) === '1';
-      } catch (_e) {
-        return false;
-      }
-    }
-
-    function setSessionConsent(value) {
-      try {
-        if (value) sessionStorage.setItem(SESSION_CONSENT_KEY, '1');
-        else sessionStorage.removeItem(SESSION_CONSENT_KEY);
-      } catch (_e) {
-        // sessionStorage unavailable — non-fatal
-      }
-    }
-
-    function showConsentGate() {
-      consentEl.classList.add('is-visible');
-      setTimeout(() => {
-        const acceptBtn = document.getElementById('ai-chat-consent-accept');
-        if (acceptBtn) acceptBtn.focus();
-      }, 60);
-    }
-
-    function hideConsentGate() {
-      consentEl.classList.remove('is-visible');
-    }
-
     function setOpen(open) {
       panel.style.display = open ? 'flex' : 'none';
       panel.setAttribute('aria-hidden', open ? 'false' : 'true');
       iconChat.style.display = open ? 'none' : 'block';
       iconClose.style.display = open ? 'block' : 'none';
       if (open) {
-        if (hasSessionConsent()) {
-          hideConsentGate();
-          showWelcome();
-          setTimeout(() => input.focus(), 50);
-        } else {
-          showConsentGate();
-        }
-      } else {
-        hideConsentGate();
+        showWelcome();
+        setTimeout(() => input.focus(), 50);
       }
     }
 
@@ -358,55 +300,13 @@
       }
     });
 
-    if (consentAcceptBtn) {
-      consentAcceptBtn.addEventListener('click', function () {
-        setSessionConsent(true);
-        hideConsentGate();
-        showWelcome();
-        setTimeout(() => input.focus(), 50);
-      });
-    }
-    if (consentDeclineBtn) {
-      consentDeclineBtn.addEventListener('click', function () {
-        setSessionConsent(false);
-        setOpen(false);
-      });
-    }
-
     updateCounter();
   }
 
-  function destroy() {
-    const widget = document.getElementById('ai-chat-widget');
-    if (widget) widget.remove();
-    document.body.classList.remove('has-ai-fab');
-    initialized = false;
-  }
-
-  // ------------ Çerez Onayı Kontrolü ------------
-  function isAIConsented() {
-    if (window.ArkozConsent && typeof window.ArkozConsent.isGranted === 'function') {
-      return window.ArkozConsent.isGranted('ai');
-    }
-    try {
-      const raw = localStorage.getItem(CONSENT_KEY);
-      if (!raw) return false;
-      const c = JSON.parse(raw);
-      return !!(c && c.ai === true);
-    } catch (_e) {
-      return false;
-    }
-  }
-
+  // Asistan her zaman yüklenir (çerez "ai" kategorisi gate'i kaldırıldı).
   function maybeBoot() {
-    if (isAIConsented()) init();
+    init();
   }
-
-  window.addEventListener('arkoz:consent-changed', function (e) {
-    const granted = !!(e && e.detail && e.detail.ai);
-    if (granted) init();
-    else destroy();
-  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', maybeBoot);
