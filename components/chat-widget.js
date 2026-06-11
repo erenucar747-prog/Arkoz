@@ -13,6 +13,8 @@
   const MAX_INPUT_LENGTH = 1000;
   const MAX_HISTORY = 20;
   const SEND_DEBOUNCE_MS = 800;
+  const TEASER_KEY = 'arkoz_ai_teaser_seen';
+  const TEASER_DELAY_MS = 3000;
 
   const SUGGESTED_QUESTIONS = [
     'Arkoz Blok özellikleri nelerdir?',
@@ -73,6 +75,15 @@
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
         </div>
       </div>
+      <div id="ai-chat-teaser" role="button" tabindex="0" aria-label="Arkoz yapay zeka asistanını aç">
+        <p id="ai-chat-teaser-text">Merhaba! Ben Arkoz Gazbeton yapay zeka asistanıyım. Sorularınızı yanıtlamak için buradayım. 👋</p>
+        <button id="ai-chat-teaser-close" type="button" aria-label="Tanıtımı kapat">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
       <button id="ai-chat-toggle" aria-label="AI Asistan ile konuş" type="button">
         <svg id="ai-icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -121,6 +132,8 @@
     const clearBtn = document.getElementById('ai-chat-clear-btn');
     const iconChat = document.getElementById('ai-icon-chat');
     const iconClose = document.getElementById('ai-icon-close');
+    const teaser = document.getElementById('ai-chat-teaser');
+    const teaserClose = document.getElementById('ai-chat-teaser-close');
 
     const history = [];
     let lastSendAt = 0;
@@ -170,12 +183,44 @@
       if (w) w.remove();
     }
 
+    // ------------ Teaser (tanıtım baloncuğu) ------------
+    function markTeaserSeen() {
+      try {
+        sessionStorage.setItem(TEASER_KEY, '1');
+      } catch (_e) {
+        // sessionStorage erişilemez — kritik değil
+      }
+    }
+
+    function teaserSeen() {
+      try {
+        return sessionStorage.getItem(TEASER_KEY) === '1';
+      } catch (_e) {
+        return false;
+      }
+    }
+
+    function hideTeaser() {
+      if (teaser) teaser.classList.remove('is-visible');
+    }
+
+    function maybeShowTeaser() {
+      // Session başına bir kez; chat zaten açıldıysa hiç gösterme.
+      if (!teaser) return;
+      if (teaserSeen()) return;
+      if (panel.style.display === 'flex') return;
+      markTeaserSeen();
+      teaser.classList.add('is-visible');
+    }
+
     function setOpen(open) {
       panel.style.display = open ? 'flex' : 'none';
       panel.setAttribute('aria-hidden', open ? 'false' : 'true');
       iconChat.style.display = open ? 'none' : 'block';
       iconClose.style.display = open ? 'block' : 'none';
       if (open) {
+        hideTeaser();
+        markTeaserSeen();
         showWelcome();
         setTimeout(() => input.focus(), 50);
       }
@@ -300,7 +345,30 @@
       }
     });
 
+    // Teaser: baloncuğa tıkla → chat aç; X → sadece baloncuğu kapat.
+    if (teaser) {
+      teaser.addEventListener('click', function () {
+        setOpen(true);
+      });
+      teaser.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          setOpen(true);
+        }
+      });
+    }
+    if (teaserClose) {
+      teaserClose.addEventListener('click', function (e) {
+        e.stopPropagation();
+        markTeaserSeen();
+        hideTeaser();
+      });
+    }
+
     updateCounter();
+
+    // Sayfa yüklendikten 3sn sonra tanıtım baloncuğunu (session'da bir kez) göster.
+    setTimeout(maybeShowTeaser, TEASER_DELAY_MS);
   }
 
   // Asistan her zaman yüklenir (çerez "ai" kategorisi gate'i kaldırıldı).
