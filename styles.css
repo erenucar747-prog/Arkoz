@@ -3750,7 +3750,7 @@ strong {
 }
 .dealers__grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--s-5);
   max-width: 920px;
   margin: 0 auto;
@@ -3773,68 +3773,6 @@ strong {
   border-color: var(--c-primary-20);
   transform: translateY(-4px);
   box-shadow: var(--sh-md);
-}
-.dealer-card__pin {
-  width: 44px;
-  height: 44px;
-  display: grid;
-  place-items: center;
-  border-radius: var(--r-sm);
-  background: var(--c-primary-50);
-  color: var(--c-primary);
-  margin-bottom: var(--s-2);
-}
-.dealer-card__name {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: var(--fs-20);
-  color: var(--c-text-strong);
-}
-.dealer-card__city {
-  font-size: var(--fs-13);
-  font-weight: 600;
-  letter-spacing: var(--tracking-wide);
-  text-transform: uppercase;
-  color: var(--c-primary);
-  margin-bottom: var(--s-2);
-}
-.dealer-card__address {
-  font-size: var(--fs-14);
-  line-height: 1.55;
-  color: var(--c-text-muted);
-}
-.dealer-card__contacts {
-  display: flex;
-  flex-direction: column;
-  gap: var(--s-1);
-  margin-top: var(--s-2);
-  padding-top: var(--s-3);
-  border-top: 1px solid var(--c-line);
-}
-.dealer-card__contacts a {
-  font-size: var(--fs-13);
-  color: var(--c-text);
-  text-decoration: none;
-  transition: color var(--dur-fast);
-}
-.dealer-card__contacts a:hover {
-  color: var(--c-primary);
-}
-.dealer-card__products {
-  display: flex;
-  gap: var(--s-2);
-  flex-wrap: wrap;
-  margin-top: var(--s-3);
-}
-.dealer-card__chip {
-  display: inline-flex;
-  padding: 4px 10px;
-  font-size: var(--fs-12);
-  font-weight: 600;
-  background: var(--c-accent-12);
-  color: var(--c-accent-dark);
-  border: 1px solid var(--c-accent-20);
-  border-radius: var(--r-pill);
 }
 .dealer-card--cta {
   background: var(--grad-primary);
@@ -3871,12 +3809,6 @@ strong {
   background: var(--c-accent-light);
   color: var(--c-ink);
 }
-@media (max-width: 768px) {
-  .dealers__grid {
-    grid-template-columns: 1fr;
-  }
-}
-
 /* ── LIFESTYLE BANNER (Sürdürülebilir) ─────────────────────── */
 .lifestyle-banner {
   position: relative;
