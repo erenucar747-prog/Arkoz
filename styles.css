@@ -3298,6 +3298,19 @@ strong {
 .cert-card:hover img {
   filter: grayscale(0);
 }
+.cert-card__thumb {
+  display: flex;
+  justify-content: center;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+.cert-card__thumb:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 4px;
+  border-radius: var(--r-sm);
+}
 .cert-card__body h4 {
   font-weight: 700;
   font-size: var(--fs-15);
