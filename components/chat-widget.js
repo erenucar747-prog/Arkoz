@@ -13,7 +13,6 @@
   const MAX_INPUT_LENGTH = 1000;
   const MAX_HISTORY = 20;
   const SEND_DEBOUNCE_MS = 800;
-  const TEASER_KEY = 'arkoz_ai_teaser_seen';
   const TEASER_DELAY_MS = 3000;
 
   const SUGGESTED_QUESTIONS = [
@@ -76,7 +75,7 @@
         </div>
       </div>
       <div id="ai-chat-teaser" role="button" tabindex="0" aria-label="Arkoz yapay zeka asistanını aç">
-        <p id="ai-chat-teaser-text">Merhaba! Ben Arkoz Gazbeton yapay zeka asistanıyım. Sorularınızı yanıtlamak için buradayım. 👋</p>
+        <p id="ai-chat-teaser-text">Merhaba ben Gazbo 👋</p>
         <button id="ai-chat-teaser-close" type="button" aria-label="Tanıtımı kapat">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <line x1="18" y1="6" x2="6" y2="18"/>
@@ -184,32 +183,14 @@
     }
 
     // ------------ Teaser (tanıtım baloncuğu) ------------
-    function markTeaserSeen() {
-      try {
-        sessionStorage.setItem(TEASER_KEY, '1');
-      } catch (_e) {
-        // sessionStorage erişilemez — kritik değil
-      }
-    }
-
-    function teaserSeen() {
-      try {
-        return sessionStorage.getItem(TEASER_KEY) === '1';
-      } catch (_e) {
-        return false;
-      }
-    }
-
     function hideTeaser() {
       if (teaser) teaser.classList.remove('is-visible');
     }
 
     function maybeShowTeaser() {
-      // Session başına bir kez; chat zaten açıldıysa hiç gösterme.
+      // Her sayfa açılışında göster; chat zaten açıksa gösterme.
       if (!teaser) return;
-      if (teaserSeen()) return;
       if (panel.style.display === 'flex') return;
-      markTeaserSeen();
       teaser.classList.add('is-visible');
     }
 
@@ -220,7 +201,6 @@
       iconClose.style.display = open ? 'block' : 'none';
       if (open) {
         hideTeaser();
-        markTeaserSeen();
         showWelcome();
         setTimeout(() => input.focus(), 50);
       }
@@ -360,14 +340,13 @@
     if (teaserClose) {
       teaserClose.addEventListener('click', function (e) {
         e.stopPropagation();
-        markTeaserSeen();
         hideTeaser();
       });
     }
 
     updateCounter();
 
-    // Sayfa yüklendikten 3sn sonra tanıtım baloncuğunu (session'da bir kez) göster.
+    // Sayfa yüklendikten 3sn sonra tanıtım baloncuğunu göster (her açılışta).
     setTimeout(maybeShowTeaser, TEASER_DELAY_MS);
   }
 
