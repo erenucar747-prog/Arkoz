@@ -3,6 +3,10 @@ import js from '@eslint/js';
 export default [
   js.configs.recommended,
   {
+    // Vendor: repoya kopyalanmış üçüncü taraf kütüphaneler denetlenmez.
+    ignores: ['assets/js/*.min.js'],
+  },
+  {
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',

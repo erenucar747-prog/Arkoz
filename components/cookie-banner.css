@@ -64,7 +64,9 @@
 }
 
 .cb-banner__btn {
-  flex: 1 1 auto;
+  /* 1 1 0 → üç buton da tam olarak eşit genişlikte; hiçbiri diğerinden
+     büyük veya küçük görünmez (KVKK: reddetme = kabul etme kolaylığı). */
+  flex: 1 1 0;
   min-width: 0;
   padding: 11px 14px;
   border-radius: 8px;
@@ -92,14 +94,16 @@
   background: var(--c-accent-light, #d4c4a0);
 }
 
+/* KVKK Çerez Rehberi: reddetmek, kabul etmek kadar kolay ve görsel olarak
+   EŞİT AĞIRLIKTA olmalı. "Sadece Zorunlu" da "Tümünü Kabul Et" gibi dolgulu;
+   aynı boyut, aynı kontrast — biri soluk link, diğeri dolgu buton olamaz. */
 .cb-banner__btn--reject {
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #fff;
+  color: var(--c-ink, #0a0a0a);
 }
 
 .cb-banner__btn--reject:hover {
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.85);
 }
 
 .cb-banner__btn--manage {
@@ -367,10 +371,12 @@
 }
 
 /* Footer link to reopen preferences (for users who want to change later) */
+/* Sol altta yüzen WhatsApp butonu (56px + 28px offset) bu bağlantıyı örtüyordu.
+   Rızayı geri alma yolu her zaman tıklanabilir kalmalı — pill onun üstüne alındı. */
 .cb-reopen {
   position: fixed;
-  bottom: 16px;
-  left: 16px;
+  bottom: 96px;
+  left: 28px;
   z-index: 40;
   background: rgba(10, 10, 10, 0.78);
   color: #fff;
@@ -402,8 +408,8 @@
 
 @media (max-width: 560px) {
   .cb-reopen {
-    bottom: 12px;
-    left: 12px;
+    bottom: 88px;
+    left: 16px;
     font-size: 11px;
   }
 }
