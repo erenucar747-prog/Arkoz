@@ -3,8 +3,11 @@
  * - System prompt sunucu tarafında (güvenlik: frontend prompt sızdırmıyor)
  * - Input length 1000 chars, history son 20 mesaj
  * - 800ms send debounce, kullanıcı dostu hata mesajları
- * - Asistan her zaman yüklenir ve mavi butona basınca doğrudan açılır
- *   (önceki çerez "ai" kategorisi ve oturum-içi onay ekranı kaldırıldı).
+ * - Çerez tercihlerindeki "yapay zeka asistanı" kategorisi açıksa widget yüklenir;
+ *   kategori kapatılırsa `destroy()` ile tamamen kaldırılır.
+ * - Asistan açıldığında oturuma özel onay ekranı gösterilir; onay verilmeden
+ *   input kilitli kalır ve hiçbir mesaj işlenmez (sessionStorage ile tutulur,
+ *   sayfa kapatılınca sıfırlanır).
  */
 (function () {
   'use strict';
@@ -14,6 +17,8 @@
   const MAX_HISTORY = 20;
   const SEND_DEBOUNCE_MS = 800;
   const TEASER_DELAY_MS = 3000;
+  const CONSENT_KEY = 'arkoz_cookie_consent_v2';
+  const SESSION_CONSENT_KEY = 'arkoz_ai_session_consent';
 
   const SUGGESTED_QUESTIONS = [
     'Arkoz Blok özellikleri nelerdir?',
@@ -72,6 +77,29 @@
         <div id="ai-chat-footer">
           <strong>Arkoz</strong> Yapay Zeka Asistan —
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
+        </div>
+        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zeka Asistan Onayı">
+          <div id="ai-chat-consent__card">
+            <h4 id="ai-chat-consent__title">Yapay Zeka Asistan</h4>
+            <p id="ai-chat-consent__text">
+              Bu asistan, yazdığınız mesajları yanıt üretmek amacıyla işler.
+              Lütfen kimlik, iletişim, finansal bilgilerinizi ve sağlık, din,
+              üyelik gibi özel nitelikli kişisel verilerinizi paylaşmayınız.
+              Yanıtlar bilgi amaçlıdır, bağlayıcı değildir.
+            </p>
+            <label id="ai-chat-consent__check" for="ai-chat-consent-agree">
+              <input type="checkbox" id="ai-chat-consent-agree" />
+              <span>Açık Rıza Metni kapsamında sohbet mesajlarımın işlenmesine açık rıza veriyorum.</span>
+            </label>
+            <p id="ai-chat-consent__link">
+              <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
+              <a href="politikalar.html#ai-riza" target="_blank" rel="noopener">Açık Rıza Metni</a>
+            </p>
+            <div id="ai-chat-consent__actions">
+              <button id="ai-chat-consent-accept" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--primary" disabled>Kabul Et</button>
+              <button id="ai-chat-consent-decline" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--secondary">Vazgeç</button>
+            </div>
+          </div>
         </div>
       </div>
       <div id="ai-chat-teaser" role="button" tabindex="0" aria-label="Arkoz yapay zeka asistanını aç">
@@ -133,11 +161,51 @@
     const iconClose = document.getElementById('ai-icon-close');
     const teaser = document.getElementById('ai-chat-teaser');
     const teaserClose = document.getElementById('ai-chat-teaser-close');
+    const consentEl = document.getElementById('ai-chat-consent');
+    const consentAgree = document.getElementById('ai-chat-consent-agree');
+    const consentAcceptBtn = document.getElementById('ai-chat-consent-accept');
+    const consentDeclineBtn = document.getElementById('ai-chat-consent-decline');
 
     const history = [];
     let lastSendAt = 0;
     let sending = false;
     let welcomed = false;
+
+    // ------------ Oturum-içi açık rıza kapısı ------------
+    // Onay sessionStorage'da tutulur: sekme kapanınca sıfırlanır, böylece bir
+    // sonraki açılışta onay ekranı yeniden gösterilir (aydınlatma metninin vaadi).
+    function hasSessionConsent() {
+      try {
+        return sessionStorage.getItem(SESSION_CONSENT_KEY) === '1';
+      } catch (_e) {
+        return false;
+      }
+    }
+
+    function setSessionConsent(value) {
+      try {
+        if (value) sessionStorage.setItem(SESSION_CONSENT_KEY, '1');
+        else sessionStorage.removeItem(SESSION_CONSENT_KEY);
+      } catch (_e) {
+        // sessionStorage kapalı — onay yalnızca bu görünüm boyunca geçerli olur.
+      }
+    }
+
+    function lockInput(locked) {
+      input.disabled = locked;
+      sendBtn.disabled = locked;
+    }
+
+    function showConsentGate() {
+      consentEl.classList.add('is-visible');
+      lockInput(true);
+      setTimeout(() => consentAgree.focus(), 60);
+    }
+
+    function hideConsentGate() {
+      consentEl.classList.remove('is-visible');
+      lockInput(false);
+    }
 
     function showWelcome() {
       if (welcomed) return;
@@ -201,8 +269,15 @@
       iconClose.style.display = open ? 'block' : 'none';
       if (open) {
         hideTeaser();
-        showWelcome();
-        setTimeout(() => input.focus(), 50);
+        if (hasSessionConsent()) {
+          hideConsentGate();
+          showWelcome();
+          setTimeout(() => input.focus(), 50);
+        } else {
+          showConsentGate();
+        }
+      } else {
+        hideConsentGate();
       }
     }
 
@@ -236,6 +311,11 @@
 
     async function send() {
       if (sending) return;
+      // Açık rıza olmadan hiçbir mesaj işlenmez — asıl kapı burasıdır.
+      if (!hasSessionConsent()) {
+        showConsentGate();
+        return;
+      }
       const text = input.value.trim();
       if (!text) return;
 
@@ -344,16 +424,69 @@
       });
     }
 
+    // Onay kutucuğu işaretlenmeden "Kabul Et" pasif kalır.
+    consentAgree.addEventListener('change', function () {
+      consentAcceptBtn.disabled = !consentAgree.checked;
+    });
+    consentAcceptBtn.addEventListener('click', function () {
+      if (!consentAgree.checked) return;
+      setSessionConsent(true);
+      hideConsentGate();
+      showWelcome();
+      setTimeout(() => input.focus(), 50);
+    });
+    consentDeclineBtn.addEventListener('click', function () {
+      setSessionConsent(false);
+      consentAgree.checked = false;
+      consentAcceptBtn.disabled = true;
+      setOpen(false);
+    });
+
     updateCounter();
 
     // Sayfa yüklendikten 3sn sonra tanıtım baloncuğunu göster (her açılışta).
     setTimeout(maybeShowTeaser, TEASER_DELAY_MS);
   }
 
-  // Asistan her zaman yüklenir (çerez "ai" kategorisi gate'i kaldırıldı).
-  function maybeBoot() {
-    init();
+  // ------------ Teardown ------------
+  function destroy() {
+    const widget = document.getElementById('ai-chat-widget');
+    if (widget) widget.remove();
+    document.body.classList.remove('has-ai-fab');
+    try {
+      sessionStorage.removeItem(SESSION_CONSENT_KEY);
+    } catch (_e) {
+      // sessionStorage kapalı — yapılacak bir şey yok.
+    }
+    initialized = false;
   }
+
+  // ------------ Çerez tercihi kontrolü ------------
+  // "Yapay zeka asistanı" kategorisi kapalıyken widget DOM'a hiç girmez.
+  function isAIConsented() {
+    if (window.ArkozConsent && typeof window.ArkozConsent.isGranted === 'function') {
+      return window.ArkozConsent.isGranted('ai');
+    }
+    try {
+      const raw = localStorage.getItem(CONSENT_KEY);
+      if (!raw) return false;
+      const c = JSON.parse(raw);
+      return !!(c && c.ai === true);
+    } catch (_e) {
+      return false;
+    }
+  }
+
+  function maybeBoot() {
+    if (isAIConsented()) init();
+  }
+
+  // Kategori sonradan açılırsa yükle, kapatılırsa tamamen söküp at.
+  window.addEventListener('arkoz:consent-changed', function (e) {
+    const granted = !!(e && e.detail && e.detail.ai);
+    if (granted) init();
+    else destroy();
+  });
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', maybeBoot);

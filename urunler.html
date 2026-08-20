@@ -8,13 +8,7 @@
       content="Arkoz Gazbeton Ürünleri — Arkoz Blok ve Arkoz Asmolen teknik özellikleri, boyutlar, performans tabloları."
     />
     <title>Ürünler | Arkoz Gazbeton</title>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="assets/css/fonts.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
@@ -163,7 +157,7 @@
         }
       }
     </style>
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
+    <script src="assets/js/lenis.min.js" defer></script>
   </head>
   <body style="background-color: #000">
     <header class="header scrolled" id="header">
@@ -674,14 +668,20 @@
               <label for="qf-message">Mesaj</label>
             </div>
             <div class="form__consent">
-              <input type="checkbox" id="qf-kvkk" name="kvkk-consent" required />
-              <label for="qf-kvkk">
-                <a href="politikalar.html#kvk" target="_blank" rel="noopener"
-                  >KVKK Aydınlatma Metni</a
-                >'ni ve
+              <input type="checkbox" id="qf-aydinlatma" name="aydinlatma-teyit" required />
+              <label for="qf-aydinlatma">
+                <a href="politikalar.html#kvk" target="_blank" rel="noopener">Aydınlatma Metni</a>
+                ve
                 <a href="politikalar.html#gizlilik" target="_blank" rel="noopener"
                   >Gizlilik Politikası</a
-                >'nı okudum; kişisel verilerimin işlenmesine açık rıza veriyorum. *
+                >'nı okudum ve anladım. *
+              </label>
+            </div>
+            <div class="form__consent">
+              <input type="checkbox" id="qf-riza" name="acik-riza" />
+              <label for="qf-riza">
+                Talebimin sonuçlandırılmasının ardından iletişim bilgilerimin saklanmasına ve
+                benimle iletişime geçilmesine açık rıza veriyorum. (İsteğe bağlı)
               </label>
             </div>
             <button type="submit" class="btn btn--primary btn--full">Teklif İste →</button>

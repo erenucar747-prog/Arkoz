@@ -203,11 +203,49 @@ if (document.readyState === 'loading') {
  * KVKK-uyumlu form gönderim altyapısı:
  * - 3 form (iletişim / teklif / İK) tek endpoint'e POST eder.
  * - `_subject` ile e-posta konusu ayrıştırılır.
- * - HTML5 `required` checkbox KVKK onayını zorunlu kılar; JS de doğrular.
+ * - Onay iki ayrı kutucuğa bölünmüştür (İlke Kararı 2026/347):
+ *   `aydinlatma-teyit` bilgilendirme teyididir ve zorunludur;
+ *   `acik-riza` opsiyoneldir ve işaretlenmeden de form gönderilebilir —
+ *   zorunlu tutulursa rıza "özgür irade" unsurunu kaybeder ve geçersiz olur.
+ *   Formlar `novalidate` olduğu için doğrulamayı JS yapar.
+ * - Spam koruması: görünmez honeypot alanı + oturum başına 60 sn gönderim aralığı.
  * - Başarı / hata için toast bildirimleri.
  */
 (function initFormSubmissions() {
   const ENDPOINT = 'https://formsubmit.co/ajax/info@arkozgazbeton.com.tr';
+  const HONEYPOT_NAME = 'website-url';
+  const MIN_SUBMIT_GAP_MS = 60000;
+  const LAST_SUBMIT_KEY = 'arkoz_last_form_submit';
+
+  function lastSubmitAt() {
+    try {
+      return parseInt(sessionStorage.getItem(LAST_SUBMIT_KEY) || '0', 10) || 0;
+    } catch (_e) {
+      return 0;
+    }
+  }
+
+  function markSubmitted() {
+    try {
+      sessionStorage.setItem(LAST_SUBMIT_KEY, String(Date.now()));
+    } catch (_e) {
+      // sessionStorage kapalı — buton kilidi tek başına kalır.
+    }
+  }
+
+  // Botların doldurduğu, kullanıcının göremediği tuzak alan.
+  function addHoneypot(form) {
+    if (form.querySelector('[name="' + HONEYPOT_NAME + '"]')) return;
+    const hp = document.createElement('input');
+    hp.type = 'text';
+    hp.name = HONEYPOT_NAME;
+    hp.tabIndex = -1;
+    hp.autocomplete = 'off';
+    hp.setAttribute('aria-hidden', 'true');
+    hp.style.cssText =
+      'position:absolute;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;';
+    form.appendChild(hp);
+  }
 
   const showToast = (msg, type = 'success') => {
     const region = document.getElementById('toast-region') || document.body;
@@ -225,13 +263,28 @@ if (document.readyState === 'loading') {
     const form = document.getElementById(formId);
     if (!form) return;
 
+    addHoneypot(form);
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const consent = form.querySelector('input[name="kvkk-consent"]');
-      if (consent && !consent.checked) {
-        showToast('Devam etmek için KVKK aydınlatma metnini onaylamanız gerekir.', 'error');
-        consent.focus();
+      // Tuzak alan doluysa gönderim sessizce düşer — bota ipucu verilmez.
+      const hp = form.querySelector('[name="' + HONEYPOT_NAME + '"]');
+      if (hp && hp.value.trim() !== '') return;
+
+      // Bilgilendirme teyidi zorunlu. `acik-riza` bilerek kontrol EDİLMEZ:
+      // opsiyonel olması hukuken şart.
+      const teyit = form.querySelector('input[name="aydinlatma-teyit"]');
+      if (!teyit || !teyit.checked) {
+        showToast('Devam etmek için aydınlatma metnini okuduğunuzu teyit etmelisiniz.', 'error');
+        if (teyit) teyit.focus();
+        return;
+      }
+
+      const sinceLast = Date.now() - lastSubmitAt();
+      if (sinceLast < MIN_SUBMIT_GAP_MS) {
+        const wait = Math.ceil((MIN_SUBMIT_GAP_MS - sinceLast) / 1000);
+        showToast('Çok sık gönderim. Lütfen ' + wait + ' saniye sonra tekrar deneyin.', 'error');
         return;
       }
 
@@ -241,6 +294,7 @@ if (document.readyState === 'loading') {
       btn.innerHTML = '<span>Gönderiliyor...</span>';
 
       const data = new FormData(form);
+      data.delete(HONEYPOT_NAME); // tuzak alan e-postaya taşınmasın
       data.append('_subject', subject);
       data.append('_template', 'table');
       data.append('_captcha', 'false');
@@ -255,6 +309,7 @@ if (document.readyState === 'loading') {
         btn.disabled = false;
         btn.innerHTML = original;
         if (json.success === 'true' || json.success === true) {
+          markSubmitted();
           form.reset();
           showToast(successMessage, 'success');
           if (typeof onSuccess === 'function') onSuccess();
@@ -413,6 +468,70 @@ if (document.readyState === 'loading') {
 })();
 
 /* ── 13.4 Cookie Banner ── components/cookie-banner.js dinamik inject ediyor */
+
+/* ── 13.41 Gömülü video — çerez onayına bağlı yükleme ─────
+ *
+ * Gömülü videolar sayfa açılışında yüklenmez; yüklenirlerse ziyaretçinin IP
+ * adresi onay alınmadan üçüncü tarafa gider. "İşlevsel" çerez kategorisi
+ * açıksa video otomatik kurulur, değilse yerinde tıkla-yükle kapağı durur.
+ * Kapağa tıklamak o video için bilinçli ve tekil bir onaydır.
+ */
+(function initConsentedVideos() {
+  const CONSENT_KEY = 'arkoz_cookie_consent_v2';
+
+  function functionalGranted() {
+    if (window.ArkozConsent && typeof window.ArkozConsent.isGranted === 'function') {
+      return window.ArkozConsent.isGranted('functional');
+    }
+    try {
+      const c = JSON.parse(localStorage.getItem(CONSENT_KEY) || 'null');
+      return !!(c && c.functional === true);
+    } catch {
+      return false;
+    }
+  }
+
+  function mount(box) {
+    if (box.querySelector('iframe')) return;
+    const iframe = document.createElement('iframe');
+    iframe.src = box.dataset.videoSrc;
+    iframe.title = box.dataset.videoTitle || '';
+    iframe.setAttribute('frameborder', '0');
+    iframe.setAttribute(
+      'allow',
+      'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share'
+    );
+    iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+    iframe.setAttribute('allowfullscreen', '');
+    iframe.loading = 'lazy';
+    const facade = box.querySelector('.video-facade');
+    if (facade) facade.remove();
+    box.appendChild(iframe);
+  }
+
+  function unmount(box) {
+    const iframe = box.querySelector('iframe');
+    if (iframe) iframe.remove();
+  }
+
+  function sync() {
+    const boxes = document.querySelectorAll('[data-video-src]');
+    if (!boxes.length) return;
+    const granted = functionalGranted();
+    boxes.forEach((box) => {
+      if (granted) mount(box);
+      else unmount(box);
+    });
+  }
+
+  document.querySelectorAll('[data-video-src]').forEach((box) => {
+    const facade = box.querySelector('.video-facade');
+    if (facade) facade.addEventListener('click', () => mount(box));
+  });
+
+  sync();
+  window.addEventListener('arkoz:consent-changed', sync);
+})();
 
 /* ── 13.45 Scroll Progress + Sticky CTA Visibility ──────── */
 (function initScrollUI() {
@@ -653,6 +772,6 @@ if (document.readyState === 'loading') {
   });
 
   // Quote form ve contact form gönderimleri bölüm 8 (initFormSubmissions)
-  // tarafından FormSubmit endpoint üzerinden info@arkozgazbeton.com.tr'ye iletilir.
+  // tarafından e-posta endpoint üzerinden info@arkozgazbeton.com.tr'ye iletilir.
   // Eski WhatsApp deeplink akışları KVKK uyumu için kaldırıldı.
 })();

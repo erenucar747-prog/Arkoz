@@ -577,7 +577,26 @@
   color: #1a1a1a;
   margin: 0 0 12px;
 }
+#ai-chat-consent__check {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.8rem;
+  line-height: 1.5;
+  color: #1a1a1a;
+  cursor: pointer;
+  margin: 0 0 12px;
+}
+#ai-chat-consent__check input {
+  margin-top: 2px;
+  width: auto;
+  flex-shrink: 0;
+  accent-color: #4db848;
+  cursor: pointer;
+}
 #ai-chat-consent__link {
+  display: flex;
+  gap: 14px;
   font-size: 0.78rem;
   margin: 0 0 16px;
 }
@@ -617,12 +636,20 @@
 .ai-chat-consent__btn--primary:hover {
   box-shadow: 0 6px 16px rgba(77, 184, 72, 0.4);
 }
+/* KVKK: "Vazgeç" ile "Kabul Et" aynı boyut ve aynı görsel ağırlıkta olmalı —
+   reddetmek kabul etmek kadar kolay görünmeli. İkisi de dolgulu buton. */
 .ai-chat-consent__btn--secondary {
-  background: rgba(32, 17, 97, 0.08);
-  color: #201161;
+  background: linear-gradient(135deg, #2e1a8a 0%, #201161 100%);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(32, 17, 97, 0.28);
 }
 .ai-chat-consent__btn--secondary:hover {
-  background: rgba(32, 17, 97, 0.16);
+  box-shadow: 0 6px 16px rgba(32, 17, 97, 0.4);
+}
+.ai-chat-consent__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
 }
 
 /* ------------ Mobile ------------ */

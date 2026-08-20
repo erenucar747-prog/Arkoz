@@ -8,20 +8,14 @@
       content="Arkoz Gazbeton İnsan Kaynakları — Kariyer fırsatları ve başvuru formu."
     />
     <title>İnsan Kaynakları | Arkoz Gazbeton</title>
-    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
+    <link rel="stylesheet" href="assets/css/fonts.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
     <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
-    <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js" defer></script>
+    <script src="assets/js/lenis.min.js" defer></script>
   </head>
   <body>
     <header class="header scrolled" id="header">
@@ -451,25 +445,27 @@
                   ></textarea>
                   <label for="ik-message">Hakkınızda</label>
                 </div>
-                <div style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 4px">
-                  <input
-                    type="checkbox"
-                    id="kvkk"
-                    name="kvkk"
-                    required
-                    style="margin-top: 3px; width: auto; accent-color: var(--color-primary)"
-                  />
-                  <label
-                    for="kvkk"
-                    style="font-size: 0.82rem; color: var(--color-text-muted); cursor: pointer"
-                  >
-                    <a href="politikalar.html" style="color: var(--color-primary)"
-                      >Gizlilik Politikası</a
+                <p class="form__note">
+                  Lütfen sağlık, din, üyelik, ceza mahkumiyeti gibi özel nitelikli kişisel
+                  verilerinizi paylaşmayınız.
+                </p>
+                <div class="form__consent">
+                  <input type="checkbox" id="ik-aydinlatma" name="aydinlatma-teyit" required />
+                  <label for="ik-aydinlatma">
+                    <a href="politikalar.html#aday" target="_blank" rel="noopener"
+                      >Çalışan Adayı Aydınlatma Metni</a
                     >
                     ve
-                    <a href="politikalar.html" style="color: var(--color-primary)"
-                      >KVKK Aydınlatma Metni</a
-                    >'ni okudum, onaylıyorum. *
+                    <a href="politikalar.html#gizlilik" target="_blank" rel="noopener"
+                      >Gizlilik Politikası</a
+                    >'nı okudum ve anladım. *
+                  </label>
+                </div>
+                <div class="form__consent">
+                  <input type="checkbox" id="ik-riza" name="acik-riza" />
+                  <label for="ik-riza">
+                    Talebimin sonuçlandırılmasının ardından iletişim bilgilerimin saklanmasına ve
+                    benimle iletişime geçilmesine açık rıza veriyorum. (İsteğe bağlı)
                   </label>
                 </div>
                 <button type="submit" class="btn btn--primary btn--full">

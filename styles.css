@@ -3632,6 +3632,48 @@ strong {
   border: 0;
   display: block;
 }
+/* Çerez onayı verilene kadar video yerine gösterilen tıkla-yükle kapağı.
+   Kutu ölçüsü .production-tour__video ile aynı — onay öncesi/sonrası
+   yer değişimi (layout shift) olmaz. */
+.video-facade {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-3);
+  padding: var(--s-5);
+  border: 0;
+  background: var(--c-surface-2);
+  color: var(--c-text-muted);
+  font-family: inherit;
+  text-align: center;
+  cursor: pointer;
+}
+.video-facade__play {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--c-primary);
+  color: #fff;
+  flex-shrink: 0;
+}
+.video-facade__text {
+  font-size: var(--fs-13);
+  line-height: 1.5;
+  max-width: 34ch;
+}
+.video-facade:hover .video-facade__play {
+  background: var(--c-accent);
+}
+.video-facade:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: -4px;
+}
 .production-tour__caption {
   margin-top: var(--s-3);
   font-size: var(--fs-13);
@@ -6568,5 +6610,172 @@ body.modal-open {
     grid-template-columns: 44px 1fr;
     gap: 12px;
     padding: 14px 16px;
+  }
+}
+
+/* ── EK:2 — Veri Sorumlusuna Başvuru Formu ─────────────────
+   KVKK metninin atıf yaptığı form. Ekrandan doldurulup yazdırılabilir;
+   sayfa üzerinden gönderilmez (başvuru kanalları formun altında listelenir). */
+.ek2__lead {
+  margin-bottom: var(--s-4);
+}
+.ek2__print-actions {
+  margin-bottom: var(--s-5);
+}
+.ek2__doc {
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-md);
+  padding: var(--s-5);
+  margin-bottom: var(--s-5);
+  background: var(--c-surface-1);
+}
+.ek2__doc-title {
+  font-size: var(--fs-15);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin: 0 0 var(--s-4);
+}
+.ek2__h {
+  font-size: var(--fs-14);
+  font-weight: 700;
+  margin: var(--s-5) 0 var(--s-3);
+}
+.ek2__doc .ek2__h:first-of-type {
+  margin-top: 0;
+}
+.ek2__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin-bottom: var(--s-3);
+}
+.ek2__row label {
+  flex: 0 0 210px;
+  font-size: var(--fs-13);
+  color: var(--c-text-muted);
+}
+.ek2__row label em {
+  font-style: normal;
+  opacity: 0.75;
+}
+.ek2__row input {
+  flex: 1 1 220px;
+  min-width: 0;
+  font-family: inherit;
+  font-size: var(--fs-14);
+  padding: 6px 2px;
+  border: 0;
+  border-bottom: 1px dotted var(--c-text-muted);
+  background: transparent;
+  color: inherit;
+}
+.ek2__row input:focus-visible {
+  outline: none;
+  border-bottom-color: var(--c-primary);
+}
+.ek2__checks {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--s-3);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+}
+.ek2__checks--stack {
+  flex-direction: column;
+  gap: var(--s-2);
+}
+.ek2__checks li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-2);
+}
+.ek2__checks label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--fs-14);
+  line-height: 1.5;
+  cursor: pointer;
+}
+.ek2__checks input[type='checkbox'] {
+  margin-top: 3px;
+  width: auto;
+  flex-shrink: 0;
+  accent-color: var(--c-primary);
+}
+.ek2__inline {
+  flex: 1 1 160px;
+  font-family: inherit;
+  font-size: var(--fs-14);
+  border: 0;
+  border-bottom: 1px dotted var(--c-text-muted);
+  background: transparent;
+  color: inherit;
+}
+.ek2__doc textarea {
+  width: 100%;
+  font-family: inherit;
+  font-size: var(--fs-14);
+  padding: 10px;
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-sm);
+  background: transparent;
+  color: inherit;
+  resize: vertical;
+}
+.ek2__sign {
+  margin-top: var(--s-4);
+}
+@media (max-width: 560px) {
+  .ek2__row label {
+    flex: 1 1 100%;
+  }
+}
+
+/* Yazdırma: yalnızca form kâğıda gitsin. */
+@media print {
+  .header,
+  .footer,
+  .page-hero,
+  .tabs,
+  .cb-banner,
+  .cb-reopen,
+  .cb-modal,
+  #ai-chat-widget,
+  #whatsapp-float,
+  #scrollProgressBar,
+  #stickyCta,
+  .ek2__print-actions {
+    display: none !important;
+  }
+  .ek2 {
+    padding: 0 !important;
+  }
+  .faq__item {
+    border: 0 !important;
+    box-shadow: none !important;
+  }
+  .faq__q {
+    display: none !important;
+  }
+  .faq__a {
+    display: block !important;
+    max-height: none !important;
+    padding: 0 !important;
+  }
+  .ek2__doc {
+    border: 0;
+    padding: 0;
+    page-break-inside: avoid;
+  }
+  .ek2__row input,
+  .ek2__inline {
+    border-bottom: 1px solid #000;
+  }
+  body {
+    background: #fff;
+    color: #000;
   }
 }
