@@ -22,21 +22,21 @@
     {
       id: 'essential',
       title: 'Zorunlu Çerezler',
-      desc: 'Sitenin temel işleyişi (oturum yönetimi, çerez tercih kaydı, intro animasyon kontrolü) için gereklidir. Devre dışı bırakılamaz.',
+      desc: 'Sitenin teknik işleyişi için gereklidir: çerez tercihinizin kaydı, açılış animasyonunun oturumda bir kez gösterilmesi ve form güvenliği. İzleme veya profilleme yapmaz, üçüncü taraflarla paylaşılmaz. Devre dışı bırakılamaz.',
       locked: true,
       defaultValue: true,
     },
     {
       id: 'functional',
       title: 'İşlevsel Çerezler',
-      desc: 'Tercihlerinizi hatırlamak ve sayfaya gömülü video içeriklerinin yüklenmesini sağlamak için kullanılır. Kapalıyken videolar yerine tıklanabilir bir kapak gösterilir.',
+      desc: 'Yalnızca ana sayfadaki gömülü tanıtım videolarının yüklenmesini sağlar. Kapalıyken video yerine tıklanabilir bir kapak gösterilir ve üçüncü taraf sunucuya hiçbir istek gönderilmez.',
       locked: false,
       defaultValue: false,
     },
     {
       id: 'ai',
       title: 'Yapay Zeka Asistanı',
-      desc: 'Web sitemizdeki yapay zeka asistanı hizmetini etkinleştirir. Kapalıyken asistan yüklenmez.',
+      desc: 'Sitedeki yapay zeka asistanını etkinleştirir. Kapalıyken asistan sayfaya hiç eklenmez. Açık olsa dahi asistan, ilk açılışında ayrıca onayınızı ister.',
       link: { href: POLICY_URL + '#ai', label: 'Aydınlatma Metni' },
       locked: false,
       defaultValue: false,
@@ -44,7 +44,7 @@
     {
       id: 'marketing',
       title: 'Pazarlama ve Analitik',
-      desc: 'Site içeriğini ve kampanyaları kişiselleştirmek için ileride eklenebilecek çerezler. Şu an pasiftir.',
+      desc: 'Şu an bu kategoride hiçbir teknoloji çalışmamaktadır. Açsanız dahi cihazınıza pazarlama veya analitik kaydı yazılmaz. İleride eklenirse bu metin önceden güncellenir.',
       locked: false,
       defaultValue: false,
     },
@@ -96,9 +96,9 @@
     wrap.innerHTML = `
       <p class="cb-banner__title" id="cb-banner-title">Çerez Tercihleriniz</p>
       <p class="cb-banner__text">
-        Bu site, deneyiminizi geliştirmek için çerez ve benzer teknolojiler kullanır.
-        Çerez tercihinizi seçiniz; onayınız olmadan zorunlu olmayan hiçbir çerez
-        yüklenmez. Detaylar:
+        Bu sitede reklam ve takip çerezi kullanılmaz. Yalnızca teknik olarak zorunlu
+        kayıtlar ile onayınıza bağlı gömülü video ve yapay zeka asistanı bulunur.
+        Seçim yapmadığınız sürece zorunlu olmayan hiçbir teknoloji çalıştırılmaz. Detaylar:
         <a href="${POLICY_URL}#cerez">Çerez Politikası</a> ve
         <a href="${POLICY_URL}#kvk">KVKK Aydınlatma Metni</a>.
       </p>
