@@ -337,6 +337,28 @@ strong {
   box-shadow: var(--sh-md);
   animation: toastIn 0.35s var(--ease-spring);
   pointer-events: auto;
+  /* script.js 3.5 sn sonra opacity'yi 0 yapıp 350 ms sonra siliyor —
+     geçiş tanımlı olmadan bu anlık kesme oluyordu. */
+  transition: opacity 0.35s ease;
+}
+/* Başarı ve hata görsel olarak ayırt edilebilmeli; script.js bu iki
+   modifier'ı üretiyor ama karşılıkları tanımlı değildi. */
+.toast--success {
+  background: #1e7d32;
+}
+.toast--error {
+  background: #a4232b;
+}
+.toast--success::before,
+.toast--error::before {
+  margin-right: var(--s-2);
+  font-weight: 700;
+}
+.toast--success::before {
+  content: '✓';
+}
+.toast--error::before {
+  content: '!';
 }
 @keyframes toastIn {
   from {
@@ -4555,15 +4577,10 @@ strong {
 /* 26. DEAD CONTAINERS NEUTRALIZE ─────────────────────────── */
 #about-bg-paths,
 #urunler-bg-paths,
-#kurumsal-godrays,
-#politikalar-bg-paths,
 #bg-paths-container,
 .about__waves,
 .page-hero__waves,
-.hero__blob,
-.hero__grid,
-.hero__scroll,
-canvas#beams-canvas {
+.hero__scroll {
   display: none !important;
 }
 
@@ -4773,36 +4790,6 @@ canvas#beams-canvas {
   }
   .whatsapp-float {
     display: none !important;
-  }
-}
-
-/* ── KVKK COOKIE BANNER (Tier 3.2) ─────────────────────────── */
-.cookie-banner {
-  position: fixed;
-  bottom: 24px;
-  left: 24px;
-  right: 24px;
-  max-width: 520px;
-  margin: 0 auto;
-  background: var(--c-text-strong);
-  color: #fff;
-  padding: var(--s-5) var(--s-6);
-  border-radius: var(--r-md);
-  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.4);
-  z-index: 60;
-  display: none;
-  transform: translateY(120%);
-  transition: transform var(--dur-base) var(--ease-out);
-}
-.cookie-banner.is-visible {
-  display: block;
-  transform: translateY(0);
-}
-@media (max-width: 480px) {
-  .cookie-banner {
-    bottom: 80px;
-    left: 12px;
-    right: 12px;
   }
 }
 
@@ -5962,32 +5949,6 @@ canvas#beams-canvas {
 .prod-cta-wa:hover {
   background: #25d366;
   color: #ffffff;
-}
-.prod-img-placeholder {
-  background: linear-gradient(135deg, var(--c-primary-50) 0%, var(--c-bg-soft) 100%);
-  border: 1px solid rgba(32, 17, 97, 0.1);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 40px 20px;
-  color: var(--c-primary);
-  min-height: 200px;
-  width: 100%;
-  max-width: 320px;
-  align-self: start;
-}
-.prod-img-placeholder svg {
-  width: 100px;
-  height: 100px;
-  opacity: 0.65;
-  margin-bottom: 12px;
-}
-.prod-img-label {
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: 0.02em;
 }
 
 /* --- Modal (Teklif) --- */

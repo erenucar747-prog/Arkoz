@@ -7,7 +7,7 @@ Bu dosya, bu repoda çalışan AI asistanlar (Claude Code vb.) için güncel pro
 **Arkoz Gazbeton** — Türkiye'nin en modern gazbeton üretim tesisinin kurumsal web sitesi.
 Havza, Samsun'da faaliyet gösteren şirketin 450.000 m³ kapasiteli tesisini tanıtan, saf HTML/CSS/JS ile yazılmış çok sayfalı bir web sitesidir.
 
-- **Yayın:** GitHub Pages (`gh-pages` branch üzerinden otomatik deploy)
+- **Yayın:** GitHub Pages — `main` branch kökünden doğrudan servis edilir (build adımı yok)
 - **Durum:** Aktif geliştirme — 74+ PR ile düzenli güncellemeler yapılmaktadır
 
 ---
@@ -23,8 +23,8 @@ Arkoz/
 ├── haberler.html           # Haberler sayfası
 ├── insan-kaynaklari.html   # İnsan Kaynakları sayfası
 ├── politikalar.html        # Politikalar sayfası (gizlilik, çerez vb.)
-├── styles.css              # Tüm stiller (1800+ satır, CSS değişkenleri)
-├── script.js               # Etkileşimler ve animasyonlar (660+ satır)
+├── styles.css              # Tüm stiller (6700+ satır, CSS değişkenleri)
+├── script.js               # Etkileşimler ve animasyonlar (770+ satır)
 ├── logo.png                # Arkoz Gazbeton logosu
 ├── slide1.jpeg             # Hero slider görseli
 ├── slide2.jpeg             # Hero slider görseli
@@ -34,12 +34,15 @@ Arkoz/
 ├── arkoz-maksimum-yalitim.jpg  # İçerik görseli
 ├── images/
 │   └── factory-1..5.jpg   # Fabrika görselleri
+├── assets/
+│   ├── css/fonts.css       # Yerel @font-face tanımları (Poppins)
+│   ├── fonts/*.woff2       # Poppins latin + latin-ext (12 dosya)
+│   └── js/lenis.min.js     # Smooth scroll kütüphanesi (repoda barındırılır)
 ├── components/
-│   ├── glowing-effect-demo.tsx   # Shadcn/React referans bileşeni
-│   └── ui/
-│       └── glowing-effect.tsx    # Glowing border efekt bileşeni
-├── lib/
-│   └── utils.ts                  # Yardımcı fonksiyonlar
+│   ├── cookie-banner.js    # KVKK çerez onayı: banner + granular modal
+│   ├── cookie-banner.css
+│   ├── chat-widget.js      # AI asistan; çerez "ai" kategorisine bağlı
+│   └── chat-widget.css
 ├── README.md
 └── CLAUDE.md               # Bu dosya
 ```
@@ -53,11 +56,11 @@ Arkoz/
 | Markup | HTML5 (semantik, `lang="tr"`) |
 | Stil | CSS3 — custom properties, Flexbox, Grid, animasyonlar |
 | Etkileşim | Vanilla JavaScript — framework bağımlılığı yok |
-| 3D / Shader | Three.js r128 (CDN) — WebGL shader animasyonları |
-| Font | Inter (Google Fonts) |
-| Deploy | GitHub Actions → GitHub Pages (`gh-pages` branch) |
+| 3D / Shader | Saf WebGL / GLSL — harici 3D kütüphanesi kullanılmaz |
+| Font | Poppins — **repoda barındırılır** (`assets/fonts/`), harici font isteği yok |
+| Deploy | GitHub Pages, `main` branch kökünden |
 
-> **Not:** `components/` klasöründe `.tsx` dosyaları referans amaçlı bulunmaktadır; projenin kendisi React kullanmamaktadır. Glowing efekt saf CSS/JS ile uygulanmıştır.
+> **Not:** Sayfa açılışında hiçbir üçüncü taraf origin'e istek gitmez. Yazı tipi ve smooth-scroll kütüphanesi repoda barındırılır; gömülü video ve AI asistanı çerez onayına bağlıdır.
 
 ---
 
@@ -71,7 +74,7 @@ Arkoz/
 - **Metin (koyu zemin):** `#f0f0f0`
 
 ### Tipografi
-- **Font:** Inter (300, 400, 600, 700, 900)
+- **Font:** Poppins (300, 400, 500, 600, 700, 800) — yerel `@font-face`, `font-display: swap`
 - **Başlık vurgusu:** `.hero__title--gradient` — beyaz veya krem renk geçişi
 
 ### Bileşenler
@@ -89,7 +92,7 @@ Arkoz/
 4. **Gazbeton** — gazbeton nedir, avantajlar bölümü
 5. **Ürünler** — Arkoz Blok ve Asmolen ürün kartları
 6. **Kurumsal** — şirket hakkında kısa tanıtım
-7. **Mission** — Three.js "Ethereal Beams" shader animasyonu
+7. **Mission** — "Ethereal Beams" shader animasyonu (saf WebGL)
 8. **İletişim** — adres, telefon, e-posta
 
 ---
@@ -99,7 +102,7 @@ Arkoz/
 Projede birden fazla WebGL/shader animasyonu kullanılmaktadır:
 
 - **Intro ekranı:** Saf WebGL GLSL shader (sin tabanlı dalgalar), logo fade-in; `pageshow` eventi ile her yüklemede tetiklenir
-- **Mission bölümü:** Three.js `MeshStandardMaterial.onBeforeCompile` ile "Ethereal Beams" shader; PMREMGenerator ile env map (sol taraf karanlığını giderir)
+- **Mission bölümü:** "Ethereal Beams" shader (saf WebGL; Three.js bağımlılığı kaldırıldı)
 - **Kurumsal hero:** GodRays WebGL shader (köşegen ışık huzmesi, koyu zemin)
 - **Politikalar hero:** Background Paths SVG animasyonu (21st.dev stili)
 - **Ürünler hero:** `page-hero` yöntemi (politikalar ile aynı)
@@ -125,7 +128,7 @@ git push -u origin claude/<açıklama>-<SESSION_ID>
 
 ### Branch Yapısı
 - `main` — üretim kodu (GitHub Pages kaynağı)
-- `gh-pages` — otomatik build çıktısı (Actions tarafından yönetilir)
+- (`gh-pages` branch'i artık kullanılmıyor — yayın doğrudan `main` kökünden)
 - `claude/<açıklama>-<SESSION_ID>` — özellik/düzeltme branch'leri
 
 ### Commit Mesaj Kuralları (Conventional Commits)
@@ -153,7 +156,7 @@ git push -u origin claude/<açıklama>-<SESSION_ID>
 - `const`/`let` kullan, `var` kullanma
 - Tüm DOM sorguları `DOMContentLoaded` içinde veya sonrasında yapılır
 - `null` kontrolü yap: `if (!element) return;`
-- Three.js nesneleri: `animate()` döngüsü ile render, `resize` eventi dinlenir
+- WebGL: `animate()` döngüsü ile render, `resize` eventi dinlenir
 
 ### HTML
 - Tüm `<img>` etiketlerinde `alt` ve `loading="lazy"` bulunmalı
@@ -194,8 +197,8 @@ npm run build
 
 1. **Önce oku** — Düzenlemeden önce ilgili dosyayı her zaman oku
 2. **Minimal değişiklik** — Yalnızca istenen değişikliği yap, kapsam genişletme
-3. **Gereksiz dosya oluşturma** — `.tsx` bileşenleri referans amaçlıdır; yeni HTML/CSS/JS ile çalış
-4. **Animasyonları koru** — Shader ve Three.js kodları hassastır; dokunmadan önce tam bağlamı anla
+3. **Gereksiz dosya oluşturma** — mevcut HTML/CSS/JS ile çalış, yeni yapı kurma
+4. **Animasyonları koru** — Shader kodları hassastır; dokunmadan önce tam bağlamı anla
 5. **Tüm sayfalarda tutarlılık** — Nav, footer ve stil değişkenleri tüm `.html` dosyalarına yansıtılmalıdır
 6. **Yıkıcı eylemler için sor** — Force push, dosya silme veya history sıfırlama öncesinde kullanıcıya sor
 7. **Bu dosyayı güncelle** — Önemli yeni yapı veya kurallar eklendiğinde CLAUDE.md'yi güncelle
@@ -206,7 +209,7 @@ npm run build
 ## Kullanıcı Tercihleri (Geçmiş Oturumlardan Öğrenildi)
 
 ### KESİNLİKLE DOKUNMA
-- **Animasyonlar, renkler, görsel efektler** — Blur, WebGL shader, Three.js, CSS geçişleri, renk değerleri hiçbir şekilde değiştirilmez. Bu kural 2 farklı oturumda revert ile pekiştirildi.
+- **Animasyonlar, renkler, görsel efektler** — Blur, WebGL shader, CSS geçişleri, renk değerleri hiçbir şekilde değiştirilmez. Bu kural 2 farklı oturumda revert ile pekiştirildi.
 - **`background-attachment: fixed`** `.advantage-card__glow` üzerinde — kaldırma, değiştirme
 - **`filter: blur(80px)`** hero blob'larında — değiştirme
 - WebGL renderer'larda `antialias`, `pixelRatio` — görsel kalite ayarları dokunulmaz
@@ -217,7 +220,7 @@ npm run build
 - İstenilmeden ek özellik veya "iyileştirme" eklemek
 
 ### BAŞARILI TAMAMLANAN ÇALIŞMALAR
-- AI chat widget — Vercel proxy üzerinden, tüm sayfalarda (PR #140-147)
+- AI chat widget — sunucu tarafı uç nokta üzerinden, tüm sayfalarda (PR #140-147)
 - Kurumsal sayfa Background Paths animasyonu (PR #136)
 - Gazbeton detay sayfası — 9 sekme, tam içerik (PR #117)
 - Mobil hero görsel oranı — 49vw/55vw dinamik yükseklik (PR #126-132)
