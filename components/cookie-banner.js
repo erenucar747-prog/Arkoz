@@ -36,7 +36,7 @@
     {
       id: 'ai',
       title: 'Yapay Zeka Asistanı',
-      desc: 'Sitedeki yapay zeka asistanını etkinleştirir. Kapalıyken asistan sayfaya hiç eklenmez. Açık olsa dahi asistan, ilk açılışında ayrıca onayınızı ister.',
+      desc: 'Web sitemizdeki yapay zeka asistanı hizmetini etkinleştirir. Kapalıyken asistan yüklenmez. Açık olsa dahi asistan, ilk açılışında ayrıca onayınızı ister.',
       link: { href: POLICY_URL + '#ai', label: 'Aydınlatma Metni' },
       locked: false,
       defaultValue: false,
