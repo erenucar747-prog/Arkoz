@@ -75,12 +75,12 @@
           </button>
         </div>
         <div id="ai-chat-footer">
-          <strong>Arkoz</strong> Yapay Zeka Asistan —
+          <strong>Arkoz</strong> Yapay Zeka Asistanı —
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
         </div>
-        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zeka Asistan Onayı">
+        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zeka Asistanı Onayı">
           <div id="ai-chat-consent__card">
-            <h4 id="ai-chat-consent__title">Yapay Zeka Asistan</h4>
+            <h4 id="ai-chat-consent__title">Yapay Zeka Asistanı</h4>
             <p id="ai-chat-consent__text">
               Bu asistan, yazdığınız mesajları yanıt üretmek amacıyla işler.
               Lütfen kimlik, iletişim, finansal bilgilerinizi ve sağlık, din,

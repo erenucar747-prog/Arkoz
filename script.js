@@ -33,7 +33,11 @@ if (lenis) {
   const isHome = path === '' || path === 'index.html' || path === '/';
   if (!isHome) return;
 
-  if (sessionStorage.getItem('arkoz_intro_v2')) return;
+  try {
+    if (sessionStorage.getItem('arkoz_intro_v2')) return;
+  } catch (_e) {
+    // Depolama engelli — intro yine de bir kez gösterilir, sayfa kilitlenmez.
+  }
 
   const overlay = document.createElement('div');
   overlay.id = 'intro';
@@ -43,7 +47,11 @@ if (lenis) {
   document.documentElement.style.overflow = 'hidden';
 
   const dismiss = () => {
-    sessionStorage.setItem('arkoz_intro_v2', '1');
+    try {
+      sessionStorage.setItem('arkoz_intro_v2', '1');
+    } catch (_e) {
+      // Depolama engelli — overlay yine de kaldırılmalı.
+    }
     overlay.classList.add('is-out');
     document.documentElement.style.overflow = '';
     setTimeout(() => overlay.remove(), 500);
