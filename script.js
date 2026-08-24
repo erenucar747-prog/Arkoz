@@ -12,7 +12,7 @@ const REDUCE_MOTION =
 const lenis =
   !REDUCE_MOTION && typeof Lenis !== 'undefined'
     ? new Lenis({
-        duration: 0.85,
+        duration: 0.55,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         prevent: (node) => !!(node && node.closest && node.closest('#ai-chat-widget')),
       })
@@ -126,7 +126,7 @@ function initReveal() {
     allTargets.forEach((el) => {
       if (el.classList.contains('is-in')) return;
       const r = el.getBoundingClientRect();
-      if (r.top < vh + 200 && r.bottom > -200) {
+      if (r.top < vh + 400 && r.bottom > -200) {
         el.classList.add('is-in');
       }
     });
