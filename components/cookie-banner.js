@@ -3,9 +3,10 @@
  *
  * - Kategoriler: essential (her zaman açık), functional, ai, marketing.
  * - Onay JSON olarak localStorage'da `arkoz_cookie_consent_v2` anahtarında tutulur.
- * - Kullanıcı seçim yapana kadar zorunlu olmayan HİÇBİR kaynak yüklenmez.
- * - Onay değiştiğinde `arkoz:consent-changed` (CustomEvent) yayınlanır; diğer
- *   bileşenler (sohbet asistanı, gömülü video) kendilerini buna göre açar/kapatır.
+ * - Yapay zeka asistanı yalnızca "ai" kategorisi onaylanınca yüklenir; gömülü
+ *   videolar sitenin temel içeriği olarak onaydan bağımsız yüklenir (sahibi kararı).
+ * - Onay değiştiğinde `arkoz:consent-changed` (CustomEvent) yayınlanır; sohbet
+ *   asistanı kendini buna göre açar/kapatır.
  * - "Tercihleri Yönet" butonu ve sol alttaki kalıcı "Çerez Tercihleri" bağlantısı
  *   kararın her an değiştirilmesini sağlar — KVKK Çerez Rehberi gereği.
  */
@@ -29,7 +30,7 @@
     {
       id: 'functional',
       title: 'İşlevsel Çerezler',
-      desc: 'Yalnızca ana sayfadaki gömülü tanıtım videolarının yüklenmesini sağlar. Kapalıyken video yerine tıklanabilir bir kapak gösterilir ve üçüncü taraf sunucuya hiçbir istek gönderilmez.',
+      desc: 'Şu an bu kategoride onaya bağlı bir teknoloji bulunmamaktadır; gömülü tanıtım videoları sitenin temel içeriğinin parçası olarak yüklenir. İleride onaya bağlı bir işlev eklenirse bu metin önceden güncellenir.',
       locked: false,
       defaultValue: false,
     },
@@ -96,9 +97,9 @@
     wrap.innerHTML = `
       <p class="cb-banner__title" id="cb-banner-title">Çerez Tercihleriniz</p>
       <p class="cb-banner__text">
-        Bu sitede reklam ve takip çerezi kullanılmaz. Yalnızca teknik olarak zorunlu
-        kayıtlar ile onayınıza bağlı gömülü video ve yapay zeka asistanı bulunur.
-        Seçim yapmadığınız sürece zorunlu olmayan hiçbir teknoloji çalıştırılmaz. Detaylar:
+        Bu sitede reklam ve takip çerezi kullanılmaz. Teknik olarak zorunlu kayıtlar ve
+        gömülü video içerikleri dışında, onayınıza bağlı tek teknoloji yapay zeka
+        asistanıdır ve siz onaylamadıkça çalıştırılmaz. Detaylar:
         <a href="${POLICY_URL}#cerez">Çerez Politikası</a> ve
         <a href="${POLICY_URL}#kvk">KVKK Aydınlatma Metni</a>.
       </p>
