@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://erenucar747-prog.github.io/Arkoz/sitemap.xml
