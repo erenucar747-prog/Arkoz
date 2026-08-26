@@ -134,13 +134,6 @@
   }
 }
 
-/* Avoid overlapping the AI chat FAB on mobile */
-@media (max-width: 560px) {
-  body.has-ai-fab .cb-banner {
-    bottom: 86px;
-  }
-}
-
 /* ─────────────────── PREFERENCES MODAL ────────────────────── */
 
 .cb-modal {

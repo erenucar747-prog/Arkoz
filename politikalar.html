@@ -81,7 +81,6 @@
             <button class="tab-btn active" data-tab="kvk">Kişisel Verilerin Korunması</button>
             <button class="tab-btn" data-tab="gizlilik">Gizlilik Politikası</button>
             <button class="tab-btn" data-tab="cerez">Çerez Politikası</button>
-            <button class="tab-btn" data-tab="ai">AI Asistan ve Veri İşleme</button>
             <button class="tab-btn" data-tab="aday">Çalışan Adayı Aydınlatma Metni</button>
             <button class="tab-btn" data-tab="acik-riza">Açık Rıza Metni</button>
           </div>
@@ -321,7 +320,7 @@
                 takip pikseli veya profilleme teknolojisi
                 <strong style="color: var(--c-text-strong)">kullanılmamaktadır</strong>. Klasik
                 anlamda HTTP çerezi de kullanılmaz. Yalnızca tarayıcınızın yerel depolama alanında
-                tutulan dört teknik kayıt ile sayfa açıldığında sitenin bir parçası olarak yüklenen
+                tutulan üç teknik kayıt ile sayfa açıldığında sitenin bir parçası olarak yüklenen
                 gömülü video içeriği bulunur. Tamamı aşağıda tek tek listelenmiştir.
               </p>
 
@@ -414,16 +413,6 @@
                       <td style="padding: 12px">Yok</td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--c-line)">
-                      <td style="padding: 12px"><code>arkoz_ai_session_consent</code></td>
-                      <td style="padding: 12px">Oturum depolaması</td>
-                      <td style="padding: 12px">
-                        Yapay zeka asistanına verdiğiniz onayın oturum boyunca hatırlanması
-                      </td>
-                      <td style="padding: 12px">Sekmeyi kapatınca silinir</td>
-                      <td style="padding: 12px">Yapay Zeka Asistanı</td>
-                      <td style="padding: 12px">Yok</td>
-                    </tr>
-                    <tr style="border-bottom: 1px solid var(--c-line)">
                       <td style="padding: 12px">Gömülü tanıtım videoları</td>
                       <td style="padding: 12px">Üçüncü taraf içerik</td>
                       <td style="padding: 12px">
@@ -452,7 +441,7 @@
 
               <h3 style="font-size: 1.1rem; margin-top: 32px">Onay Kategorileri</h3>
               <p>
-                Çerez tercih panelinde dört kategori bulunur. Her biri için ayrı ayrı onay verebilir
+                Çerez tercih panelinde üç kategori bulunur. Her biri için ayrı ayrı onay verebilir
                 veya reddedebilirsiniz.
               </p>
               <p>
@@ -467,15 +456,6 @@
                 kategoride onaya bağlı bir teknoloji bulunmamaktadır. Ana sayfadaki gömülü tanıtım
                 videoları, sitenin temel içeriğinin parçası olarak sayfa açıldığında yüklenir.
                 İleride onaya bağlı bir işlev eklenirse bu bölüm önceden güncellenir.
-              </p>
-              <p>
-                <strong style="color: var(--c-text-strong)">Yapay Zeka Asistanı —</strong> Sitedeki
-                sohbet asistanının yüklenmesini sağlar. Kapalıyken asistan sayfaya hiç eklenmez.
-                Kategori açık olsa dahi, asistan ilk açıldığında ayrıca oturum içi onayınız istenir;
-                onay vermediğiniz sürece hiçbir mesajınız işlenmez. Ayrıntı için
-                <a href="politikalar.html#ai" style="color: var(--color-primary)"
-                  >Yapay Zeka Asistanı Aydınlatma Metni</a
-                >.
               </p>
               <p>
                 <strong style="color: var(--c-text-strong)">Pazarlama ve Analitik —</strong> Bu
@@ -547,135 +527,6 @@
                 hazırlanmıştır. Kullanılan teknolojilerde değişiklik olması hâlinde bu metin ve
                 çerez tercih paneli güncellenir.
               </p>
-            </div>
-          </div>
-
-          <!-- AI Asistan — bağımsız aydınlatma metni -->
-          <div class="tab-panel" id="tab-ai">
-            <div class="content-block">
-              <h3>Yapay Zeka Asistanı Aydınlatma Metni</h3>
-              <p>
-                Sitemizin sağ alt köşesinde yer alan
-                <strong style="color: var(--color-text)">Arkoz Yapay Zeka Asistanı</strong>;
-                ürünlerimiz, hizmetlerimiz ve sıkça sorulan sorular hakkında bilgi vermek amacıyla
-                sunulmuş bir sohbet aracıdır.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Veri Sorumlusu</h3>
-              <p>
-                <strong style="color: var(--color-text)">Arkoz GazBeton San. ve Tic. A.Ş.</strong
-                ><br />
-                Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye<br />
-                <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
-                  >info@arkozgazbeton.com.tr</a
-                >
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">İşlenen Veriler</h3>
-              <p>
-                Yalnızca asistana yazdığınız sohbet mesajlarınız işlenmektedir. Sohbet sırasında
-                <strong style="color: var(--color-text)"
-                  >ad, e-posta, telefon, kimlik numarası, banka veya kart bilgileri</strong
-                >
-                gibi kişisel bilgilerinizi ve
-                <strong style="color: var(--color-text)"
-                  >sağlık, din, etnik köken vb. özel nitelikli kişisel verilerinizi</strong
-                >
-                paylaşmamanızı önemle rica ederiz. Asistan bu tür bilgilerin işlenmesi için
-                tasarlanmamıştır.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">İşleme Amacı</h3>
-              <ul>
-                <li>Sorularınıza yanıt verilmesi</li>
-                <li>Hizmet kalitesinin iyileştirilmesi</li>
-              </ul>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Hukuki Sebep</h3>
-              <p>
-                Verileriniz, KVKK Madde 5/1 kapsamında
-                <strong style="color: var(--color-text)">açık rızanıza</strong> dayanılarak işlenir.
-                Asistanı ilk açtığınızda sohbet penceresinde sunulan onay ekranını kabul etmeniz
-                gerekir; onay vermediğiniz sürece asistan çalışmaz ve hiçbir mesajınız işlenmez.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">
-                Yanıtların Niteliği — Önemli Uyarı
-              </h3>
-              <p>
-                Yapay zeka asistanı tarafından üretilen yanıtlar
-                <strong style="color: var(--color-text)"
-                  >yalnızca bilgi amaçlıdır ve bağlayıcı değildir</strong
-                >. Fiyat, teknik şartname, ürün uygunluğu, teslimat süresi ve sözleşme detayları
-                için lütfen Arkoz Gazbeton yetkili bayisi veya satış ekibi ile teyit ediniz.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Haklarınız (KVKK Madde 11)</h3>
-              <p>
-                Verilerinizin işlenmesine ilişkin olarak KVKK Madde 11 kapsamındaki bilgi alma,
-                düzeltme, silme, işlemeye itiraz ve tazminat talep etme dahil tüm haklarınızı
-                kullanabilirsiniz. Başvurularınızı yazılı olarak veya
-                <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
-                  >info@arkozgazbeton.com.tr</a
-                >
-                adresine e-posta ile iletebilirsiniz.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Onayın Geri Çekilmesi</h3>
-              <p>Açık rızanızı dilediğiniz zaman geri çekebilirsiniz:</p>
-              <ul>
-                <li>
-                  Sohbet penceresinin sağ üst köşesindeki çöp kutusu simgesine basarak sohbet
-                  geçmişinizi anında silebilirsiniz.
-                </li>
-                <li>
-                  Sayfayı kapatarak veya yeniden yükleyerek o oturuma ait onayınızı geri
-                  çekebilirsiniz; sonraki açılışta onay ekranı tekrar gösterilir.
-                </li>
-                <li>
-                  Sol alttaki "🍪 Çerez Tercihleri" bağlantısından yapay zeka asistanı kategorisini
-                  kapatarak asistanı tamamen devre dışı bırakabilirsiniz.
-                </li>
-              </ul>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">İletişim</h3>
-              <p>
-                Yapay zeka asistanı hizmeti veya bu metin hakkındaki her türlü soru için:
-                <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
-                  >info@arkozgazbeton.com.tr</a
-                >
-              </p>
-
-              <h3 id="ai-riza" style="font-size: 1.1rem; margin-top: 40px">
-                Yapay Zeka Asistanı — Açık Rıza Metni
-              </h3>
-              <p>Yapay Zeka Asistanı Aydınlatma Metni'ni okudum ve anladım.</p>
-              <p>
-                Asistana yazdığım sohbet mesajlarının, sorularıma yanıt üretilmesi ve hizmet
-                kalitesinin iyileştirilmesi amacıyla işlenmesine açık rıza veriyorum.
-              </p>
-              <p>
-                Asistana kimlik, iletişim, finansal bilgilerimi ve sağlık, din, üyelik gibi özel
-                nitelikli kişisel verilerimi paylaşmamam gerektiğini biliyorum.
-              </p>
-              <p>
-                Asistanın verdiği yanıtların bilgi amaçlı olduğunu, bağlayıcı olmadığını; fiyat,
-                teknik şartname, ürün uygunluğu, teslimat süresi ve sözleşme detayları için Arkoz
-                Gazbeton yetkili bayisi veya satış ekibi ile teyit edilmesi gerektiğini kabul
-                ederim.
-              </p>
-              <p>Açık rızamı dilediğim zaman geri çekebilirim:</p>
-              <ul>
-                <li>
-                  Sohbet penceresinin sağ üst köşesindeki çöp kutusu simgesiyle sohbet geçmişimi
-                  silerek,
-                </li>
-                <li>
-                  Sayfayı kapatarak veya yeniden yükleyerek — sonraki açılışta onay ekranı tekrar
-                  gösterilir,
-                </li>
-                <li>Çerez Tercihleri bağlantısından yapay zeka asistanı kategorisini kapatarak.</li>
-              </ul>
             </div>
           </div>
 
@@ -1386,7 +1237,7 @@
 
       /* Hash yönlendirme üç durumu karşılar:
          1) Sekme adı            → #kvk / #tab-kvk        : sekmeyi açar
-         2) Sekme içi alt bölüm  → #ai-riza               : sekmeyi açar, bölüme kaydırır
+         2) Sekme içi alt bölüm  → #<bölüm-id>            : sekmeyi açar, bölüme kaydırır
          3) Sekme dışı bölüm     → #ek2                   : varsa açar, kaydırır       */
       function activateTabFromHash() {
         if (!location.hash) return;
@@ -1428,9 +1279,5 @@
     <!-- KVKK Cookie Consent (shared component, opt-in) -->
     <link rel="stylesheet" href="components/cookie-banner.css" />
     <script src="components/cookie-banner.js" defer></script>
-
-    <!-- AI Chat Widget (shared component) -->
-    <link rel="stylesheet" href="components/chat-widget.css" />
-    <script src="components/chat-widget.js" defer></script>
   </body>
 </html>

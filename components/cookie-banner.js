@@ -1,12 +1,12 @@
 /**
  * Arkoz Gazbeton — KVKK Çerez Onayı (opt-in)
  *
- * - Kategoriler: essential (her zaman açık), functional, ai, marketing.
+ * - Kategoriler: essential (her zaman açık), functional, marketing.
  * - Onay JSON olarak localStorage'da `arkoz_cookie_consent_v2` anahtarında tutulur.
- * - Yapay zeka asistanı yalnızca "ai" kategorisi onaylanınca yüklenir; gömülü
- *   videolar sitenin temel içeriği olarak onaydan bağımsız yüklenir (sahibi kararı).
- * - Onay değiştiğinde `arkoz:consent-changed` (CustomEvent) yayınlanır; sohbet
- *   asistanı kendini buna göre açar/kapatır.
+ * - Gömülü videolar sitenin temel içeriği olarak onaydan bağımsız yüklenir (sahibi
+ *   kararı). Şu an onaya bağlı çalışan bir bileşen yoktur.
+ * - Onay değiştiğinde `arkoz:consent-changed` (CustomEvent) yayınlanır; onaya bağlı
+ *   bir bileşen eklenirse bu olayı dinleyerek kendini açar/kapatır.
  * - "Tercihleri Yönet" butonu ve sol alttaki kalıcı "Çerez Tercihleri" bağlantısı
  *   kararın her an değiştirilmesini sağlar — KVKK Çerez Rehberi gereği.
  */
@@ -31,14 +31,6 @@
       id: 'functional',
       title: 'İşlevsel Çerezler',
       desc: 'Şu an bu kategoride onaya bağlı bir teknoloji bulunmamaktadır; gömülü tanıtım videoları sitenin temel içeriğinin parçası olarak yüklenir. İleride onaya bağlı bir işlev eklenirse bu metin önceden güncellenir.',
-      locked: false,
-      defaultValue: false,
-    },
-    {
-      id: 'ai',
-      title: 'Yapay Zeka Asistanı',
-      desc: 'Web sitemizdeki yapay zeka asistanı hizmetini etkinleştirir. Kapalıyken asistan yüklenmez. Açık olsa dahi asistan, ilk açılışında ayrıca onayınızı ister.',
-      link: { href: POLICY_URL + '#ai', label: 'Aydınlatma Metni' },
       locked: false,
       defaultValue: false,
     },
@@ -98,8 +90,8 @@
       <p class="cb-banner__title" id="cb-banner-title">Çerez Tercihleriniz</p>
       <p class="cb-banner__text">
         Bu sitede reklam ve takip çerezi kullanılmaz. Teknik olarak zorunlu kayıtlar ve
-        gömülü video içerikleri dışında, onayınıza bağlı tek teknoloji yapay zeka
-        asistanıdır ve siz onaylamadıkça çalıştırılmaz. Detaylar:
+        gömülü video içerikleri dışında cihazınıza hiçbir kayıt yazılmaz; tercihlerinizi
+        dilediğiniz zaman değiştirebilirsiniz. Detaylar:
         <a href="${POLICY_URL}#cerez">Çerez Politikası</a> ve
         <a href="${POLICY_URL}#kvk">KVKK Aydınlatma Metni</a>.
       </p>
@@ -307,7 +299,7 @@
     }
   }
 
-  // Diğer bileşenler (sohbet asistanı, gömülü video) için küçük okuma yardımcısı.
+  // Onaya bağlı bileşenler için küçük okuma yardımcısı (şu an tüketen bileşen yok).
   window.ArkozConsent = {
     get: () => loadConsent(),
     isGranted: (category) => {
