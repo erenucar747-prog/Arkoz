@@ -14,7 +14,6 @@ const lenis =
     ? new Lenis({
         duration: 0.55,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        prevent: (node) => !!(node && node.closest && node.closest('#ai-chat-widget')),
       })
     : null;
 

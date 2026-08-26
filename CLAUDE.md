@@ -40,9 +40,9 @@ Arkoz/
 │   └── js/lenis.min.js     # KULLANIM DIŞI — smooth scroll kaldırıldı (takılma nedeniyle, sahibi onayı); geri dönüş için tutuluyor
 ├── components/
 │   ├── cookie-banner.js    # KVKK çerez onayı: banner + granular modal
-│   ├── cookie-banner.css
-│   ├── chat-widget.js      # AI asistan; çerez "ai" kategorisine bağlı
-│   └── chat-widget.css
+│   └── cookie-banner.css
+├── _arsiv/
+│   └── yapay-zeka-asistani/ # SİTEDEN KALDIRILDI — widget JS/CSS + politika sekmesi; hiçbir sayfa yüklemez
 ├── README.md
 └── CLAUDE.md               # Bu dosya
 ```
@@ -60,7 +60,7 @@ Arkoz/
 | Font | Poppins — **repoda barındırılır** (`assets/fonts/`), harici font isteği yok |
 | Deploy | GitHub Pages, `main` branch kökünden |
 
-> **Not:** Sayfa açılışında hiçbir üçüncü taraf origin'e istek gitmez. Yazı tipi ve smooth-scroll kütüphanesi repoda barındırılır; gömülü video ve AI asistanı çerez onayına bağlıdır.
+> **Not:** Yazı tipi repoda barındırılır; sayfa açılışında üçüncü tarafa giden tek istek ana sayfadaki gömülü video oynatıcılarıdır (sahibi kararı: onay beklemeden yüklenir). Yapay zeka asistanı siteden kaldırıldı — kodu `_arsiv/yapay-zeka-asistani/` altında durur, hiçbir sayfadan yüklenmez.
 
 ---
 
@@ -220,7 +220,7 @@ npm run build
 - İstenilmeden ek özellik veya "iyileştirme" eklemek
 
 ### BAŞARILI TAMAMLANAN ÇALIŞMALAR
-- AI chat widget — sunucu tarafı uç nokta üzerinden, tüm sayfalarda (PR #140-147)
+- AI chat widget — sunucu tarafı uç nokta üzerinden, tüm sayfalarda (PR #140-147) — **2026-08'de siteden kaldırıldı, kod `_arsiv/` altında**
 - Kurumsal sayfa Background Paths animasyonu (PR #136)
 - Gazbeton detay sayfası — 9 sekme, tam içerik (PR #117)
 - Mobil hero görsel oranı — 49vw/55vw dinamik yükseklik (PR #126-132)

@@ -27,8 +27,6 @@ export default defineConfig({
           'reveal-delay-3',
           'reveal-delay-4',
           'will-animate',
-          'typing',
-          'ai-msg--typing',
           'hero__content--hidden',
           'hero__slide--active',
           'hero__slide--bright',
