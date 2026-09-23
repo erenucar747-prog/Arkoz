@@ -94,12 +94,12 @@
   right: 0;
   bottom: 74px;
   box-sizing: border-box;
-  width: 260px;
+  width: 288px;
   max-width: calc(100vw - 32px);
   display: flex;
   align-items: flex-start;
   gap: 8px;
-  padding: 12px 12px 12px 15px;
+  padding: 13px 12px 13px 16px;
   background: #ffffff;
   color: #2b2a35;
   border: 1px solid rgba(32, 17, 97, 0.07);
@@ -143,6 +143,18 @@
   line-height: 1.5;
   font-weight: 500;
   letter-spacing: -0.01em;
+}
+#ai-chat-teaser-text strong {
+  display: block;
+  font-weight: 700;
+  color: #201161;
+}
+#ai-chat-teaser-role {
+  display: block;
+  margin-top: 2px;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #55536a;
 }
 #ai-chat-teaser-close {
   flex-shrink: 0;
