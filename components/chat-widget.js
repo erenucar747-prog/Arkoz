@@ -103,7 +103,10 @@
         </div>
       </div>
       <div id="ai-chat-teaser" role="button" tabindex="0" aria-label="Arkoz yapay zeka asistanını aç">
-        <p id="ai-chat-teaser-text">Merhaba ben Gazbo 👋</p>
+        <p id="ai-chat-teaser-text">
+          <strong>Merhaba, ben Gazbo 👋</strong>
+          <span id="ai-chat-teaser-role">Arkoz Gazbeton’un kişisel yapay zeka asistanıyım.</span>
+        </p>
         <button id="ai-chat-teaser-close" type="button" aria-label="Tanıtımı kapat">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
             <line x1="18" y1="6" x2="6" y2="18"/>
