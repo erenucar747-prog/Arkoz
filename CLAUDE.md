@@ -40,9 +40,11 @@ Arkoz/
 │   └── js/lenis.min.js     # KULLANIM DIŞI — smooth scroll kaldırıldı (takılma nedeniyle, sahibi onayı); geri dönüş için tutuluyor
 ├── components/
 │   ├── cookie-banner.js    # KVKK çerez onayı: banner + granular modal
-│   └── cookie-banner.css
+│   ├── cookie-banner.css
+│   ├── chat-widget.js      # AI asistan; çerez "ai" kategorisine bağlı, oturum içi açık rıza modalı
+│   └── chat-widget.css
 ├── _arsiv/
-│   └── yapay-zeka-asistani/ # SİTEDEN KALDIRILDI — widget JS/CSS + politika sekmesi; hiçbir sayfa yüklemez
+│   └── yapay-zeka-asistani/ # Tarihsel arşiv (2026-08 kaldırma anındaki kopya + diff); yayın dışı, hiçbir sayfa yüklemez
 ├── README.md
 └── CLAUDE.md               # Bu dosya
 ```
@@ -60,7 +62,7 @@ Arkoz/
 | Font | Poppins — **repoda barındırılır** (`assets/fonts/`), harici font isteği yok |
 | Deploy | GitHub Pages, `main` branch kökünden |
 
-> **Not:** Yazı tipi repoda barındırılır; sayfa açılışında üçüncü tarafa giden tek istek ana sayfadaki gömülü video oynatıcılarıdır (sahibi kararı: onay beklemeden yüklenir). Yapay zeka asistanı siteden kaldırıldı — kodu `_arsiv/yapay-zeka-asistani/` altında durur, hiçbir sayfadan yüklenmez.
+> **Not:** Yazı tipi repoda barındırılır; sayfa açılışında üçüncü tarafa giden tek istek ana sayfadaki gömülü video oynatıcılarıdır (sahibi kararı: onay beklemeden yüklenir). Yapay zeka asistanı yalnızca çerez tercihlerinde "Yapay Zeka Asistanı" kategorisi onaylanınca yüklenir; onay kaldırılınca `destroy()` ile tamamen kaldırılır. (2026-08'de kaldırılmış, 2026-09-23'te tam hâliyle geri eklenmiştir.)
 
 ---
 
@@ -220,7 +222,7 @@ npm run build
 - İstenilmeden ek özellik veya "iyileştirme" eklemek
 
 ### BAŞARILI TAMAMLANAN ÇALIŞMALAR
-- AI chat widget — sunucu tarafı uç nokta üzerinden, tüm sayfalarda (PR #140-147) — **2026-08'de siteden kaldırıldı, kod `_arsiv/` altında**
+- AI chat widget — sunucu tarafı uç nokta üzerinden, tüm sayfalarda (PR #140-147) — 2026-08'de kaldırıldı, **2026-09-23'te sahibi kararıyla eksiksiz geri eklendi**
 - Kurumsal sayfa Background Paths animasyonu (PR #136)
 - Gazbeton detay sayfası — 9 sekme, tam içerik (PR #117)
 - Mobil hero görsel oranı — 49vw/55vw dinamik yükseklik (PR #126-132)

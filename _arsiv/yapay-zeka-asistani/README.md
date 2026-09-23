@@ -1,5 +1,7 @@
 # Arşiv — Yapay Zeka Asistanı
 
+> **GÜNCELLEME (2026-09-23):** Asistan sahibi kararıyla siteye **eksiksiz geri eklendi** (`git apply -R kaldirma.diff`). Bu klasör yalnızca tarihsel kayıt olarak durur; canlı kod `components/chat-widget.js` ve `components/chat-widget.css` dosyalarındadır. Aşağıdaki metin kaldırma anındaki durumu anlatır.
+
 Bu klasördeki kod **web sitesinde çalışmaz**. Asistan, sahibi kararıyla siteden kaldırıldı;
 kod yalnızca ileride geri alınabilsin diye burada tutulur. Hiçbir HTML sayfası bu klasörden
 dosya yüklemez; yayın iş akışı (`.github/workflows/deploy.yml`) klasörü yayın dışı bırakır.
