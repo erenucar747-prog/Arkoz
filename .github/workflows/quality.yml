@@ -6,7 +6,7 @@ name: Code Quality
 
 on:
   push:
-    branches: [main]
+    branches: [main, natro]
   pull_request:
     branches: [main]
 
@@ -24,13 +24,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
 
       - name: Lint araçlarını kur
         run: npm install --no-save --no-audit --no-fund eslint@^10 @eslint/js@^10 prettier@^3
 
       - name: ESLint — JS kalite (bloklayıcı)
         run: npx eslint .
+
+      - name: Node testleri
+        run: node --test tests/*.test.mjs
 
       - name: Prettier — format denetimi (bilgilendirici, bloklamaz)
         run: npx prettier --check "**/*.{js,css,html}"

@@ -58,4 +58,17 @@ export default [
       },
     },
   },
+  {
+    // Node ortamı: testler (node --test)
+    files: ['tests/**/*.mjs'],
+    languageOptions: {
+      globals: {
+        process: 'readonly',
+        console: 'readonly',
+        URL: 'readonly',
+        Buffer: 'readonly',
+        setTimeout: 'readonly',
+      },
+    },
+  },
 ];
