@@ -20,6 +20,13 @@
   const CONSENT_KEY = 'arkoz_cookie_consent_v2';
   const SESSION_CONSENT_KEY = 'arkoz_ai_session_consent';
 
+  // Yalnızca kanonik alan adı. www ayrı bir origin'dir (çerez tercihi ve oturum kaydı ayrı tutulur);
+  // rızanın geri çekilmesi tek origin'de karşılansın diye bilinçli olarak listede yok.
+  const ASSISTANT_HOSTS = ['arkozgazbeton.com.tr'];
+  function isAssistantHost(loc) {
+    return !!loc && loc.protocol === 'https:' && ASSISTANT_HOSTS.indexOf(loc.hostname) !== -1;
+  }
+
   const SUGGESTED_QUESTIONS = [
     'Arkoz Blok özellikleri nelerdir?',
     'Gazbetonun deprem güvenliğine katkısı?',
@@ -481,11 +488,13 @@
   }
 
   function maybeBoot() {
+    if (!isAssistantHost(window.location)) return;
     if (isAIConsented()) init();
   }
 
   // Kategori sonradan açılırsa yükle, kapatılırsa tamamen söküp at.
   window.addEventListener('arkoz:consent-changed', function (e) {
+    if (!isAssistantHost(window.location)) return;
     const granted = !!(e && e.detail && e.detail.ai);
     if (granted) init();
     else destroy();
