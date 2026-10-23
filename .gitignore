@@ -6,3 +6,7 @@ dist/
 
 # favicon generator preview (sadece dev icin, gercek favicon dosyalari root'ta)
 scripts/_preview-crop.png
+
+# Sunucuya özel gizli yapılandırma — asla commit edilmez
+config.php
+arkoz-private/

@@ -1,0 +1,84 @@
+# Natro web köküne (public_html / httpdocs) yüklenecek dosyalar — natro dalından üretilir.
+# Her satırda tek bir repo yolu; # ile başlayan satırlar yorum. Joker yok.
+# Paketleme (components/pii-filter.js bilinçli olarak pakete girmez; açılış adımında ayrıca yüklenir):
+#   git archive --format=zip -o arkoz-web.zip natro -- $(grep -v '^#' deploy/natro/yuklenecek-dosyalar.txt | grep -v '^$' | grep -v '^components/pii-filter.js$')
+#
+IMG_9346.jpeg
+IMG_9346.webp
+android-chrome-192x192.png
+android-chrome-512x512.png
+api/.htaccess
+api/chat.php
+api/lib/.htaccess
+api/lib/bridge.php
+api/lib/pii.php
+api/lib/ratelimit.php
+api/lib/system-prompt.php
+api/lib/upstream.php
+apple-touch-icon.png
+assets/css/fonts.css
+assets/fonts/poppins-300-latin-ext.woff2
+assets/fonts/poppins-300-latin.woff2
+assets/fonts/poppins-400-latin-ext.woff2
+assets/fonts/poppins-400-latin.woff2
+assets/fonts/poppins-500-latin-ext.woff2
+assets/fonts/poppins-500-latin.woff2
+assets/fonts/poppins-600-latin-ext.woff2
+assets/fonts/poppins-600-latin.woff2
+assets/fonts/poppins-700-latin-ext.woff2
+assets/fonts/poppins-700-latin.woff2
+assets/fonts/poppins-800-latin-ext.woff2
+assets/fonts/poppins-800-latin.woff2
+components/chat-widget.css
+components/chat-widget.js
+components/cookie-banner.css
+components/cookie-banner.js
+components/pii-filter.js
+favicon-16x16.png
+favicon-32x32.png
+favicon.ico
+gazbeton.html
+haberler.html
+images/8-mart-kadinlar-gunu.jpeg
+images/arkoz-blok-gazbeton-800x800.jpg
+images/arkoz-gazbeton-deger-katar.jpg
+images/arkoz-gazbeton-konfor-sunar.jpg
+images/arkoz-mt-programi-basladi.jpg
+images/arkoz-web-sitesi-yayina-basladi-600x400.jpg
+images/asmolen-800x800.jpg
+images/cevre-ve-insan-sagligina-dost-1600x480.jpg
+images/deloitte-logo.png
+images/depreme-karsi-dayanikli.jpg
+images/eys-politikasi.png
+images/factory-1.jpg
+images/factory-2.jpg
+images/factory-3.jpg
+images/factory-4.jpg
+images/factory-5.jpg
+images/gazbeton-maksimum-isi-yalitimi-1920x940.jpg
+images/surdurulebilir-bir-dunya-1920x1080.jpg
+images/trios-logo.png
+images/ts-en-iso-14001.png
+images/ts-en-iso-50001.png
+images/ts-en-iso-9001.png
+images/ts-iso-45001.png
+images/tse-belgesi-gazbeton-tutkali.jpg
+images/tse-belgesi-gazbeton.png
+images/tse-deney-raporu-organik-icerik.png
+images/tse-deney-raporu-tutkal.png
+images/turkiyenin-en-modern-gazbeton-fabrikasi-600x400.jpg
+index.html
+insan-kaynaklari.html
+kurumsal.html
+logo.png
+politikalar.html
+robots.txt
+script.js
+site.webmanifest
+sitemap.xml
+styles.css
+urunler.html
+
+# WEB KÖKÜ DIŞI (sunucuda elle oluşturulur, repodan yüklenmez)
+#   <hesap kökü>/arkoz-private/config.php
+#   <hesap kökü>/arkoz-private/ratelimit/

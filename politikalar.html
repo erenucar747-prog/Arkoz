@@ -320,8 +320,9 @@
                 <strong style="color: var(--c-text-strong)">Özet:</strong> Bu sitede reklam çerezi,
                 takip pikseli veya profilleme teknolojisi
                 <strong style="color: var(--c-text-strong)">kullanılmamaktadır</strong>. Klasik
-                anlamda HTTP çerezi de kullanılmaz. Yalnızca tarayıcınızın yerel depolama alanında
-                tutulan dört teknik kayıt ile sayfa açıldığında sitenin bir parçası olarak yüklenen
+                anlamda HTTP çerezi de kullanılmaz. Yalnızca tarayıcınızın depolama alanında tutulan
+                üç teknik kayıt, yapay zeka asistanını etkinleştirip ona açık rıza vermeniz hâlinde
+                yazılan bir oturum kaydı ve sayfa açıldığında sitenin bir parçası olarak yüklenen
                 gömülü video içeriği bulunur. Tamamı aşağıda tek tek listelenmiştir.
               </p>
 
@@ -331,8 +332,9 @@
                 metin dosyasıdır. Yerel depolama (localStorage) ve oturum depolaması
                 (sessionStorage) ise tarayıcınızın sunduğu, aynı amaca hizmet eden benzer
                 teknolojilerdir. Kişisel Verileri Koruma Kurumunun Çerez Uygulamaları Hakkında
-                Rehberi bu teknolojilerin tamamını aynı kapsamda değerlendirdiğinden, bu metin
-                hepsini birden açıklamaktadır.
+                Rehberi yerel depolama gibi benzer teknolojiler için ayrıca yönlendirme
+                içermemektedir; bu metin, şeffaflık amacıyla sitede kullanılan çerez ve benzeri
+                teknolojilerin hepsini birlikte açıklamaktadır.
               </p>
               <p>
                 Bu sitede sunucu tarafından tarayıcınıza
@@ -417,9 +419,15 @@
                       <td style="padding: 12px"><code>arkoz_ai_session_consent</code></td>
                       <td style="padding: 12px">Oturum depolaması</td>
                       <td style="padding: 12px">
-                        Yapay zeka asistanına verdiğiniz onayın oturum boyunca hatırlanması
+                        Yapay zeka asistanı için verdiğiniz açık rızanın bu sekme boyunca
+                        hatırlanması. Yalnızca "1" değerini içerir ve sizi tanımlayan bir bilgi
+                        içermez; yalnızca asistanın onay ekranında rızanızı verdiğinizde yazılır.
                       </td>
-                      <td style="padding: 12px">Sekmeyi kapatınca silinir</td>
+                      <td style="padding: 12px">
+                        Sekmeyi kapatınca tarayıcınız tarafından silinir (kapatılan sekme
+                        tarayıcınız tarafından geri yüklenirse geri gelebilir); Çerez
+                        Tercihleri'nden asistanı kapattığınızda anında silinir
+                      </td>
                       <td style="padding: 12px">Yapay Zeka Asistanı</td>
                       <td style="padding: 12px">Yok</td>
                     </tr>
@@ -469,10 +477,13 @@
                 İleride onaya bağlı bir işlev eklenirse bu bölüm önceden güncellenir.
               </p>
               <p>
-                <strong style="color: var(--c-text-strong)">Yapay Zeka Asistanı —</strong> Sitedeki
-                sohbet asistanının yüklenmesini sağlar. Kapalıyken asistan sayfaya hiç eklenmez.
-                Kategori açık olsa dahi, asistan ilk açıldığında ayrıca oturum içi onayınız istenir;
-                onay vermediğiniz sürece hiçbir mesajınız işlenmez. Ayrıntı için
+                <strong style="color: var(--c-text-strong)">Yapay Zeka Asistanı —</strong> Yapay
+                zeka asistanının yüklenmesine izin verir. Kapalıyken asistan sayfaya hiç eklenmez ve
+                cihazınıza asistana ait hiçbir kayıt yazılmaz. Kategori açıkken asistan, ilk
+                açıldığında sizi ayrıca bilgilendirir ve açık rızanızı ister; rıza vermediğiniz
+                sürece hiçbir mesaj gönderilmez. Sohbet cihazınıza kaydedilmez; yalnızca sayfa açık
+                kaldığı sürece tarayıcınızın belleğinde tutulur. Asistan, arkozgazbeton.com.tr alan
+                adı dışındaki adreslerde yüklenmez. Ayrıntı için
                 <a href="politikalar.html#ai" style="color: var(--color-primary)"
                   >Yapay Zeka Asistanı Aydınlatma Metni</a
                 >.
@@ -555,127 +566,268 @@
             <div class="content-block">
               <h3>Yapay Zeka Asistanı Aydınlatma Metni</h3>
               <p>
-                Sitemizin sağ alt köşesinde yer alan
-                <strong style="color: var(--color-text)">Arkoz Yapay Zeka Asistanı</strong>;
-                ürünlerimiz, hizmetlerimiz ve sıkça sorulan sorular hakkında bilgi vermek amacıyla
-                sunulmuş bir sohbet aracıdır.
+                Bu metin, Arkoz Yapay Zeka Asistanı'nı kullanmanız hâlinde işlenebilecek kişisel
+                verilere ilişkin olarak, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun ("KVKK")
+                10. maddesi uyarınca sizi bilgilendirmek amacıyla hazırlanmıştır. Bu metin yalnızca
+                bilgilendirme amaçlıdır; herhangi bir onay veya kabul beyanı gerektirmez. Asistan
+                için vereceğiniz açık rızanın kapsamı, ayrı bir belge olan
+                <a href="politikalar.html#ai-riza" style="color: var(--color-primary)"
+                  >Yapay Zeka Asistanı Açık Rıza Metni</a
+                >'nde açıklanmıştır.
               </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Veri Sorumlusu</h3>
+              <p>
+                Arkoz Yapay Zeka Asistanı, sorularınıza yapay zeka ile otomatik olarak yanıt üreten
+                bir sohbet aracıdır. Asistan, arkozgazbeton.com.tr alan adı dışındaki adreslerde
+                yüklenmez. Asistanla yazışırken bir insanla değil, bir yapay zeka sistemiyle
+                yazıştığınızı hatırlatırız. Asistan, sorularınızı yanıtlamak için adınıza veya
+                iletişim bilgilerinize ihtiyaç duymayacak şekilde tasarlanmıştır; kullanmak için bu
+                bilgileri vermeniz gerekmez.
+              </p>
+              <h3 style="font-size: 1.1rem; margin-top: 32px">1. Veri Sorumlusu</h3>
               <p>
                 <strong style="color: var(--color-text)">Arkoz GazBeton San. ve Tic. A.Ş.</strong
-                ><br />
-                Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye<br />
-                <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
+                ><br />Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye<br /><a
+                  href="mailto:info@arkozgazbeton.com.tr"
+                  style="color: var(--color-primary)"
                   >info@arkozgazbeton.com.tr</a
                 >
               </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">İşlenen Veriler</h3>
-              <p>
-                Yalnızca asistana yazdığınız sohbet mesajlarınız işlenmektedir. Sohbet sırasında
-                <strong style="color: var(--color-text)"
-                  >ad, e-posta, telefon, kimlik numarası, banka veya kart bilgileri</strong
-                >
-                gibi kişisel bilgilerinizi ve
-                <strong style="color: var(--color-text)"
-                  >sağlık, din, etnik köken vb. özel nitelikli kişisel verilerinizi</strong
-                >
-                paylaşmamanızı önemle rica ederiz. Asistan bu tür bilgilerin işlenmesi için
-                tasarlanmamıştır.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">İşleme Amacı</h3>
+              <h3 style="font-size: 1.1rem; margin-top: 32px">2. İşlenen Veriler</h3>
               <ul>
-                <li>Sorularınıza yanıt verilmesi</li>
-                <li>Hizmet kalitesinin iyileştirilmesi</li>
+                <li>
+                  <strong style="color: var(--color-text)">Soru metinleriniz:</strong> Asistana
+                  yazdığınız mesajlar ile yanıtın konuşmanın akışına uygun olması için aynı
+                  sohbetteki önceki sorularınız ve asistanın yanıtları.
+                </li>
+                <li>
+                  <strong style="color: var(--color-text)">Bağlantı bilgisi:</strong> Sitemizin
+                  diğer sayfalarında olduğu gibi, asistanı kullandığınızda da bağlantının
+                  kurulabilmesi için IP adresiniz sitemizin barındırıldığı sunucu tarafından teknik
+                  olarak işlenir. Asistan, kötüye kullanımı ve aşırı yüklenmeyi önlemek amacıyla IP
+                  adresinizi (IPv6 adreslerinde adresin ağ bölümünü) her gün yenilenen gizli bir
+                  anahtarla özet (hash) değerine dönüştürür ve bu değeri yalnızca istek sayınızı
+                  sınırlamak için kullanır; ham IP adresiniz bu amaçla kaydedilmez.
+                </li>
+                <li>
+                  <strong style="color: var(--color-text)">Tarayıcınızdaki oturum kaydı:</strong>
+                  Asistan için verdiğiniz açık rızayı hatırlamak amacıyla tarayıcınızın oturum
+                  depolamasına, sizi tanımlayan hiçbir bilgi içermeyen tek bir teknik kayıt yazılır.
+                </li>
               </ul>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Hukuki Sebep</h3>
               <p>
-                Verileriniz, KVKK Madde 5/1 kapsamında
-                <strong style="color: var(--color-text)">açık rızanıza</strong> dayanılarak işlenir.
-                Asistanı ilk açtığınızda sohbet penceresinde sunulan onay ekranını kabul etmeniz
-                gerekir; onay vermediğiniz sürece asistan çalışmaz ve hiçbir mesajınız işlenmez.
+                Lütfen asistana ad-soyad, telefon numarası, e-posta adresi, açık adres, T.C. kimlik
+                numarası, banka veya kart bilgisi gibi kişisel verilerinizi ve sağlık, din, etnik
+                köken, dernek veya sendika üyeliği gibi özel nitelikli kişisel verilerinizi
+                yazmayınız; başka kişilere ait bilgileri de paylaşmayınız.
               </p>
-
+              <h3 style="font-size: 1.1rem; margin-top: 32px">3. Kişisel Veri Kontrolü</h3>
+              <p>
+                Mesajınız, gönderilmeden önce tarayıcınızda, ardından sitemizin barındırıldığı
+                sunucuda otomatik bir kişisel veri kontrolünden geçirilir. Tarayıcınızdaki kontrolde
+                telefon numarası, e-posta adresi, T.C. kimlik numarası, IBAN veya vergi kimlik
+                numarası tespit edilen mesajlar asistan tarafından hiç gönderilmez; sunucudaki
+                kontrolde tespit edilen mesajlar ise yanıtlanmaz, kaydedilmez ve yanıt üretiminde
+                kullanılmaz. Otomatik kontrol her türlü kişisel veriyi tanıyamaz; ad-soyad, adres
+                veya kendinizi tanıtan anlatımlar tespit edilemeyebilir. Bu nedenle bu tür bilgileri
+                yazmamanızı önemle rica ederiz.
+              </p>
+              <h3 style="font-size: 1.1rem; margin-top: 32px">4. İşleme Amaçları</h3>
+              <ul>
+                <li>Asistana yazdığınız sorulara yanıt üretilmesi,</li>
+                <li>
+                  Kişisel veri içeren mesajların tespit edilerek gönderilmesinin ve yanıt üretiminde
+                  kullanılmasının engellenmesi,
+                </li>
+                <li>
+                  Asistanın güvenliğinin sağlanması, kötüye kullanımın ve aşırı yüklenmenin
+                  önlenmesi.
+                </li>
+              </ul>
+              <p>
+                Sohbet içerikleri bu amaçlar dışında kullanılmaz; pazarlama, profilleme veya yapay
+                zeka modellerinin eğitimi amacıyla kullanılmaz.
+              </p>
               <h3 style="font-size: 1.1rem; margin-top: 32px">
-                Yanıtların Niteliği — Önemli Uyarı
+                5. Toplama Yöntemi ve Hukuki Sebep
               </h3>
               <p>
-                Yapay zeka asistanı tarafından üretilen yanıtlar
-                <strong style="color: var(--color-text)"
-                  >yalnızca bilgi amaçlıdır ve bağlayıcı değildir</strong
-                >. Fiyat, teknik şartname, ürün uygunluğu, teslimat süresi ve sözleşme detayları
-                için lütfen Arkoz Gazbeton yetkili bayisi veya satış ekibi ile teyit ediniz.
+                Veriler, asistan penceresine yazdığınız mesajlar ve asistanla kurduğunuz bağlantı
+                aracılığıyla elektronik ortamda ve tamamen otomatik yollarla elde edilir.
               </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Haklarınız (KVKK Madde 11)</h3>
               <p>
-                Verilerinizin işlenmesine ilişkin olarak KVKK Madde 11 kapsamındaki bilgi alma,
-                düzeltme, silme, işlemeye itiraz ve tazminat talep etme dahil tüm haklarınızı
-                kullanabilirsiniz. Başvurularınızı yazılı olarak veya
+                Soru metinlerinizin yanıt üretilmesi amacıyla işlenmesi, KVKK madde 5/1 uyarınca
+                açık rızanıza dayanır. Açık rıza vermezseniz asistan hiçbir mesaj göndermez; sitenin
+                diğer tüm bölümlerini ve iletişim kanallarımızı kullanmaya devam edebilirsiniz.
+                Mesajlarınızın kişisel veri kontrolünden geçirilmesi, kötüye kullanımın önlenmesi
+                amacıyla IP adresinizin özet değerinin işlenmesi ve bağlantı bilgilerinizin teknik
+                olarak işlenmesi ise KVKK madde 5/2-f kapsamında, temel hak ve özgürlüklerinize
+                zarar vermemek kaydıyla Şirketimizin asistanın güvenliğini sağlama ve kişisel
+                verilerin gereksiz yere işlenmesini önleme yönündeki meşru menfaatine dayanır; bu
+                işlemeler açık rızanıza bağlı değildir. Asistan, özel nitelikli kişisel veri işlemek
+                amacıyla kullanılmaz.
+              </p>
+              <h3 style="font-size: 1.1rem; margin-top: 32px">6. Alıcı Grupları ve Amaçları</h3>
+              <p>
+                Asistan kapsamında aşağıdaki alıcı gruplarıyla, belirtilen amaçlarla sınırlı olarak
+                çalışılır:
+              </p>
+              <ul>
+                <li>
+                  <strong style="color: var(--color-text)"
+                    >Barındırma ve bilgi teknolojileri hizmeti aldığımız tedarikçi:</strong
+                  >
+                  Sitemizin ve asistanın teknik olarak çalıştırılması amacıyla; bağlantı
+                  bilgileriniz ve kişisel veri kontrolü sırasında mesajlarınız bakımından.
+                </li>
+                <li>
+                  <strong style="color: var(--color-text)">Yapay zeka hizmet sağlayıcımız:</strong>
+                  Kişisel veri kontrolünden geçen soru metinleriniz, aynı sohbetteki önceki soru ve
+                  yanıtlarla birlikte, yanıtın üretilmesi ve hizmetin güvenliğinin sağlanması
+                  amacıyla yapay zeka hizmet sağlayıcımız tarafından işlenir. IP adresiniz, tarayıcı
+                  ve cihaz bilgileriniz, çerez veya oturum kimliğiniz gibi sizi tanımlamaya
+                  yarayabilecek bilgiler yapay zeka hizmet sağlayıcımızla paylaşılmaz. Hizmet
+                  sağlayıcımız bu metinleri yapay zeka modellerinin eğitiminde kullanmaz; hizmetin
+                  güvenliği amacıyla kendi sistemlerinde tutar ve genel kural olarak en geç 30 gün
+                  içinde siler. Kötüye kullanım şüphesiyle otomatik olarak işaretlenen içerikleri
+                  ise iki yıla kadar saklayabilir.
+                </li>
+              </ul>
+              <p>
+                Kanunen yetkili kamu kurum ve kuruluşlarının hukuka uygun talepleri saklı kalmak
+                üzere, asistan kapsamında işlenen verileriniz bunların dışında üçüncü kişilerle
+                paylaşılmaz.
+              </p>
+              <h3 style="font-size: 1.1rem; margin-top: 32px">7. Saklama Süreleri</h3>
+              <ul>
+                <li>
+                  <strong style="color: var(--color-text)">Sohbet içeriği:</strong> Şirketimiz
+                  tarafından herhangi bir veri tabanında veya kayıt dosyasında saklanmaz. Sohbet
+                  yalnızca siz sayfadayken tarayıcınızın belleğinde tutulur; başka bir sayfaya
+                  geçtiğinizde, sayfayı yenilediğinizde veya kapattığınızda ya da "Sohbeti sil"
+                  düğmesine bastığınızda silinir.
+                </li>
+                <li>
+                  <strong style="color: var(--color-text)"
+                    >İstek sınırı kaydı (IP adresinizin özet değeri, o günkü istek sayınız ve son
+                    isteğinizin yapıldığı dakika):</strong
+                  >
+                  Yalnızca içinde bulunulan gün için kullanılır; gün sona erdikten sonra asistana
+                  gelen ilk istekte, özet değerini oluşturan günlük anahtarla birlikte silinir.
+                  Sohbet içeriği içermez.
+                </li>
+                <li>
+                  <strong style="color: var(--color-text)">Sunucu erişim kayıtları:</strong>
+                  Sitemizin barındırıldığı sunucuda tutulan bağlantı kayıtları (IP adresi, bağlantı
+                  zamanı, erişilen sayfa adresi ve tarayıcı bilgisi gibi) sohbet içeriği içermez.
+                  Barındırma hizmeti aldığımız tedarikçi, bağlantılara ilişkin trafik bilgilerini
+                  5651 sayılı Kanun kapsamındaki yükümlülüğü gereğince mevzuatta öngörülen süre
+                  boyunca saklar.
+                </li>
+                <li>
+                  <strong style="color: var(--color-text)">Tarayıcınızdaki oturum kaydı:</strong>
+                  Sekmeyi kapattığınızda tarayıcınız tarafından silinir (kapatılan sekmeyi
+                  tarayıcınızın geri yükleme özelliğiyle yeniden açmanız hâli hariç); Çerez
+                  Tercihleri'nden asistanı kapattığınızda ise anında silinir.
+                </li>
+              </ul>
+              <p>
+                Bu nedenle asistan kapsamında Şirketimiz nezdinde size ait bir sohbet kaydı
+                bulunmaz.
+              </p>
+              <h3 style="font-size: 1.1rem; margin-top: 32px">8. Haklarınız (KVKK Madde 11)</h3>
+              <p>KVKK'nın 11. maddesi uyarınca Şirketimize başvurarak;</p>
+              <ul>
+                <li>kişisel verilerinizin işlenip işlenmediğini öğrenme,</li>
+                <li>işlenmişse buna ilişkin bilgi talep etme,</li>
+                <li>
+                  işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,
+                </li>
+                <li>
+                  yurt içinde veya yurt dışında kişisel verilerinizin aktarıldığı üçüncü kişileri
+                  bilme,
+                </li>
+                <li>eksik veya yanlış işlenmiş olması hâlinde düzeltilmesini isteme,</li>
+                <li>
+                  KVKK'nın 7. maddesindeki şartlar çerçevesinde silinmesini veya yok edilmesini
+                  isteme,
+                </li>
+                <li>
+                  bu düzeltme, silme veya yok etme işlemlerinin kişisel verilerin aktarıldığı üçüncü
+                  kişilere bildirilmesini isteme,
+                </li>
+                <li>
+                  işlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi
+                  suretiyle aleyhinize bir sonucun ortaya çıkmasına itiraz etme,
+                </li>
+                <li>
+                  kanuna aykırı işleme sebebiyle zarara uğramanız hâlinde zararın giderilmesini
+                  talep etme
+                </li>
+              </ul>
+              <p>haklarına sahipsiniz.</p>
+              <h3 style="font-size: 1.1rem; margin-top: 32px">9. Başvuru</h3>
+              <p>
+                Haklarınıza ilişkin taleplerinizi,
+                <a href="politikalar.html#ek2" style="color: var(--color-primary)"
+                  >Veri Sorumlusuna Başvuru Formu</a
+                >'nu doldurup imzalayarak yukarıdaki adresimize yazılı olarak iletebilir; güvenli
+                elektronik imza veya mobil imza ile imzalayarak ya da daha önce Şirketimize
+                bildirdiğiniz ve sistemimizde kayıtlı e-posta adresinizi kullanarak
                 <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
                   >info@arkozgazbeton.com.tr</a
                 >
-                adresine e-posta ile iletebilirsiniz.
+                adresine gönderebilirsiniz. Başvurunuz, talebin niteliğine göre en kısa sürede ve en
+                geç otuz gün içinde ücretsiz olarak sonuçlandırılır; işlemin ayrıca bir maliyet
+                gerektirmesi hâlinde Kişisel Verileri Koruma Kurulunca belirlenen tarifedeki ücret
+                alınabilir.
               </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Onayın Geri Çekilmesi</h3>
+              <h3 style="font-size: 1.1rem; margin-top: 32px">
+                10. Açık Rızanın Geri Çekilmesi ve Tercihleriniz
+              </h3>
               <p>Açık rızanızı dilediğiniz zaman geri çekebilirsiniz:</p>
               <ul>
                 <li>
-                  Sohbet penceresinin sağ üst köşesindeki çöp kutusu simgesine basarak sohbet
-                  geçmişinizi anında silebilirsiniz.
+                  Sayfanın sol alt köşesindeki "Çerez Tercihleri" bağlantısından "Yapay Zeka
+                  Asistanı" kategorisini kapattığınızda asistan, sitemizin o tarayıcıda açık olan
+                  sayfalarından anında kaldırılır ve tarayıcınızdaki oturum kaydı silinir. Rızanızı
+                  kesin olarak geri çekmenin yolu budur.
                 </li>
                 <li>
-                  Sayfayı kapatarak veya yeniden yükleyerek o oturuma ait onayınızı geri
-                  çekebilirsiniz; sonraki açılışta onay ekranı tekrar gösterilir.
-                </li>
-                <li>
-                  Sol alttaki "🍪 Çerez Tercihleri" bağlantısından yapay zeka asistanı kategorisini
-                  kapatarak asistanı tamamen devre dışı bırakabilirsiniz.
+                  Sekmeyi kapattığınızda oturum kaydı tarayıcınız tarafından silinir; asistanı
+                  yeniden açtığınızda bilgilendirme ve rıza ekranı tekrar gösterilir. Kapatılan
+                  sekmeyi tarayıcınızın geri yükleme özelliğiyle yeniden açarsanız oturum kaydı da
+                  geri gelebilir.
                 </li>
               </ul>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">İletişim</h3>
               <p>
-                Yapay zeka asistanı hizmeti veya bu metin hakkındaki her türlü soru için:
+                Açılış ekranında "Vazgeç"i seçerseniz asistan hiçbir mesaj göndermez. "Sohbeti sil"
+                düğmesi yalnızca sohbeti siler, rızanızı geri çekmez. Sayfayı yenilemek de rızanızı
+                geri çekmez; oturum kaydı aynı sekmede korunur. Rızanın geri çekilmesi geleceğe
+                yönelik sonuç doğurur; Şirketimiz nezdinde sohbet kaydı tutulmadığından silinmesi
+                gereken bir kayıt oluşmaz.
+              </p>
+              <p>
+                Genel bilgi için
+                <a href="politikalar.html#kvk" style="color: var(--color-primary)"
+                  >KVKK Aydınlatma Metnimizi</a
+                >
+                inceleyebilirsiniz. Asistanın işleyişinde değişiklik olması hâlinde bu metin,
+                değişiklik uygulanmadan önce güncellenir.
+              </p>
+              <h3 style="font-size: 1.1rem; margin-top: 40px">
+                Önemli Uyarı — Yanıtların Niteliği
+              </h3>
+              <p>
+                Asistanın yanıtları yapay zeka tarafından otomatik olarak üretilir; eksik, güncel
+                olmayan veya hatalı olabilir. Yanıtlar yalnızca genel bilgilendirme amaçlıdır;
+                teklif, taahhüt, garanti veya teknik onay niteliği taşımaz ve bağlayıcı değildir.
+                Fiyat, stok, teslimat süresi, teknik şartname, ürünün projenize uygunluğu ve
+                sözleşme koşulları için lütfen satış ekibimizle (0 (850) 317 55 55,
                 <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
                   >info@arkozgazbeton.com.tr</a
-                >
+                >) veya yetkili bayimizle teyit ediniz. Statik hesap, yangın ve ısı yalıtımı gibi
+                mühendislik kararları için yetkili bir mühendisin değerlendirmesine başvurunuz.
               </p>
-
-              <h3 id="ai-riza" style="font-size: 1.1rem; margin-top: 40px">
-                Yapay Zeka Asistanı — Açık Rıza Metni
-              </h3>
-              <p>Yapay Zeka Asistanı Aydınlatma Metni'ni okudum ve anladım.</p>
-              <p>
-                Asistana yazdığım sohbet mesajlarının, sorularıma yanıt üretilmesi ve hizmet
-                kalitesinin iyileştirilmesi amacıyla işlenmesine açık rıza veriyorum.
-              </p>
-              <p>
-                Asistana kimlik, iletişim, finansal bilgilerimi ve sağlık, din, üyelik gibi özel
-                nitelikli kişisel verilerimi paylaşmamam gerektiğini biliyorum.
-              </p>
-              <p>
-                Asistanın verdiği yanıtların bilgi amaçlı olduğunu, bağlayıcı olmadığını; fiyat,
-                teknik şartname, ürün uygunluğu, teslimat süresi ve sözleşme detayları için Arkoz
-                Gazbeton yetkili bayisi veya satış ekibi ile teyit edilmesi gerektiğini kabul
-                ederim.
-              </p>
-              <p>Açık rızamı dilediğim zaman geri çekebilirim:</p>
-              <ul>
-                <li>
-                  Sohbet penceresinin sağ üst köşesindeki çöp kutusu simgesiyle sohbet geçmişimi
-                  silerek,
-                </li>
-                <li>
-                  Sayfayı kapatarak veya yeniden yükleyerek — sonraki açılışta onay ekranı tekrar
-                  gösterilir,
-                </li>
-                <li>Çerez Tercihleri bağlantısından yapay zeka asistanı kategorisini kapatarak.</li>
-              </ul>
             </div>
           </div>
 
@@ -773,6 +925,187 @@
                   >info@arkozgazbeton.com.tr</a
                 >
                 adresine ileterek kullanabilirsiniz.
+              </p>
+            </div>
+          </div>
+
+          <!-- Açık Rıza Metni — Aydınlatma Metninden ayrı belge (İlke Kararı 2026/347) -->
+          <div class="tab-panel" id="tab-acik-riza">
+            <div class="content-block">
+              <h3 id="acik-riza">Açık Rıza Metni</h3>
+              <p
+                style="
+                  background: var(--c-primary-50);
+                  border: 1px solid var(--c-primary-12);
+                  border-radius: var(--r-md);
+                  padding: var(--s-5) var(--s-6);
+                  margin-bottom: var(--s-7, 32px);
+                  font-size: var(--fs-15);
+                "
+              >
+                Bu metin, Aydınlatma Metninden
+                <strong style="color: var(--c-text-strong)">ayrı ve bağımsız</strong> bir belgedir.
+                Aydınlatma Metni sizi bilgilendirmek içindir ve onay gerektirmez; bu metin ise
+                yalnızca <strong style="color: var(--c-text-strong)">isteğe bağlı</strong> olarak
+                vereceğiniz açık rızanın kapsamını tanımlar.
+              </p>
+
+              <h3 style="font-size: 1.1rem; margin-top: 32px">Veri Sorumlusu</h3>
+              <p>
+                <strong style="color: var(--c-text-strong)"
+                  >Arkoz GazBeton Sanayi ve Ticaret A.Ş.</strong
+                ><br />
+                Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye<br />
+                <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
+                  >info@arkozgazbeton.com.tr</a
+                >
+              </p>
+
+              <h3 style="font-size: 1.1rem; margin-top: 32px">
+                1. İletişim ve Teklif Formları İçin Açık Rıza
+              </h3>
+              <p>
+                İletişim veya teklif formunu doldurduğunuzda paylaştığınız ad, soyad, e-posta ve
+                telefon bilgileriniz,
+                <strong style="color: var(--c-text-strong)">talebinizin sonuçlandırılması</strong>
+                amacıyla işlenir. Bu işleme, KVKK Madde 5/2 kapsamında gerçekleştirilir ve
+                <strong style="color: var(--c-text-strong)">açık rızanıza bağlı değildir</strong>.
+              </p>
+              <p>Açık rızanız yalnızca şu ek işleme için istenmektedir:</p>
+              <ul>
+                <li>
+                  Talebiniz sonuçlandırıldıktan
+                  <strong style="color: var(--c-text-strong)">sonra</strong>
+                  da iletişim bilgilerinizin saklanması,
+                </li>
+                <li>
+                  Ürün, hizmet ve projelerimizle ilgili olarak ileride tarafınızla iletişime
+                  geçilmesi.
+                </li>
+              </ul>
+              <p>
+                Bu kutucuğu işaretlemeseniz de formunuz gönderilir ve talebiniz normal şekilde
+                sonuçlandırılır. Açık rıza vermek
+                <strong style="color: var(--c-text-strong)">tamamen isteğe bağlıdır</strong> ve
+                hizmet almanızın şartı değildir.
+              </p>
+
+              <h3 style="font-size: 1.1rem; margin-top: 32px">
+                2. İş Başvurusu (Çalışan Adayı) İçin Açık Rıza
+              </h3>
+              <p>
+                İş başvurusu formunu doldurduğunuzda paylaştığınız bilgiler, başvurduğunuz pozisyon
+                kapsamında
+                <strong style="color: var(--c-text-strong)">işe alım sürecinin yürütülmesi</strong>
+                amacıyla işlenir. Bu işleme de açık rızanıza bağlı değildir; hukuki sebebi
+                <a href="politikalar.html#aday" style="color: var(--color-primary)"
+                  >Çalışan Adayı Aydınlatma Metni</a
+                >'nde açıklanmıştır.
+              </p>
+              <p>Açık rızanız yalnızca şu ek işleme için istenmektedir:</p>
+              <ul>
+                <li>
+                  Başvurunuzun sonuçlanmasının ardından, ileride açılacak pozisyonlarda
+                  değerlendirilmek üzere
+                  <strong style="color: var(--c-text-strong)">aday havuzumuzda saklanması</strong>.
+                </li>
+              </ul>
+              <p>
+                Bu kutucuğu işaretlememeniz başvurunuzun değerlendirilmesini etkilemez; yalnızca
+                başvurunuz sonuçlandıktan sonra verileriniz aday havuzunda tutulmaz.
+              </p>
+
+              <h3 style="font-size: 1.1rem; margin-top: 32px">3. Saklama Süresi</h3>
+              <p>
+                Açık rızaya dayanılarak saklanan verileriniz,
+                <strong style="color: var(--c-text-strong)"
+                  >açık rızanızı geri çekmeniz hâlinde derhâl</strong
+                >
+                silinir, yok edilir veya anonim hâle getirilir. Rızanız devam ettiği sürece veriler,
+                yukarıda belirtilen amaçlarla sınırlı olmak üzere saklanır.
+              </p>
+
+              <h3 style="font-size: 1.1rem; margin-top: 32px">4. Açık Rızanın Geri Çekilmesi</h3>
+              <p>
+                Açık rızanızı dilediğiniz zaman, hiçbir gerekçe göstermeksizin ve ücretsiz olarak
+                geri çekebilirsiniz. Bunun için
+                <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
+                  >info@arkozgazbeton.com.tr</a
+                >
+                adresine e-posta göndermeniz veya
+                <a href="politikalar.html#ek2" style="color: var(--color-primary)"
+                  >Veri Sorumlusuna Başvuru Formu</a
+                >'nu iletmeniz yeterlidir.
+              </p>
+              <p>
+                Geri çekme talebiniz, geleceğe yönelik sonuç doğurur; geri çekme tarihine kadar
+                yapılmış işlemlerin hukuka uygunluğunu etkilemez.
+              </p>
+
+              <h3 style="font-size: 1.1rem; margin-top: 32px">5. Haklarınız</h3>
+              <p>
+                Kişisel verilerinize ilişkin KVKK Madde 11 kapsamındaki tüm haklarınızı
+                <a href="politikalar.html#ek2" style="color: var(--color-primary)"
+                  >Veri Sorumlusuna Başvuru Formu</a
+                >
+                aracılığıyla kullanabilirsiniz. Ayrıntılı bilgi için
+                <a href="politikalar.html#kvk" style="color: var(--color-primary)"
+                  >KVKK Aydınlatma Metni</a
+                >'ni inceleyebilirsiniz.
+              </p>
+
+              <h3 id="ai-riza" style="font-size: 1.1rem; margin-top: 40px">
+                Yapay Zeka Asistanı Açık Rıza Metni
+              </h3>
+              <p>
+                Bu bölüm yalnızca Yapay Zeka Asistanı için vereceğiniz açık rızaya ilişkindir ve
+                <a href="politikalar.html#ai" style="color: var(--color-primary)"
+                  >Yapay Zeka Asistanı Aydınlatma Metni</a
+                >'nden ayrı bir belgedir. Yukarıdaki 3. ve 4. bölümler iletişim formları ve iş
+                başvuruları için geçerlidir; asistan için saklama ve geri çekme kuralları bu bölümde
+                açıklanmıştır.
+              </p>
+              <p>
+                <strong style="color: var(--c-text-strong)">Rızanın konusu:</strong> Asistana
+                yazacağınız soru metinlerinin ve aynı sohbetteki önceki soru ve yanıtların, otomatik
+                kişisel veri kontrolünden geçirildikten sonra, sorularınıza yanıt üretilmesi
+                amacıyla yapay zeka hizmet sağlayıcımız tarafından işlenmesi.
+              </p>
+              <p>
+                <strong style="color: var(--c-text-strong)"
+                  >Rızanın kapsamı dışında kalanlar:</strong
+                >
+                Pazarlama, profilleme ve yapay zeka modellerinin eğitimi; verileriniz bu amaçlarla
+                işlenmez. Asistan özel nitelikli kişisel veri işlemek amacıyla kullanılmaz ve bu tür
+                veriler için rızanız istenmez; lütfen sağlık, din, etnik köken, dernek veya sendika
+                üyeliği gibi bilgileri yazmayınız.
+              </p>
+              <p>
+                <strong style="color: var(--c-text-strong)">Saklama:</strong> Sohbet içeriği
+                Şirketimiz tarafından saklanmaz; bu nedenle rızanızı geri çektiğinizde Şirketimiz
+                nezdinde silinmesi gereken bir sohbet kaydı bulunmaz.
+              </p>
+              <p>
+                <strong style="color: var(--c-text-strong)">İsteğe bağlılık:</strong> Rıza vermek
+                isteğe bağlıdır. Rıza vermemeniz hâlinde yalnızca asistanı kullanamazsınız; sitenin
+                diğer tüm bölümleri, iletişim formlarımız, telefon ve e-posta kanallarımız bundan
+                etkilenmez.
+              </p>
+              <p>
+                <strong style="color: var(--c-text-strong)">Geri çekme:</strong> Rızanızı
+                dilediğiniz zaman, gerekçe göstermeksizin geri çekebilirsiniz. Bunun kesin yolu,
+                sayfanın sol alt köşesindeki "Çerez Tercihleri" bağlantısından "Yapay Zeka Asistanı"
+                kategorisini kapatmaktır. Sekmeyi kapattığınızda da oturum kaydı tarayıcınız
+                tarafından silinir; ancak kapatılan sekmeyi tarayıcınızın geri yükleme özelliğiyle
+                yeniden açarsanız bu kayıt geri gelebilir. "Sohbeti sil" düğmesi yalnızca sohbeti
+                siler, rızanızı geri çekmez. Geri çekme geleceğe yönelik sonuç doğurur.
+              </p>
+              <p>
+                <strong style="color: var(--c-text-strong)">Beyan:</strong> Rızanız, asistanın onay
+                ekranındaki önceden işaretlenmemiş şu kutucuğu işaretleyip "Sohbete Başla" düğmesine
+                basmanızla verilir: "Yapay Zeka Asistanı Açık Rıza Metni kapsamında, asistana
+                yazacağım soru metinlerinin yanıt üretilmesi amacıyla yapay zeka hizmet sağlayıcımız
+                tarafından işlenmesine açık rıza veriyorum."
               </p>
             </div>
           </div>
@@ -996,133 +1329,6 @@
                 <p>Posta adresi: Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye</p>
               </div>
             </details>
-          </div>
-
-          <!-- Açık Rıza Metni — Aydınlatma Metninden ayrı belge (İlke Kararı 2026/347) -->
-          <div class="tab-panel" id="tab-acik-riza">
-            <div class="content-block">
-              <h3 id="acik-riza">Açık Rıza Metni</h3>
-              <p
-                style="
-                  background: var(--c-primary-50);
-                  border: 1px solid var(--c-primary-12);
-                  border-radius: var(--r-md);
-                  padding: var(--s-5) var(--s-6);
-                  margin-bottom: var(--s-7, 32px);
-                  font-size: var(--fs-15);
-                "
-              >
-                Bu metin, Aydınlatma Metninden
-                <strong style="color: var(--c-text-strong)">ayrı ve bağımsız</strong> bir belgedir.
-                Aydınlatma Metni sizi bilgilendirmek içindir ve onay gerektirmez; bu metin ise
-                yalnızca <strong style="color: var(--c-text-strong)">isteğe bağlı</strong> olarak
-                vereceğiniz açık rızanın kapsamını tanımlar.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">Veri Sorumlusu</h3>
-              <p>
-                <strong style="color: var(--c-text-strong)"
-                  >Arkoz GazBeton Sanayi ve Ticaret A.Ş.</strong
-                ><br />
-                Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye<br />
-                <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
-                  >info@arkozgazbeton.com.tr</a
-                >
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">
-                1. İletişim ve Teklif Formları İçin Açık Rıza
-              </h3>
-              <p>
-                İletişim veya teklif formunu doldurduğunuzda paylaştığınız ad, soyad, e-posta ve
-                telefon bilgileriniz,
-                <strong style="color: var(--c-text-strong)">talebinizin sonuçlandırılması</strong>
-                amacıyla işlenir. Bu işleme, KVKK Madde 5/2 kapsamında gerçekleştirilir ve
-                <strong style="color: var(--c-text-strong)">açık rızanıza bağlı değildir</strong>.
-              </p>
-              <p>Açık rızanız yalnızca şu ek işleme için istenmektedir:</p>
-              <ul>
-                <li>
-                  Talebiniz sonuçlandırıldıktan
-                  <strong style="color: var(--c-text-strong)">sonra</strong>
-                  da iletişim bilgilerinizin saklanması,
-                </li>
-                <li>
-                  Ürün, hizmet ve projelerimizle ilgili olarak ileride tarafınızla iletişime
-                  geçilmesi.
-                </li>
-              </ul>
-              <p>
-                Bu kutucuğu işaretlemeseniz de formunuz gönderilir ve talebiniz normal şekilde
-                sonuçlandırılır. Açık rıza vermek
-                <strong style="color: var(--c-text-strong)">tamamen isteğe bağlıdır</strong> ve
-                hizmet almanızın şartı değildir.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">
-                2. İş Başvurusu (Çalışan Adayı) İçin Açık Rıza
-              </h3>
-              <p>
-                İş başvurusu formunu doldurduğunuzda paylaştığınız bilgiler, başvurduğunuz pozisyon
-                kapsamında
-                <strong style="color: var(--c-text-strong)">işe alım sürecinin yürütülmesi</strong>
-                amacıyla işlenir. Bu işleme de açık rızanıza bağlı değildir; hukuki sebebi
-                <a href="politikalar.html#aday" style="color: var(--color-primary)"
-                  >Çalışan Adayı Aydınlatma Metni</a
-                >'nde açıklanmıştır.
-              </p>
-              <p>Açık rızanız yalnızca şu ek işleme için istenmektedir:</p>
-              <ul>
-                <li>
-                  Başvurunuzun sonuçlanmasının ardından, ileride açılacak pozisyonlarda
-                  değerlendirilmek üzere
-                  <strong style="color: var(--c-text-strong)">aday havuzumuzda saklanması</strong>.
-                </li>
-              </ul>
-              <p>
-                Bu kutucuğu işaretlememeniz başvurunuzun değerlendirilmesini etkilemez; yalnızca
-                başvurunuz sonuçlandıktan sonra verileriniz aday havuzunda tutulmaz.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">3. Saklama Süresi</h3>
-              <p>
-                Açık rızaya dayanılarak saklanan verileriniz,
-                <strong style="color: var(--c-text-strong)"
-                  >açık rızanızı geri çekmeniz hâlinde derhâl</strong
-                >
-                silinir, yok edilir veya anonim hâle getirilir. Rızanız devam ettiği sürece veriler,
-                yukarıda belirtilen amaçlarla sınırlı olmak üzere saklanır.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">4. Açık Rızanın Geri Çekilmesi</h3>
-              <p>
-                Açık rızanızı dilediğiniz zaman, hiçbir gerekçe göstermeksizin ve ücretsiz olarak
-                geri çekebilirsiniz. Bunun için
-                <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
-                  >info@arkozgazbeton.com.tr</a
-                >
-                adresine e-posta göndermeniz veya
-                <a href="politikalar.html#ek2" style="color: var(--color-primary)"
-                  >Veri Sorumlusuna Başvuru Formu</a
-                >'nu iletmeniz yeterlidir.
-              </p>
-              <p>
-                Geri çekme talebiniz, geleceğe yönelik sonuç doğurur; geri çekme tarihine kadar
-                yapılmış işlemlerin hukuka uygunluğunu etkilemez.
-              </p>
-
-              <h3 style="font-size: 1.1rem; margin-top: 32px">5. Haklarınız</h3>
-              <p>
-                Kişisel verilerinize ilişkin KVKK Madde 11 kapsamındaki tüm haklarınızı
-                <a href="politikalar.html#ek2" style="color: var(--color-primary)"
-                  >Veri Sorumlusuna Başvuru Formu</a
-                >
-                aracılığıyla kullanabilirsiniz. Ayrıntılı bilgi için
-                <a href="politikalar.html#kvk" style="color: var(--color-primary)"
-                  >KVKK Aydınlatma Metni</a
-                >'ni inceleyebilirsiniz.
-              </p>
-            </div>
           </div>
         </div>
       </section>
@@ -1431,6 +1637,7 @@
 
     <!-- AI Chat Widget (shared component) -->
     <link rel="stylesheet" href="components/chat-widget.css" />
+    <script src="components/pii-filter.js" defer></script>
     <script src="components/chat-widget.js" defer></script>
   </body>
 </html>

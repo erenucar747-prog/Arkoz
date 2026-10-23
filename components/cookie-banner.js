@@ -3,8 +3,8 @@
  *
  * - Kategoriler: essential (her zaman açık), functional, ai, marketing.
  * - Onay JSON olarak localStorage'da `arkoz_cookie_consent_v2` anahtarında tutulur.
- * - Yapay zeka asistanı yalnızca "ai" kategorisi onaylanınca yüklenir; gömülü
- *   videolar sitenin temel içeriği olarak onaydan bağımsız yüklenir (sahibi kararı).
+ * - Yapay zeka asistanı yalnızca "ai" kategorisi onaylanınca ve yalnızca üretim alan adında
+ *   yüklenir; gömülü videolar sitenin temel içeriği olarak onaydan bağımsız yüklenir (sahibi kararı).
  * - Onay değiştiğinde `arkoz:consent-changed` (CustomEvent) yayınlanır; sohbet
  *   asistanı kendini buna göre açar/kapatır.
  * - "Tercihleri Yönet" butonu ve sol alttaki kalıcı "Çerez Tercihleri" bağlantısı
@@ -37,7 +37,7 @@
     {
       id: 'ai',
       title: 'Yapay Zeka Asistanı',
-      desc: 'Web sitemizdeki yapay zeka asistanı hizmetini etkinleştirir. Kapalıyken asistan yüklenmez. Açık olsa dahi asistan, ilk açılışında ayrıca onayınızı ister.',
+      desc: 'Yapay zeka asistanının yüklenmesine izin verir. Kapalıyken asistan yüklenmez. Açık olsa dahi asistan, ilk kullanımda sizi ayrıca bilgilendirir ve açık rızanızı ister; kişisel veri içerdiği tespit edilen mesajları göndermez. Asistan, arkozgazbeton.com.tr alan adı dışındaki adreslerde yüklenmez.',
       link: { href: POLICY_URL + '#ai', label: 'Aydınlatma Metni' },
       locked: false,
       defaultValue: false,

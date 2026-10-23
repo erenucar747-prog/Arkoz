@@ -35,6 +35,22 @@ jobs:
       - name: Node testleri
         run: node --test tests/*.test.mjs
 
+      - name: PHP sözdizimi
+        run: |
+          php -v
+          for f in api/chat.php api/lib/*.php deploy/natro/*.php tests/php/*.php; do
+            php -l "$f" || exit 1
+          done
+
+      - name: PHP birim testleri
+        run: php tests/php/run.php
+
+      - name: PHP entegrasyon testi
+        run: bash tests/php/integration.sh
+
+      - name: PHP 8.1 uyumluluk
+        run: docker run --rm -v "$PWD":/app -w /app php:8.1-cli php tests/php/run.php
+
       - name: Prettier — format denetimi (bilgilendirici, bloklamaz)
         run: npx prettier --check "**/*.{js,css,html}"
         continue-on-error: true

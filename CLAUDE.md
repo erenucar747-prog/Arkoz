@@ -41,8 +41,15 @@ Arkoz/
 ├── components/
 │   ├── cookie-banner.js    # KVKK çerez onayı: banner + granular modal
 │   ├── cookie-banner.css
-│   ├── chat-widget.js      # AI asistan; çerez "ai" kategorisine bağlı, oturum içi açık rıza modalı
-│   └── chat-widget.css
+│   ├── chat-widget.js      # AI asistan; aynı-origin köprüye bağlı, yalnızca üretim alan adında kurulur, iki kutucuklu açık rıza ekranı
+│   ├── chat-widget.css
+│   └── pii-filter.js       # Tarayıcı kişisel veri filtresi (window.ArkozPII); yoksa widget kurulmaz
+├── api/
+│   ├── chat.php            # Asistan köprüsü giriş noktası (aynı origin, /api/chat.php)
+│   ├── .htaccess           # error_log ve *.log erişim engeli
+│   └── lib/                # bridge.php (zincir), pii.php (yedek filtre), ratelimit.php, upstream.php, system-prompt.php, .htaccess
+├── tests/                  # node --test (pii-filter, chat-client, repo-guards) + tests/php/ (birim + entegrasyon)
+├── deploy/natro/           # config.example.php, tani.php (geçici tanılama), yuklenecek-dosyalar.txt
 ├── _arsiv/
 │   └── yapay-zeka-asistani/ # Tarihsel arşiv (2026-08 kaldırma anındaki kopya + diff); yayın dışı, hiçbir sayfa yüklemez
 ├── README.md
@@ -62,7 +69,7 @@ Arkoz/
 | Font | Poppins — **repoda barındırılır** (`assets/fonts/`), harici font isteği yok |
 | Deploy | GitHub Pages, `main` branch kökünden |
 
-> **Not:** Yazı tipi repoda barındırılır; sayfa açılışında üçüncü tarafa giden tek istek ana sayfadaki gömülü video oynatıcılarıdır (sahibi kararı: onay beklemeden yüklenir). Yapay zeka asistanı yalnızca çerez tercihlerinde "Yapay Zeka Asistanı" kategorisi onaylanınca yüklenir; onay kaldırılınca `destroy()` ile tamamen kaldırılır. (2026-08'de kaldırılmış, 2026-09-23'te tam hâliyle geri eklenmiştir.)
+> **Not:** Yazı tipi repoda barındırılır; sayfa açılışında üçüncü tarafa giden tek istek ana sayfadaki gömülü video oynatıcılarıdır (sahibi kararı: onay beklemeden yüklenir). Yapay zeka asistanı yalnızca çerez tercihlerinde "Yapay Zeka Asistanı" kategorisi onaylanınca yüklenir; onay kaldırılınca `destroy()` ile tamamen kaldırılır. Asistan istekleri aynı origin'deki `/api/chat.php` köprüsüne gider; kişisel veri kontrolü iki katmanlıdır (tarayıcıda `pii-filter.js`, sunucuda `api/lib/pii.php`) ve tespit varsa mesaj tarayıcıdan hiç çıkmaz. Asistan yalnızca kanonik üretim alan adında (`https://arkozgazbeton.com.tr`, www hariç) kurulur.
 
 ---
 
@@ -183,7 +190,12 @@ npm run lint
 
 # Üretime (Production) hazır, gereksiz CSS'leri silinmiş paket oluştur
 npm run build
+
+# Node testleri (kişisel veri filtresi, istemci çekirdeği, repo koruma kontrolleri)
+npm test
 ```
+
+PHP köprüsünün testleri (`tests/php/run.php`, `tests/php/integration.sh`) yerelde PHP olmadığı için CI'da çalışır: sözdizimi denetimi, birim testleri, yerleşik sunucuyla entegrasyon ve PHP 8.1 uyumluluk adımı.
 
 ---
 
@@ -192,6 +204,8 @@ npm run build
 - Gizli bilgi, API anahtarı veya `.env` dosyası commit'leme
 - `--no-verify` ile hook'ları atlatma
 - Harici form/backend eklenirse tüm kullanıcı girdilerini doğrula
+- Köprü config'i ve anahtarlar web kökünün dışındaki özel dizinde (`<hesap kökü>/arkoz-private/`) durur; `config.php` ve `arkoz-private/` `.gitignore`'dadır, repoya girmez
+- Yukarı akışa ziyaretçi IP'si, tarayıcı bilgisi, çerez ya da oturum kimliği gönderilmez; sohbet içeriği loglanmaz
 
 ---
 
@@ -222,7 +236,7 @@ npm run build
 - İstenilmeden ek özellik veya "iyileştirme" eklemek
 
 ### BAŞARILI TAMAMLANAN ÇALIŞMALAR
-- AI chat widget — sunucu tarafı uç nokta üzerinden, tüm sayfalarda (PR #140-147) — 2026-08'de kaldırıldı, **2026-09-23'te sahibi kararıyla eksiksiz geri eklendi**
+- AI chat widget — sunucu tarafı uç nokta üzerinden, tüm sayfalarda (PR #140-147) — 2026-08'de kaldırıldı, **2026-09-23'te sahibi kararıyla eksiksiz geri eklendi**; 2026-09-25'te `natro` dalında aynı-origin PHP köprüsüne taşındı, kişisel veri filtresi ve yeni aydınlatma/açık rıza metinleri eklendi
 - Kurumsal sayfa Background Paths animasyonu (PR #136)
 - Gazbeton detay sayfası — 9 sekme, tam içerik (PR #117)
 - Mobil hero görsel oranı — 49vw/55vw dinamik yükseklik (PR #126-132)

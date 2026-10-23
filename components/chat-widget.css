@@ -178,6 +178,7 @@
 
 /* ------------ Panel ------------ */
 #ai-chat-panel {
+  position: relative;
   display: none;
   flex-direction: column;
   width: 360px;
@@ -191,6 +192,10 @@
     0 6px 18px rgba(15, 8, 50, 0.08);
   transform-origin: bottom right;
   animation: ai-panel-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Onay ekranı açıkken panel küçük hâlinde kalıp kartı kırpmasın. */
+#ai-chat-panel.is-consent {
+  min-height: min(540px, 70vh);
 }
 @keyframes ai-panel-in {
   from {
@@ -564,6 +569,10 @@
     0 4px 12px rgba(0, 0, 0, 0.15);
   width: 100%;
   max-width: 320px;
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  outline: none;
   text-align: left;
   animation: ai-consent-in 0.28s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -583,13 +592,13 @@
   color: #201161;
   margin: 0 0 8px;
 }
-#ai-chat-consent__text {
+.ai-chat-consent__text {
   font-size: 0.875rem;
   line-height: 1.55;
   color: #1a1a1a;
   margin: 0 0 12px;
 }
-#ai-chat-consent__check {
+.ai-chat-consent__check {
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -599,7 +608,7 @@
   cursor: pointer;
   margin: 0 0 12px;
 }
-#ai-chat-consent__check input {
+.ai-chat-consent__check input {
   margin-top: 2px;
   width: auto;
   flex-shrink: 0;
@@ -612,12 +621,15 @@
   font-size: 0.78rem;
   margin: 0 0 16px;
 }
-#ai-chat-consent__link a {
+/* Onay metnindeki iletişim bağlantıları da aynı bağlantı görünümünü alır (erişilebilirlik). */
+#ai-chat-consent__link a,
+.ai-chat-consent__text a {
   color: #2e1a8a;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
-#ai-chat-consent__link a:hover {
+#ai-chat-consent__link a:hover,
+.ai-chat-consent__text a:hover {
   color: #4db848;
 }
 #ai-chat-consent__actions {

@@ -1,19 +1,24 @@
 /**
  * Arkoz Gazbeton — Yapay Zeka Asistan Widget
- * - System prompt sunucu tarafında (güvenlik: frontend prompt sızdırmıyor)
- * - Input length 1000 chars, history son 20 mesaj
- * - 800ms send debounce, kullanıcı dostu hata mesajları
- * - Çerez tercihlerindeki "yapay zeka asistanı" kategorisi açıksa widget yüklenir;
- *   kategori kapatılırsa `destroy()` ile tamamen kaldırılır.
- * - Asistan açıldığında oturuma özel onay ekranı gösterilir; onay verilmeden
- *   input kilitli kalır ve hiçbir mesaj işlenmez (sessionStorage ile tutulur,
- *   sayfa kapatılınca sıfırlanır).
+ * - Aynı-origin köprü: istekler yalnızca /api/chat.php adresine gider; dış uç nokta yok.
+ * - İki katmanlı kişisel veri kontrolü: tarayıcıda (window.ArkozPII) tespit varsa fetch hiç
+ *   çağrılmaz ve metin kutuda kalır; sunucudaki yedek kontrol 422 döndürürse sohbet geçmişi
+ *   tamamen sıfırlanır.
+ * - Kullanıcı mesajı en fazla 500 karakter; geçmiş yalnızca bellekte, son 20 mesaj.
+ * - Yalnızca kanonik üretim alan adında (https://arkozgazbeton.com.tr) kurulur; www dahil başka
+ *   hiçbir adreste kurulmaz. window.ArkozPII yoksa hiç kurulmaz (fail-closed).
+ * - Çerez tercihlerindeki "Yapay Zeka Asistanı" kategorisi açıksa yüklenir; kategori kapatılınca
+ *   (aynı sekmede ya da başka bir sekmede) destroy() ile tamamen kaldırılır.
+ * - İlk açılışta bilgilendirme ve açık rıza ekranı; oturum kaydı sessionStorage'da tutulur.
+ * - Sayfadan ayrılınca (pagehide) sohbet sıfırlanır.
  */
 (function () {
   'use strict';
 
-  const API = 'https://arkoz-ai.vercel.app/api/chat';
-  const MAX_INPUT_LENGTH = 1000;
+  const root = typeof window !== 'undefined' ? window : globalThis;
+
+  const ENDPOINT = '/api/chat.php';
+  const MAX_INPUT_LENGTH = 500;
   const MAX_HISTORY = 20;
   const SEND_DEBOUNCE_MS = 800;
   const TEASER_DELAY_MS = 3000;
@@ -23,30 +28,208 @@
   // Yalnızca kanonik alan adı. www ayrı bir origin'dir (çerez tercihi ve oturum kaydı ayrı tutulur);
   // rızanın geri çekilmesi tek origin'de karşılansın diye bilinçli olarak listede yok.
   const ASSISTANT_HOSTS = ['arkozgazbeton.com.tr'];
+
+  const QUICK_ACTIONS = [
+    { label: 'Ürün özellikleri', send: 'Ürünlerinizin özellikleri nelerdir?' },
+    {
+      label: 'Teknik bilgi ve uygulama',
+      send: 'Ürünlerinizin teknik değerleri ve uygulaması hakkında bilgi verir misiniz?',
+    },
+    { label: 'Fiyat teklifi almak istiyorum', local: 'teklif' },
+    { label: 'Bayi olmak istiyorum', local: 'bayi' },
+  ];
+
+  const LOCAL_REPLIES = {
+    teklif:
+      'Fiyat teklifi taleplerini sohbet üzerinden almıyoruz; lütfen kişisel bilgilerinizi buraya yazmayın. Teklif için İletişim bölümümüzdeki formu kullanabilir veya 0 (850) 317 55 55 numaralı müşteri hattımızı arayabilirsiniz. Fiyatlar proje ve miktara göre belirlenir.',
+    bayi: 'Bayilik başvurularını sohbet üzerinden almıyoruz; lütfen kişisel bilgilerinizi buraya yazmayın. Bayilik için İletişim bölümümüzdeki formu kullanabilir, firma tanıtımınızı info@arkozgazbeton.com.tr adresine gönderebilir veya 0 (850) 317 55 55 numaralı müşteri hattımızı arayabilirsiniz.',
+  };
+
+  const SERVER_BLOCKED_FALLBACK =
+    'Mesajınız kişisel bir bilgi içerebileceği için yanıtlanmadı ve sunucumuzda kaydedilmedi. Lütfen kişisel bilgilerinizi çıkararak sorunuzu yeniden yazın.';
+
+  const WELCOME_MESSAGE =
+    'Merhaba! Ben **Arkoz Gazbeton**’un yapay zeka asistanıyım. Ürünlerimiz ve gazbeton hakkındaki sorularınızı yanıtlayabilirim. Yanıtlarım otomatik olarak üretilir ve bağlayıcı değildir; lütfen kişisel bilgilerinizi yazmayın.';
+
+  // ------------ Saf çekirdek (DOM'suz; testlerde doğrudan kullanılır) ------------
   function isAssistantHost(loc) {
     return !!loc && loc.protocol === 'https:' && ASSISTANT_HOSTS.indexOf(loc.hostname) !== -1;
   }
 
-  const SUGGESTED_QUESTIONS = [
-    'Arkoz Blok özellikleri nelerdir?',
-    'Gazbetonun deprem güvenliğine katkısı?',
-    'ISO sertifikalarınız neler?',
-    'Bayi listesi nedir?',
-    'Teklif nasıl alabilirim?',
-    'Üretim kapasiteniz ne kadar?',
-  ];
+  function canBoot(win) {
+    return (
+      !!win &&
+      isAssistantHost(win.location) &&
+      !!win.ArkozPII &&
+      typeof win.ArkozPII.detect === 'function'
+    );
+  }
+
+  function friendlyError(status) {
+    if (status === 429) return 'Çok hızlı yazıyorsunuz, birkaç saniye bekleyip tekrar deneyin.';
+    if (status === 403) return 'Bu istek reddedildi. Lütfen sayfayı yenileyip tekrar deneyin.';
+    if (status === 400) return 'Mesajınızı anlamadım, lütfen daha kısa yazar mısınız?';
+    if (status >= 500) return 'Asistan şu anda yanıt veremiyor, kısa süre sonra tekrar deneyin.';
+    return 'Bir hata oluştu, lütfen tekrar deneyin.';
+  }
+
+  // Tarayıcıda engellenen mesaj için uyarı metni; liste ORDER sırasıyla LABELS'tan gelir.
+  function piiBlockedMessage(types) {
+    const pii = root.ArkozPII;
+    const order = pii && pii.ORDER ? pii.ORDER : [];
+    const labels = pii && pii.LABELS ? pii.LABELS : {};
+    const names = order.filter((t) => types.indexOf(t) !== -1).map((t) => labels[t] || t);
+    let liste = names[0] || '';
+    if (names.length > 1) {
+      liste = names.slice(0, -1).join(', ') + ' ve ' + names[names.length - 1];
+    }
+    return (
+      'Mesajınız gönderilmedi: mesajınızda ' +
+      liste +
+      ' tespit edildi. Lütfen bu bilgiyi silerek sorunuzu yeniden yazın. Size özel teklif veya geri dönüş için İletişim bölümümüzdeki formu kullanabilir ya da 0 (850) 317 55 55 numaralı müşteri hattımızı arayabilirsiniz.'
+    );
+  }
+
+  function escapeHtml(s) {
+    return s
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  // Görseller hiçbir zaman <img> olmaz; yalnızca https:// bağlantıya çevrilir.
+  function mdToHtml(text) {
+    let s = escapeHtml(String(text));
+    s = s.replace(
+      /!\[([^\]]*?)\]\((https:\/\/[^)\s]+?)\)/g,
+      (_m, alt, url) =>
+        '<a href="' +
+        url +
+        '" target="_blank" rel="noopener noreferrer nofollow">' +
+        (alt || url) +
+        '</a>'
+    );
+    s = s.replace(
+      /\[([^\]]+?)\]\((https:\/\/[^)\s]+?)\)/g,
+      '<a href="$2" target="_blank" rel="noopener noreferrer nofollow">$1</a>'
+    );
+    s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+    return s.replace(/\n/g, '<br>');
+  }
+
+  function createChatClient(opts) {
+    const endpoint = opts.endpoint;
+    const fetchImpl = opts.fetchImpl;
+    const detect = opts.detect;
+    const maxHistory = opts.maxHistory;
+    const maxInput = opts.maxInput;
+
+    async function send(history, text) {
+      const t = String(text == null ? '' : text).trim();
+      if (!t) return { kind: 'empty' };
+      if (t.length > maxInput) return { kind: 'too-long' };
+      const det = detect(t);
+      if (det && det.blocked) return { kind: 'blocked', types: det.types };
+
+      history.push({ role: 'user', content: t });
+      while (history.length > maxHistory) history.shift();
+
+      let res;
+      try {
+        res = await fetchImpl(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ messages: history.slice(-maxHistory) }),
+          credentials: 'omit',
+          cache: 'no-store',
+          redirect: 'error',
+        });
+      } catch (_e) {
+        return { kind: 'error', message: 'Bağlantı hatası. İnternet bağlantınızı kontrol edin.' };
+      }
+
+      let data = null;
+      try {
+        data = await res.json();
+      } catch (_e) {
+        // gövde JSON değil — data null kalır
+      }
+
+      if (res.status === 422 || (data && data.blocked === true)) {
+        // Sunucu geçmişteki bütün user mesajlarını denetler; sohbetin kalıcı olarak
+        // kilitlenmemesi için geçmiş tamamen boşaltılır.
+        history.length = 0;
+        return {
+          kind: 'server-blocked',
+          types: (data && data.types) || [],
+          message: (data && data.error) || SERVER_BLOCKED_FALLBACK,
+        };
+      }
+      if (!res.ok) {
+        return { kind: 'error', message: (data && data.error) || friendlyError(res.status) };
+      }
+      const reply = data && data.content && data.content[0] && data.content[0].text;
+      if (!reply || typeof reply !== 'string') {
+        return { kind: 'error', message: 'Boş bir yanıt geldi, lütfen tekrar deneyin.' };
+      }
+      history.push({ role: 'assistant', content: reply });
+      while (history.length > maxHistory) history.shift();
+      return { kind: 'ok', reply };
+    }
+
+    return { send };
+  }
+
+  root.ArkozChatCore = Object.freeze({
+    createChatClient,
+    mdToHtml,
+    isAssistantHost,
+    canBoot,
+    piiBlockedMessage,
+    friendlyError,
+    QUICK_ACTIONS,
+    LOCAL_REPLIES,
+    ENDPOINT,
+    MAX_INPUT_LENGTH,
+    MAX_HISTORY,
+  });
+
+  if (typeof document === 'undefined') return;
+
+  // ------------ DOM / UI ------------
   const LOGO_SRC = (function () {
-    // Find existing logo path on the page (works whether root or subpath)
+    // Sayfadaki logo yolunu bul (kök ya da alt yol fark etmez)
     const navLogo = document.querySelector('img[src$="logo.png"]');
     return navLogo ? navLogo.getAttribute('src') : 'logo.png';
   })();
 
-  // ------------ DOM Injection ------------
+  let initialized = false;
+  let resetChat = null;
+
+  function hasSessionConsent() {
+    try {
+      return sessionStorage.getItem(SESSION_CONSENT_KEY) === '1';
+    } catch (_e) {
+      return false;
+    }
+  }
+
+  function setSessionConsent(value) {
+    try {
+      if (value) sessionStorage.setItem(SESSION_CONSENT_KEY, '1');
+      else sessionStorage.removeItem(SESSION_CONSENT_KEY);
+    } catch (_e) {
+      // sessionStorage kapalı — onay yalnızca bu görünüm boyunca geçerli olur.
+    }
+  }
+
   function injectDOM() {
     if (document.getElementById('ai-chat-widget')) return;
-    const root = document.createElement('div');
-    root.id = 'ai-chat-widget';
-    root.innerHTML = `
+    const el = document.createElement('div');
+    el.id = 'ai-chat-widget';
+    el.innerHTML = `
       <div id="ai-chat-panel" aria-hidden="true" role="dialog" aria-label="Arkoz AI Asistan">
         <div id="ai-chat-header">
           <div id="ai-chat-header-info">
@@ -70,9 +253,9 @@
             </button>
           </div>
         </div>
-        <div id="ai-chat-messages"></div>
+        <div id="ai-chat-messages" aria-live="polite"></div>
         <div id="ai-chat-input-row">
-          <input id="ai-chat-input" type="text" placeholder="Mesajınızı yazın…" autocomplete="off" maxlength="${MAX_INPUT_LENGTH}" aria-label="Mesaj"/>
+          <input id="ai-chat-input" type="text" placeholder="Mesajınızı yazın…" autocomplete="off" spellcheck="false" enterkeyhint="send" maxlength="${MAX_INPUT_LENGTH}" aria-label="Mesaj"/>
           <span id="ai-chat-counter" aria-live="polite">${MAX_INPUT_LENGTH}</span>
           <button id="ai-chat-send" aria-label="Gönder" type="button">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -86,24 +269,26 @@
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
         </div>
         <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zeka Asistanı Onayı">
-          <div id="ai-chat-consent__card">
+          <div id="ai-chat-consent__card" tabindex="-1">
             <h4 id="ai-chat-consent__title">Yapay Zeka Asistanı</h4>
-            <p id="ai-chat-consent__text">
-              Bu asistan, yazdığınız mesajları yanıt üretmek amacıyla işler.
-              Lütfen kimlik, iletişim, finansal bilgilerinizi ve sağlık, din,
-              üyelik gibi özel nitelikli kişisel verilerinizi paylaşmayınız.
-              Yanıtlar bilgi amaçlıdır, bağlayıcı değildir.
-            </p>
-            <label id="ai-chat-consent__check" for="ai-chat-consent-agree">
+            <p class="ai-chat-consent__text">Bu asistan yapay zeka ile çalışır; yanıtlar otomatik olarak üretilir, bilgilendirme amaçlıdır ve bağlayıcı değildir.</p>
+            <p class="ai-chat-consent__text">Sorularınız, yanıt üretilmesi amacıyla yapay zeka hizmet sağlayıcımız tarafından işlenir; IP adresiniz ve tarayıcı bilgileriniz bu kapsamda paylaşılmaz. Sohbet içeriği Şirketimiz tarafından kaydedilmez.</p>
+            <p class="ai-chat-consent__text">Lütfen ad-soyad, telefon, e-posta, adres, kimlik, banka veya kart bilgisi ile sağlık, din gibi özel nitelikli kişisel verilerinizi yazmayınız. Telefon numarası, e-posta adresi, T.C. kimlik numarası, IBAN veya vergi kimlik numarası tespit edilen mesajlar gönderilmez.</p>
+            <p class="ai-chat-consent__text">Asistanı kullanmak istemezseniz sorularınızı <a href="tel:08503175555">0850 317 55 55</a> numaralı telefonumuzdan, <a href="mailto:info@arkozgazbeton.com.tr">info@arkozgazbeton.com.tr</a> adresinden veya <a href="index.html#iletisim">teklif formumuzdan</a> iletebilirsiniz; sitenin diğer tüm bölümlerini açık rıza vermeden kullanmaya devam edebilirsiniz.</p>
+            <label class="ai-chat-consent__check" for="ai-chat-consent-read">
+              <input type="checkbox" id="ai-chat-consent-read" />
+              <span>Yapay Zeka Asistanı Aydınlatma Metni'ni okudum ve anladım.</span>
+            </label>
+            <label class="ai-chat-consent__check" for="ai-chat-consent-agree">
               <input type="checkbox" id="ai-chat-consent-agree" />
-              <span>Açık Rıza Metni kapsamında sohbet mesajlarımın işlenmesine açık rıza veriyorum.</span>
+              <span>Yapay Zeka Asistanı Açık Rıza Metni kapsamında, asistana yazacağım soru metinlerinin yanıt üretilmesi amacıyla yapay zeka hizmet sağlayıcımız tarafından işlenmesine açık rıza veriyorum.</span>
             </label>
             <p id="ai-chat-consent__link">
               <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
               <a href="politikalar.html#ai-riza" target="_blank" rel="noopener">Açık Rıza Metni</a>
             </p>
             <div id="ai-chat-consent__actions">
-              <button id="ai-chat-consent-accept" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--primary" disabled>Kabul Et</button>
+              <button id="ai-chat-consent-accept" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--primary" disabled>Sohbete Başla</button>
               <button id="ai-chat-consent-decline" type="button" class="ai-chat-consent__btn ai-chat-consent__btn--secondary">Vazgeç</button>
             </div>
           </div>
@@ -131,28 +316,27 @@
         </svg>
       </button>
     `;
-    document.body.appendChild(root);
+    document.body.appendChild(el);
     document.body.classList.add('has-ai-fab');
   }
 
-  // ------------ Markdown rendering (safe) ------------
-  function mdToHtml(text) {
-    let s = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    s = s.replace(
-      /!\[([^\]]*?)\]\((https?:\/\/[^)]+?)\)/g,
-      '<img src="$2" alt="$1" style="max-width:100%;border-radius:8px;margin-top:6px;display:block;">'
-    );
-    s = s.replace(
-      /\[([^\]]+?)\]\((https?:\/\/[^)]+?)\)/g,
-      '<a href="$2" target="_blank" rel="noopener">$1</a>'
-    );
-    s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    s = s.replace(/\n/g, '<br>');
-    return s;
+  // ------------ Çerez tercihi kontrolü ------------
+  // "Yapay Zeka Asistanı" kategorisi kapalıyken widget DOM'a hiç girmez.
+  function isAIConsented() {
+    if (root.ArkozConsent && typeof root.ArkozConsent.isGranted === 'function') {
+      return root.ArkozConsent.isGranted('ai');
+    }
+    try {
+      const raw = localStorage.getItem(CONSENT_KEY);
+      if (!raw) return false;
+      const c = JSON.parse(raw);
+      return !!(c && c.ai === true);
+    } catch (_e) {
+      return false;
+    }
   }
 
   // ------------ Init ------------
-  let initialized = false;
   function init() {
     if (initialized) return;
     initialized = true;
@@ -172,6 +356,8 @@
     const teaser = document.getElementById('ai-chat-teaser');
     const teaserClose = document.getElementById('ai-chat-teaser-close');
     const consentEl = document.getElementById('ai-chat-consent');
+    const consentCard = document.getElementById('ai-chat-consent__card');
+    const consentRead = document.getElementById('ai-chat-consent-read');
     const consentAgree = document.getElementById('ai-chat-consent-agree');
     const consentAcceptBtn = document.getElementById('ai-chat-consent-accept');
     const consentDeclineBtn = document.getElementById('ai-chat-consent-decline');
@@ -181,49 +367,41 @@
     let sending = false;
     let welcomed = false;
 
+    const client = createChatClient({
+      endpoint: ENDPOINT,
+      fetchImpl: (url, init) => fetch(url, init),
+      detect: root.ArkozPII.detect,
+      maxHistory: MAX_HISTORY,
+      maxInput: MAX_INPUT_LENGTH,
+    });
+
     // ------------ Oturum-içi açık rıza kapısı ------------
-    // Onay sessionStorage'da tutulur: sekme kapanınca sıfırlanır, böylece bir
-    // sonraki açılışta onay ekranı yeniden gösterilir (aydınlatma metninin vaadi).
-    function hasSessionConsent() {
-      try {
-        return sessionStorage.getItem(SESSION_CONSENT_KEY) === '1';
-      } catch (_e) {
-        return false;
-      }
-    }
-
-    function setSessionConsent(value) {
-      try {
-        if (value) sessionStorage.setItem(SESSION_CONSENT_KEY, '1');
-        else sessionStorage.removeItem(SESSION_CONSENT_KEY);
-      } catch (_e) {
-        // sessionStorage kapalı — onay yalnızca bu görünüm boyunca geçerli olur.
-      }
-    }
-
     function lockInput(locked) {
       input.disabled = locked;
       sendBtn.disabled = locked;
     }
 
+    function updateConsentButton() {
+      consentAcceptBtn.disabled = !(consentRead.checked && consentAgree.checked);
+    }
+
     function showConsentGate() {
       consentEl.classList.add('is-visible');
+      panel.classList.add('is-consent');
       lockInput(true);
-      setTimeout(() => consentAgree.focus(), 60);
+      setTimeout(() => consentCard.focus({ preventScroll: true }), 60);
     }
 
     function hideConsentGate() {
       consentEl.classList.remove('is-visible');
+      panel.classList.remove('is-consent');
       lockInput(false);
     }
 
     function showWelcome() {
       if (welcomed) return;
       welcomed = true;
-      addMsg(
-        'Merhaba! Ben **Arkoz Gazbeton**’un yapay zeka asistanıyım. Size nasıl yardımcı olabilirim?',
-        'bot'
-      );
+      addMsg(WELCOME_MESSAGE, 'bot');
       renderSuggestions();
     }
 
@@ -235,16 +413,33 @@
       showWelcome();
     }
 
+    // Onay kapısı: kategori kapalıysa widget sökülür, oturum rızası yoksa onay ekranı gösterilir.
+    function passesConsentGate() {
+      if (!isAIConsented()) {
+        destroy();
+        return false;
+      }
+      if (!hasSessionConsent()) {
+        showConsentGate();
+        return false;
+      }
+      return true;
+    }
+
     function renderSuggestions() {
       const wrap = document.createElement('div');
       wrap.id = 'ai-chat-suggestions';
-      SUGGESTED_QUESTIONS.forEach((q) => {
+      QUICK_ACTIONS.forEach((action) => {
         const chip = document.createElement('button');
         chip.type = 'button';
         chip.className = 'ai-suggest';
-        chip.textContent = q;
+        chip.textContent = action.label;
         chip.addEventListener('click', () => {
-          input.value = q;
+          if (action.local) {
+            localReply(action);
+            return;
+          }
+          input.value = action.send;
           updateCounter();
           hideSuggestions();
           send();
@@ -258,6 +453,23 @@
     function hideSuggestions() {
       const w = document.getElementById('ai-chat-suggestions');
       if (w) w.remove();
+    }
+
+    // Yerel yanıt: istek atılmaz, geçmişe yazılmaz.
+    function localReply(action) {
+      if (sending) return;
+      if (!passesConsentGate()) return;
+      hideSuggestions();
+      addMsg(action.label, 'user');
+      const d = document.createElement('div');
+      d.className = 'ai-msg ai-msg--bot';
+      d.textContent = LOCAL_REPLIES[action.local] + ' ';
+      const a = document.createElement('a');
+      a.href = 'index.html#iletisim';
+      a.textContent = 'İletişim formuna git';
+      d.appendChild(a);
+      msgs.appendChild(d);
+      msgs.scrollTop = msgs.scrollHeight;
     }
 
     // ------------ Teaser (tanıtım baloncuğu) ------------
@@ -288,6 +500,10 @@
         }
       } else {
         hideConsentGate();
+        // Erişilebilirlik: pencere kapanınca odak açma düğmesine döner.
+        if (document.activeElement && panel.contains(document.activeElement)) {
+          toggleBtn.focus({ preventScroll: true });
+        }
       }
     }
 
@@ -295,7 +511,7 @@
       const d = document.createElement('div');
       d.className =
         'ai-msg ai-msg--' + (role === 'user' ? 'user' : role === 'error' ? 'error' : 'bot');
-      if (role === 'user') {
+      if (role === 'user' || role === 'error') {
         d.textContent = text;
       } else {
         d.innerHTML = mdToHtml(text);
@@ -311,21 +527,9 @@
       counter.classList.toggle('warn', remaining < 50);
     }
 
-    function friendlyError(status) {
-      if (status === 429) return 'Çok hızlı yazıyorsunuz, birkaç saniye bekleyip tekrar deneyin.';
-      if (status === 403) return 'Bu istek reddedildi. Lütfen sayfayı yenileyip tekrar deneyin.';
-      if (status === 400) return 'Mesajınızı anlamadım, lütfen daha kısa yazar mısınız?';
-      if (status >= 500) return 'Asistan şu anda yanıt veremiyor, kısa süre sonra tekrar deneyin.';
-      return 'Bir hata oluştu, lütfen tekrar deneyin.';
-    }
-
     async function send() {
       if (sending) return;
-      // Açık rıza olmadan hiçbir mesaj işlenmez — asıl kapı burasıdır.
-      if (!hasSessionConsent()) {
-        showConsentGate();
-        return;
-      }
+      if (!passesConsentGate()) return;
       const text = input.value.trim();
       if (!text) return;
 
@@ -338,61 +542,41 @@
         return;
       }
 
+      // Tarayıcı kişisel veri kontrolü: tespit varsa istek hiç atılmaz, metin kutuda kalır.
+      const det = root.ArkozPII.detect(text);
+      if (det.blocked) {
+        addMsg(piiBlockedMessage(det.types), 'error');
+        return;
+      }
+
       input.value = '';
       updateCounter();
       hideSuggestions();
       sending = true;
-      sendBtn.disabled = true;
-      input.disabled = true;
+      lockInput(true);
 
-      addMsg(text, 'user');
-      history.push({ role: 'user', content: text });
-      while (history.length > MAX_HISTORY) history.shift();
-
+      const userEl = addMsg(text, 'user');
       const typing = addMsg('Yazıyor…', 'bot');
       typing.classList.add('ai-msg--typing');
 
       try {
-        const res = await fetch(API, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: history.slice(-MAX_HISTORY) }),
-        });
-
-        if (!res.ok) {
+        const r = await client.send(history, text);
+        if (r.kind === 'ok') {
+          typing.innerHTML = mdToHtml(r.reply);
+          typing.classList.remove('ai-msg--typing');
+        } else if (r.kind === 'server-blocked' || r.kind === 'blocked') {
           typing.remove();
-          let serverMsg = '';
-          try {
-            const data = await res.json();
-            serverMsg = data && data.error ? data.error : '';
-          } catch (_) {}
-          addMsg(serverMsg || friendlyError(res.status), 'error');
-          return;
-        }
-
-        const data = await res.json();
-        if (data.error) {
+          userEl.remove();
+          input.value = text;
+          updateCounter();
+          addMsg(r.kind === 'blocked' ? piiBlockedMessage(r.types) : r.message, 'error');
+        } else {
           typing.remove();
-          addMsg(data.error, 'error');
-          return;
+          addMsg(r.message || friendlyError(0), 'error');
         }
-        const reply = (data.content && data.content[0] && data.content[0].text) || '';
-        if (!reply) {
-          typing.remove();
-          addMsg('Boş bir yanıt geldi, lütfen tekrar deneyin.', 'error');
-          return;
-        }
-        typing.innerHTML = mdToHtml(reply);
-        typing.classList.remove('ai-msg--typing');
-        history.push({ role: 'assistant', content: reply });
-        while (history.length > MAX_HISTORY) history.shift();
-      } catch (_e) {
-        typing.remove();
-        addMsg('Bağlantı hatası. İnternet bağlantınızı kontrol edin.', 'error');
       } finally {
         sending = false;
-        sendBtn.disabled = false;
-        input.disabled = false;
+        lockInput(false);
         input.focus();
         msgs.scrollTop = msgs.scrollHeight;
       }
@@ -404,6 +588,13 @@
     });
     closeBtn.addEventListener('click', function () {
       setOpen(false);
+    });
+    // Erişilebilirlik: Escape pencereyi (onay ekranı dahil) kapatır; onay kaydı yazılmaz.
+    panel.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setOpen(false);
+      }
     });
     clearBtn.addEventListener('click', clearHistory);
     sendBtn.addEventListener('click', send);
@@ -434,12 +625,11 @@
       });
     }
 
-    // Onay kutucuğu işaretlenmeden "Kabul Et" pasif kalır.
-    consentAgree.addEventListener('change', function () {
-      consentAcceptBtn.disabled = !consentAgree.checked;
-    });
+    // İki kutucuk da işaretlenmeden "Sohbete Başla" pasif kalır.
+    consentRead.addEventListener('change', updateConsentButton);
+    consentAgree.addEventListener('change', updateConsentButton);
     consentAcceptBtn.addEventListener('click', function () {
-      if (!consentAgree.checked) return;
+      if (!(consentRead.checked && consentAgree.checked)) return;
       setSessionConsent(true);
       hideConsentGate();
       showWelcome();
@@ -447,10 +637,21 @@
     });
     consentDeclineBtn.addEventListener('click', function () {
       setSessionConsent(false);
+      consentRead.checked = false;
       consentAgree.checked = false;
       consentAcceptBtn.disabled = true;
       setOpen(false);
     });
+
+    // Sayfadan ayrılınca sohbet sıfırlanır (geri/ileri önbelleğinden dönüşte eski sohbet görünmez).
+    resetChat = function () {
+      history.length = 0;
+      msgs.innerHTML = '';
+      input.value = '';
+      updateCounter();
+      welcomed = false;
+      setOpen(false);
+    };
 
     updateCounter();
 
@@ -463,41 +664,42 @@
     const widget = document.getElementById('ai-chat-widget');
     if (widget) widget.remove();
     document.body.classList.remove('has-ai-fab');
-    try {
-      sessionStorage.removeItem(SESSION_CONSENT_KEY);
-    } catch (_e) {
-      // sessionStorage kapalı — yapılacak bir şey yok.
-    }
+    setSessionConsent(false);
     initialized = false;
+    resetChat = null;
   }
 
-  // ------------ Çerez tercihi kontrolü ------------
-  // "Yapay zeka asistanı" kategorisi kapalıyken widget DOM'a hiç girmez.
-  function isAIConsented() {
-    if (window.ArkozConsent && typeof window.ArkozConsent.isGranted === 'function') {
-      return window.ArkozConsent.isGranted('ai');
-    }
-    try {
-      const raw = localStorage.getItem(CONSENT_KEY);
-      if (!raw) return false;
-      const c = JSON.parse(raw);
-      return !!(c && c.ai === true);
-    } catch (_e) {
-      return false;
-    }
-  }
-
+  // ------------ Açılış, kapanış ve sekmeler arası tutarlılık (host kapısının arkasında) ------------
   function maybeBoot() {
-    if (!isAssistantHost(window.location)) return;
+    if (!canBoot(root)) return;
     if (isAIConsented()) init();
+    else setSessionConsent(false);
   }
 
   // Kategori sonradan açılırsa yükle, kapatılırsa tamamen söküp at.
-  window.addEventListener('arkoz:consent-changed', function (e) {
-    if (!isAssistantHost(window.location)) return;
-    const granted = !!(e && e.detail && e.detail.ai);
-    if (granted) init();
+  root.addEventListener('arkoz:consent-changed', function (e) {
+    if (!canBoot(root)) return;
+    if (e && e.detail && e.detail.ai) init();
     else destroy();
+  });
+
+  // Başka bir sekmede kategori değişince bu sekmedeki widget da açılır/kapanır.
+  root.addEventListener('storage', function (e) {
+    if (!canBoot(root)) return;
+    if (e.key !== CONSENT_KEY && e.key !== null) return;
+    if (isAIConsented()) init();
+    else destroy();
+  });
+
+  // Geri/ileri önbelleğinden dönüşte kategori kapalıysa widget kaldırılır.
+  root.addEventListener('pageshow', function (e) {
+    if (!canBoot(root)) return;
+    if (e && e.persisted && !isAIConsented()) destroy();
+  });
+
+  // Sayfadan ayrılırken sohbet sıfırlanır.
+  root.addEventListener('pagehide', function () {
+    if (resetChat) resetChat();
   });
 
   if (document.readyState === 'loading') {
