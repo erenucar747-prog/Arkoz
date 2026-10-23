@@ -7,7 +7,10 @@
  *   kategori kapatılırsa `destroy()` ile tamamen kaldırılır.
  * - Asistan açıldığında oturuma özel onay ekranı gösterilir; onay verilmeden
  *   input kilitli kalır ve hiçbir mesaj işlenmez (sessionStorage ile tutulur,
- *   sayfa kapatılınca sıfırlanır).
+ *   sekme kapatılınca sıfırlanır).
+ * - Kişisel veri filtresi (components/pii-filter.js, window.ArkozPII): gönderimden önce
+ *   TCKN / telefon / IBAN / e-posta / VKN kalıbı aranır; tespit varsa fetch hiç çağrılmaz,
+ *   metin kutuda kalır. Filtre yüklenmemişse gönderim yapılmaz (fail-closed).
  */
 (function () {
   'use strict';
@@ -75,6 +78,7 @@
           </button>
         </div>
         <div id="ai-chat-footer">
+          <span id="ai-chat-pii-hint">Ad, telefon, e-posta, kimlik numarası gibi kişisel bilgilerinizi yazmayın.</span>
           <strong>Arkoz</strong> Yapay Zeka Asistanı —
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
         </div>
@@ -83,9 +87,9 @@
             <h4 id="ai-chat-consent__title">Yapay Zeka Asistanı</h4>
             <p id="ai-chat-consent__text">
               Bu asistan, yazdığınız mesajları yanıt üretmek amacıyla işler.
-              Lütfen kimlik, iletişim, finansal bilgilerinizi ve sağlık, din,
-              üyelik gibi özel nitelikli kişisel verilerinizi paylaşmayınız.
-              Yanıtlar bilgi amaçlıdır, bağlayıcı değildir.
+              Lütfen ad-soyad, telefon, e-posta, kimlik numarası, adres gibi kişisel
+              bilgilerinizi; banka bilgilerinizi ve sağlık, din, üyelik gibi özel
+              nitelikli verilerinizi yazmayınız. Yanıtlar bilgi amaçlıdır, bağlayıcı değildir.
             </p>
             <label id="ai-chat-consent__check" for="ai-chat-consent-agree">
               <input type="checkbox" id="ai-chat-consent-agree" />
@@ -321,6 +325,24 @@
       }
       const text = input.value.trim();
       if (!text) return;
+
+      // Kişisel veri filtresi: tespit varsa mesaj tarayıcıdan çıkmaz, metin kutuda kalır.
+      const PII = window.ArkozPII;
+      if (!PII) {
+        addMsg('Güvenlik bileşeni yüklenemedi; lütfen sayfayı yenileyip tekrar deneyin.', 'error');
+        return;
+      }
+      const piiResult = PII.detect(text);
+      if (piiResult.blocked) {
+        const labels = piiResult.types.map((t) => PII.LABELS[t]).join(', ');
+        addMsg(
+          'Mesajınızda ' +
+            labels +
+            ' tespit edildi. Kişisel bilgilerinizi asistana yazmayın; mesaj gönderilmedi.',
+          'error'
+        );
+        return;
+      }
 
       const now = Date.now();
       if (now - lastSendAt < SEND_DEBOUNCE_MS) return;

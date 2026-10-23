@@ -32,6 +32,9 @@ jobs:
       - name: ESLint — JS kalite (bloklayıcı)
         run: npx eslint .
 
+      - name: Node testleri — kişisel veri filtresi vektörleri (bloklayıcı)
+        run: node --test tests/*.test.mjs
+
       - name: Prettier — format denetimi (bilgilendirici, bloklamaz)
         run: npx prettier --check "**/*.{js,css,html}"
         continue-on-error: true
