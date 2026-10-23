@@ -265,6 +265,7 @@
           </button>
         </div>
         <div id="ai-chat-footer">
+          <span id="ai-chat-pii-hint">Ad, telefon, e-posta, kimlik numarası gibi kişisel bilgilerinizi yazmayın.</span>
           <strong>Arkoz</strong> Yapay Zeka Asistanı —
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
         </div>

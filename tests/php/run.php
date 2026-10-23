@@ -1,6 +1,20 @@
 <?php
 // PHP birim testleri — bağımlılıksız. `php tests/php/run.php`; hata > 0 ise exit(1).
 // Sahte config gerçek anahtar içermez; gerçek kişi verisi ya da IP kullanılmaz (203.0.113.0/24 belge aralığı).
+// Yerel geliştirme makinesinde mbstring olmayabilir; sunucuda ve CI'da gerçek eklenti kullanılır
+// (deploy/natro/tani.php mbstring'i ayrıca doğrular). Yalnızca test koşucusu içindir.
+if (!function_exists('mb_strlen')) {
+    function mb_strlen($s, $enc = 'UTF-8')
+    {
+        return preg_match_all('/./us', (string) $s);
+    }
+    function mb_substr($s, $start, $len = null, $enc = 'UTF-8')
+    {
+        preg_match_all('/./us', (string) $s, $m);
+        $parts = $len === null ? array_slice($m[0], $start) : array_slice($m[0], $start, $len);
+        return implode('', $parts);
+    }
+}
 define('ARKOZ_CHAT', true);
 require __DIR__ . '/../../api/lib/bridge.php';
 require __DIR__ . '/../../api/lib/pii.php';
@@ -201,7 +215,7 @@ $r = arkoz_chat_handle(srv(), body(array(array('role' => 'system', 'content' => 
 check($r['status'] === 400 && err_of($r) === 'Geçersiz mesaj rolü.', 'rol system → 400 rol mesajı');
 $r = arkoz_chat_handle(srv(), body(array(array('role' => 'user', 'content' => 5))), $d);
 check($r['status'] === 400 && err_of($r) === 'Geçersiz mesaj formatı.', 'content string değil → 400 format mesajı');
-$r = arkoz_chat_handle(srv(), body(array(user("   \n\t ")))), $d);
+$r = arkoz_chat_handle(srv(), body(array(user("   \n\t "))), $d);
 check($r['status'] === 400 && err_of($r) === 'Lütfen bir mesaj yazın.', 'boşluktan ibaret user → 400');
 $r = arkoz_chat_handle(srv(), body(array(user(str_repeat('a', 501)))), $d);
 check($r['status'] === 400 && err_of($r) === 'Mesaj çok uzun (en fazla 500 karakter).', '501 karakter → 400 (tam metin)');

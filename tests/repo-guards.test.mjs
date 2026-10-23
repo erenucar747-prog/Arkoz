@@ -36,14 +36,43 @@ const trackedFiles = () =>
     .map((l) => l.trim())
     .filter(Boolean);
 
-// (a) Dondurulmuş bölge: KVKK + Gizlilik sekmeleri orijinalle birebir.
-test('politikalar.html KVKK ve Gizlilik bölgesi dondurulmuş özetle aynı', () => {
+// (a) Dondurulmuş bölge: Gizlilik sekmesi orijinalle birebir.
+// KVKK sekmesi 23.10.2026'da sahibi kararıyla yeniden yazıldı; artık dondurulmuş değil,
+// yapısı ve zorunlu unsurları aşağıdaki (a2) testiyle korunur.
+test('politikalar.html Gizlilik bölgesi dondurulmuş özetle aynı', () => {
   const s = lf(read('politikalar.html'));
-  const a = s.indexOf('<div class="tab-panel active" id="tab-kvk">');
+  const a = s.indexOf('<div class="tab-panel" id="tab-gizlilik">');
   const b = s.indexOf('<div class="tab-panel" id="tab-cerez">');
   assert.ok(a >= 0 && b > a, 'bölge sınırları bulunamadı');
   const hash = createHash('sha256').update(s.slice(a, b), 'utf8').digest('hex');
-  assert.equal(hash, '6ad3a84253e36fb13854d8b755c9f6c497029e0606a5f43f76c0e5d1e94ee9fa');
+  assert.equal(hash, 'bf6b370565c466fb91c3e18c7eed786d9e41d0ef3be687e252ff78a9617f4c79');
+});
+
+// (a2) KVKK sekmesi: aydınlatma metninin zorunlu unsurları ve site envanteriyle tutarlılık.
+test('politikalar.html KVKK sekmesi zorunlu unsurları içeriyor', () => {
+  const s = lf(read('politikalar.html'));
+  const a = s.indexOf('<div class="tab-panel active" id="tab-kvk">');
+  const b = s.indexOf('<div class="tab-panel" id="tab-gizlilik">');
+  assert.ok(a >= 0 && b > a, 'bölge sınırları bulunamadı');
+  const kvk = s.slice(a, b);
+  for (const must of [
+    'VERİ SORUMLUSU',
+    'Arkoz Gaz Beton Sanayi ve Ticaret Anonim Şirketi',
+    'Bekdiğin Mah. Havza OSB',
+    'arkozgazbeton@hs01.kep.tr',
+    'KİŞİSEL VERİLERİN İŞLENMESİ',
+    'İletişim formu',
+    'Teklif talep formu',
+    'HAKLARIN KULLANIMI, BAŞVURU VE İLETİŞİM',
+    'EK:2',
+    'otuz gün',
+    'Son güncelleme:',
+  ]) {
+    assert.ok(kvk.includes(must), `KVKK sekmesinde olmalı: ${must}`);
+  }
+  for (const bad of ['BEKLİYOR', 'TODO', '[MERSİS', '[SÜRE', 'kabul ediyorum', 'onaylıyorum']) {
+    assert.ok(!kvk.includes(bad), `KVKK sekmesinde olmamalı: ${bad}`);
+  }
 });
 
 // (b) Sistem prompt'u: yapı, eski bağlantılar ve gerçek kişi verisi yok.
