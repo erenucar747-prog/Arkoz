@@ -527,6 +527,12 @@
   color: #201161;
   font-weight: 600;
 }
+#ai-chat-pii-hint {
+  display: block;
+  color: #8a3b00;
+  font-weight: 600;
+  margin-bottom: 3px;
+}
 #ai-chat-footer a {
   color: #2e1a8a;
   text-decoration: underline;
