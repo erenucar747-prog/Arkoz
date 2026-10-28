@@ -25,16 +25,14 @@
         </a>
         <ul class="nav__list" id="nav-list">
           <li>
-            <a href="kurumsal.html" class="nav__link" style="color: var(--color-primary)"
-              >Kurumsal</a
-            >
+            <a href="kurumsal.html" class="nav__link nav__link--active">Kurumsal</a>
           </li>
           <li><a href="urunler.html" class="nav__link">Ürünler</a></li>
           <li><a href="gazbeton.html" class="nav__link">Gazbeton</a></li>
           <li><a href="haberler.html" class="nav__link">Haberler</a></li>
           <li><a href="insan-kaynaklari.html" class="nav__link">İnsan Kaynakları</a></li>
           <li><a href="politikalar.html" class="nav__link">Politikalar</a></li>
-          <li><a href="index.html#iletisim" class="nav__link nav__link--cta">💬 İletişim</a></li>
+          <li><a href="index.html#iletisim" class="nav__link nav__link--cta">İletişim</a></li>
         </ul>
         <div class="nav__cta-group">
           <a
@@ -57,11 +55,16 @@
               <strong>0538 865 82 89</strong>
             </span>
           </a>
-          <a class="nav__bayi" href="index.html#bayiler" target="_blank" rel="noopener"
-            >Bayi Portalı</a
-          >
+          <a class="nav__bayi" href="index.html#bayiler">Bayilik Başvurusu</a>
         </div>
-        <button class="nav__burger" id="burger" aria-label="Menüyü aç">
+        <button
+          type="button"
+          class="nav__burger"
+          id="burger"
+          aria-label="Menüyü aç"
+          aria-expanded="false"
+          aria-controls="nav-list"
+        >
           <span></span><span></span><span></span>
         </button>
       </nav>
@@ -71,6 +74,15 @@
       <div id="bg-paths-container" class="page-hero__waves" aria-hidden="true"></div>
       <div class="container page-hero__inner">
         <img src="logo.png" alt="Arkoz Gazbeton" class="page-hero__logo page-hero__logo--white" />
+        <span class="page-hero__tag">Kurumsal</span>
+        <h1 class="page-hero__title" style="color: #fff">
+          Arkoz
+          <span style="color: #fff; -webkit-text-fill-color: #fff">Gazbeton</span>
+        </h1>
+        <p class="page-hero__desc">
+          Arkoz Holding bünyesinde, Samsun Havza'da sektörün en yenilikçi ve modern tesisinde
+          gazbeton üretimi.
+        </p>
       </div>
     </div>
 
@@ -78,13 +90,15 @@
       <section class="tabs section">
         <div class="container">
           <div class="tabs__nav" id="tabs-nav">
-            <button class="tab-btn active" data-tab="tanitim">Genel Tanıtım</button>
-            <button class="tab-btn" data-tab="misyon">Misyon ve Vizyon</button>
-            <button class="tab-btn" data-tab="tarihce">Tarihçe</button>
-            <button class="tab-btn" data-tab="eys">EYS Politikamız</button>
-            <button class="tab-btn" data-tab="surdurulebilirlik">Sürdürülebilirlik</button>
-            <button class="tab-btn" data-tab="ortaklar">İş Ortakları</button>
-            <button class="tab-btn" data-tab="belgeler">Belgelerimiz</button>
+            <button type="button" class="tab-btn active" data-tab="tanitim">Genel Tanıtım</button>
+            <button type="button" class="tab-btn" data-tab="misyon">Misyon ve Vizyon</button>
+            <button type="button" class="tab-btn" data-tab="tarihce">Tarihçe</button>
+            <button type="button" class="tab-btn" data-tab="eys">EYS Politikamız</button>
+            <button type="button" class="tab-btn" data-tab="surdurulebilirlik">
+              Sürdürülebilirlik
+            </button>
+            <button type="button" class="tab-btn" data-tab="ortaklar">İş Ortakları</button>
+            <button type="button" class="tab-btn" data-tab="belgeler">Belgelerimiz</button>
           </div>
 
           <!-- Genel Tanıtım -->
@@ -1143,15 +1157,79 @@
             </a>
             <p>Türkiye'nin En Yeni ve En Modern Gazbeton Üretim Tesisi.</p>
             <p class="footer__address">
-              📍 Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                style="display: inline; vertical-align: middle; margin-right: 4px; flex-shrink: 0"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye
             </p>
             <div class="footer__contact-info">
-              <a href="tel:08503175555">📞 0 (850) 317 55 55</a>
-              <a href="mailto:info@arkozgazbeton.com.tr">✉ info@arkozgazbeton.com.tr</a>
+              <a href="tel:08503175555">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.93 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.84 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+                  />
+                </svg>
+                0 (850) 317 55 55
+              </a>
+              <a href="mailto:info@arkozgazbeton.com.tr">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                info@arkozgazbeton.com.tr
+              </a>
               <a
                 href="https://wa.me/905388658289?text=Merhaba%2C%20Arkoz%20Gazbeton%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
-                >💬 WhatsApp: 0538 865 82 89</a
               >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                WhatsApp: 0538 865 82 89
+              </a>
             </div>
             <div class="footer__social">
               <a

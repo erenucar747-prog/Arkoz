@@ -208,11 +208,16 @@
               <strong>0538 865 82 89</strong>
             </span>
           </a>
-          <a class="nav__bayi" href="index.html#bayiler" target="_blank" rel="noopener"
-            >Bayi Portalı</a
-          >
+          <a class="nav__bayi" href="index.html#bayiler">Bayilik Başvurusu</a>
         </div>
-        <button class="nav__burger" id="burger" aria-label="Menüyü aç">
+        <button
+          type="button"
+          class="nav__burger"
+          id="burger"
+          aria-label="Menüyü aç"
+          aria-expanded="false"
+          aria-controls="nav-list"
+        >
           <span></span><span></span><span></span>
         </button>
       </nav>
@@ -300,18 +305,28 @@
 
         <!-- SLIDER NOKTALARI -->
         <div class="hero__dots" id="heroDots">
-          <button class="hero__dot hero__dot--active" aria-label="Slayt 1"></button>
-          <button class="hero__dot" aria-label="Slayt 2"></button>
-          <button class="hero__dot" aria-label="Slayt 3"></button>
-          <button class="hero__dot" aria-label="Slayt 4"></button>
-          <button class="hero__dot" aria-label="Slayt 5"></button>
+          <button type="button" class="hero__dot hero__dot--active" aria-label="Slayt 1"></button>
+          <button type="button" class="hero__dot" aria-label="Slayt 2"></button>
+          <button type="button" class="hero__dot" aria-label="Slayt 3"></button>
+          <button type="button" class="hero__dot" aria-label="Slayt 4"></button>
+          <button type="button" class="hero__dot" aria-label="Slayt 5"></button>
         </div>
 
         <!-- OK BUTONLARI -->
-        <button class="hero__arrow hero__arrow--prev" id="heroPrev" aria-label="Önceki slayt">
+        <button
+          type="button"
+          class="hero__arrow hero__arrow--prev"
+          id="heroPrev"
+          aria-label="Önceki slayt"
+        >
           &#8249;
         </button>
-        <button class="hero__arrow hero__arrow--next" id="heroNext" aria-label="Sonraki slayt">
+        <button
+          type="button"
+          class="hero__arrow hero__arrow--next"
+          id="heroNext"
+          aria-label="Sonraki slayt"
+        >
           &#8250;
         </button>
 
@@ -544,10 +559,8 @@
               <span class="stats-bar__label">İhracat Pazarımız</span>
             </div>
             <div class="stats-bar__item">
-              <span class="stats-bar__num" data-target="4" data-suffix=" Sertifika"
-                >4 Sertifika</span
-              >
-              <span class="stats-bar__label">Uluslararası ISO Belgesi</span>
+              <span class="stats-bar__num" data-target="4" data-suffix="">4</span>
+              <span class="stats-bar__label">Uluslararası ISO Sertifikası</span>
             </div>
             <div class="stats-bar__item">
               <span class="stats-bar__num" data-target="100" data-suffix="+">100+</span>
@@ -690,7 +703,7 @@
             </a>
           </div>
           <div style="text-align: center; margin-top: 48px">
-            <a href="urunler.html" class="btn btn--secondary">Tüm Ürünleri Görüntüle (5)</a>
+            <a href="urunler.html" class="btn btn--secondary">Tüm Ürünleri Görüntüle</a>
           </div>
         </div>
       </section>
@@ -1677,7 +1690,7 @@
 
       <!-- LIGHTBOX MODAL -->
       <div class="lightbox" id="lightbox" aria-hidden="true" role="dialog">
-        <button class="lightbox__close" id="lightboxClose" aria-label="Kapat">
+        <button type="button" class="lightbox__close" id="lightboxClose" aria-label="Kapat">
           <svg
             width="20"
             height="20"
@@ -2595,10 +2608,10 @@
                 loading="lazy"
               />
               <div class="news-card__body">
-                <h3>8 Mart Dünya Kadınlar Günü</h3>
+                <h3>8 Mart Dünya Emekçi Kadınlar Günü</h3>
                 <p>
                   Arkoz Gazbeton ailesi olarak, emeğiyle ve bilgisiyle iş dünyasına değer katan tüm
-                  kadınların Dünya Kadınlar Günü'nü kutluyoruz.
+                  kadınların Dünya Emekçi Kadınlar Günü'nü kutluyoruz.
                 </p>
                 <a href="haberler.html" class="news-card__link">Devamını Oku →</a>
               </div>
@@ -2620,7 +2633,12 @@
               <span>Kuruluş danışmanlığı — vizyon, strateji ve teknoloji altyapısı</span>
             </a>
             <a href="kurumsal.html#tab-ortaklar" class="partners-strip__partner">
-              <img src="images/trios-logo.png" alt="Trios" loading="lazy" />
+              <img
+                src="images/trios-logo.png"
+                alt="Trios"
+                loading="lazy"
+                class="partners-strip__logo--light"
+              />
               <span>Sektörel iş ortağı — tedarik ve operasyon</span>
             </a>
           </div>
@@ -2628,11 +2646,11 @@
       </section>
 
       <!-- BAYİ AĞIMIZ — Bayi olmak için CTA -->
-      <section class="dealers" id="bayiler" aria-label="Yetkili Bayilerimiz">
+      <section class="dealers" id="bayiler" aria-label="Bayilik Başvurusu">
         <div class="container">
           <div class="section__header reveal">
-            <span class="section__tag">Yetkili Bayilerimiz</span>
-            <h2 class="section__title">Türkiye Geneli <span>Bayi Ağımız</span></h2>
+            <span class="section__tag">Bayilik</span>
+            <h2 class="section__title">Bayilik <span>Başvurusu</span></h2>
             <p class="section__desc">Bayi olmak ister misiniz? Hemen iletişime geçin.</p>
           </div>
           <div class="dealers__grid">

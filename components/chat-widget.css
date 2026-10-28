@@ -178,6 +178,7 @@
 
 /* ------------ Panel ------------ */
 #ai-chat-panel {
+  position: relative;
   display: none;
   flex-direction: column;
   width: 360px;
@@ -191,6 +192,10 @@
     0 6px 18px rgba(15, 8, 50, 0.08);
   transform-origin: bottom right;
   animation: ai-panel-in 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+/* Onay ekranı açıkken panel küçük hâlinde kalıp kartı kırpmasın. */
+#ai-chat-panel.is-consent {
+  min-height: min(540px, 70vh);
 }
 @keyframes ai-panel-in {
   from {
@@ -562,6 +567,9 @@
   opacity: 1;
 }
 #ai-chat-consent__card {
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: #ffffff;
   border-radius: 14px;
   padding: 22px 22px 18px;
