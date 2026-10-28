@@ -8,23 +8,6 @@
 const REDUCE_MOTION =
   window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ── 1. Lenis smooth scroll ─────────────────────────────── */
-const lenis =
-  !REDUCE_MOTION && typeof Lenis !== 'undefined'
-    ? new Lenis({
-        duration: 0.55,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        prevent: (node) => !!(node && node.closest && node.closest('#ai-chat-widget')),
-      })
-    : null;
-
-if (lenis) {
-  (function lenisRaf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(lenisRaf);
-  })();
-}
-
 /* ── 2. Lightweight intro overlay (CSS + logo) ──────────── */
 (function initIntro() {
   if (REDUCE_MOTION) return;
@@ -101,7 +84,7 @@ if (lenis) {
   });
 })();
 
-/* ── 5. Scroll reveal — viewport-aware, Lenis-safe ──── */
+/* ── 5. Scroll reveal — viewport-aware ──────────────── */
 function initReveal() {
   // Auto-collect targets (don't pre-mark — only initial-viewport gets revealed-on-load)
   const autoTargets = document.querySelectorAll(
@@ -122,7 +105,7 @@ function initReveal() {
     return;
   }
 
-  // Single scroll-driven check (fires on native + Lenis scroll + load)
+  // Single scroll-driven check (fires on scroll + load)
   const check = () => {
     const vh = window.innerHeight;
     allTargets.forEach((el) => {
@@ -144,9 +127,6 @@ function initReveal() {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  if (lenis && typeof lenis.on === 'function') {
-    lenis.on('scroll', onScroll);
-  }
 
   // Initial reveal pass — multiple times to catch elements as fonts/images load
   check();
@@ -202,8 +182,7 @@ if (document.readyState === 'loading') {
       if (!target) return;
       e.preventDefault();
       const top = target.getBoundingClientRect().top + window.scrollY - 80;
-      if (lenis) lenis.scrollTo(top);
-      else window.scrollTo({ top, behavior: 'smooth' });
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 })();
@@ -499,7 +478,6 @@ if (document.readyState === 'loading') {
     });
   };
   window.addEventListener('scroll', update, { passive: true });
-  if (lenis && typeof lenis.on === 'function') lenis.on('scroll', update);
   update();
 })();
 
@@ -561,42 +539,6 @@ if (document.readyState === 'loading') {
 
   slider.addEventListener('input', (e) => update(+e.target.value));
   update(+slider.value);
-})();
-
-/* ── 13.6 Gallery Lightbox ──────────────────────────────── */
-(function initLightbox() {
-  const items = document.querySelectorAll('.gallery__item[data-src]');
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightboxImg');
-  const lbClose = document.getElementById('lightboxClose');
-  if (!items.length || !lb) return;
-
-  const open = (src, alt) => {
-    lbImg.src = src;
-    lbImg.alt = alt;
-    lb.classList.add('is-open');
-    lb.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  };
-  const close = () => {
-    lb.classList.remove('is-open');
-    lb.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  };
-
-  items.forEach((item) => {
-    item.addEventListener('click', () => {
-      const img = item.querySelector('img');
-      open(item.dataset.src, img ? img.alt : '');
-    });
-  });
-  lbClose.addEventListener('click', close);
-  lb.addEventListener('click', (e) => {
-    if (e.target === lb) close();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lb.classList.contains('is-open')) close();
-  });
 })();
 
 /* ── 13. Tabs (kurumsal.html) ───────────────────────────── */
