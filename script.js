@@ -87,6 +87,7 @@ if (lenis) {
   burger.addEventListener('click', () => {
     const open = navList.classList.toggle('open');
     burger.classList.toggle('active', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     document.body.style.overflow = open ? 'hidden' : '';
   });
 
@@ -94,6 +95,7 @@ if (lenis) {
     link.addEventListener('click', () => {
       navList.classList.remove('open');
       burger.classList.remove('active');
+      burger.setAttribute('aria-expanded', 'false');
       document.body.style.overflow = '';
     });
   });

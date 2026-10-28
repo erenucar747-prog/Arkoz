@@ -205,12 +205,14 @@
 
     function showConsentGate() {
       consentEl.classList.add('is-visible');
+      panel.classList.add('is-consent');
       lockInput(true);
       setTimeout(() => consentAgree.focus(), 60);
     }
 
     function hideConsentGate() {
       consentEl.classList.remove('is-visible');
+      panel.classList.remove('is-consent');
       lockInput(false);
     }
 
@@ -419,6 +421,13 @@
     });
     closeBtn.addEventListener('click', function () {
       setOpen(false);
+    });
+    // Escape pencereyi (onay ekranı dahil) kapatır; onay kaydı yazılmaz.
+    panel.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        setOpen(false);
+      }
     });
     clearBtn.addEventListener('click', clearHistory);
     sendBtn.addEventListener('click', send);
