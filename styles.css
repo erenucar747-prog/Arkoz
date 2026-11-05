@@ -3973,9 +3973,18 @@ strong {
   color: var(--c-text-muted);
   letter-spacing: 0.02em;
 }
+/* Son kart ("Yeni Pazarlar") 3 sütunda tam satır kaplar; 9 ülke kartı 3×3 dolu kalır */
+.country-card--wide {
+  grid-column: 1 / -1;
+  justify-content: center;
+}
 @media (max-width: 768px) {
   .global-reach__grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+  .country-card--wide {
+    grid-column: auto;
+    justify-content: flex-start;
   }
 }
 @media (max-width: 480px) {
@@ -4183,6 +4192,15 @@ strong {
   filter: brightness(0.25);
 }
 
+/* Logo dosyası olmayan iş ortağı için yazı logosu */
+.partners-strip__wordmark {
+  font-family: var(--font-display);
+  font-size: var(--fs-20);
+  font-weight: 800;
+  letter-spacing: 0.02em;
+  color: var(--c-primary);
+  white-space: nowrap;
+}
 .partners-strip__partner span {
   font-size: var(--fs-13);
   color: var(--c-text-muted);
