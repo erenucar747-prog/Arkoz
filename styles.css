@@ -4186,11 +4186,6 @@ strong {
 .partners-strip__partner:hover img {
   filter: grayscale(0);
 }
-/* Beyaz zeminli logo dosyası (Trios) beyaz kartta görünsün diye koyulaştırılır. */
-.partners-strip__partner img.partners-strip__logo--light,
-.partners-strip__partner:hover img.partners-strip__logo--light {
-  filter: brightness(0.25);
-}
 
 /* Logo dosyası olmayan iş ortağı için yazı logosu */
 .partners-strip__wordmark {
