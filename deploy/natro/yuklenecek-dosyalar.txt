@@ -57,7 +57,6 @@ images/factory-4.jpg
 images/factory-5.jpg
 images/gazbeton-maksimum-isi-yalitimi-1920x940.jpg
 images/surdurulebilir-bir-dunya-1920x1080.jpg
-images/trios-logo.png
 images/ts-en-iso-14001.png
 images/ts-en-iso-50001.png
 images/ts-en-iso-9001.png
