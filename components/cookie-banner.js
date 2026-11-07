@@ -3,7 +3,7 @@
  *
  * - Kategoriler: essential (her zaman açık), functional, ai, marketing.
  * - Onay JSON olarak localStorage'da `arkoz_cookie_consent_v2` anahtarında tutulur.
- * - Yapay zeka asistanı yalnızca "ai" kategorisi onaylanınca yüklenir; gömülü
+ * - Yapay zekâ asistanı yalnızca "ai" kategorisi onaylanınca yüklenir; gömülü
  *   videolar sitenin temel içeriği olarak onaydan bağımsız yüklenir (sahibi kararı).
  * - Onay değiştiğinde `arkoz:consent-changed` (CustomEvent) yayınlanır; sohbet
  *   asistanı kendini buna göre açar/kapatır.
@@ -36,8 +36,8 @@
     },
     {
       id: 'ai',
-      title: 'Yapay Zeka Asistanı',
-      desc: 'Web sitemizdeki yapay zeka asistanı hizmetini etkinleştirir. Kapalıyken asistan yüklenmez. Açık olsa dahi asistan, ilk açılışında ayrıca onayınızı ister.',
+      title: 'Yapay Zekâ Asistanı',
+      desc: 'Web sitemizdeki yapay zekâ asistanı hizmetini etkinleştirir. Kapalıyken asistan yüklenmez. Açık olsa dahi asistan, ilk açılışında ayrıca onayınızı ister.',
       link: { href: POLICY_URL + '#ai', label: 'Aydınlatma Metni' },
       locked: false,
       defaultValue: false,
@@ -98,7 +98,7 @@
       <p class="cb-banner__title" id="cb-banner-title">Çerez Tercihleriniz</p>
       <p class="cb-banner__text">
         Bu sitede reklam ve takip çerezi kullanılmaz. Teknik olarak zorunlu kayıtlar ve
-        gömülü video içerikleri dışında, onayınıza bağlı tek teknoloji yapay zeka
+        gömülü video içerikleri dışında, onayınıza bağlı tek teknoloji yapay zekâ
         asistanıdır ve siz onaylamadıkça çalıştırılmaz. Detaylar:
         <a href="${POLICY_URL}#cerez">Çerez Politikası</a> ve
         <a href="${POLICY_URL}#kvk">KVKK Aydınlatma Metni</a>.

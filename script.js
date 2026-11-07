@@ -261,6 +261,29 @@ if (document.readyState === 'loading') {
       const hp = form.querySelector('[name="' + HONEYPOT_NAME + '"]');
       if (hp && hp.value.trim() !== '') return;
 
+      // Zorunlu alanlar ve e-posta biçimi (onay kutuları aşağıda ayrıca denetlenir).
+      const invalid = Array.from(form.elements).find(
+        (el) => el.type !== 'checkbox' && el.willValidate && !el.checkValidity()
+      );
+      if (invalid) {
+        showToast(
+          invalid.validity.typeMismatch
+            ? 'Lütfen geçerli bir e-posta adresi yazın.'
+            : 'Lütfen zorunlu alanları doldurun.',
+          'error'
+        );
+        invalid.focus();
+        return;
+      }
+      // Size dönülebilmesi için telefon veya e-postadan en az biri gerekli.
+      const telInput = form.querySelector('input[type="tel"]');
+      const mailInput = form.querySelector('input[type="email"]');
+      if (telInput && mailInput && !telInput.value.trim() && !mailInput.value.trim()) {
+        showToast('Size dönebilmemiz için telefon veya e-posta adresinizi yazın.', 'error');
+        telInput.focus();
+        return;
+      }
+
       // Bilgilendirme teyidi zorunlu. `acik-riza` bilerek kontrol EDİLMEZ:
       // opsiyonel olması hukuken şart.
       const teyit = form.querySelector('input[name="aydinlatma-teyit"]');
@@ -280,7 +303,7 @@ if (document.readyState === 'loading') {
       const btn = form.querySelector('button[type="submit"]');
       const original = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '<span>Gönderiliyor...</span>';
+      btn.innerHTML = '<span>Gönderiliyor…</span>';
 
       const data = new FormData(form);
       data.delete(HONEYPOT_NAME); // tuzak alan e-postaya taşınmasın

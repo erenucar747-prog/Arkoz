@@ -1,9 +1,9 @@
 /**
- * Arkoz Gazbeton — Yapay Zeka Asistan Widget
+ * Arkoz Gazbeton — Yapay Zekâ Asistan Widget
  * - System prompt sunucu tarafında (güvenlik: frontend prompt sızdırmıyor)
  * - Input length 1000 chars, history son 20 mesaj
  * - 800ms send debounce, kullanıcı dostu hata mesajları
- * - Çerez tercihlerindeki "yapay zeka asistanı" kategorisi açıksa widget yüklenir;
+ * - Çerez tercihlerindeki "yapay zekâ asistanı" kategorisi açıksa widget yüklenir;
  *   kategori kapatılırsa `destroy()` ile tamamen kaldırılır.
  * - Asistan açıldığında oturuma özel onay ekranı gösterilir; onay verilmeden
  *   input kilitli kalır ve hiçbir mesaj işlenmez (sessionStorage ile tutulur,
@@ -27,7 +27,7 @@
     'Arkoz Blok özellikleri nelerdir?',
     'Gazbetonun deprem güvenliğine katkısı?',
     'ISO sertifikalarınız neler?',
-    'Bayi listesi nedir?',
+    'Bayileriniz nerede?',
     'Teklif nasıl alabilirim?',
     'Üretim kapasiteniz ne kadar?',
   ];
@@ -43,11 +43,11 @@
     const root = document.createElement('div');
     root.id = 'ai-chat-widget';
     root.innerHTML = `
-      <div id="ai-chat-panel" aria-hidden="true" role="dialog" aria-label="Arkoz AI Asistan">
+      <div id="ai-chat-panel" aria-hidden="true" role="dialog" aria-label="Arkoz Yapay Zekâ Asistanı">
         <div id="ai-chat-header">
           <div id="ai-chat-header-info">
             <img src="${LOGO_SRC}" alt="Arkoz Gazbeton" id="ai-chat-logo" />
-            <span id="ai-chat-header-sub">Çevrimiçi — yapay zeka asistan</span>
+            <span id="ai-chat-header-sub">Çevrimiçi — yapay zekâ asistanı</span>
           </div>
           <div id="ai-chat-header-actions">
             <button id="ai-chat-clear-btn" aria-label="Sohbeti sil" title="Sohbeti sil" type="button">
@@ -79,12 +79,12 @@
         </div>
         <div id="ai-chat-footer">
           <span id="ai-chat-pii-hint">Ad, telefon, e-posta, kimlik numarası gibi kişisel bilgilerinizi yazmayın.</span>
-          <strong>Arkoz</strong> Yapay Zeka Asistanı —
+          <strong>Arkoz</strong> Yapay Zekâ Asistanı —
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
         </div>
-        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zeka Asistanı Onayı">
+        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zekâ Asistanı Onayı">
           <div id="ai-chat-consent__card">
-            <h4 id="ai-chat-consent__title">Yapay Zeka Asistanı</h4>
+            <h4 id="ai-chat-consent__title">Yapay Zekâ Asistanı</h4>
             <p id="ai-chat-consent__text">
               Bu asistan, yazdığınız mesajları yanıt üretmek amacıyla işler.
               Lütfen ad-soyad, telefon, e-posta, kimlik numarası, adres gibi kişisel
@@ -106,10 +106,10 @@
           </div>
         </div>
       </div>
-      <div id="ai-chat-teaser" role="button" tabindex="0" aria-label="Arkoz yapay zeka asistanını aç">
+      <div id="ai-chat-teaser" role="button" tabindex="0" aria-label="Arkoz yapay zekâ asistanını aç">
         <p id="ai-chat-teaser-text">
           <strong>Merhaba, ben Gazbo 👋</strong>
-          <span id="ai-chat-teaser-role">Arkoz Gazbeton’un kişisel yapay zeka asistanıyım.</span>
+          <span id="ai-chat-teaser-role">Arkoz Gazbeton'un kişisel yapay zekâ asistanıyım.</span>
         </p>
         <button id="ai-chat-teaser-close" type="button" aria-label="Tanıtımı kapat">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
@@ -118,7 +118,7 @@
           </svg>
         </button>
       </div>
-      <button id="ai-chat-toggle" aria-label="AI Asistan ile konuş" type="button">
+      <button id="ai-chat-toggle" aria-label="Yapay zekâ asistanıyla konuş" type="button">
         <svg id="ai-icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
@@ -134,13 +134,25 @@
 
   // ------------ Markdown rendering (safe) ------------
   function mdToHtml(text) {
-    let s = text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-    s = s.replace(
-      /!\[([^\]]*?)\]\((https?:\/\/[^)]+?)\)/g,
-      '<img src="$2" alt="$1" style="max-width:100%;border-radius:8px;margin-top:6px;display:block;">'
+    // Tırnaklar da kaçışlanır: model çıktısı öznitelik dışına taşamaz.
+    let s = text
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+    // Görsel yalnız şirketin kendi alan adlarından yüklenir; diğerleri bağlantı olur.
+    s = s.replace(/!\[([^\]]*?)\]\((https:\/\/[^)\s]+?)\)/g, (m, alt, url) =>
+      /^https:\/\/((www\.)?arkozgazbeton\.com\.tr|erenucar747-prog\.github\.io)\//.test(url)
+        ? '<img src="' +
+          url +
+          '" alt="' +
+          alt +
+          '" style="max-width:100%;border-radius:8px;margin-top:6px;display:block;">'
+        : '[' + (alt || 'Görsel') + '](' + url + ')'
     );
     s = s.replace(
-      /\[([^\]]+?)\]\((https?:\/\/[^)]+?)\)/g,
+      /\[([^\]]+?)\]\((https?:\/\/[^)\s]+?)\)/g,
       '<a href="$2" target="_blank" rel="noopener">$1</a>'
     );
     s = s.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
@@ -220,7 +232,7 @@
       if (welcomed) return;
       welcomed = true;
       addMsg(
-        'Merhaba! Ben **Arkoz Gazbeton**’un yapay zeka asistanıyım. Size nasıl yardımcı olabilirim?',
+        "Merhaba! Ben **Arkoz Gazbeton**'un yapay zekâ asistanıyım. Size nasıl yardımcı olabilirim?",
         'bot'
       );
       renderSuggestions();
@@ -363,8 +375,9 @@
       input.disabled = true;
 
       addMsg(text, 'user');
-      history.push({ role: 'user', content: text });
-      while (history.length > MAX_HISTORY) history.shift();
+      // Geçmişe yalnız yanıt başarıyla gelince eklenir; reddedilen mesaj sonraki turda tekrar gitmez.
+      const userMsg = { role: 'user', content: text };
+      const outgoing = history.concat([userMsg]).slice(-MAX_HISTORY);
 
       const typing = addMsg('Yazıyor…', 'bot');
       typing.classList.add('ai-msg--typing');
@@ -373,7 +386,7 @@
         const res = await fetch(API, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages: history.slice(-MAX_HISTORY) }),
+          body: JSON.stringify({ messages: outgoing }),
         });
 
         if (!res.ok) {
@@ -401,7 +414,7 @@
         }
         typing.innerHTML = mdToHtml(reply);
         typing.classList.remove('ai-msg--typing');
-        history.push({ role: 'assistant', content: reply });
+        history.push(userMsg, { role: 'assistant', content: reply });
         while (history.length > MAX_HISTORY) history.shift();
       } catch (_e) {
         typing.remove();
@@ -496,7 +509,7 @@
   }
 
   // ------------ Çerez tercihi kontrolü ------------
-  // "Yapay zeka asistanı" kategorisi kapalıyken widget DOM'a hiç girmez.
+  // "Yapay zekâ asistanı" kategorisi kapalıyken widget DOM'a hiç girmez.
   function isAIConsented() {
     if (window.ArkozConsent && typeof window.ArkozConsent.isGranted === 'function') {
       return window.ArkozConsent.isGranted('ai');

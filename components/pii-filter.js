@@ -4,7 +4,8 @@
  * - Tespit varsa mesaj tarayıcıdan hiç çıkmaz (widget fetch çağırmaz); maskeleme yok.
  * - Şirketin kendi hatları ve kurumsal e-posta adresi muaf tutulur.
  * - DOM ve konsol kullanılmaz; sonuç `window.ArkozPII` altında dondurulmuş olarak sunulur.
- * - Sunucudaki yedek filtreyle aynı 44 vektörde aynı sonucu üretir (tests/pii-vectors.json).
+ * - Natro köprüsündeki sunucu filtresiyle (api/lib/pii.php) aynı 44 vektörde aynı sonucu
+ *   üretir (tests/pii-vectors.json).
  */
 (function () {
   'use strict';
