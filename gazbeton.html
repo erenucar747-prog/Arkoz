@@ -114,7 +114,7 @@
               <p>
                 Gazbeton, performans değerleri ve uygulama özellikleri ile ideal bir yapı
                 malzemesidir. Depreme karşı güvenli ve yangına dayanıklı yapıların inşasına olanak
-                sağlar. Ses yalıtımı ile iç mekan konforunu artırır. Bir duvar malzemesinde
+                sağlar. Ses yalıtımı ile iç mekân konforunu artırır. Bir duvar malzemesinde
                 bulunması gereken tüm özellikleri bünyesinde barındırır.
               </p>
               <p>
@@ -154,11 +154,11 @@
                 maliyetlerinde %50'ye kadar tasarruf sağlar.
               </p>
               <p>
-                Ek bir kaplama sistemine ihtiyaç duymadan tek başına gerekli ısı yalıtımını sağlar.
-                Zaman içinde ısı yalıtım özelliğini kaybetmez, yapının nefes almasını sağlar. Uygun
-                kalınlıklarda kullanıldığında A Sınıfı Enerji Kimlik Belgesi alınmasına yardımcı
-                olur. Muadil ürünlere göre üç kat daha fazla tasarruf sağlarken işçilik ve malzeme
-                giderlerini de azaltır.
+                Belli kalınlıklarda kullanıldığında tek kesit olarak (mantolama gerektirmeden)
+                istenilen ısı yalıtımını sağlar. Zaman içinde ısı yalıtım özelliğini kaybetmez,
+                yapının nefes almasını sağlar. Uygun kalınlıklarda kullanıldığında A Sınıfı Enerji
+                Kimlik Belgesi alınmasına yardımcı olur. Muadil ürünlere göre üç kat daha fazla
+                tasarruf sağlarken işçilik ve malzeme giderlerini de azaltır.
               </p>
             </div>
           </div>
@@ -214,7 +214,7 @@
               <p>
                 Gürültü kirliliği günümüz gündelik yaşamının en öne çıkan problemlerinden biridir.
                 Yaşam alanları arasındaki mesafeler zaman geçtikçe azalıyor ve bu yakınlaşma doğru
-                ürünler ile doğru uygulama yapılmadığında iç mekandaki yaşam konforunu
+                ürünler ile doğru uygulama yapılmadığında iç mekândaki yaşam konforunu
                 düşürebiliyor.
               </p>
               <p>
@@ -222,7 +222,7 @@
                 seçimi ile başlar. Gazbeton ile örülmüş duvarlar ya da oluşturulmuş sistemler, yaşam
                 alanlarındaki konforu artırır. Gazbeton, muadil yapı ve duvar ürünlerine göre daha
                 yüksek ses yalıtımı performansı sunar. İstenmeyen gürültüyü yaşam alanlarının
-                dışında tutarak iç mekan konforunu artırır.
+                dışında tutarak iç mekân konforunu artırır.
               </p>
             </div>
           </div>
@@ -322,7 +322,7 @@
               Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye
             </p>
             <div class="footer__contact-info">
-              <a href="tel:08503175555">
+              <a href="tel:+908503175555">
                 <svg
                   viewBox="0 0 24 24"
                   width="14"
@@ -491,7 +491,7 @@
             <div class="footer__col">
               <h4>İletişim</h4>
               <ul>
-                <li><a href="tel:08503175555">0 (850) 317 55 55</a></li>
+                <li><a href="tel:+908503175555">0 (850) 317 55 55</a></li>
                 <li><a href="mailto:info@arkozgazbeton.com.tr">info@arkozgazbeton.com.tr</a></li>
                 <li>
                   <a
@@ -678,11 +678,17 @@
           document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
         });
       });
-      if (location.hash) {
+      function openTabFromHash(scroll) {
+        if (!location.hash) return;
         const id = location.hash.replace('#tab-', '');
-        const btn = document.querySelector('[data-tab="' + id + '"]');
-        if (btn) btn.click();
+        const btn = document.querySelector('[data-tab="' + CSS.escape(id) + '"]');
+        if (!btn) return;
+        btn.click();
+        if (scroll) btn.scrollIntoView({ block: 'center' });
       }
+      openTabFromHash(false);
+      // Sayfa içindeyken alt bilgideki #tab-… bağlantıları da sekmeyi değiştirsin
+      window.addEventListener('hashchange', () => openTabFromHash(true));
     </script>
 
     <!-- KVKK Cookie Consent (shared component, opt-in) -->
