@@ -818,9 +818,9 @@ if (document.readyState === 'loading') {
       picker.focus();
     }
   });
-  mobile.addEventListener('change', () => setOpen(false));
-
   sync();
+  // Eski tarayıcılarda MediaQueryList.addEventListener yoktur; kurulum yarıda kalmasın.
+  if (mobile.addEventListener) mobile.addEventListener('change', () => setOpen(false));
 })();
 
 /* ── 13d. "Bu metinde" listesi (politikalar.html) ───────────
@@ -875,10 +875,16 @@ if (document.readyState === 'loading') {
   root
     .querySelectorAll('.tabs__nav .tab-btn')
     .forEach((btn) => btn.addEventListener('click', build));
-  wide.addEventListener('change', () => {
-    if (!toc.hidden) toc.open = wide.matches;
+  // Masaüstünde liste hep açık durur; klavyeyle kapatılırsa geri açılır.
+  toc.addEventListener('toggle', () => {
+    if (wide.matches && !toc.hidden && !toc.open) toc.open = true;
   });
   build();
+  if (wide.addEventListener) {
+    wide.addEventListener('change', () => {
+      if (!toc.hidden) toc.open = wide.matches;
+    });
+  }
 })();
 
 /* ============================================================
