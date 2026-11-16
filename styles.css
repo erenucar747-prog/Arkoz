@@ -2433,13 +2433,58 @@ strong {
   gap: var(--s-2);
   color: var(--c-accent);
 }
+.showcase__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin-bottom: var(--s-4);
+}
+.showcase__chips li {
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: var(--fs-12);
+  font-weight: 500;
+  line-height: 1.4;
+}
+/* Telefon: bilgi kutusu ürünün üstüne binmesin — görsel üstte, bilgi altta. */
+@media (max-width: 768px) {
+  .showcase__card {
+    display: flex;
+    flex-direction: column;
+    aspect-ratio: auto;
+    background: var(--c-primary);
+  }
+  .showcase__card::after {
+    display: none;
+  }
+  .showcase__img {
+    position: static;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-position: center 58%;
+    z-index: auto;
+  }
+  .showcase__info {
+    position: static;
+    padding: var(--s-5) var(--s-5) var(--s-6);
+    border-radius: 0;
+    box-shadow: none;
+  }
+  .showcase__card:hover .showcase__info {
+    transform: none;
+  }
+  /* Sayfa içi koyu başlık bandı: sayfa tepesi için ayrılan üst boşluk burada gereksiz. */
+  .services > .page-hero {
+    padding: var(--s-16) 0 var(--s-12);
+  }
+}
 
 @media (max-width: 768px) {
   .showcase__grid {
     grid-template-columns: 1fr;
-  }
-  .showcase__card {
-    aspect-ratio: 3 / 4;
   }
 }
 .hero__dots {
@@ -5383,6 +5428,95 @@ strong {
 }
 
 /* 24. HABERLER GRID ─────────────────────────────────────── */
+/* Öne çıkan haber, konu etiketleri ve sosyal medya bandı (haberler.html) */
+.news-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+.news-card__tag {
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-50);
+  color: var(--c-primary);
+  font-size: var(--fs-12);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.news-card__tag--lead {
+  background: var(--c-primary);
+  color: #fff;
+}
+.news-card--featured .news-card__body h3 {
+  font-size: var(--fs-20);
+}
+@media (min-width: 961px) {
+  .news-card--featured {
+    grid-column: 1 / -1;
+    flex-direction: row;
+  }
+  .news-card--featured .news-card__img {
+    flex: none;
+    width: 56%;
+  }
+  .news-card--featured .news-card__body {
+    justify-content: center;
+    gap: var(--s-4);
+    padding: var(--s-10);
+  }
+  .news-card--featured .news-card__body h3 {
+    font-size: var(--fs-28);
+  }
+  .news-card--featured .news-card__body p {
+    flex: none;
+    font-size: var(--fs-16);
+    line-height: var(--lh-body);
+  }
+}
+.news-follow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-4) var(--s-6);
+  padding: var(--s-6) var(--s-8);
+  border: 1px solid var(--c-line);
+  border-radius: var(--r-lg);
+  background: var(--c-surface-2);
+}
+.news-follow__title {
+  color: var(--c-text-strong);
+  font-size: var(--fs-16);
+  font-weight: 600;
+}
+.news-follow__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+}
+.news-follow .social-btn {
+  min-height: 44px;
+  padding-inline: var(--s-5);
+}
+@media (max-width: 640px) {
+  .news-follow {
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--s-6) var(--s-5);
+    text-align: center;
+  }
+  .news-follow__links {
+    justify-content: center;
+  }
+}
+/* Düz (açık) sayfa başlığı telefonda bir ekranın yarısını kaplamasın. */
+@media (max-width: 768px) {
+  .page-hero--compact {
+    padding: 116px 0 var(--s-10);
+  }
+}
 
 /* 25. INSAN KAYNAKLARI ──────────────────────────────────── */
 

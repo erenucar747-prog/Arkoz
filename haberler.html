@@ -67,7 +67,7 @@
       </nav>
     </header>
 
-    <div class="page-hero">
+    <div class="page-hero page-hero--compact">
       <div class="container">
         <span class="page-hero__tag">Haberler</span>
         <h1 class="page-hero__title">Arkoz <span>Haberleri</span></h1>
@@ -78,7 +78,7 @@
       <section class="section" style="background: var(--color-bg)">
         <div class="container">
           <div class="news__grid">
-            <div class="news-card">
+            <div class="news-card news-card--featured">
               <img
                 class="news-card__img"
                 src="images/8-mart-kadinlar-gunu.jpeg"
@@ -86,6 +86,10 @@
                 loading="lazy"
               />
               <div class="news-card__body">
+                <div class="news-card__tags">
+                  <span class="news-card__tag news-card__tag--lead">Öne çıkan</span>
+                  <span class="news-card__tag">Özel Gün</span>
+                </div>
                 <h3>8 Mart Dünya Emekçi Kadınlar Günü Kutlaması</h3>
                 <p>
                   Arkoz Gazbeton ailesi olarak, 8 Mart Dünya Emekçi Kadınlar Günü'nü kutluyoruz.
@@ -103,6 +107,7 @@
                 loading="lazy"
               />
               <div class="news-card__body">
+                <span class="news-card__tag">İnsan Kaynakları</span>
                 <h3>Arkoz MT Programı Başladı</h3>
                 <p>
                   Arkoz Gazbeton, yönetici adaylarını yetiştirmeyi hedefleyen MT (Management
@@ -120,6 +125,7 @@
                 loading="lazy"
               />
               <div class="news-card__body">
+                <span class="news-card__tag">Tesis</span>
                 <h3>Türkiye'nin En Yeni ve En Modern Gazbeton Tesisi</h3>
                 <p>
                   Samsun'un Havza ilçesinde kurulan Arkoz Gazbeton tesisi, Türkiye'nin en yeni ve en
@@ -137,6 +143,7 @@
                 loading="lazy"
               />
               <div class="news-card__body">
+                <span class="news-card__tag">Duyuru</span>
                 <h3>Web Sitemiz Yayına Başladı</h3>
                 <p>
                   Arkoz Gazbeton'un kurumsal web sitesi yayına başladı. Ürünlerimize, kurumsal
@@ -147,11 +154,9 @@
             </div>
           </div>
 
-          <div style="text-align: center; margin-top: 48px">
-            <p style="color: var(--color-text-muted); margin-bottom: 20px">
-              Bizi sosyal medyadan takip edin
-            </p>
-            <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap">
+          <div class="news-follow">
+            <p class="news-follow__title">Bizi sosyal medyadan takip edin</p>
+            <div class="news-follow__links">
               <a
                 href="https://www.facebook.com/arkozgazbeton/"
                 target="_blank"
