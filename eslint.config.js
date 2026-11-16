@@ -31,8 +31,6 @@ export default [
         fetch: 'readonly',
         performance: 'readonly',
         CustomEvent: 'readonly',
-        THREE: 'readonly',
-        Lenis: 'readonly',
       },
     },
     rules: {

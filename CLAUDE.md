@@ -36,8 +36,7 @@ Arkoz/
 │   └── factory-1..5.jpg   # Fabrika görselleri
 ├── assets/
 │   ├── css/fonts.css       # Yerel @font-face tanımları (Poppins)
-│   ├── fonts/*.woff2       # Poppins latin + latin-ext (12 dosya)
-│   └── js/lenis.min.js     # KULLANIM DIŞI — smooth scroll kaldırıldı (takılma nedeniyle, sahibi onayı); geri dönüş için tutuluyor
+│   └── fonts/*.woff2       # Poppins latin + latin-ext (12 dosya)
 ├── components/
 │   ├── cookie-banner.js    # KVKK çerez onayı: banner + granular modal
 │   ├── cookie-banner.css

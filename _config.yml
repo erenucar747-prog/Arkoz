@@ -1,0 +1,16 @@
+# GitHub Pages (main kökü, Jekyll) — yalnız site dosyaları yayınlansın.
+# Geliştirici dosyaları ve iç notlar sitede sayfa olarak görünmesin.
+exclude:
+  - CLAUDE.md
+  - README.md
+  - package.json
+  - package-lock.json
+  - vite.config.js
+  - eslint.config.js
+  - scripts/
+  - tests/
+  - node_modules/
+  - vendor/
+  - Gemfile
+  - Gemfile.lock
+  - _arsiv/

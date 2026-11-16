@@ -8,23 +8,6 @@
 const REDUCE_MOTION =
   window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-/* ── 1. Lenis smooth scroll ─────────────────────────────── */
-const lenis =
-  !REDUCE_MOTION && typeof Lenis !== 'undefined'
-    ? new Lenis({
-        duration: 0.55,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        prevent: (node) => !!(node && node.closest && node.closest('#ai-chat-widget')),
-      })
-    : null;
-
-if (lenis) {
-  (function lenisRaf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(lenisRaf);
-  })();
-}
-
 /* ── 2. Lightweight intro overlay (CSS + logo) ──────────── */
 (function initIntro() {
   if (REDUCE_MOTION) return;
@@ -87,23 +70,34 @@ if (lenis) {
   burger.addEventListener('click', () => {
     const open = navList.classList.toggle('open');
     burger.classList.toggle('active', open);
+    burger.setAttribute('aria-expanded', open ? 'true' : 'false');
     document.body.style.overflow = open ? 'hidden' : '';
   });
 
+  const closeMenu = () => {
+    navList.classList.remove('open');
+    burger.classList.remove('active');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
   navList.querySelectorAll('.nav__link').forEach((link) => {
-    link.addEventListener('click', () => {
-      navList.classList.remove('open');
-      burger.classList.remove('active');
-      document.body.style.overflow = '';
-    });
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Escape açık menüyü kapatır; odak menü düğmesine döner.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !navList.classList.contains('open')) return;
+    closeMenu();
+    burger.focus();
   });
 })();
 
-/* ── 5. Scroll reveal — viewport-aware, Lenis-safe ──── */
+/* ── 5. Scroll reveal — viewport-aware ──────────────── */
 function initReveal() {
   // Auto-collect targets (don't pre-mark — only initial-viewport gets revealed-on-load)
   const autoTargets = document.querySelectorAll(
-    '.service-card, .about__card, .contact__item, .section__header, .mission__card, .mission__photo, .news-card, .cert-card, .partners-strip__partner, .adv-strip__card, .showcase__card, .faq__item, .quake-banner__content, .quake-banner__visual'
+    '.service-card, .about__card, .contact__item, .section__header, .mission__photo, .news-card, .cert-card, .partners-strip__partner, .adv-strip__card, .showcase__card, .faq__item, .quake-banner__content, .quake-banner__visual'
   );
   autoTargets.forEach((el, i) => {
     el.classList.add('reveal');
@@ -120,7 +114,7 @@ function initReveal() {
     return;
   }
 
-  // Single scroll-driven check (fires on native + Lenis scroll + load)
+  // Single scroll-driven check (fires on scroll + load)
   const check = () => {
     const vh = window.innerHeight;
     allTargets.forEach((el) => {
@@ -142,9 +136,6 @@ function initReveal() {
   };
 
   window.addEventListener('scroll', onScroll, { passive: true });
-  if (lenis && typeof lenis.on === 'function') {
-    lenis.on('scroll', onScroll);
-  }
 
   // Initial reveal pass — multiple times to catch elements as fonts/images load
   check();
@@ -200,8 +191,7 @@ if (document.readyState === 'loading') {
       if (!target) return;
       e.preventDefault();
       const top = target.getBoundingClientRect().top + window.scrollY - 80;
-      if (lenis) lenis.scrollTo(top);
-      else window.scrollTo({ top, behavior: 'smooth' });
+      window.scrollTo({ top, behavior: 'smooth' });
     });
   });
 })();
@@ -218,12 +208,18 @@ if (document.readyState === 'loading') {
  *   Formlar `novalidate` olduğu için doğrulamayı JS yapar.
  * - Spam koruması: görünmez honeypot alanı + oturum başına 60 sn gönderim aralığı.
  * - Başarı / hata için toast bildirimleri.
+ * - Dosya eki (İK formu özgeçmiş, PDF ≤ 5 MB) seçilmişse form klasik gönderimle gider ve
+ *   sayfa `?gonderim=<form id>` ile geri açılır; dosyasız gönderim sayfadan çıkmaz.
  */
 (function initFormSubmissions() {
   const ENDPOINT = 'https://formsubmit.co/ajax/info@arkozgazbeton.com.tr';
   const HONEYPOT_NAME = 'website-url';
   const MIN_SUBMIT_GAP_MS = 60000;
   const LAST_SUBMIT_KEY = 'arkoz_last_form_submit';
+  // Dosya eki olan başvurular klasik (sayfa yenileyen) gönderimle gider; bkz. bindForm.
+  const ENDPOINT_WITH_FILE = ENDPOINT.replace('/ajax/', '/');
+  const MAX_FILE_BYTES = 5 * 1024 * 1024;
+  const RETURN_PARAM = 'gonderim';
 
   function lastSubmitAt() {
     try {
@@ -273,12 +269,65 @@ if (document.readyState === 'loading') {
 
     addHoneypot(form);
 
+    // Dosyalı (klasik) gönderimden bu sayfaya dönüldüyse başarıyı bildir ve adresi temizle.
+    const params = new window.URLSearchParams(window.location.search);
+    if (params.get(RETURN_PARAM) === formId) {
+      params.delete(RETURN_PARAM);
+      const rest = params.toString();
+      window.history.replaceState(
+        null,
+        '',
+        window.location.pathname + (rest ? '?' + rest : '') + window.location.hash
+      );
+      form.scrollIntoView({ block: 'center' });
+      showToast(successMessage, 'success');
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
       // Tuzak alan doluysa gönderim sessizce düşer — bota ipucu verilmez.
       const hp = form.querySelector('[name="' + HONEYPOT_NAME + '"]');
       if (hp && hp.value.trim() !== '') return;
+
+      // Zorunlu alanlar ve e-posta biçimi (onay kutuları aşağıda ayrıca denetlenir).
+      const invalid = Array.from(form.elements).find(
+        (el) => el.type !== 'checkbox' && el.willValidate && !el.checkValidity()
+      );
+      if (invalid) {
+        showToast(
+          invalid.validity.typeMismatch
+            ? 'Lütfen geçerli bir e-posta adresi yazın.'
+            : 'Lütfen zorunlu alanları doldurun.',
+          'error'
+        );
+        invalid.focus();
+        return;
+      }
+      // Size dönülebilmesi için telefon veya e-postadan en az biri gerekli.
+      const telInput = form.querySelector('input[type="tel"]');
+      const mailInput = form.querySelector('input[type="email"]');
+      if (telInput && mailInput && !telInput.value.trim() && !mailInput.value.trim()) {
+        showToast('Size dönebilmemiz için telefon veya e-posta adresinizi yazın.', 'error');
+        telInput.focus();
+        return;
+      }
+      // Dosya eki (özgeçmiş): yalnız PDF, en fazla 5 MB.
+      const fileInput = form.querySelector('input[type="file"]');
+      const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+      if (file) {
+        const isPdf = /\.pdf$/i.test(file.name) && (!file.type || file.type === 'application/pdf');
+        if (!isPdf) {
+          showToast('Özgeçmiş yalnızca PDF dosyası olarak yüklenebilir.', 'error');
+          fileInput.focus();
+          return;
+        }
+        if (file.size > MAX_FILE_BYTES) {
+          showToast('Özgeçmiş dosyası en fazla 5 MB olabilir.', 'error');
+          fileInput.focus();
+          return;
+        }
+      }
 
       // Bilgilendirme teyidi zorunlu. `acik-riza` bilerek kontrol EDİLMEZ:
       // opsiyonel olması hukuken şart.
@@ -299,10 +348,45 @@ if (document.readyState === 'loading') {
       const btn = form.querySelector('button[type="submit"]');
       const original = btn.innerHTML;
       btn.disabled = true;
-      btn.innerHTML = '<span>Gönderiliyor...</span>';
+      btn.innerHTML = '<span>Gönderiliyor…</span>';
+
+      // Dosya eki varsa klasik gönderim yapılır: dosya yalnız bu yolla taşınır. Gönderimden
+      // sonra sayfa `?gonderim=<form>` ile geri açılır ve başarı bildirimi yukarıda gösterilir.
+      if (file) {
+        markSubmitted();
+        if (hp) hp.disabled = true; // tuzak alan e-postaya taşınmasın
+        form.querySelectorAll('input[data-classic-field]').forEach((el) => el.remove());
+        const addHidden = (name, value) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = name;
+          input.value = value;
+          input.setAttribute('data-classic-field', '');
+          form.appendChild(input);
+        };
+        addHidden('_subject', subject);
+        addHidden('_template', 'table');
+        addHidden('_captcha', 'false');
+        addHidden(
+          '_next',
+          window.location.origin + window.location.pathname + '?' + RETURN_PARAM + '=' + formId
+        );
+        form.action = ENDPOINT_WITH_FILE;
+        form.method = 'POST';
+        form.enctype = 'multipart/form-data';
+        // Tarayıcının "geri" tuşuyla dönülürse düğme kilitli kalmasın.
+        window.addEventListener('pageshow', (ev) => {
+          if (!ev.persisted) return;
+          btn.disabled = false;
+          btn.innerHTML = original;
+        });
+        form.submit(); // submit() bu dinleyiciyi yeniden tetiklemez
+        return;
+      }
 
       const data = new FormData(form);
       data.delete(HONEYPOT_NAME); // tuzak alan e-postaya taşınmasın
+      if (fileInput) data.delete(fileInput.name); // boş dosya alanı gönderilmesin
       data.append('_subject', subject);
       data.append('_template', 'table');
       data.append('_captcha', 'false');
@@ -343,12 +427,9 @@ if (document.readyState === 'loading') {
     'Arkoz Gazbeton — Yeni Teklif Talebi',
     'Teklif talebiniz alındı. En kısa sürede dönüş yapacağız.',
     function () {
+      // Kapatma mantığı tek yerde (bölüm 12, closeQuoteModal) durur.
       const modal = document.getElementById('quote-modal');
-      if (modal) {
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('modal-open');
-      }
+      if (modal) modal.dispatchEvent(new CustomEvent('arkoz:quote-close'));
     }
   );
 
@@ -370,12 +451,14 @@ if (document.readyState === 'loading') {
   let current = 0;
   let timer;
   const heroContent = document.querySelector('.hero__content');
-  const TEXT_HIDDEN = [0, 1, 2, 3];
 
+  // Banner slaytlarının (hero__slide--banner) kendi yazısı var: hero metni gizlenir ve
+  // gizliyken klavye odağı almaz.
   const updateText = () => {
-    if (heroContent) {
-      heroContent.classList.toggle('hero__content--hidden', TEXT_HIDDEN.includes(current));
-    }
+    if (!heroContent) return;
+    const hidden = slides[current].classList.contains('hero__slide--banner');
+    heroContent.classList.toggle('hero__content--hidden', hidden);
+    heroContent.inert = hidden;
   };
 
   const goTo = (i) => {
@@ -497,7 +580,6 @@ if (document.readyState === 'loading') {
     });
   };
   window.addEventListener('scroll', update, { passive: true });
-  if (lenis && typeof lenis.on === 'function') lenis.on('scroll', update);
   update();
 })();
 
@@ -547,8 +629,10 @@ if (document.readyState === 'loading') {
   const update = (area) => {
     const co2Saving = area * 12;
     const energySaving = area * 48;
-    const laborSaving = Math.round(area * 0.8);
-    const totalSaving = energySaving + laborSaving * 50 + area * 38;
+    const laborHours = area * 0.8;
+    const laborSaving = Math.round(laborHours);
+    // Toplam, yuvarlanmamış saatle hesaplanır (126 ₺/m²); yuvarlama yalnız gösterim içindir.
+    const totalSaving = energySaving + laborHours * 50 + area * 38;
 
     areaVal.textContent = fmt(area);
     co2.textContent = fmt(co2Saving);
@@ -559,42 +643,6 @@ if (document.readyState === 'loading') {
 
   slider.addEventListener('input', (e) => update(+e.target.value));
   update(+slider.value);
-})();
-
-/* ── 13.6 Gallery Lightbox ──────────────────────────────── */
-(function initLightbox() {
-  const items = document.querySelectorAll('.gallery__item[data-src]');
-  const lb = document.getElementById('lightbox');
-  const lbImg = document.getElementById('lightboxImg');
-  const lbClose = document.getElementById('lightboxClose');
-  if (!items.length || !lb) return;
-
-  const open = (src, alt) => {
-    lbImg.src = src;
-    lbImg.alt = alt;
-    lb.classList.add('is-open');
-    lb.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  };
-  const close = () => {
-    lb.classList.remove('is-open');
-    lb.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  };
-
-  items.forEach((item) => {
-    item.addEventListener('click', () => {
-      const img = item.querySelector('img');
-      open(item.dataset.src, img ? img.alt : '');
-    });
-  });
-  lbClose.addEventListener('click', close);
-  lb.addEventListener('click', (e) => {
-    if (e.target === lb) close();
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && lb.classList.contains('is-open')) close();
-  });
 })();
 
 /* ── 13. Tabs (kurumsal.html) ───────────────────────────── */
@@ -671,8 +719,13 @@ if (document.readyState === 'loading') {
   const quoteModal = document.getElementById('quote-modal');
   const quoteForm = document.getElementById('quote-form');
 
+  // Pencereyi açan öğe: kapanınca odak ona döner.
+  let quoteOpener = null;
+
   function openQuoteModal(productKey) {
     if (!quoteModal) return;
+    quoteOpener = document.activeElement;
+    quoteModal.inert = false;
     quoteModal.classList.add('is-open');
     quoteModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -690,10 +743,15 @@ if (document.readyState === 'loading') {
     if (!quoteModal) return;
     quoteModal.classList.remove('is-open');
     quoteModal.setAttribute('aria-hidden', 'true');
+    quoteModal.inert = true; // kapalıyken alanlar klavye odağı almasın
     document.body.classList.remove('modal-open');
+    if (quoteOpener && document.contains(quoteOpener)) quoteOpener.focus();
+    quoteOpener = null;
   }
 
   if (quoteModal) {
+    quoteModal.inert = !quoteModal.classList.contains('is-open');
+    quoteModal.addEventListener('arkoz:quote-close', closeQuoteModal);
     document.addEventListener('click', (e) => {
       const trigger = e.target.closest('[data-quote-product]');
       if (trigger) {

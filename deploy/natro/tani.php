@@ -3,6 +3,16 @@
 // Hiçbir sır okumaz ve basmaz; config dosyasına dokunmaz. Kalıcı olarak sunucuda bırakılmaz.
 header('Content-Type: text/plain; charset=utf-8');
 header('Cache-Control: no-store');
+header('X-Robots-Tag: noindex, nofollow');
+
+// Unutulursa açık kalmasın: yüklendikten 1 saat sonra artık çıktı vermez ve kendini siler.
+// (FTP eski değişiklik tarihini koruyabilir; yanıltmasın diye iki tarihin büyüğü alınır.)
+$yas = time() - max((int) @filemtime(__FILE__), (int) @filectime(__FILE__));
+if ($yas > 3600) {
+    @unlink(__FILE__);
+    http_response_code(404);
+    exit;
+}
 
 function satir($k, $v)
 {
@@ -99,4 +109,8 @@ if (function_exists('curl_init')) {
 } else {
     satir('curl', 'yok — bağlantı testi yapılamadı');
 }
-echo "\nBu betiği şimdi silin.\n";
+// Tek kullanımlık: çıktı verildikten sonra kendini siler.
+$silindi = @unlink(__FILE__);
+echo $silindi
+    ? "\nBu betik kendini sildi. FTP'de dosyanın kalmadığını doğrulayın.\n"
+    : "\nUYARI: Betik kendini SİLEMEDİ. Bu dosyayı şimdi elle silin.\n";

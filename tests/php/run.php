@@ -285,8 +285,9 @@ list($d, $c) = deps();
 $r = arkoz_chat_handle(srv(array('HTTP_USER_AGENT' => 'TestUA/1.0', 'HTTP_COOKIE' => 'sid=abc')), body(array(user('Gazbeton nedir?'))), $d);
 check($r['status'] === 200 && count($c->upstream) === 1, 'temiz istek → 200, upstream 1');
 $p = json_decode($c->upstream[0]['json'], true);
-check(array_keys($p) === array('model', 'max_tokens', 'system', 'messages'), 'yük anahtarları tam olarak model,max_tokens,system,messages');
-check($p['max_tokens'] === 1024 && $p['model'] === 'test-model', 'max_tokens 1024, model config\'ten');
+check(array_keys($p) === array('model', 'max_tokens', 'output_config', 'system', 'messages'), 'yük anahtarları tam olarak model,max_tokens,output_config,system,messages');
+check($p['max_tokens'] === 2048 && $p['model'] === 'test-model', 'max_tokens 2048, model config\'ten');
+check($p['output_config'] === array('effort' => 'low'), 'output_config.effort low');
 check($p['system'] === array(array('type' => 'text', 'text' => 'TEST SISTEM PROMPTU', 'cache_control' => array('type' => 'ephemeral'))), 'system bloğu');
 check($c->upstream[0]['headers'] === array('content-type: application/json', 'x-api-key: test-not-a-key', 'anthropic-version: 2023-06-01', 'Expect:'), 'başlık dizisi tam dört girdi');
 $all = $c->upstream[0]['json'] . implode('|', $c->upstream[0]['headers']);
@@ -315,6 +316,28 @@ list($d, $c) = deps(array('upstream' => function ($json, $h) {
 $r = arkoz_chat_handle(srv(), body(array(user('x'))), $d);
 $b = json_decode($r['body'], true);
 check($r['status'] === 200 && $b['content'][0]['text'] === 'Bir sorun oluştu, sorunuzu tekrar yazar mısınız?', 'boş içerik → yedek mesaj');
+list($d, $c) = deps(array('upstream' => function ($json, $h) {
+    return array('status' => 200, 'body' => json_encode(array('stop_reason' => 'end_turn', 'content' => array(
+        array('type' => 'thinking', 'thinking' => '', 'signature' => 'imza'), array('type' => 'text', 'text' => 'Düşünmeden sonra yanıt.'),
+    ))), 'errno' => 0);
+}));
+$r = arkoz_chat_handle(srv(), body(array(user('x'))), $d);
+$b = json_decode($r['body'], true);
+check($r['status'] === 200 && $b['content'] === array(array('type' => 'text', 'text' => 'Düşünmeden sonra yanıt.')), 'düşünme bloğu atılır, yalnız metin döner');
+list($d, $c) = deps(array('upstream' => function ($json, $h) {
+    return array('status' => 200, 'body' => json_encode(array('stop_reason' => 'max_tokens', 'content' => array(
+        array('type' => 'thinking', 'thinking' => '', 'signature' => 'imza'),
+    ))), 'errno' => 0);
+}));
+$r = arkoz_chat_handle(srv(), body(array(user('x'))), $d);
+$b = json_decode($r['body'], true);
+check($r['status'] === 200 && $b['content'][0]['text'] === 'Bir sorun oluştu, sorunuzu tekrar yazar mısınız?', 'yalnız düşünme bloğu → yedek mesaj');
+list($d, $c) = deps(array('upstream' => function ($json, $h) {
+    return array('status' => 200, 'body' => json_encode(array('stop_reason' => 'refusal', 'stop_details' => array('type' => 'refusal', 'category' => 'general_harms'), 'content' => array())), 'errno' => 0);
+}));
+$r = arkoz_chat_handle(srv(), body(array(user('x'))), $d);
+$b = json_decode($r['body'], true);
+check($r['status'] === 200 && array_keys($b) === array('content') && strpos($b['content'][0]['text'], 'Bu konuda yardımcı olamıyorum') === 0, 'stop_reason refusal → kibar sabit yanıt');
 list($d, $c) = deps(array('upstream' => function ($json, $h) {
     return array('status' => 200, 'body' => json_encode(array('content' => array(
         array('type' => 'text', 'text' => 'Bir'), array('type' => 'tool_use', 'id' => 'x'), array('type' => 'text', 'text' => 'İki 😀'),
@@ -440,6 +463,7 @@ $other = arkoz_rate_limit($dir, '2001:db8:abcd:2::1', $base + 25);
 check(is_array($same) && $same['status'] === 429, 'aynı /64 içindeki IPv6 adresleri kovayı paylaşır');
 check($other === null, 'farklı /64 kovayı paylaşmaz');
 check(arkoz_rate_limit_bucket('2001:db8:abcd:1::1') === arkoz_rate_limit_bucket('2001:db8:abcd:1::ffff') && arkoz_rate_limit_bucket('203.0.113.7') === '203.0.113.7', 'bucket: IPv6 /64, IPv4 aynen');
+check(arkoz_rate_limit_bucket('::ffff:203.0.113.7') === '203.0.113.7' && arkoz_rate_limit_bucket('::ffff:203.0.113.7') !== arkoz_rate_limit_bucket('::ffff:198.51.100.9'), 'bucket: IPv4-eşlemeli IPv6 adresler ayrı IPv4 kovalarına düşer');
 rl_cleanup($dir);
 
 $dir = rl_tmp();

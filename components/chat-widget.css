@@ -567,6 +567,9 @@
   opacity: 1;
 }
 #ai-chat-consent__card {
+  max-height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
   background: #ffffff;
   border-radius: 14px;
   padding: 22px 22px 18px;
@@ -685,7 +688,6 @@
 /* ------------ Mobile ------------ */
 @media (max-width: 480px) {
   #ai-chat-widget {
-    bottom: 16px;
     right: 16px;
   }
   #ai-chat-panel {

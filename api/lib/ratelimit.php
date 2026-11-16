@@ -12,6 +12,13 @@ function arkoz_rate_limit_bucket(string $ip): string
     if (strpos($ip, ':') !== false) {
         $bin = @inet_pton($ip);
         if ($bin !== false && strlen($bin) === 16) {
+            // IPv4-eşlemeli adres (::ffff:a.b.c.d): /64 öneki hepsinde aynı olur; IPv4 olarak ele al.
+            if (substr($bin, 0, 12) === str_repeat("\x00", 10) . "\xff\xff") {
+                $v4 = @inet_ntop(substr($bin, 12));
+                if ($v4 !== false) {
+                    return $v4;
+                }
+            }
             return bin2hex(substr($bin, 0, 8)) . '/64';
         }
     }

@@ -3,7 +3,7 @@
  *
  * - Kategoriler: essential (her zaman açık), functional, ai, marketing.
  * - Onay JSON olarak localStorage'da `arkoz_cookie_consent_v2` anahtarında tutulur.
- * - Yapay zeka asistanı yalnızca "ai" kategorisi onaylanınca ve yalnızca üretim alan adında
+ * - Yapay zekâ asistanı yalnızca "ai" kategorisi onaylanınca ve yalnızca üretim alan adında
  *   yüklenir; gömülü videolar sitenin temel içeriği olarak onaydan bağımsız yüklenir (sahibi kararı).
  * - Onay değiştiğinde `arkoz:consent-changed` (CustomEvent) yayınlanır; sohbet
  *   asistanı kendini buna göre açar/kapatır.
@@ -36,8 +36,8 @@
     },
     {
       id: 'ai',
-      title: 'Yapay Zeka Asistanı',
-      desc: 'Yapay zeka asistanının yüklenmesine izin verir. Kapalıyken asistan yüklenmez. Açık olsa dahi asistan, ilk kullanımda sizi ayrıca bilgilendirir ve açık rızanızı ister; kişisel veri içerdiği tespit edilen mesajları göndermez. Asistan, arkozgazbeton.com.tr alan adı dışındaki adreslerde yüklenmez.',
+      title: 'Yapay Zekâ Asistanı',
+      desc: 'Yapay zekâ asistanının yüklenmesine izin verir. Kapalıyken asistan yüklenmez. Açık olsa dahi asistan, ilk kullanımda sizi ayrıca bilgilendirir ve açık rızanızı ister; kişisel veri içerdiği tespit edilen mesajları göndermez. Asistan, arkozgazbeton.com.tr alan adı dışındaki adreslerde yüklenmez.',
       link: { href: POLICY_URL + '#ai', label: 'Aydınlatma Metni' },
       locked: false,
       defaultValue: false,
@@ -98,7 +98,7 @@
       <p class="cb-banner__title" id="cb-banner-title">Çerez Tercihleriniz</p>
       <p class="cb-banner__text">
         Bu sitede reklam ve takip çerezi kullanılmaz. Teknik olarak zorunlu kayıtlar ve
-        gömülü video içerikleri dışında, onayınıza bağlı tek teknoloji yapay zeka
+        gömülü video içerikleri dışında, onayınıza bağlı tek teknoloji yapay zekâ
         asistanıdır ve siz onaylamadıkça çalıştırılmaz. Detaylar:
         <a href="${POLICY_URL}#cerez">Çerez Politikası</a> ve
         <a href="${POLICY_URL}#kvk">KVKK Aydınlatma Metni</a>.
@@ -171,22 +171,32 @@
     btn.type = 'button';
     btn.className = 'cb-reopen';
     btn.id = 'arkozCookieReopen';
-    btn.setAttribute('aria-label', 'Çerez tercihlerini değiştir');
+    btn.setAttribute('aria-label', 'Çerez Tercihleri');
     btn.textContent = '🍪 Çerez Tercihleri';
     return btn;
   }
 
   // ---------- Davranış ----------
 
+  // Gizliyken banner ve pencere yalnız saydamlaşır; `inert` klavye odağı almalarını önler.
   function showBanner(banner) {
-    setTimeout(() => banner.classList.add('is-visible'), SHOW_DELAY_MS);
+    setTimeout(() => {
+      banner.inert = false;
+      banner.classList.add('is-visible');
+    }, SHOW_DELAY_MS);
   }
 
   function hideBanner(banner) {
     banner.classList.remove('is-visible');
+    banner.inert = true;
   }
 
+  // Pencereyi açan öğe: kapanınca odak ona (gizlendiyse kalıcı düğmeye) döner.
+  let modalOpener = null;
+
   function openModal(modal) {
+    modalOpener = document.activeElement;
+    modal.inert = false;
     modal.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     const firstFocus = modal.querySelector('input:not([disabled]), button[data-cb-action="save"]');
@@ -195,7 +205,19 @@
 
   function closeModal(modal) {
     modal.classList.remove('is-open');
+    modal.inert = true;
     document.body.style.overflow = '';
+    const reopen = document.getElementById('arkozCookieReopen');
+    const target =
+      modalOpener && document.contains(modalOpener) && !modalOpener.closest('[inert]')
+        ? modalOpener
+        : reopen;
+    modalOpener = null;
+    // Banner bu çağrıdan hemen sonra gizlenebilir; odak bir sonraki karede verilir.
+    setTimeout(() => {
+      if (target && !target.closest('[inert]')) target.focus();
+      else if (reopen) reopen.focus();
+    }, 0);
   }
 
   function readModalState(modal) {
@@ -234,6 +256,7 @@
     const existing = loadConsent();
 
     const banner = buildBanner();
+    banner.inert = true; // showBanner açana kadar
     const reopen = buildReopenPill();
     document.body.appendChild(banner);
     document.body.appendChild(reopen);
@@ -246,6 +269,7 @@
         modal.remove();
       }
       modal = buildModal(loadConsent() || defaultConsent());
+      modal.inert = true; // openModal açana kadar
       document.body.appendChild(modal);
 
       modal.addEventListener('click', (e) => {

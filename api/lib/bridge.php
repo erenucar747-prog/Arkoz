@@ -10,12 +10,16 @@ if (!defined('ARKOZ_CHAT')) {
 const ARKOZ_MAX_INPUT_LENGTH = 500;
 const ARKOZ_MAX_REPLY_LENGTH = 8000;
 const ARKOZ_MAX_HISTORY = 20;
-const ARKOZ_MAX_TOKENS = 1024;
+// Düşünme payı ve yeni token sayımı (aynı metin yaklaşık %30 fazla token) için 1024'ten yükseltildi.
+const ARKOZ_MAX_TOKENS = 2048;
+// Sohbet için önerilen düzey: kısa düşünme, hızlı yanıt (claude-haiku-5-5 ve sonrası).
+const ARKOZ_EFFORT = 'low';
 const ARKOZ_MAX_BODY_BYTES = 131072;
 const ARKOZ_ERR_SERVER = 'Sunucu hatası, lütfen tekrar deneyin.';
 const ARKOZ_ERR_INVALID = 'Geçersiz istek.';
 const ARKOZ_SERVER_BLOCKED = 'Mesajınız kişisel bir bilgi içerebileceği için yanıtlanmadı ve sunucumuzda kaydedilmedi. Lütfen kişisel bilgilerinizi çıkararak sorunuzu yeniden yazın.';
 const ARKOZ_EMPTY_REPLY = 'Bir sorun oluştu, sorunuzu tekrar yazar mısınız?';
+const ARKOZ_REFUSAL_REPLY = 'Bu konuda yardımcı olamıyorum. Arkoz Gazbeton ve ürünlerimizle ilgili sorularınızı memnuniyetle yanıtlarım.';
 
 // JavaScript String.prototype.trim() ile aynı boşluk kümesi.
 function arkoz_js_trim(string $s): string
@@ -313,10 +317,11 @@ function arkoz_chat_handle(array $server, string $rawBody, array $deps): array
             return arkoz_response(400, array('error' => ARKOZ_ERR_INVALID));
         }
 
-        // 12. Yukarı akış yükü: tam olarak dört anahtar
+        // 12. Yukarı akış yükü: tam olarak beş anahtar
         $payload = array(
             'model' => $cfg['model'],
             'max_tokens' => ARKOZ_MAX_TOKENS,
+            'output_config' => array('effort' => ARKOZ_EFFORT),
             'system' => array(
                 array(
                     'type' => 'text',
@@ -355,6 +360,11 @@ function arkoz_chat_handle(array $server, string $rawBody, array $deps): array
             $log('upstream_parse');
             return arkoz_response(500, array('error' => ARKOZ_ERR_SERVER));
         }
+        // Güvenlik sınıflandırıcısı isteği reddedebilir: HTTP 200 + stop_reason "refusal".
+        if (isset($data['stop_reason']) && $data['stop_reason'] === 'refusal') {
+            return arkoz_response(200, array('content' => array(array('type' => 'text', 'text' => ARKOZ_REFUSAL_REPLY))));
+        }
+        // Yanıt düşünme bloklarıyla başlayabilir; istemciye yalnız metin blokları döner.
         $texts = array();
         if (isset($data['content']) && is_array($data['content'])) {
             foreach ($data['content'] as $block) {

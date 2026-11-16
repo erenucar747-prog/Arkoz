@@ -10,7 +10,11 @@
     <title>Politikalar | Arkoz Gazbeton</title>
     <link rel="canonical" href="https://erenucar747-prog.github.io/Arkoz/politikalar.html" />
     <link rel="stylesheet" href="assets/css/fonts.css" />
-    <link rel="icon" href="logo.png" type="image/png" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="manifest" href="site.webmanifest" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -26,11 +30,9 @@
           <li><a href="haberler.html" class="nav__link">Haberler</a></li>
           <li><a href="insan-kaynaklari.html" class="nav__link">İnsan Kaynakları</a></li>
           <li>
-            <a href="politikalar.html" class="nav__link" style="color: var(--color-primary)"
-              >Politikalar</a
-            >
+            <a href="politikalar.html" class="nav__link nav__link--active">Politikalar</a>
           </li>
-          <li><a href="index.html#iletisim" class="nav__link nav__link--cta">💬 İletişim</a></li>
+          <li><a href="index.html#iletisim" class="nav__link nav__link--cta">İletişim</a></li>
         </ul>
         <div class="nav__cta-group">
           <a
@@ -53,11 +55,16 @@
               <strong>0538 865 82 89</strong>
             </span>
           </a>
-          <a class="nav__bayi" href="index.html#bayiler" target="_blank" rel="noopener"
-            >Bayi Portalı</a
-          >
+          <a class="nav__bayi" href="index.html#bayiler">Bayilik Başvurusu</a>
         </div>
-        <button class="nav__burger" id="burger" aria-label="Menüyü aç">
+        <button
+          type="button"
+          class="nav__burger"
+          id="burger"
+          aria-label="Menüyü aç"
+          aria-expanded="false"
+          aria-controls="nav-list"
+        >
           <span></span><span></span><span></span>
         </button>
       </nav>
@@ -78,12 +85,18 @@
       <section class="tabs section">
         <div class="container">
           <div class="tabs__nav">
-            <button class="tab-btn active" data-tab="kvk">Kişisel Verilerin Korunması</button>
-            <button class="tab-btn" data-tab="gizlilik">Gizlilik Politikası</button>
-            <button class="tab-btn" data-tab="cerez">Çerez Politikası</button>
-            <button class="tab-btn" data-tab="ai">AI Asistan ve Veri İşleme</button>
-            <button class="tab-btn" data-tab="aday">Çalışan Adayı Aydınlatma Metni</button>
-            <button class="tab-btn" data-tab="acik-riza">Açık Rıza Metni</button>
+            <button type="button" class="tab-btn active" data-tab="kvk">
+              Kişisel Verilerin Korunması
+            </button>
+            <button type="button" class="tab-btn" data-tab="gizlilik">Gizlilik Politikası</button>
+            <button type="button" class="tab-btn" data-tab="cerez">Çerez Politikası</button>
+            <button type="button" class="tab-btn" data-tab="ai">
+              Yapay Zekâ Asistanı ve Veri İşleme
+            </button>
+            <button type="button" class="tab-btn" data-tab="aday">
+              Çalışan Adayı Aydınlatma Metni
+            </button>
+            <button type="button" class="tab-btn" data-tab="acik-riza">Açık Rıza Metni</button>
           </div>
 
           <!-- KVKK — İnternet sitesi aydınlatma metni. Hukuk bürosunun 2026 web aydınlatma taslağı
@@ -95,7 +108,7 @@
               <p>
                 6698 sayılı Kişisel Verilerin Korunması Kanunu ("Kanun") kapsamında "Veri Sorumlusu"
                 sıfatıyla
-                <strong style="color: var(--color-text)"
+                <strong style="color: inherit"
                   >Arkoz Gaz Beton Sanayi ve Ticaret Anonim Şirketi</strong
                 >
                 ("Şirket") olarak, https://www.arkozgazbeton.com.tr/tr adresini ve bu alan adına
@@ -117,9 +130,9 @@
                   >
                 </li>
                 <li>
-                  Yapay zeka asistanı:
+                  Yapay zekâ asistanı:
                   <a href="#ai" style="color: var(--color-primary)"
-                    >Yapay Zeka Asistanı Aydınlatma Metni</a
+                    >Yapay Zekâ Asistanı Aydınlatma Metni</a
                   >
                 </li>
                 <li>
@@ -134,12 +147,12 @@
 
               <h3 style="font-size: 1.1rem; margin-top: 32px">1. VERİ SORUMLUSUNUN KİMLİĞİ</h3>
               <p>
-                <strong style="color: var(--color-text)"
+                <strong style="color: inherit"
                   >Arkoz Gaz Beton Sanayi ve Ticaret Anonim Şirketi</strong
                 ><br />
                 Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye<br />
                 Telefon:
-                <a href="tel:08503175555" style="color: var(--color-primary)">0 (850) 317 55 55</a
+                <a href="tel:+908503175555" style="color: var(--color-primary)">0 (850) 317 55 55</a
                 ><br />
                 E-posta:
                 <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
@@ -250,7 +263,7 @@
                       </td>
                       <td style="padding: 12px">
                         Sitenin sunulması, güvenliğinin sağlanması, kötüye kullanımın ve teknik
-                        hataların tespit edilmesi, kullanım istatistiklerinin oluşturulması
+                        hataların tespit edilmesi
                       </td>
                       <td style="padding: 12px">Kanun m.5/2-f: Meşru menfaat</td>
                     </tr>
@@ -299,7 +312,7 @@
               </p>
               <ul>
                 <li>
-                  <strong style="color: var(--color-text)"
+                  <strong style="color: inherit"
                     >Bilgi teknolojileri hizmeti aldığımız tedarikçiler</strong
                   >
                   (veri işleyen sıfatıyla): İnternet Sitesinin barındırılması, form iletilerinin
@@ -307,7 +320,7 @@
                   amacıyla.
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)"
+                  <strong style="color: inherit"
                     >Yetkili kamu kurum ve kuruluşları ile yargı mercileri</strong
                   >: Yürürlükteki mevzuat uyarınca usulüne uygun olarak talep edilmesi hâlinde,
                   hukuki yükümlülüklerin yerine getirilmesi, kanuni taleplerin karşılanması ve
@@ -329,8 +342,8 @@
                 zamanaşımı süreleri boyunca saklanır. İletişim ve teklif talepleri, talebin
                 sonuçlandırılmasını takiben bu süreler çerçevesinde değerlendirilir; teklif bir
                 sözleşmeye dönüşürse ilgili kayıtlar ticari mevzuatın öngördüğü süreler boyunca
-                saklanır. Açık rızanıza dayanarak saklanan iletişim bilgileriniz, rızanızı geri
-                aldığınız anda işlenmeye son verilir. Sürelerin sonunda kişisel verileriniz
+                saklanır. Açık rızanıza dayanarak saklanan iletişim bilgilerinizin işlenmesine,
+                rızanızı geri aldığınız anda son verilir. Sürelerin sonunda kişisel verileriniz
                 Şirketimizin Kişisel Veri Saklama ve İmha Politikası'na uygun olarak silinir, yok
                 edilir veya anonim hâle getirilir.
               </p>
@@ -386,24 +399,21 @@
               </p>
               <ul>
                 <li>
-                  <strong style="color: var(--color-text)">Yazılı olarak:</strong> Bekdiğin Mah.
-                  Havza OSB Cd. No:18/1 Havza - Samsun adresine elden teslim, noter veya posta
-                  yoluyla,
+                  <strong style="color: inherit">Yazılı olarak:</strong> Bekdiğin Mah. Havza OSB Cd.
+                  No:18/1 Havza - Samsun adresine elden teslim, noter veya posta yoluyla,
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)"
-                    >Kayıtlı elektronik posta (KEP) ile:</strong
-                  >
+                  <strong style="color: inherit">Kayıtlı elektronik posta (KEP) ile:</strong>
                   arkozgazbeton@hs01.kep.tr adresine,
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)"
+                  <strong style="color: inherit"
                     >Güvenli elektronik imza veya mobil imza ile</strong
                   >
                   imzalanmış olarak info@arkozgazbeton.com.tr adresine,
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)"
+                  <strong style="color: inherit"
                     >Daha önce Şirketimize bildirdiğiniz ve sistemimizde kayıtlı bulunan e-posta
                     adresinizden</strong
                   >
@@ -419,7 +429,7 @@
               <p>
                 Başvurunuz, niteliğine göre en kısa sürede ve en geç otuz gün içinde ücretsiz olarak
                 sonuçlandırılır. İşlemin ayrıca bir maliyet gerektirmesi hâlinde, Kişisel Verileri
-                Koruma Kurulu'nca belirlenen tarifedeki ücret alınabilir.
+                Koruma Kurulunca belirlenen tarifedeki ücret alınabilir.
               </p>
 
               <h3 style="font-size: 1.1rem; margin-top: 32px">8. GÜNCELLEME</h3>
@@ -473,7 +483,7 @@
                 takip pikseli veya profilleme teknolojisi
                 <strong style="color: var(--c-text-strong)">kullanılmamaktadır</strong>. Klasik
                 anlamda HTTP çerezi de kullanılmaz. Yalnızca tarayıcınızın depolama alanında tutulan
-                üç teknik kayıt, yapay zeka asistanını etkinleştirip ona açık rıza vermeniz hâlinde
+                üç teknik kayıt, yapay zekâ asistanını etkinleştirip ona açık rıza vermeniz hâlinde
                 yazılan bir oturum kaydı ve sayfa açıldığında sitenin bir parçası olarak yüklenen
                 gömülü video içeriği bulunur. Tamamı aşağıda tek tek listelenmiştir.
               </p>
@@ -571,7 +581,7 @@
                       <td style="padding: 12px"><code>arkoz_ai_session_consent</code></td>
                       <td style="padding: 12px">Oturum depolaması</td>
                       <td style="padding: 12px">
-                        Yapay zeka asistanı için verdiğiniz açık rızanın bu sekme boyunca
+                        Yapay zekâ asistanı için verdiğiniz açık rızanın bu sekme boyunca
                         hatırlanması. Yalnızca "1" değerini içerir ve sizi tanımlayan bir bilgi
                         içermez; yalnızca asistanın onay ekranında rızanızı verdiğinizde yazılır.
                       </td>
@@ -580,7 +590,7 @@
                         tarayıcınız tarafından geri yüklenirse geri gelebilir); Çerez
                         Tercihleri'nden asistanı kapattığınızda anında silinir
                       </td>
-                      <td style="padding: 12px">Yapay Zeka Asistanı</td>
+                      <td style="padding: 12px">Yapay Zekâ Asistanı</td>
                       <td style="padding: 12px">Yok</td>
                     </tr>
                     <tr style="border-bottom: 1px solid var(--c-line)">
@@ -629,7 +639,7 @@
                 İleride onaya bağlı bir işlev eklenirse bu bölüm önceden güncellenir.
               </p>
               <p>
-                <strong style="color: var(--c-text-strong)">Yapay Zeka Asistanı —</strong> Yapay
+                <strong style="color: var(--c-text-strong)">Yapay Zekâ Asistanı —</strong> Yapay
                 zeka asistanının yüklenmesine izin verir. Kapalıyken asistan sayfaya hiç eklenmez ve
                 cihazınıza asistana ait hiçbir kayıt yazılmaz. Kategori açıkken asistan, ilk
                 açıldığında sizi ayrıca bilgilendirir ve açık rızanızı ister; rıza vermediğiniz
@@ -637,7 +647,7 @@
                 kaldığı sürece tarayıcınızın belleğinde tutulur. Asistan, arkozgazbeton.com.tr alan
                 adı dışındaki adreslerde yüklenmez. Ayrıntı için
                 <a href="politikalar.html#ai" style="color: var(--color-primary)"
-                  >Yapay Zeka Asistanı Aydınlatma Metni</a
+                  >Yapay Zekâ Asistanı Aydınlatma Metni</a
                 >.
               </p>
               <p>
@@ -684,8 +694,8 @@
                 Ana sayfada yer alan tanıtım videoları, üçüncü taraf bir video platformu üzerinden
                 sunulmaktadır ve sayfa açıldığında sitenin bir parçası olarak yüklenir. Video
                 oynatıcının yüklenmesiyle birlikte ilgili platformun kendi gizlilik ve çerez
-                politikası da geçerli olur; bu içerikleri görüntülemek istemiyorsanız sayfayı
-                görüntülemeye videolara erişmeden devam edebilirsiniz.
+                politikası da geçerli olur; bu içerikleri görüntülemek istemiyorsanız videolara
+                erişmeden sayfayı görüntülemeye devam edebilirsiniz.
               </p>
               <p>
                 Sitede yer alan sosyal medya ve haber bağlantıları, siz tıklamadığınız sürece hiçbir
@@ -716,28 +726,28 @@
           <!-- AI Asistan — bağımsız aydınlatma metni -->
           <div class="tab-panel" id="tab-ai">
             <div class="content-block">
-              <h3>Yapay Zeka Asistanı Aydınlatma Metni</h3>
+              <h3>Yapay Zekâ Asistanı Aydınlatma Metni</h3>
               <p>
-                Bu metin, Arkoz Yapay Zeka Asistanı'nı kullanmanız hâlinde işlenebilecek kişisel
+                Bu metin, Arkoz Yapay Zekâ Asistanı'nı kullanmanız hâlinde işlenebilecek kişisel
                 verilere ilişkin olarak, 6698 sayılı Kişisel Verilerin Korunması Kanunu'nun ("KVKK")
                 10. maddesi uyarınca sizi bilgilendirmek amacıyla hazırlanmıştır. Bu metin yalnızca
                 bilgilendirme amaçlıdır; herhangi bir onay veya kabul beyanı gerektirmez. Asistan
                 için vereceğiniz açık rızanın kapsamı, ayrı bir belge olan
                 <a href="politikalar.html#ai-riza" style="color: var(--color-primary)"
-                  >Yapay Zeka Asistanı Açık Rıza Metni</a
+                  >Yapay Zekâ Asistanı Açık Rıza Metni</a
                 >'nde açıklanmıştır.
               </p>
               <p>
-                Arkoz Yapay Zeka Asistanı, sorularınıza yapay zeka ile otomatik olarak yanıt üreten
+                Arkoz Yapay Zekâ Asistanı, sorularınıza yapay zekâ ile otomatik olarak yanıt üreten
                 bir sohbet aracıdır. Asistan, arkozgazbeton.com.tr alan adı dışındaki adreslerde
-                yüklenmez. Asistanla yazışırken bir insanla değil, bir yapay zeka sistemiyle
+                yüklenmez. Asistanla yazışırken bir insanla değil, bir yapay zekâ sistemiyle
                 yazıştığınızı hatırlatırız. Asistan, sorularınızı yanıtlamak için adınıza veya
                 iletişim bilgilerinize ihtiyaç duymayacak şekilde tasarlanmıştır; kullanmak için bu
                 bilgileri vermeniz gerekmez.
               </p>
               <h3 style="font-size: 1.1rem; margin-top: 32px">1. Veri Sorumlusu</h3>
               <p>
-                <strong style="color: var(--color-text)">Arkoz GazBeton San. ve Tic. A.Ş.</strong
+                <strong style="color: inherit">Arkoz GazBeton San. ve Tic. A.Ş.</strong
                 ><br />Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye<br /><a
                   href="mailto:info@arkozgazbeton.com.tr"
                   style="color: var(--color-primary)"
@@ -747,21 +757,21 @@
               <h3 style="font-size: 1.1rem; margin-top: 32px">2. İşlenen Veriler</h3>
               <ul>
                 <li>
-                  <strong style="color: var(--color-text)">Soru metinleriniz:</strong> Asistana
-                  yazdığınız mesajlar ile yanıtın konuşmanın akışına uygun olması için aynı
-                  sohbetteki önceki sorularınız ve asistanın yanıtları.
+                  <strong style="color: inherit">Soru metinleriniz:</strong> Asistana yazdığınız
+                  mesajlar ile yanıtın konuşmanın akışına uygun olması için aynı sohbetteki önceki
+                  sorularınız ve asistanın yanıtları.
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)">Bağlantı bilgisi:</strong> Sitemizin
-                  diğer sayfalarında olduğu gibi, asistanı kullandığınızda da bağlantının
-                  kurulabilmesi için IP adresiniz sitemizin barındırıldığı sunucu tarafından teknik
-                  olarak işlenir. Asistan, kötüye kullanımı ve aşırı yüklenmeyi önlemek amacıyla IP
+                  <strong style="color: inherit">Bağlantı bilgisi:</strong> Sitemizin diğer
+                  sayfalarında olduğu gibi, asistanı kullandığınızda da bağlantının kurulabilmesi
+                  için IP adresiniz sitemizin barındırıldığı sunucu tarafından teknik olarak
+                  işlenir. Asistan, kötüye kullanımı ve aşırı yüklenmeyi önlemek amacıyla IP
                   adresinizi (IPv6 adreslerinde adresin ağ bölümünü) her gün yenilenen gizli bir
                   anahtarla özet (hash) değerine dönüştürür ve bu değeri yalnızca istek sayınızı
                   sınırlamak için kullanır; ham IP adresiniz bu amaçla kaydedilmez.
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)">Tarayıcınızdaki oturum kaydı:</strong>
+                  <strong style="color: inherit">Tarayıcınızdaki oturum kaydı:</strong>
                   Asistan için verdiğiniz açık rızayı hatırlamak amacıyla tarayıcınızın oturum
                   depolamasına, sizi tanımlayan hiçbir bilgi içermeyen tek bir teknik kayıt yazılır.
                 </li>
@@ -825,20 +835,20 @@
               </p>
               <ul>
                 <li>
-                  <strong style="color: var(--color-text)"
+                  <strong style="color: inherit"
                     >Barındırma ve bilgi teknolojileri hizmeti aldığımız tedarikçi:</strong
                   >
                   Sitemizin ve asistanın teknik olarak çalıştırılması amacıyla; bağlantı
                   bilgileriniz ve kişisel veri kontrolü sırasında mesajlarınız bakımından.
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)">Yapay zeka hizmet sağlayıcımız:</strong>
+                  <strong style="color: inherit">Yapay zekâ hizmet sağlayıcımız:</strong>
                   Kişisel veri kontrolünden geçen soru metinleriniz, aynı sohbetteki önceki soru ve
                   yanıtlarla birlikte, yanıtın üretilmesi ve hizmetin güvenliğinin sağlanması
-                  amacıyla yapay zeka hizmet sağlayıcımız tarafından işlenir. IP adresiniz, tarayıcı
+                  amacıyla yapay zekâ hizmet sağlayıcımız tarafından işlenir. IP adresiniz, tarayıcı
                   ve cihaz bilgileriniz, çerez veya oturum kimliğiniz gibi sizi tanımlamaya
-                  yarayabilecek bilgiler yapay zeka hizmet sağlayıcımızla paylaşılmaz. Hizmet
-                  sağlayıcımız bu metinleri yapay zeka modellerinin eğitiminde kullanmaz; hizmetin
+                  yarayabilecek bilgiler yapay zekâ hizmet sağlayıcımızla paylaşılmaz. Hizmet
+                  sağlayıcımız bu metinleri yapay zekâ modellerinin eğitiminde kullanmaz; hizmetin
                   güvenliği amacıyla kendi sistemlerinde tutar ve genel kural olarak en geç 30 gün
                   içinde siler. Kötüye kullanım şüphesiyle otomatik olarak işaretlenen içerikleri
                   ise iki yıla kadar saklayabilir.
@@ -852,14 +862,14 @@
               <h3 style="font-size: 1.1rem; margin-top: 32px">7. Saklama Süreleri</h3>
               <ul>
                 <li>
-                  <strong style="color: var(--color-text)">Sohbet içeriği:</strong> Şirketimiz
-                  tarafından herhangi bir veri tabanında veya kayıt dosyasında saklanmaz. Sohbet
-                  yalnızca siz sayfadayken tarayıcınızın belleğinde tutulur; başka bir sayfaya
-                  geçtiğinizde, sayfayı yenilediğinizde veya kapattığınızda ya da "Sohbeti sil"
-                  düğmesine bastığınızda silinir.
+                  <strong style="color: inherit">Sohbet içeriği:</strong> Şirketimiz tarafından
+                  herhangi bir veri tabanında veya kayıt dosyasında saklanmaz. Sohbet yalnızca siz
+                  sayfadayken tarayıcınızın belleğinde tutulur; başka bir sayfaya geçtiğinizde,
+                  sayfayı yenilediğinizde veya kapattığınızda ya da "Sohbeti sil" düğmesine
+                  bastığınızda silinir.
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)"
+                  <strong style="color: inherit"
                     >İstek sınırı kaydı (IP adresinizin özet değeri, o günkü istek sayınız ve son
                     isteğinizin yapıldığı dakika):</strong
                   >
@@ -868,7 +878,7 @@
                   Sohbet içeriği içermez.
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)">Sunucu erişim kayıtları:</strong>
+                  <strong style="color: inherit">Sunucu erişim kayıtları:</strong>
                   Sitemizin barındırıldığı sunucuda tutulan bağlantı kayıtları (IP adresi, bağlantı
                   zamanı, erişilen sayfa adresi ve tarayıcı bilgisi gibi) sohbet içeriği içermez.
                   Barındırma hizmeti aldığımız tedarikçi, bağlantılara ilişkin trafik bilgilerini
@@ -876,7 +886,7 @@
                   boyunca saklar.
                 </li>
                 <li>
-                  <strong style="color: var(--color-text)">Tarayıcınızdaki oturum kaydı:</strong>
+                  <strong style="color: inherit">Tarayıcınızdaki oturum kaydı:</strong>
                   Sekmeyi kapattığınızda tarayıcınız tarafından silinir (kapatılan sekmeyi
                   tarayıcınızın geri yükleme özelliğiyle yeniden açmanız hâli hariç); Çerez
                   Tercihleri'nden asistanı kapattığınızda ise anında silinir.
@@ -939,7 +949,7 @@
               <p>Açık rızanızı dilediğiniz zaman geri çekebilirsiniz:</p>
               <ul>
                 <li>
-                  Sayfanın sol alt köşesindeki "Çerez Tercihleri" bağlantısından "Yapay Zeka
+                  Sayfanın sol alt köşesindeki "Çerez Tercihleri" bağlantısından "Yapay Zekâ
                   Asistanı" kategorisini kapattığınızda asistan, sitemizin o tarayıcıda açık olan
                   sayfalarından anında kaldırılır ve tarayıcınızdaki oturum kaydı silinir. Rızanızı
                   kesin olarak geri çekmenin yolu budur.
@@ -970,7 +980,7 @@
                 Önemli Uyarı — Yanıtların Niteliği
               </h3>
               <p>
-                Asistanın yanıtları yapay zeka tarafından otomatik olarak üretilir; eksik, güncel
+                Asistanın yanıtları yapay zekâ tarafından otomatik olarak üretilir; eksik, güncel
                 olmayan veya hatalı olabilir. Yanıtlar yalnızca genel bilgilendirme amaçlıdır;
                 teklif, taahhüt, garanti veya teknik onay niteliği taşımaz ve bağlayıcı değildir.
                 Fiyat, stok, teslimat süresi, teknik şartname, ürünün projenize uygunluğu ve
@@ -995,14 +1005,15 @@
 
               <h3 style="font-size: 1.1rem; margin-top: 32px">1. Veri Sorumlusu</h3>
               <p>
-                <strong style="color: var(--color-text)">Arkoz GazBeton San. ve Tic. A.Ş.</strong
-                ><br />
+                <strong style="color: inherit">Arkoz GazBeton San. ve Tic. A.Ş.</strong><br />
                 Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye<br />
                 <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
                   >info@arkozgazbeton.com.tr</a
                 >
                 ·
-                <a href="tel:08503175555" style="color: var(--color-primary)">0 (850) 317 55 55</a>
+                <a href="tel:+908503175555" style="color: var(--color-primary)"
+                  >0 (850) 317 55 55</a
+                >
               </p>
 
               <h3 style="font-size: 1.1rem; margin-top: 32px">2. İşlenen Kişisel Veriler</h3>
@@ -1011,7 +1022,7 @@
                 <li>İletişim: e-posta, telefon</li>
                 <li>
                   Mesleki deneyim: öğrenim durumu, iş tecrübesi, başvurulan departman, özgeçmiş
-                  içeriği
+                  içeriği (forma eklenen özgeçmiş dosyası dâhil)
                 </li>
                 <li>Adayın kendi beyanıyla ilettiği diğer bilgiler</li>
               </ul>
@@ -1071,9 +1082,9 @@
 
               <h3 style="font-size: 1.1rem; margin-top: 32px">9. Başvuru</h3>
               <p>
-                Taleplerinizi
+                Haklarınızı,
                 <a href="#ek2" style="color: var(--color-primary)">Veri Sorumlusuna Başvuru Formu</a
-                >'nu doldurarak veya
+                >'nu doldurarak veya talebinizi
                 <a href="mailto:info@arkozgazbeton.com.tr" style="color: var(--color-primary)"
                   >info@arkozgazbeton.com.tr</a
                 >
@@ -1208,12 +1219,12 @@
               </p>
 
               <h3 id="ai-riza" style="font-size: 1.1rem; margin-top: 40px">
-                Yapay Zeka Asistanı Açık Rıza Metni
+                Yapay Zekâ Asistanı Açık Rıza Metni
               </h3>
               <p>
-                Bu bölüm yalnızca Yapay Zeka Asistanı için vereceğiniz açık rızaya ilişkindir ve
+                Bu bölüm yalnızca Yapay Zekâ Asistanı için vereceğiniz açık rızaya ilişkindir ve
                 <a href="politikalar.html#ai" style="color: var(--color-primary)"
-                  >Yapay Zeka Asistanı Aydınlatma Metni</a
+                  >Yapay Zekâ Asistanı Aydınlatma Metni</a
                 >'nden ayrı bir belgedir. Yukarıdaki 3. ve 4. bölümler iletişim formları ve iş
                 başvuruları için geçerlidir; asistan için saklama ve geri çekme kuralları bu bölümde
                 açıklanmıştır.
@@ -1222,13 +1233,13 @@
                 <strong style="color: var(--c-text-strong)">Rızanın konusu:</strong> Asistana
                 yazacağınız soru metinlerinin ve aynı sohbetteki önceki soru ve yanıtların, otomatik
                 kişisel veri kontrolünden geçirildikten sonra, sorularınıza yanıt üretilmesi
-                amacıyla yapay zeka hizmet sağlayıcımız tarafından işlenmesi.
+                amacıyla yapay zekâ hizmet sağlayıcımız tarafından işlenmesi.
               </p>
               <p>
                 <strong style="color: var(--c-text-strong)"
                   >Rızanın kapsamı dışında kalanlar:</strong
                 >
-                Pazarlama, profilleme ve yapay zeka modellerinin eğitimi; verileriniz bu amaçlarla
+                Pazarlama, profilleme ve yapay zekâ modellerinin eğitimi; verileriniz bu amaçlarla
                 işlenmez. Asistan özel nitelikli kişisel veri işlemek amacıyla kullanılmaz ve bu tür
                 veriler için rızanız istenmez; lütfen sağlık, din, etnik köken, dernek veya sendika
                 üyeliği gibi bilgileri yazmayınız.
@@ -1247,7 +1258,7 @@
               <p>
                 <strong style="color: var(--c-text-strong)">Geri çekme:</strong> Rızanızı
                 dilediğiniz zaman, gerekçe göstermeksizin geri çekebilirsiniz. Bunun kesin yolu,
-                sayfanın sol alt köşesindeki "Çerez Tercihleri" bağlantısından "Yapay Zeka Asistanı"
+                sayfanın sol alt köşesindeki "Çerez Tercihleri" bağlantısından "Yapay Zekâ Asistanı"
                 kategorisini kapatmaktır. Sekmeyi kapattığınızda da oturum kaydı tarayıcınız
                 tarafından silinir; ancak kapatılan sekmeyi tarayıcınızın geri yükleme özelliğiyle
                 yeniden açarsanız bu kayıt geri gelebilir. "Sohbeti sil" düğmesi yalnızca sohbeti
@@ -1256,8 +1267,8 @@
               <p>
                 <strong style="color: var(--c-text-strong)">Beyan:</strong> Rızanız, asistanın onay
                 ekranındaki önceden işaretlenmemiş şu kutucuğu işaretleyip "Sohbete Başla" düğmesine
-                basmanızla verilir: "Yapay Zeka Asistanı Açık Rıza Metni kapsamında, asistana
-                yazacağım soru metinlerinin yanıt üretilmesi amacıyla yapay zeka hizmet sağlayıcımız
+                basmanızla verilir: "Yapay Zekâ Asistanı Açık Rıza Metni kapsamında, asistana
+                yazacağım soru metinlerinin yanıt üretilmesi amacıyla yapay zekâ hizmet sağlayıcımız
                 tarafından işlenmesine açık rıza veriyorum."
               </p>
             </div>
@@ -1496,15 +1507,79 @@
             </a>
             <p>Türkiye'nin En Yeni ve En Modern Gazbeton Üretim Tesisi.</p>
             <p class="footer__address">
-              📍 Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                style="display: inline; vertical-align: middle; margin-right: 4px; flex-shrink: 0"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye
             </p>
             <div class="footer__contact-info">
-              <a href="tel:08503175555">📞 0 (850) 317 55 55</a>
-              <a href="mailto:info@arkozgazbeton.com.tr">✉ info@arkozgazbeton.com.tr</a>
+              <a href="tel:+908503175555">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.93 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.84 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+                  />
+                </svg>
+                0 (850) 317 55 55
+              </a>
+              <a href="mailto:info@arkozgazbeton.com.tr">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                info@arkozgazbeton.com.tr
+              </a>
               <a
                 href="https://wa.me/905388658289?text=Merhaba%2C%20Arkoz%20Gazbeton%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
-                >💬 WhatsApp: 0538 865 82 89</a
               >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                WhatsApp: 0538 865 82 89
+              </a>
             </div>
             <div class="footer__social">
               <a
@@ -1619,7 +1694,7 @@
             <div class="footer__col">
               <h4>İletişim</h4>
               <ul>
-                <li><a href="tel:08503175555">0 (850) 317 55 55</a></li>
+                <li><a href="tel:+908503175555">0 (850) 317 55 55</a></li>
                 <li><a href="mailto:info@arkozgazbeton.com.tr">info@arkozgazbeton.com.tr</a></li>
                 <li>
                   <a

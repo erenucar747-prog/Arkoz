@@ -25,16 +25,14 @@
         </a>
         <ul class="nav__list" id="nav-list">
           <li>
-            <a href="kurumsal.html" class="nav__link" style="color: var(--color-primary)"
-              >Kurumsal</a
-            >
+            <a href="kurumsal.html" class="nav__link nav__link--active">Kurumsal</a>
           </li>
           <li><a href="urunler.html" class="nav__link">Ürünler</a></li>
           <li><a href="gazbeton.html" class="nav__link">Gazbeton</a></li>
           <li><a href="haberler.html" class="nav__link">Haberler</a></li>
           <li><a href="insan-kaynaklari.html" class="nav__link">İnsan Kaynakları</a></li>
           <li><a href="politikalar.html" class="nav__link">Politikalar</a></li>
-          <li><a href="index.html#iletisim" class="nav__link nav__link--cta">💬 İletişim</a></li>
+          <li><a href="index.html#iletisim" class="nav__link nav__link--cta">İletişim</a></li>
         </ul>
         <div class="nav__cta-group">
           <a
@@ -57,11 +55,16 @@
               <strong>0538 865 82 89</strong>
             </span>
           </a>
-          <a class="nav__bayi" href="index.html#bayiler" target="_blank" rel="noopener"
-            >Bayi Portalı</a
-          >
+          <a class="nav__bayi" href="index.html#bayiler">Bayilik Başvurusu</a>
         </div>
-        <button class="nav__burger" id="burger" aria-label="Menüyü aç">
+        <button
+          type="button"
+          class="nav__burger"
+          id="burger"
+          aria-label="Menüyü aç"
+          aria-expanded="false"
+          aria-controls="nav-list"
+        >
           <span></span><span></span><span></span>
         </button>
       </nav>
@@ -71,6 +74,15 @@
       <div id="bg-paths-container" class="page-hero__waves" aria-hidden="true"></div>
       <div class="container page-hero__inner">
         <img src="logo.png" alt="Arkoz Gazbeton" class="page-hero__logo page-hero__logo--white" />
+        <span class="page-hero__tag">Kurumsal</span>
+        <h1 class="page-hero__title" style="color: #fff">
+          Arkoz
+          <span style="color: #fff; -webkit-text-fill-color: #fff">Gazbeton</span>
+        </h1>
+        <p class="page-hero__desc">
+          Arkoz Holding bünyesinde, Samsun Havza'da sektörün en yenilikçi ve modern tesisinde
+          gazbeton üretimi.
+        </p>
       </div>
     </div>
 
@@ -78,13 +90,15 @@
       <section class="tabs section">
         <div class="container">
           <div class="tabs__nav" id="tabs-nav">
-            <button class="tab-btn active" data-tab="tanitim">Genel Tanıtım</button>
-            <button class="tab-btn" data-tab="misyon">Misyon ve Vizyon</button>
-            <button class="tab-btn" data-tab="tarihce">Tarihçe</button>
-            <button class="tab-btn" data-tab="eys">EYS Politikamız</button>
-            <button class="tab-btn" data-tab="surdurulebilirlik">Sürdürülebilirlik</button>
-            <button class="tab-btn" data-tab="ortaklar">İş Ortakları</button>
-            <button class="tab-btn" data-tab="belgeler">Belgelerimiz</button>
+            <button type="button" class="tab-btn active" data-tab="tanitim">Genel Tanıtım</button>
+            <button type="button" class="tab-btn" data-tab="misyon">Misyon ve Vizyon</button>
+            <button type="button" class="tab-btn" data-tab="tarihce">Tarihçe</button>
+            <button type="button" class="tab-btn" data-tab="eys">EYS Politikamız</button>
+            <button type="button" class="tab-btn" data-tab="surdurulebilirlik">
+              Sürdürülebilirlik
+            </button>
+            <button type="button" class="tab-btn" data-tab="ortaklar">İş Ortakları</button>
+            <button type="button" class="tab-btn" data-tab="belgeler">Belgelerimiz</button>
           </div>
 
           <!-- Genel Tanıtım -->
@@ -93,11 +107,11 @@
               <div class="content-block">
                 <h3>Genel Tanıtım</h3>
                 <p>
-                  <strong style="color: var(--color-text)">Arkoz Holding</strong> bünyesinde
-                  faaliyet gösteren Arkoz Gazbeton, Samsun'un Havza ilçesinde sektörün en yenilikçi
-                  ve modern tesisinde gazbeton üretimi gerçekleştirmektedir. Türkiye, Gürcistan,
-                  Azerbaycan, Nahçıvan, Çek Cumhuriyeti, Ukrayna ve Belarus gibi ülkelerde faaliyet
-                  gösteren Arkoz Holding, uluslararası bir şirketler topluluğudur.
+                  <strong style="color: inherit">Arkoz Holding</strong> bünyesinde faaliyet gösteren
+                  Arkoz Gazbeton, Samsun'un Havza ilçesinde sektörün en yenilikçi ve modern
+                  tesisinde gazbeton üretimi gerçekleştirmektedir. Türkiye, Gürcistan, Azerbaycan,
+                  Nahçıvan, Çek Cumhuriyeti, Ukrayna ve Belarus gibi ülkelerde faaliyet gösteren
+                  Arkoz Holding, uluslararası bir şirketler topluluğudur.
                 </p>
                 <p>
                   Yıllık yaklaşık bir milyon ton üretim kapasitesi ile Ağrı Çimento Fabrikası, Arkoz
@@ -105,7 +119,10 @@
                   önemseyen, dışa bağımlılığı azaltarak yerel kaynakları harekete geçirmeyi birinci
                   öncelik sayan, araştırma ve bilgiyi sosyal sorumluluk olarak gören, insan odaklı
                   ve çevre değerlerine saygılı bir vizyon ve misyonla Arkoz Holding ulusal ve
-                  uluslararası düzlemde faaliyetlerine devam etmektedir.
+                  uluslararası düzlemde faaliyetlerine devam etmektedir. Yapmış olduğu güçlü
+                  yatırımlar ile inşaat malzemeleri sektörünün önemli bir oyuncusu olma yolunda
+                  ilerleyen Arkoz Holding, müşteri odaklı olmayı, çalışanlarına ve tüm paydaşlarına
+                  yüksek değer vermeyi ilke edinmiştir.
                 </p>
                 <p>
                   450.000 metreküp kapasitesiyle Havza bölgesinde üretimini gerçekleştiren Arkoz
@@ -118,12 +135,15 @@
                   Sektördeki en yeni ve en modern tesise sahip Arkoz, müşteriye en yakın marka
                   olarak en yüksek hizmeti sağlamayı hedeflemektedir. Yenilikçi çözümleri ve çevre
                   odaklı yaklaşımları ile alanında lider olmayı ilke edinen Arkoz, gazbeton
-                  sektöründe kalite ve hizmet seviyesi olarak öncü olmayı amaçlamaktadır.
+                  sektöründe kalite ve hizmet seviyesi olarak öncü olmayı amaçlamaktadır. Arkoz,
+                  Türkiye genelindeki yaygın bayi ağının desteğinden de güç alarak, ülkemizin dört
+                  bir yanında yüksek kaliteli ürünleri ile sürdürülebilir yapı çözümleri sağlamaya
+                  devam edecektir.
                 </p>
                 <ul>
                   <li>
-                    🌍 7 ülkede faaliyet: Türkiye, Gürcistan, Azerbaycan, Nahçıvan, Çek Cumhuriyeti,
-                    Ukrayna, Belarus
+                    🌍 Arkoz Holding: 7 ülkede faaliyet — Türkiye, Gürcistan, Azerbaycan, Nahçıvan,
+                    Çek Cumhuriyeti, Ukrayna, Belarus
                   </li>
                   <li>🏭 450.000 m³ yıllık üretim kapasitesi</li>
                   <li>🏆 Türkiye'nin en yeni ve en modern gazbeton üretim tesisi</li>
@@ -137,7 +157,11 @@
                   alt="Arkoz Gazbeton Fabrikası — Havza, Samsun"
                   loading="lazy"
                 />
-                <img src="images/factory-2.jpg" alt="Arkoz Gazbeton Üretim Hattı" loading="lazy" />
+                <img
+                  src="images/factory-2.jpg"
+                  alt="Arkoz Gazbeton yükleme operasyonu — forklift ile tıra yükleme"
+                  loading="lazy"
+                />
               </div>
             </div>
           </div>
@@ -293,9 +317,8 @@
                   <div class="timeline__body">
                     <h4>Entegre Yönetim Sistemi</h4>
                     <p>
-                      Kalite (ISO 9001), Çevre (ISO 14001), Enerji (ISO 50001) ve İş Sağlığı &
-                      Güvenliği (ISO 45001) sertifikalarını kapsayan
-                      <strong>Entegre Yönetim Sistemi Politikası</strong> yürürlüğe girdi.
+                      Kalite, çevre, enerji ve iş sağlığı ve güvenliği yönetim sistemlerini kapsayan
+                      <strong>Entegre Yönetim Sistemi Politikası</strong> (POL.01) yayımlandı.
                     </p>
                   </div>
                 </li>
@@ -304,9 +327,19 @@
                   <div class="timeline__body">
                     <h4>Uluslararası Açılım</h4>
                     <p>
-                      Rusya, Romanya, Bulgaristan, Ukrayna, Gürcistan, Azerbaycan, Çek Cumhuriyeti
-                      ve Belarus dahil <strong>9 ülkeye ihracat</strong> ağı oluşturuldu.
-                      İstanbul-Tiflis kara/deniz sevkiyat hattı işletmeye alındı.
+                      Rusya, Romanya, Bulgaristan, Ukrayna, Gürcistan, Azerbaycan, Nahçıvan, Çek
+                      Cumhuriyeti ve Belarus olmak üzere <strong>9 ülkeye ihracat</strong> ağı
+                      oluşturuldu. İstanbul-Tiflis kara/deniz sevkiyat hattı işletmeye alındı.
+                    </p>
+                  </div>
+                </li>
+                <li class="timeline__item">
+                  <div class="timeline__year">2024</div>
+                  <div class="timeline__body">
+                    <h4>ISO Sertifikaları</h4>
+                    <p>
+                      ISO 9001, ISO 14001, ISO 50001 ve ISO 45001 yönetim sistemi sertifikaları
+                      <strong>22.03.2024</strong> tarihinde alındı.
                     </p>
                   </div>
                 </li>
@@ -325,7 +358,7 @@
 
               <p class="tarihce-outro">
                 Grup şirketleri kapsamında <strong>Ağrı Çimento Fabrikası</strong> (yıllık ~1 milyon
-                ton kapasite) gibi önemli yatırımlarla beraber Arkoz markası, Türkiye, Gürcistan,
+                ton kapasite) gibi önemli yatırımlarla beraber Arkoz Holding, Türkiye, Gürcistan,
                 Azerbaycan, Nahçıvan, Çek Cumhuriyeti, Ukrayna ve Belarus'ta sektörel varlığını
                 sürdürmektedir. Yapı sektörünün öncü markası olma yolunda emin adımlarla
                 ilerliyoruz.
@@ -340,14 +373,14 @@
               <p class="eys-intro">
                 <strong>ARKOZ GAZBETON A.Ş.</strong> olarak <em>DEĞER KATAR</em> sloganıyla bilimsel
                 gelişime ve çağdaş teknolojilere uygun, sürdürülebilir gazbeton üretimi yapıyoruz.
-                <strong>1 Aralık 2022'de</strong> yürürlüğe giren ve o günden bu yana titizlikle
-                uyguladığımız Entegre Yönetim Sistemi politikamızın temel taahhütleri:
+                <strong>1 Aralık 2022</strong> tarihli ve o günden bu yana titizlikle uyguladığımız
+                Entegre Yönetim Sistemi politikamızın temel taahhütleri:
               </p>
 
               <ul class="eys-list">
                 <li>
-                  <strong>Yasal Uyum:</strong> Faaliyet alanlarımızda ilgili yasal mevzuata, ulusal
-                  ve uluslararası standartlara tam uyum sağlamak.
+                  <strong>Yasal Uyum:</strong> Faaliyet alanlarımızda ilgili yasal mevzuata uygun
+                  olarak çalışmak.
                 </li>
                 <li>
                   <strong>Çevre Sorumluluğu:</strong> Çevre ve insan sağlığına duyarlı, çevresel
@@ -355,17 +388,16 @@
                 </li>
                 <li>
                   <strong>Müşteri Memnuniyeti:</strong> Müşterilerimizin memnuniyetini en üst
-                  seviyeye çıkarmak, beklentilerin ötesinde hizmet sunmak.
+                  seviyeye çıkarmak.
                 </li>
                 <li>
                   <strong>İş Sağlığı ve Güvenliği:</strong> Çalışmalarımız sırasında tüm sağlık ve
-                  güvenlik kurallarına uymak; tehlikeleri ortadan kaldırarak yaralanmaların ve
-                  sağlık bozukluklarının önlenmesini sağlamak.
+                  güvenlik kurallarına uymak; tehlikeleri ortadan kaldırmak, riskleri azaltmak;
+                  yaralanmaların ve sağlık bozukluklarının önlenmesini sağlamak.
                 </li>
                 <li>
                   <strong>Enerji Verimliliği:</strong> Enerji yönetimi bilinciyle verimli enerji
-                  kullanan yeni nesil makine ve ekipmanlarla çalışmak; enerji performansını sürekli
-                  iyileştirmek.
+                  kullanan yeni nesil makine ve ekipmanlarla çalışmak.
                 </li>
                 <li>
                   <strong>Çalışan Katılımı:</strong> Sistemin iyileştirilmesi çalışmalarında
@@ -401,7 +433,7 @@
               </div>
 
               <p class="eys__doc-ref">
-                Belge No: <strong>POL.01</strong> &nbsp;|&nbsp; Yürürlük:
+                Belge No: <strong>POL.01</strong> &nbsp;|&nbsp; Tarih:
                 <strong>01.12.2022</strong> &nbsp;|&nbsp; Revizyon:
                 <strong>REV.00</strong> &nbsp;|&nbsp; Onay: <strong>GENEL MÜDÜR</strong>
               </p>
@@ -545,8 +577,8 @@
                   çeşitliliğini ve verimliliğini artırırken, gelecek nesillere daha yaşanabilir bir
                   dünya bırakmak hedefiyle tüm üretim süreçlerini çevreye ve sağlığa dost prosesler
                   ile devam ettirmektedir. Arkoz Gazbeton, üretim yaparken sıfır atık projesiyle
-                  çalışmaktadır. Hammaddelerin tedarikinden mamul haline dönüşüp paketlenme sürecine
-                  kadar her bir adımda atıklar tekrar geri dönüştürülmek üzere prosese dahil edilir.
+                  çalışmaktadır. Hammaddelerin tedarikinden mamul hâline dönüşüp paketlenme sürecine
+                  kadar her bir adımda atıklar tekrar geri dönüştürülmek üzere prosese dâhil edilir.
                 </p>
                 <p>
                   Sürdürülebilir yapı söz konusu olduğunda yapılacak ilk şey yapı malzemelerinin
@@ -699,7 +731,7 @@
                         <td class="s-no">Hayır</td>
                       </tr>
                       <tr>
-                        <td>Üretilen malzeme geri dönüştürülebilir özelliğine sahip mi?</td>
+                        <td>Üretilen malzeme geri dönüştürülebilir mi?</td>
                         <td class="s-yes">Evet</td>
                       </tr>
                       <tr>
@@ -757,7 +789,7 @@
                       <tr>
                         <td>
                           Üretilen ürünler fosil yakıt tüketiminden tasarruf sağlanmasına katkı
-                          yapıyor mu?
+                          sağlıyor mu?
                         </td>
                         <td class="s-yes">Evet</td>
                       </tr>
@@ -1044,7 +1076,7 @@
                     <p class="certificate-info__sub">Enerji Yönetim Sistemi</p>
                     <p>
                       Enerji verimliliğini artırmaya, enerji tüketimini sistematik olarak izleyip
-                      iyileştirmeye yönelik uluslararası standart. Yeni nesil enerji-verimli
+                      iyileştirmeye yönelik uluslararası standart. Yeni nesil enerji verimli
                       ekipmanlarımız ve üretim proseslerimizin enerji performansını sürekli optimize
                       ettiğimizi tescil eder.
                     </p>
@@ -1091,9 +1123,11 @@
                   </button>
                   <div class="certificate-info">
                     <h4>TSE Muayene ve Deney Raporu — Gazbeton Tutkalı</h4>
-                    <p class="certificate-info__sub">TS EN 998-2 · Rapor No: 2024-195677</p>
+                    <p class="certificate-info__sub">
+                      TS EN 998-2 · Rapor No: 344554 · Deney Talep No: 2024-195677
+                    </p>
                     <p>
-                      TSE Gebze Yapı Malzemeleri Laboratuvarı'nda ince tabaka hazır kâgir harcımıza
+                      TSE Gebze Yapı Malzemeleri Laboratuvarında ince tabaka hazır kâgir harcımıza
                       uygulanan deneylerin resmî sonuç raporu: yapılan deneyler yönüyle olumludur.
                     </p>
                   </div>
@@ -1114,19 +1148,21 @@
                   </button>
                   <div class="certificate-info">
                     <h4>TSE Muayene ve Deney Raporu — Organik İçerik</h4>
-                    <p class="certificate-info__sub">TS EN 13820 · Rapor No: 2024-195689</p>
+                    <p class="certificate-info__sub">
+                      TS EN 13820 · Rapor No: 268119 · Deney Talep No: 2024-195689
+                    </p>
                     <p>
-                      TÜRKAK akreditasyonlu TSE Yapı Malzemeleri Yangın ve Akustik Laboratuvarı'nda
-                      gerçekleştirilen organik içerik tayini deneyinin resmî sonuç raporu: yapılan
-                      deneyler yönüyle uygundur.
+                      TÜRKAK akreditasyonlu TSE Yapı Malzemeleri Yangın ve Akustik Laboratuvarında
+                      kâgir harcımıza (gazbeton tutkalı) uygulanan organik içerik tayini deneyinin
+                      resmî sonuç raporu: yapılan deneyler yönüyle uygundur.
                     </p>
                   </div>
                 </li>
               </ul>
               <p class="cert-footnote">
-                Belgelerimiz Türk Standardları Enstitüsü ve bağımsız uluslararası akreditasyon
-                kuruluşları tarafından düzenlenmiş olup periyodik denetimlerle geçerliliği
-                sürdürülmektedir.
+                Belgelerimiz Türk Standardları Enstitüsü ve TÜRKAK tarafından akredite edilmiş
+                bağımsız belgelendirme kuruluşu tarafından düzenlenmiş olup periyodik denetimlerle
+                geçerliliği sürdürülmektedir.
               </p>
             </div>
           </div>
@@ -1143,15 +1179,79 @@
             </a>
             <p>Türkiye'nin En Yeni ve En Modern Gazbeton Üretim Tesisi.</p>
             <p class="footer__address">
-              📍 Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye
+              <svg
+                viewBox="0 0 24 24"
+                width="14"
+                height="14"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                aria-hidden="true"
+                style="display: inline; vertical-align: middle; margin-right: 4px; flex-shrink: 0"
+              >
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                <circle cx="12" cy="10" r="3" />
+              </svg>
+              Bekdiğin Mah. Havza OSB Cd. No:18/1 Havza - Samsun - Türkiye
             </p>
             <div class="footer__contact-info">
-              <a href="tel:08503175555">📞 0 (850) 317 55 55</a>
-              <a href="mailto:info@arkozgazbeton.com.tr">✉ info@arkozgazbeton.com.tr</a>
+              <a href="tel:+908503175555">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.93 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.84 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"
+                  />
+                </svg>
+                0 (850) 317 55 55
+              </a>
+              <a href="mailto:info@arkozgazbeton.com.tr">
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+                  />
+                  <polyline points="22,6 12,13 2,6" />
+                </svg>
+                info@arkozgazbeton.com.tr
+              </a>
               <a
                 href="https://wa.me/905388658289?text=Merhaba%2C%20Arkoz%20Gazbeton%20hakk%C4%B1nda%20bilgi%20almak%20istiyorum."
-                >💬 WhatsApp: 0538 865 82 89</a
               >
+                <svg
+                  viewBox="0 0 24 24"
+                  width="14"
+                  height="14"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+                </svg>
+                WhatsApp: 0538 865 82 89
+              </a>
             </div>
             <div class="footer__social">
               <a
@@ -1266,7 +1366,7 @@
             <div class="footer__col">
               <h4>İletişim</h4>
               <ul>
-                <li><a href="tel:08503175555">0 (850) 317 55 55</a></li>
+                <li><a href="tel:+908503175555">0 (850) 317 55 55</a></li>
                 <li><a href="mailto:info@arkozgazbeton.com.tr">info@arkozgazbeton.com.tr</a></li>
                 <li>
                   <a
@@ -1382,11 +1482,17 @@
         });
       });
       // URL hash ile doğru sekmeyi aç
-      if (location.hash) {
+      function openTabFromHash(scroll) {
+        if (!location.hash) return;
         const id = location.hash.replace('#tab-', '');
-        const btn = document.querySelector('[data-tab="' + id + '"]');
-        if (btn) btn.click();
+        const btn = document.querySelector('[data-tab="' + CSS.escape(id) + '"]');
+        if (!btn) return;
+        btn.click();
+        if (scroll) btn.scrollIntoView({ block: 'center' });
       }
+      openTabFromHash(false);
+      // Sayfa içindeyken alt bilgideki #tab-… bağlantıları da sekmeyi değiştirsin
+      window.addEventListener('hashchange', () => openTabFromHash(true));
       // [data-target-tab] (eco-cta-band buton) → ilgili tab'a geç + en üste kaydır
       document.querySelectorAll('[data-target-tab]').forEach((el) => {
         el.addEventListener('click', (e) => {

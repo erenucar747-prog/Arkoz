@@ -1,5 +1,5 @@
 /**
- * Arkoz Gazbeton — Yapay Zeka Asistan Widget
+ * Arkoz Gazbeton — Yapay Zekâ Asistan Widget
  * - Aynı-origin köprü: istekler yalnızca /api/chat.php adresine gider; dış uç nokta yok.
  * - İki katmanlı kişisel veri kontrolü: tarayıcıda (window.ArkozPII) tespit varsa fetch hiç
  *   çağrılmaz ve metin kutuda kalır; sunucudaki yedek kontrol 422 döndürürse sohbet geçmişi
@@ -7,7 +7,7 @@
  * - Kullanıcı mesajı en fazla 500 karakter; geçmiş yalnızca bellekte, son 20 mesaj.
  * - Yalnızca kanonik üretim alan adında (https://arkozgazbeton.com.tr) kurulur; www dahil başka
  *   hiçbir adreste kurulmaz. window.ArkozPII yoksa hiç kurulmaz (fail-closed).
- * - Çerez tercihlerindeki "Yapay Zeka Asistanı" kategorisi açıksa yüklenir; kategori kapatılınca
+ * - Çerez tercihlerindeki "Yapay Zekâ Asistanı" kategorisi açıksa yüklenir; kategori kapatılınca
  *   (aynı sekmede ya da başka bir sekmede) destroy() ile tamamen kaldırılır.
  * - İlk açılışta bilgilendirme ve açık rıza ekranı; oturum kaydı sessionStorage'da tutulur.
  * - Sayfadan ayrılınca (pagehide) sohbet sıfırlanır.
@@ -49,7 +49,7 @@
     'Mesajınız kişisel bir bilgi içerebileceği için yanıtlanmadı ve sunucumuzda kaydedilmedi. Lütfen kişisel bilgilerinizi çıkararak sorunuzu yeniden yazın.';
 
   const WELCOME_MESSAGE =
-    'Merhaba! Ben **Arkoz Gazbeton**’un yapay zeka asistanıyım. Ürünlerimiz ve gazbeton hakkındaki sorularınızı yanıtlayabilirim. Yanıtlarım otomatik olarak üretilir ve bağlayıcı değildir; lütfen kişisel bilgilerinizi yazmayın.';
+    'Merhaba! Ben **Arkoz Gazbeton**’un yapay zekâ asistanıyım. Ürünlerimiz ve gazbeton hakkındaki sorularınızı yanıtlayabilirim. Yanıtlarım otomatik olarak üretilir ve bağlayıcı değildir; lütfen kişisel bilgilerinizi yazmayın.';
 
   // ------------ Saf çekirdek (DOM'suz; testlerde doğrudan kullanılır) ------------
   function isAssistantHost(loc) {
@@ -234,7 +234,7 @@
         <div id="ai-chat-header">
           <div id="ai-chat-header-info">
             <img src="${LOGO_SRC}" alt="Arkoz Gazbeton" id="ai-chat-logo" />
-            <span id="ai-chat-header-sub">Çevrimiçi — yapay zeka asistan</span>
+            <span id="ai-chat-header-sub">Çevrimiçi — yapay zekâ asistanı</span>
           </div>
           <div id="ai-chat-header-actions">
             <button id="ai-chat-clear-btn" aria-label="Sohbeti sil" title="Sohbeti sil" type="button">
@@ -266,23 +266,23 @@
         </div>
         <div id="ai-chat-footer">
           <span id="ai-chat-pii-hint">Ad, telefon, e-posta, kimlik numarası gibi kişisel bilgilerinizi yazmayın.</span>
-          <strong>Arkoz</strong> Yapay Zeka Asistanı —
+          <strong>Arkoz</strong> Yapay Zekâ Asistanı —
           <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
         </div>
-        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zeka Asistanı Onayı">
+        <div id="ai-chat-consent" role="dialog" aria-modal="true" aria-label="Yapay Zekâ Asistanı Onayı">
           <div id="ai-chat-consent__card" tabindex="-1">
-            <h4 id="ai-chat-consent__title">Yapay Zeka Asistanı</h4>
-            <p class="ai-chat-consent__text">Bu asistan yapay zeka ile çalışır; yanıtlar otomatik olarak üretilir, bilgilendirme amaçlıdır ve bağlayıcı değildir.</p>
-            <p class="ai-chat-consent__text">Sorularınız, yanıt üretilmesi amacıyla yapay zeka hizmet sağlayıcımız tarafından işlenir; IP adresiniz ve tarayıcı bilgileriniz bu kapsamda paylaşılmaz. Sohbet içeriği Şirketimiz tarafından kaydedilmez.</p>
+            <h4 id="ai-chat-consent__title">Yapay Zekâ Asistanı</h4>
+            <p class="ai-chat-consent__text">Bu asistan yapay zekâ ile çalışır; yanıtlar otomatik olarak üretilir, bilgilendirme amaçlıdır ve bağlayıcı değildir.</p>
+            <p class="ai-chat-consent__text">Sorularınız, yanıt üretilmesi amacıyla yapay zekâ hizmet sağlayıcımız tarafından işlenir; IP adresiniz ve tarayıcı bilgileriniz bu kapsamda paylaşılmaz. Sohbet içeriği Şirketimiz tarafından kaydedilmez.</p>
             <p class="ai-chat-consent__text">Lütfen ad-soyad, telefon, e-posta, adres, kimlik, banka veya kart bilgisi ile sağlık, din gibi özel nitelikli kişisel verilerinizi yazmayınız. Telefon numarası, e-posta adresi, T.C. kimlik numarası, IBAN veya vergi kimlik numarası tespit edilen mesajlar gönderilmez.</p>
             <p class="ai-chat-consent__text">Asistanı kullanmak istemezseniz sorularınızı <a href="tel:08503175555">0850 317 55 55</a> numaralı telefonumuzdan, <a href="mailto:info@arkozgazbeton.com.tr">info@arkozgazbeton.com.tr</a> adresinden veya <a href="index.html#iletisim">teklif formumuzdan</a> iletebilirsiniz; sitenin diğer tüm bölümlerini açık rıza vermeden kullanmaya devam edebilirsiniz.</p>
             <label class="ai-chat-consent__check" for="ai-chat-consent-read">
               <input type="checkbox" id="ai-chat-consent-read" />
-              <span>Yapay Zeka Asistanı Aydınlatma Metni'ni okudum ve anladım.</span>
+              <span>Yapay Zekâ Asistanı Aydınlatma Metni'ni okudum ve anladım.</span>
             </label>
             <label class="ai-chat-consent__check" for="ai-chat-consent-agree">
               <input type="checkbox" id="ai-chat-consent-agree" />
-              <span>Yapay Zeka Asistanı Açık Rıza Metni kapsamında, asistana yazacağım soru metinlerinin yanıt üretilmesi amacıyla yapay zeka hizmet sağlayıcımız tarafından işlenmesine açık rıza veriyorum.</span>
+              <span>Yapay Zekâ Asistanı Açık Rıza Metni kapsamında, asistana yazacağım soru metinlerinin yanıt üretilmesi amacıyla yapay zekâ hizmet sağlayıcımız tarafından işlenmesine açık rıza veriyorum.</span>
             </label>
             <p id="ai-chat-consent__link">
               <a href="politikalar.html#ai" target="_blank" rel="noopener">Aydınlatma Metni</a>
@@ -295,10 +295,10 @@
           </div>
         </div>
       </div>
-      <div id="ai-chat-teaser" role="button" tabindex="0" aria-label="Arkoz yapay zeka asistanını aç">
+      <div id="ai-chat-teaser" role="button" tabindex="0" aria-label="Arkoz yapay zekâ asistanını aç">
         <p id="ai-chat-teaser-text">
           <strong>Merhaba, ben Gazbo 👋</strong>
-          <span id="ai-chat-teaser-role">Arkoz Gazbeton’un kişisel yapay zeka asistanıyım.</span>
+          <span id="ai-chat-teaser-role">Arkoz Gazbeton'un kişisel yapay zekâ asistanıyım.</span>
         </p>
         <button id="ai-chat-teaser-close" type="button" aria-label="Tanıtımı kapat">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
@@ -307,7 +307,7 @@
           </svg>
         </button>
       </div>
-      <button id="ai-chat-toggle" aria-label="AI Asistan ile konuş" type="button">
+      <button id="ai-chat-toggle" aria-label="Yapay zekâ asistanıyla konuş" type="button">
         <svg id="ai-icon-chat" width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
         </svg>
@@ -322,7 +322,7 @@
   }
 
   // ------------ Çerez tercihi kontrolü ------------
-  // "Yapay Zeka Asistanı" kategorisi kapalıyken widget DOM'a hiç girmez.
+  // "Yapay Zekâ Asistanı" kategorisi kapalıyken widget DOM'a hiç girmez.
   function isAIConsented() {
     if (root.ArkozConsent && typeof root.ArkozConsent.isGranted === 'function') {
       return root.ArkozConsent.isGranted('ai');
@@ -406,8 +406,12 @@
       renderSuggestions();
     }
 
+    // Sohbet silinince artar; yanıtı bekleyen eski istek sonucunu geçmişe yazmaz.
+    let chatGen = 0;
+
     function clearHistory() {
       if (!confirm('Sohbet geçmişini silmek istediğinizden emin misiniz?')) return;
+      chatGen++;
       history.length = 0;
       msgs.innerHTML = '';
       welcomed = false;
@@ -560,8 +564,14 @@
       const typing = addMsg('Yazıyor…', 'bot');
       typing.classList.add('ai-msg--typing');
 
+      const gen = chatGen;
       try {
         const r = await client.send(history, text);
+        if (gen !== chatGen) {
+          // Yanıt beklenirken sohbet silindi: sonuç yok sayılır, geçmiş boş kalır.
+          history.length = 0;
+          return;
+        }
         if (r.kind === 'ok') {
           typing.innerHTML = mdToHtml(r.reply);
           typing.classList.remove('ai-msg--typing');
@@ -613,6 +623,8 @@
         setOpen(true);
       });
       teaser.addEventListener('keydown', function (e) {
+        // İçteki kapat düğmesinin tuşları buraya köpürür; yalnız balonun kendisi açar.
+        if (e.target !== teaser) return;
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           setOpen(true);
