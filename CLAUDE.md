@@ -33,7 +33,9 @@ Arkoz/
 ├── arkoz-konfor-sunar.jpg  # İçerik görseli
 ├── arkoz-maksimum-yalitim.jpg  # İçerik görseli
 ├── images/
-│   └── factory-1..5.jpg   # Fabrika görselleri
+│   ├── factory-1..5.jpg   # Fabrika görselleri
+│   ├── urun-arkoz-{blok,asmolen}-{800,1600}.webp  # Ürün görselleri (kare)
+│   └── gazbeton-konu-*-{800,1600}.webp  # Neden Gazbeton konu görselleri
 ├── assets/
 │   ├── css/fonts.css       # Yerel @font-face tanımları (Poppins)
 │   └── fonts/*.woff2       # Poppins latin + latin-ext (12 dosya)
@@ -92,6 +94,8 @@ Arkoz/
 3. **Intro** — WebGL shader animasyonu (saf GLSL, Three.js kaldırıldı)
 4. **Gazbeton** — gazbeton nedir, avantajlar bölümü
 5. **Ürünler** — Arkoz Blok ve Asmolen ürün kartları
+   - Ürün görselleri kare ve üç yerde kullanılır: vitrin kartı (`.showcase__img`, kare), ürün kartı (`.service-card__img`, 6/5) ve `urunler.html` ürün başlığı. Ürün kadrajın ortasında durmalı; 6/5 kırpımda üstten ve alttan yaklaşık %8 kesilir.
+   - Vitrin kartında bilgi kutusu görselin üstüne binmez, yalnızca alttaki zemine hafifçe taşar (`.showcase__info` negatif üst boşluk). Kart zemini `#09022d` görsellerin alt köşe tonudur; görsel değişirse bu renk de gözden geçirilir.
 6. **Kurumsal** — şirket hakkında kısa tanıtım
 7. **Mission** — "Ethereal Beams" shader animasyonu (saf WebGL)
 8. **İletişim** — adres, telefon, e-posta
