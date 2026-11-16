@@ -37,6 +37,7 @@
       }
       .prod-header img {
         width: 260px;
+        height: auto;
         border-radius: 12px;
         object-fit: cover;
         flex-shrink: 0;
@@ -236,9 +237,14 @@
         <section class="prod-section" id="arkoz-blok">
           <div class="prod-header">
             <img
-              src="images/arkoz-blok-gazbeton-800x800.jpg"
+              src="images/urun-arkoz-blok-800.webp"
+              srcset="images/urun-arkoz-blok-800.webp 800w, images/urun-arkoz-blok-1600.webp 1600w"
+              sizes="(max-width: 768px) min(380px, calc(100vw - 40px)), 260px"
               alt="Arkoz Blok — Gazbeton Duvar Bloku"
+              width="1600"
+              height="1600"
               loading="lazy"
+              decoding="async"
             />
             <div class="prod-header__info">
               <h2>Arkoz Blok</h2>
@@ -530,9 +536,17 @@
         <section class="prod-section" id="arkoz-asmolen">
           <div class="prod-header">
             <img
-              src="images/asmolen-800x800.jpg"
+              src="images/urun-arkoz-asmolen-800.webp"
+              srcset="
+                images/urun-arkoz-asmolen-800.webp   800w,
+                images/urun-arkoz-asmolen-1600.webp 1600w
+              "
+              sizes="(max-width: 768px) min(380px, calc(100vw - 40px)), 260px"
               alt="Arkoz Asmolen — Gazbeton Döşeme Dolgu"
+              width="1600"
+              height="1600"
               loading="lazy"
+              decoding="async"
             />
             <div class="prod-header__info">
               <h2>Arkoz Asmolen</h2>
