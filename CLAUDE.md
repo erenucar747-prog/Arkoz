@@ -98,6 +98,18 @@ Arkoz/
 
 ---
 
+## Sekmeli Sayfalar (gazbeton, kurumsal, politikalar)
+
+Üçü de `.tabs.section` + `.tab-btn[data-tab]` + `.tab-panel#tab-…` kullanır; sekme geçişini sayfa içi betik yapar, `script.js` yalnız görünüm davranışını ekler. Sekme çubuğuna dokunurken şunlar korunur:
+
+- **gazbeton.html — `.tabs--topics` (konu kartları):** masaüstünde solda yapışkan konu listesi, sağda içerik kartı; ≤900px'te her konu açılır kart (`.topic__head`, `.is-open`). Simgeler bölüm başındaki `<svg class="topic-sprite">` içindedir. Konu görseli `.topic__inner` başına `<figure class="topic__media">` olarak eklenir. Davranış: `initTopics`.
+- **kurumsal.html / politikalar.html — `.tabs__bar` (konu çubuğu):** ≤768px'te sekmeler üstte sabit duran tek bir çubuğa iner (`.tabs__picker`), dokununca liste açılır. Davranış: `initTabPicker`.
+- **politikalar.html — `.tabs--docs` (belge düzeni):** ≥1024px'te solda metin listesi + "Bu metinde" (`.doc-toc`, başlıklardan `initDocToc` üretir), sağda 760px metin sütunu. Paneller bir sarmalayıcıya **alınmaz**: girinti değişirse Gizlilik bölgesinin dondurulmuş özeti bozulur (natro dalındaki test).
+- `.tabs.section { overflow: visible }` kalmalı; aksi hâlde yapışkan (sticky) öğeler çalışmaz.
+- `.content-block` içindeki sınıfsız `h3`/`p` öğelerine paragraf ritmi `styles.css` "23. RICH CONTENT" bölümünden gelir.
+
+---
+
 ## Animasyon Sistemi
 
 Projede birden fazla WebGL/shader animasyonu kullanılmaktadır:
