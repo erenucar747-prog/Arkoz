@@ -40,12 +40,10 @@ favicon.ico
 gazbeton.html
 haberler.html
 images/8-mart-kadinlar-gunu.jpeg
-images/arkoz-blok-gazbeton-800x800.jpg
 images/arkoz-gazbeton-deger-katar.jpg
 images/arkoz-gazbeton-konfor-sunar.jpg
 images/arkoz-mt-programi-basladi.jpg
 images/arkoz-web-sitesi-yayina-basladi-600x400.jpg
-images/asmolen-800x800.jpg
 images/cevre-ve-insan-sagligina-dost-1600x480.jpg
 images/deloitte-logo.png
 images/depreme-karsi-dayanikli.jpg
@@ -84,6 +82,10 @@ images/tse-belgesi-gazbeton.png
 images/tse-deney-raporu-organik-icerik.png
 images/tse-deney-raporu-tutkal.png
 images/turkiyenin-en-modern-gazbeton-fabrikasi-600x400.jpg
+images/urun-arkoz-asmolen-1600.webp
+images/urun-arkoz-asmolen-800.webp
+images/urun-arkoz-blok-1600.webp
+images/urun-arkoz-blok-800.webp
 index.html
 insan-kaynaklari.html
 kurumsal.html
