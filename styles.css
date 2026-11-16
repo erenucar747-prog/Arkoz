@@ -224,6 +224,13 @@ h6 {
   box-shadow: var(--sh-focus);
   border-radius: var(--r-sm);
 }
+/* Yüksek karşıtlık modunda box-shadow çizilmez; odak göstergesi kaybolmasın. */
+@media (forced-colors: active) {
+  :focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+}
 strong {
   font-weight: 600;
   color: var(--c-text-strong);
@@ -537,6 +544,12 @@ strong {
     z-index: var(--z-mobile-nav);
     overflow-y: auto;
     visibility: hidden;
+  }
+  /* Kaydırılınca üst çubuk 8px kısalır; menü çubuğun hemen altından başlasın. */
+  .header.scrolled .nav__list {
+    top: 68px;
+    height: calc(100dvh - 68px);
+    height: calc(100vh - 68px);
   }
   .nav__list.open {
     transform: translateY(0);
@@ -1124,17 +1137,6 @@ strong {
   max-width: 380px;
   height: auto;
   filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.3));
-}
-
-@keyframes waveExpand {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(3.5);
-    opacity: 0;
-  }
 }
 
 @media (max-width: 768px) {
@@ -3612,9 +3614,6 @@ strong {
   color: var(--c-primary-50);
   line-height: 1;
   z-index: 0;
-}
-.service-card::after {
-  display: none;
 }
 .service-card:hover {
   border-color: var(--c-primary-20);
@@ -6929,7 +6928,7 @@ body.modal-open {
   .cb-reopen,
   .cb-modal,
   #ai-chat-widget,
-  #whatsapp-float,
+  .whatsapp-float,
   #scrollProgressBar,
   #stickyCta,
   .ek2__print-actions {

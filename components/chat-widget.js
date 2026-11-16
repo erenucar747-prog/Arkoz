@@ -66,7 +66,7 @@
             </button>
           </div>
         </div>
-        <div id="ai-chat-messages"></div>
+        <div id="ai-chat-messages" role="log" aria-live="polite"></div>
         <div id="ai-chat-input-row">
           <input id="ai-chat-input" type="text" placeholder="Mesajınızı yazın…" autocomplete="off" maxlength="${MAX_INPUT_LENGTH}" aria-label="Mesaj"/>
           <span id="ai-chat-counter" aria-live="polite">${MAX_INPUT_LENGTH}</span>
@@ -238,8 +238,12 @@
       renderSuggestions();
     }
 
+    // Sohbet silinince artar; yanıtı bekleyen eski istek sonucunu geçmişe yazmaz.
+    let chatGen = 0;
+
     function clearHistory() {
       if (!confirm('Sohbet geçmişini silmek istediğinizden emin misiniz?')) return;
+      chatGen++;
       history.length = 0;
       msgs.innerHTML = '';
       welcomed = false;
@@ -284,6 +288,8 @@
     }
 
     function setOpen(open) {
+      // Kapanırken odak pencerenin içindeyse açma düğmesine geri verilir.
+      const returnFocus = !open && panel.contains(document.activeElement);
       panel.style.display = open ? 'flex' : 'none';
       panel.setAttribute('aria-hidden', open ? 'false' : 'true');
       iconChat.style.display = open ? 'none' : 'block';
@@ -299,6 +305,7 @@
         }
       } else {
         hideConsentGate();
+        if (returnFocus) toggleBtn.focus();
       }
     }
 
@@ -378,6 +385,9 @@
       // Geçmişe yalnız yanıt başarıyla gelince eklenir; reddedilen mesaj sonraki turda tekrar gitmez.
       const userMsg = { role: 'user', content: text };
       const outgoing = history.concat([userMsg]).slice(-MAX_HISTORY);
+      // Kırpma sonrası konuşma asistan mesajıyla başlamasın.
+      while (outgoing.length && outgoing[0].role !== 'user') outgoing.shift();
+      const gen = chatGen;
 
       const typing = addMsg('Yazıyor…', 'bot');
       typing.classList.add('ai-msg--typing');
@@ -388,6 +398,8 @@
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ messages: outgoing }),
         });
+        // Yanıt beklenirken sohbet silindiyse sonuç yok sayılır.
+        if (gen !== chatGen) return;
 
         if (!res.ok) {
           typing.remove();
@@ -401,6 +413,7 @@
         }
 
         const data = await res.json();
+        if (gen !== chatGen) return;
         if (data.error) {
           typing.remove();
           addMsg(data.error, 'error');
@@ -421,6 +434,7 @@
         history.push(userMsg, { role: 'assistant', content: reply });
         while (history.length > MAX_HISTORY) history.shift();
       } catch (_e) {
+        if (gen !== chatGen) return;
         typing.remove();
         addMsg('Bağlantı hatası. İnternet bağlantınızı kontrol edin.', 'error');
       } finally {
@@ -462,6 +476,8 @@
         setOpen(true);
       });
       teaser.addEventListener('keydown', function (e) {
+        // İçteki kapat düğmesinin tuşları buraya köpürür; yalnız balonun kendisi açar.
+        if (e.target !== teaser) return;
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
           setOpen(true);

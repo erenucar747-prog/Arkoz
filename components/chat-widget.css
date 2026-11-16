@@ -681,7 +681,6 @@
 /* ------------ Mobile ------------ */
 @media (max-width: 480px) {
   #ai-chat-widget {
-    bottom: 16px;
     right: 16px;
   }
   #ai-chat-panel {
