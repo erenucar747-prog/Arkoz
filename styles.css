@@ -4790,6 +4790,329 @@ strong {
 }
 
 /* 23. RICH CONTENT ──────────────────────────────────────── */
+/* Sekme içi düz metin blokları (gazbeton, kurumsal, politikalar): başlık ve paragraf ritmi.
+   Yalnız sınıfsız, doğrudan çocuk öğeler — sınıflı özel bileşenlere (zaman çizelgesi, kartlar) dokunmaz. */
+.content-block > h3 {
+  line-height: var(--lh-snug);
+  margin-bottom: var(--s-3);
+}
+.content-block > h3:not(:first-child) {
+  margin-top: var(--s-8);
+}
+.content-block > p:not([class]) {
+  line-height: 1.75;
+}
+.content-block > p:not([class]) + p:not([class]),
+.content-block > ul:not([class]) + p:not([class]),
+.content-block > p:not([class]) + ul:not([class]) {
+  margin-top: var(--s-4);
+}
+
+/* 23b. KONU KARTLARI (gazbeton.html) ─────────────────────
+   Tek işaretleme, iki görünüm: masaüstünde yan liste + içerik kartı, telefonda açılır kartlar. */
+.topic-sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+.topic-icon {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.75;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.tabs--topics .tab-panel {
+  scroll-margin-top: 92px;
+}
+.topic__heading {
+  margin: 0;
+  font-size: inherit;
+}
+.topic__kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin-bottom: var(--s-3);
+  padding: 6px 12px 6px 10px;
+  border-radius: var(--r-pill);
+  background: var(--c-primary-50);
+  color: var(--c-primary);
+  font-size: var(--fs-13);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.topic__kicker .topic-icon {
+  width: 16px;
+  height: 16px;
+}
+.topic__media {
+  margin: 0;
+  background: var(--c-ink);
+}
+.topic__media img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.topic__foot {
+  display: flex;
+  justify-content: flex-end;
+}
+.topic__next {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 48px;
+  padding: 10px 14px 10px 18px;
+  border: 1px solid var(--c-line-strong);
+  border-radius: var(--r-pill);
+  background: var(--c-surface-1);
+  color: var(--c-primary);
+  font-family: inherit;
+  font-size: var(--fs-15);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
+    color var(--dur-fast) var(--ease-out);
+}
+.topic__next-label {
+  color: var(--c-text-muted);
+  font-size: var(--fs-13);
+  font-weight: 500;
+}
+.topic__next .topic-icon {
+  transition: transform var(--dur-fast) var(--ease-out);
+}
+.topic__next:hover {
+  background: var(--c-primary);
+  border-color: var(--c-primary);
+  color: #fff;
+}
+.topic__next:hover .topic__next-label {
+  color: rgba(255, 255, 255, 0.8);
+}
+.topic__next:hover .topic-icon {
+  transform: translateX(3px);
+}
+
+/* Masaüstü: solda yapışkan konu listesi, sağda içerik kartı */
+@media (min-width: 901px) {
+  .topics {
+    display: grid;
+    grid-template-columns: minmax(240px, 300px) minmax(0, 1fr);
+    gap: clamp(24px, 4vw, 56px);
+    align-items: start;
+  }
+  .tabs--topics .topics__nav {
+    position: sticky;
+    top: 96px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: var(--s-1);
+    margin-bottom: 0;
+    padding: var(--s-2);
+    overflow: visible;
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-lg);
+    background: var(--c-surface-2);
+  }
+  .tabs--topics .tab-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    width: 100%;
+    margin: 0;
+    padding: 12px 14px;
+    border-radius: var(--r-md);
+    font-size: var(--fs-15);
+    line-height: 1.3;
+    text-align: left;
+    white-space: normal;
+    transition:
+      background var(--dur-fast) var(--ease-out),
+      color var(--dur-fast) var(--ease-out);
+  }
+  .tabs--topics .tab-btn::after {
+    display: none;
+  }
+  .tabs--topics .tab-btn:hover {
+    background: var(--c-primary-100);
+  }
+  .tabs--topics .tab-btn.active {
+    background: var(--c-primary);
+    color: #fff;
+    box-shadow: 0 4px 14px rgba(32, 17, 97, 0.22);
+  }
+  .topic__heading {
+    display: none;
+  }
+  .tabs--topics .tab-panel.active {
+    overflow: hidden;
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-lg);
+    background: var(--c-surface-1);
+    box-shadow: var(--sh-sm);
+  }
+  .topic__media img {
+    aspect-ratio: 2 / 1;
+  }
+  .tabs--topics .content-block {
+    padding: clamp(24px, 3vw, 40px) clamp(24px, 3vw, 40px) 0;
+  }
+  .tabs--topics .content-block > h3 {
+    font-size: var(--fs-28);
+    letter-spacing: var(--tracking-snug);
+    margin-bottom: var(--s-4);
+  }
+  .tabs--topics .content-block > p:not([class]) {
+    max-width: 68ch;
+  }
+  .topic__foot {
+    padding: var(--s-8) clamp(24px, 3vw, 40px) clamp(24px, 3vw, 40px);
+  }
+}
+
+/* Telefon ve tablet: her konu simgeli, açılır bir kart */
+@media (max-width: 900px) {
+  .tabs--topics .topics__nav {
+    display: none;
+  }
+  .topics__panels {
+    display: grid;
+    gap: var(--s-3);
+  }
+  .tabs--topics .tab-panel {
+    display: block;
+    animation: none;
+    overflow: hidden;
+    border: 1px solid var(--c-line);
+    border-radius: var(--r-lg);
+    background: var(--c-surface-1);
+    transition:
+      border-color var(--dur-base) var(--ease-out),
+      box-shadow var(--dur-base) var(--ease-out);
+  }
+  .tabs--topics .tab-panel.is-open {
+    border-color: var(--c-primary-20);
+    box-shadow: var(--sh-md);
+  }
+  .topic__head {
+    display: flex;
+    align-items: center;
+    gap: var(--s-3);
+    width: 100%;
+    min-height: 64px;
+    padding: var(--s-3) var(--s-4);
+    color: var(--c-text-strong);
+    font-family: inherit;
+    font-size: var(--fs-16);
+    font-weight: 600;
+    line-height: 1.3;
+    text-align: left;
+  }
+  .topic__head:focus-visible {
+    box-shadow: inset 0 0 0 2px var(--c-primary);
+    border-radius: var(--r-lg);
+  }
+  .topic__badge {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--r-md);
+    background: var(--c-primary-50);
+    color: var(--c-primary);
+    transition:
+      background var(--dur-base) var(--ease-out),
+      color var(--dur-base) var(--ease-out);
+  }
+  .is-open > .topic__heading .topic__badge {
+    background: var(--c-primary);
+    color: #fff;
+  }
+  .topic__title {
+    flex: 1;
+    min-width: 0;
+  }
+  .topic__chevron {
+    flex: none;
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: var(--c-text-muted);
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform var(--dur-base) var(--ease-out);
+  }
+  .is-open > .topic__heading .topic__chevron {
+    transform: rotate(180deg);
+  }
+  .topic__body {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows var(--dur-base) var(--ease-out);
+  }
+  .is-open > .topic__body {
+    grid-template-rows: 1fr;
+  }
+  .topic__inner {
+    min-height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    transition: visibility 0s linear var(--dur-base);
+  }
+  .is-open > .topic__body > .topic__inner {
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  .topic__media {
+    margin: 0 var(--s-4);
+    overflow: hidden;
+    border-radius: var(--r-md);
+  }
+  .tabs--topics .content-block {
+    padding: var(--s-4) var(--s-4) 0;
+  }
+  .topic__media + .content-block {
+    padding-top: var(--s-4);
+  }
+  .tabs--topics .content-block > h3,
+  .tabs--topics .topic__kicker {
+    display: none;
+  }
+  .topic__foot {
+    padding: var(--s-5) var(--s-4) var(--s-4);
+  }
+  .topic__next {
+    width: 100%;
+    justify-content: space-between;
+  }
+  .topic__next-title {
+    flex: 1;
+    min-width: 0;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .topic__body,
+  .topic__inner,
+  .topic__chevron,
+  .topic__badge {
+    transition: none;
+  }
+}
 
 /* 24. HABERLER GRID ─────────────────────────────────────── */
 

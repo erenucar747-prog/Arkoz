@@ -662,6 +662,93 @@ if (document.readyState === 'loading') {
   });
 })();
 
+/* ── 13b. Konu kartları (gazbeton.html) ──────────────────
+   Sekme durumu (.active) sayfadaki mevcut sekme mantığında kalır; burada yalnızca
+   telefondaki açılır kart davranışı (.is-open), "sonraki konu" düğmesi ve kaydırma var. */
+(function initTopics() {
+  const root = document.querySelector('.tabs--topics');
+  if (!root) return;
+
+  const panels = Array.from(root.querySelectorAll('.tab-panel'));
+  const navBtns = Array.from(root.querySelectorAll('.tabs__nav .tab-btn'));
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const panelOf = (name) => document.getElementById('tab-' + name);
+
+  const setOpen = (panel) => {
+    panels.forEach((p) => {
+      const open = p === panel;
+      p.classList.toggle('is-open', open);
+      const head = p.querySelector('.topic__head');
+      if (head) head.setAttribute('aria-expanded', String(open));
+    });
+  };
+
+  const headerBottom = () => {
+    const header = document.querySelector('.header');
+    return header ? header.getBoundingClientRect().bottom : 0;
+  };
+
+  // Kartın başı görünür alanın dışında kaldıysa başlığın hemen altına getir.
+  const reveal = (panel) => {
+    const top = panel.getBoundingClientRect().top;
+    const limit = headerBottom() + 12;
+    if (top >= limit && top < window.innerHeight * 0.6) return;
+    window.scrollTo({
+      top: top + window.scrollY - limit,
+      behavior: reduceMotion.matches ? 'auto' : 'smooth',
+    });
+  };
+
+  const activate = (name) => {
+    const btn = navBtns.find((b) => b.dataset.tab === name);
+    if (btn) btn.click();
+  };
+
+  // Açılıp kapanma geçişi bittikten sonra konumu düzelt (üstteki kart kapanınca içerik kayar).
+  const revealAfterTransition = (panel) => {
+    window.setTimeout(() => reveal(panel), reduceMotion.matches ? 0 : 320);
+  };
+
+  navBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = panelOf(btn.dataset.tab);
+      if (panel) setOpen(panel);
+    });
+  });
+
+  root.querySelectorAll('.topic__head').forEach((head) => {
+    head.addEventListener('click', () => {
+      const panel = head.closest('.tab-panel');
+      if (panel.classList.contains('is-open')) {
+        panel.classList.remove('is-open');
+        head.setAttribute('aria-expanded', 'false');
+        return;
+      }
+      activate(head.dataset.topic);
+      revealAfterTransition(panel);
+    });
+  });
+
+  root.querySelectorAll('[data-topic-next]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = panelOf(btn.dataset.topicNext);
+      if (!panel) return;
+      activate(btn.dataset.topicNext);
+      revealAfterTransition(panel);
+      const head = panel.querySelector('.topic__head');
+      if (head && head.offsetParent !== null) head.focus({ preventScroll: true });
+    });
+  });
+
+  // Sayfa bir konu bağlantısıyla (#tab-isi, #isi) açıldıysa o kart açık gelsin.
+  const active = panels.find((p) => p.classList.contains('active'));
+  if (active) setOpen(active);
+  window.addEventListener('hashchange', () => {
+    const current = panels.find((p) => p.classList.contains('active'));
+    if (current) revealAfterTransition(current);
+  });
+})();
+
 /* ============================================================
    FAZ 4 — Lightbox + Quote Modal + WhatsApp form deeplink
    ============================================================ */

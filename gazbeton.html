@@ -91,204 +91,553 @@
     </div>
 
     <main>
-      <section class="tabs section">
-        <div class="container">
-          <div class="tabs__nav">
-            <button type="button" class="tab-btn active" data-tab="neden">Neden Gazbeton</button>
-            <button type="button" class="tab-btn" data-tab="deger">Değer Katar</button>
-            <button type="button" class="tab-btn" data-tab="isi">Isı Yalıtımı</button>
-            <button type="button" class="tab-btn" data-tab="deprem">Deprem Güvenliği</button>
-            <button type="button" class="tab-btn" data-tab="uygulama">Uygulama Kolaylığı</button>
-            <button type="button" class="tab-btn" data-tab="ses">Ses Yalıtımı</button>
-            <button type="button" class="tab-btn" data-tab="dayanim">Dayanım</button>
-            <button type="button" class="tab-btn" data-tab="cevre">Doğaya ve Çevreye Dost</button>
+      <section class="tabs section tabs--topics">
+        <svg class="topic-sprite" aria-hidden="true" focusable="false">
+          <symbol id="ti-neden" viewBox="0 0 24 24">
+            <circle cx="12" cy="12" r="9" />
+            <path d="m8.5 12.2 2.4 2.4 4.6-5" />
+          </symbol>
+          <symbol id="ti-deger" viewBox="0 0 24 24">
+            <path d="m3 17 6-6 4 4 8-8" />
+            <path d="M15 7h6v6" />
+          </symbol>
+          <symbol id="ti-isi" viewBox="0 0 24 24">
+            <path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z" />
+          </symbol>
+          <symbol id="ti-deprem" viewBox="0 0 24 24">
+            <path
+              d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+            />
+            <path d="m9 12 2 2 4-4" />
+          </symbol>
+          <symbol id="ti-uygulama" viewBox="0 0 24 24">
+            <path
+              d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+            />
+          </symbol>
+          <symbol id="ti-ses" viewBox="0 0 24 24">
+            <path d="M11 5 6 9H2v6h4l5 4V5z" />
+            <path d="m22 9-6 6" />
+            <path d="m16 9 6 6" />
+          </symbol>
+          <symbol id="ti-dayanim" viewBox="0 0 24 24">
+            <rect x="3" y="4" width="18" height="16" rx="2" />
+            <path d="M3 9.33h18M3 14.67h18M12 4v5.33M8 9.33v5.34M16 9.33v5.34M12 14.67V20" />
+          </symbol>
+          <symbol id="ti-cevre" viewBox="0 0 24 24">
+            <path
+              d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"
+            />
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
+          </symbol>
+          <symbol id="ti-enerji" viewBox="0 0 24 24">
+            <path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" />
+          </symbol>
+          <symbol id="ti-chevron" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
+          <symbol id="ti-arrow" viewBox="0 0 24 24">
+            <path d="M5 12h14" />
+            <path d="m13 6 6 6-6 6" />
+          </symbol>
+        </svg>
+        <div class="container topics">
+          <div class="tabs__nav topics__nav">
+            <button type="button" class="tab-btn active" data-tab="neden">
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-neden" /></svg>
+              <span>Neden Gazbeton</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="deger">
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-deger" /></svg>
+              <span>Değer Katar</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="isi">
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-isi" /></svg>
+              <span>Isı Yalıtımı</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="deprem">
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-deprem" /></svg>
+              <span>Deprem Güvenliği</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="uygulama">
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-uygulama" /></svg>
+              <span>Uygulama Kolaylığı</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="ses">
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-ses" /></svg>
+              <span>Ses Yalıtımı</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="dayanim">
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-dayanim" /></svg>
+              <span>Dayanım</span>
+            </button>
+            <button type="button" class="tab-btn" data-tab="cevre">
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-cevre" /></svg>
+              <span>Doğaya ve Çevreye Dost</span>
+            </button>
             <button type="button" class="tab-btn" data-tab="enerji">
-              Yüksek Enerji Verimliliği
+              <svg class="topic-icon" aria-hidden="true"><use href="#ti-enerji" /></svg>
+              <span>Yüksek Enerji Verimliliği</span>
             </button>
           </div>
 
-          <!-- Neden Gazbeton -->
-          <div class="tab-panel active" id="tab-neden">
-            <div class="content-block">
-              <h3>Neden Gazbeton</h3>
-              <p>
-                Gazbeton, performans değerleri ve uygulama özellikleri ile ideal bir yapı
-                malzemesidir. Depreme karşı güvenli ve yangına dayanıklı yapıların inşasına olanak
-                sağlar. Ses yalıtımı ile iç mekân konforunu artırır. Bir duvar malzemesinde
-                bulunması gereken tüm özellikleri bünyesinde barındırır.
-              </p>
-              <p>
-                Yüksek performansı, kolay uygulaması ve üst düzey güvenliği ile konutlar için ideal
-                bir duvar malzemesi ve yapıya değer katan bir üründür. Isı yalıtımı, deprem
-                güvenliği, ses yalıtımı, dayanım ve enerji verimliliği gibi kritik özelliklerin
-                tamamında üstün performans sergiler.
-              </p>
+          <div class="topics__panels">
+            <!-- Neden Gazbeton -->
+            <div class="tab-panel active is-open" id="tab-neden">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="neden"
+                  aria-expanded="true"
+                  aria-controls="topic-neden"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-neden" /></svg
+                  ></span>
+                  <span class="topic__title">Neden Gazbeton</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-neden">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-neden" /></svg>Konu
+                      1 / 9
+                    </p>
+                    <h3>Neden Gazbeton</h3>
+                    <p>
+                      Gazbeton, performans değerleri ve uygulama özellikleri ile ideal bir yapı
+                      malzemesidir. Depreme karşı güvenli ve yangına dayanıklı yapıların inşasına
+                      olanak sağlar. Ses yalıtımı ile iç mekân konforunu artırır. Bir duvar
+                      malzemesinde bulunması gereken tüm özellikleri bünyesinde barındırır.
+                    </p>
+                    <p>
+                      Yüksek performansı, kolay uygulaması ve üst düzey güvenliği ile konutlar için
+                      ideal bir duvar malzemesi ve yapıya değer katan bir üründür. Isı yalıtımı,
+                      deprem güvenliği, ses yalıtımı, dayanım ve enerji verimliliği gibi kritik
+                      özelliklerin tamamında üstün performans sergiler.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <button type="button" class="topic__next" data-topic-next="deger">
+                      <span class="topic__next-label">Sonraki konu</span>
+                      <span class="topic__next-title">Değer Katar</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Değer Katar -->
-          <div class="tab-panel" id="tab-deger">
-            <div class="content-block">
-              <h3>Değer Katar</h3>
-              <p>
-                Arkoz Gazbeton, müşteri merkezli olmayı birincil ilke edinmiş bir şirkettir. Tüm
-                kullanıcılar için değer yaratmayı amaç edinmiştir. En yüksek kalitede üretim
-                anlayışı ile mevcut kalite standartlarını aşmayı hedefleyen sürekli araştırma ve
-                geliştirme çalışmaları yürütmektedir.
-              </p>
-              <p>
-                Hafif yapısı ve dayanıklılığı ile yapıya hem ekonomik hem de teknik açıdan değer
-                katar. Gazbeton kullanımı, binanın toplam yükünü azaltırken yapının ömrü boyunca
-                enerji tasarrufu ve düşük bakım maliyeti sağlayarak yatırımın geri dönüşünü artırır.
-              </p>
+            <!-- Değer Katar -->
+            <div class="tab-panel" id="tab-deger">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="deger"
+                  aria-expanded="false"
+                  aria-controls="topic-deger"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-deger" /></svg
+                  ></span>
+                  <span class="topic__title">Değer Katar</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-deger">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-deger" /></svg>Konu
+                      2 / 9
+                    </p>
+                    <h3>Değer Katar</h3>
+                    <p>
+                      Arkoz Gazbeton, müşteri merkezli olmayı birincil ilke edinmiş bir şirkettir.
+                      Tüm kullanıcılar için değer yaratmayı amaç edinmiştir. En yüksek kalitede
+                      üretim anlayışı ile mevcut kalite standartlarını aşmayı hedefleyen sürekli
+                      araştırma ve geliştirme çalışmaları yürütmektedir.
+                    </p>
+                    <p>
+                      Hafif yapısı ve dayanıklılığı ile yapıya hem ekonomik hem de teknik açıdan
+                      değer katar. Gazbeton kullanımı, binanın toplam yükünü azaltırken yapının ömrü
+                      boyunca enerji tasarrufu ve düşük bakım maliyeti sağlayarak yatırımın geri
+                      dönüşünü artırır.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <button type="button" class="topic__next" data-topic-next="isi">
+                      <span class="topic__next-label">Sonraki konu</span>
+                      <span class="topic__next-title">Isı Yalıtımı</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Isı Yalıtımı -->
-          <div class="tab-panel" id="tab-isi">
-            <div class="content-block">
-              <h3>Isı Yalıtımı</h3>
-              <p>
-                Isı yalıtımı, hem ülkenin hem de bireylerin ekonomisi açısından büyük öneme
-                sahiptir. Gazbeton, muadil duvar malzemelerine oranla ısıtma ve soğutma
-                maliyetlerinde %50'ye kadar tasarruf sağlar.
-              </p>
-              <p>
-                Belli kalınlıklarda kullanıldığında tek kesit olarak (mantolama gerektirmeden)
-                istenilen ısı yalıtımını sağlar. Zaman içinde ısı yalıtım özelliğini kaybetmez,
-                yapının nefes almasını sağlar. Uygun kalınlıklarda kullanıldığında A Sınıfı Enerji
-                Kimlik Belgesi alınmasına yardımcı olur. Muadil ürünlere göre üç kat daha fazla
-                tasarruf sağlarken işçilik ve malzeme giderlerini de azaltır.
-              </p>
+            <!-- Isı Yalıtımı -->
+            <div class="tab-panel" id="tab-isi">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="isi"
+                  aria-expanded="false"
+                  aria-controls="topic-isi"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-isi" /></svg
+                  ></span>
+                  <span class="topic__title">Isı Yalıtımı</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-isi">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-isi" /></svg>Konu 3
+                      / 9
+                    </p>
+                    <h3>Isı Yalıtımı</h3>
+                    <p>
+                      Isı yalıtımı, hem ülkenin hem de bireylerin ekonomisi açısından büyük öneme
+                      sahiptir. Gazbeton, muadil duvar malzemelerine oranla ısıtma ve soğutma
+                      maliyetlerinde %50'ye kadar tasarruf sağlar.
+                    </p>
+                    <p>
+                      Belli kalınlıklarda kullanıldığında tek kesit olarak (mantolama gerektirmeden)
+                      istenilen ısı yalıtımını sağlar. Zaman içinde ısı yalıtım özelliğini
+                      kaybetmez, yapının nefes almasını sağlar. Uygun kalınlıklarda kullanıldığında
+                      A Sınıfı Enerji Kimlik Belgesi alınmasına yardımcı olur. Muadil ürünlere göre
+                      üç kat daha fazla tasarruf sağlarken işçilik ve malzeme giderlerini de
+                      azaltır.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <button type="button" class="topic__next" data-topic-next="deprem">
+                      <span class="topic__next-label">Sonraki konu</span>
+                      <span class="topic__next-title">Deprem Güvenliği</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Deprem Güvenliği -->
-          <div class="tab-panel" id="tab-deprem">
-            <div class="content-block">
-              <h3>Deprem Güvenliği</h3>
-              <p>
-                Düşük yoğunluklu duvar malzemesi olan gazbeton, hafifliği ve sağlamlığı ile yapıdaki
-                toplam yükü azaltır ve binanın depreme karşı çok daha güvenli olmasına büyük katkı
-                sağlar.
-              </p>
-              <p>
-                Doğru malzeme seçimi yapı sakinlerinin can güvenliğine doğrudan katkı sağlamaktadır.
-                Gazbeton, yüksek performansını deprem güvenliği ile birlikte sunan bir yapı
-                malzemesidir. Hafif yapısının sağladığı avantaj ile binalardaki sismik yükler
-                minimize edilir.
-              </p>
+            <!-- Deprem Güvenliği -->
+            <div class="tab-panel" id="tab-deprem">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="deprem"
+                  aria-expanded="false"
+                  aria-controls="topic-deprem"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-deprem" /></svg
+                  ></span>
+                  <span class="topic__title">Deprem Güvenliği</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-deprem">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-deprem" /></svg>Konu
+                      4 / 9
+                    </p>
+                    <h3>Deprem Güvenliği</h3>
+                    <p>
+                      Düşük yoğunluklu duvar malzemesi olan gazbeton, hafifliği ve sağlamlığı ile
+                      yapıdaki toplam yükü azaltır ve binanın depreme karşı çok daha güvenli
+                      olmasına büyük katkı sağlar.
+                    </p>
+                    <p>
+                      Doğru malzeme seçimi yapı sakinlerinin can güvenliğine doğrudan katkı
+                      sağlamaktadır. Gazbeton, yüksek performansını deprem güvenliği ile birlikte
+                      sunan bir yapı malzemesidir. Hafif yapısının sağladığı avantaj ile binalardaki
+                      sismik yükler minimize edilir.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <button type="button" class="topic__next" data-topic-next="uygulama">
+                      <span class="topic__next-label">Sonraki konu</span>
+                      <span class="topic__next-title">Uygulama Kolaylığı</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Uygulama Kolaylığı -->
-          <div class="tab-panel" id="tab-uygulama">
-            <div class="content-block">
-              <h3>Uygulama Kolaylığı</h3>
-              <p>
-                Gazbeton hafif yapısı ve kolay işlenebilirliği sayesinde çok daha kısa sürede ve
-                kolay uygulanır. Bir duvar malzemesi olmasına rağmen testere ile kesilebilen ve
-                kolay işlenebilen bir yapı malzemesidir. Muadil ürünlere oranla daha hafiftir ve
-                uygulama alanına çok daha kolay ve kısa sürede taşınabilir.
-              </p>
-              <p>
-                Matkapla delinebilir ve tüm tesisat kanalları çok rahat ve zahmetsiz şekilde
-                açılabilir. Ayrıca yüksek üretim teknolojisi sayesinde mm düzeyinde ölçü
-                hassasiyetine sahiptir. Bu özellik, duvarda yüzey düzgünlüğünü artırır ve sıvadan da
-                tasarruf sağlar. Gazbeton, şantiyeye ahşap paletler ile sevk edilmektedir. Şantiyede
-                uygulama alanına taşınması forklift aracılığı ile çok kolay şekilde
-                gerçekleşmektedir.
-              </p>
-              <p>
-                Şantiye alanında çok rahat ve kısa zamanda kesilip uygulanabilen gazbeton, muadil
-                ürünlere kıyasla çok daha kısa sürede uygulanır. Şantiyede zaman ve işçilik
-                maliyetinde tasarruf sağlar. Uygulama anlamında da en ekonomik çözümü sunar.
-              </p>
+            <!-- Uygulama Kolaylığı -->
+            <div class="tab-panel" id="tab-uygulama">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="uygulama"
+                  aria-expanded="false"
+                  aria-controls="topic-uygulama"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-uygulama" /></svg
+                  ></span>
+                  <span class="topic__title">Uygulama Kolaylığı</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-uygulama">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-uygulama" /></svg
+                      >Konu 5 / 9
+                    </p>
+                    <h3>Uygulama Kolaylığı</h3>
+                    <p>
+                      Gazbeton hafif yapısı ve kolay işlenebilirliği sayesinde çok daha kısa sürede
+                      ve kolay uygulanır. Bir duvar malzemesi olmasına rağmen testere ile
+                      kesilebilen ve kolay işlenebilen bir yapı malzemesidir. Muadil ürünlere oranla
+                      daha hafiftir ve uygulama alanına çok daha kolay ve kısa sürede taşınabilir.
+                    </p>
+                    <p>
+                      Matkapla delinebilir ve tüm tesisat kanalları çok rahat ve zahmetsiz şekilde
+                      açılabilir. Ayrıca yüksek üretim teknolojisi sayesinde mm düzeyinde ölçü
+                      hassasiyetine sahiptir. Bu özellik, duvarda yüzey düzgünlüğünü artırır ve
+                      sıvadan da tasarruf sağlar. Gazbeton, şantiyeye ahşap paletler ile sevk
+                      edilmektedir. Şantiyede uygulama alanına taşınması forklift aracılığı ile çok
+                      kolay şekilde gerçekleşmektedir.
+                    </p>
+                    <p>
+                      Şantiye alanında çok rahat ve kısa zamanda kesilip uygulanabilen gazbeton,
+                      muadil ürünlere kıyasla çok daha kısa sürede uygulanır. Şantiyede zaman ve
+                      işçilik maliyetinde tasarruf sağlar. Uygulama anlamında da en ekonomik çözümü
+                      sunar.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <button type="button" class="topic__next" data-topic-next="ses">
+                      <span class="topic__next-label">Sonraki konu</span>
+                      <span class="topic__next-title">Ses Yalıtımı</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Ses Yalıtımı -->
-          <div class="tab-panel" id="tab-ses">
-            <div class="content-block">
-              <h3>Ses Yalıtımı</h3>
-              <p>
-                Gürültü kirliliği günümüz gündelik yaşamının en öne çıkan problemlerinden biridir.
-                Yaşam alanları arasındaki mesafeler zaman geçtikçe azalıyor ve bu yakınlaşma doğru
-                ürünler ile doğru uygulama yapılmadığında iç mekândaki yaşam konforunu
-                düşürebiliyor.
-              </p>
-              <p>
-                Ses yalıtımı sağlayan duvarlar ya da sistemler üretmek öncelikle doğru ürünlerin
-                seçimi ile başlar. Gazbeton ile örülmüş duvarlar ya da oluşturulmuş sistemler, yaşam
-                alanlarındaki konforu artırır. Gazbeton, muadil yapı ve duvar ürünlerine göre daha
-                yüksek ses yalıtımı performansı sunar. İstenmeyen gürültüyü yaşam alanlarının
-                dışında tutarak iç mekân konforunu artırır.
-              </p>
+            <!-- Ses Yalıtımı -->
+            <div class="tab-panel" id="tab-ses">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="ses"
+                  aria-expanded="false"
+                  aria-controls="topic-ses"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-ses" /></svg
+                  ></span>
+                  <span class="topic__title">Ses Yalıtımı</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-ses">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-ses" /></svg>Konu 6
+                      / 9
+                    </p>
+                    <h3>Ses Yalıtımı</h3>
+                    <p>
+                      Gürültü kirliliği günümüz gündelik yaşamının en öne çıkan problemlerinden
+                      biridir. Yaşam alanları arasındaki mesafeler zaman geçtikçe azalıyor ve bu
+                      yakınlaşma doğru ürünler ile doğru uygulama yapılmadığında iç mekândaki yaşam
+                      konforunu düşürebiliyor.
+                    </p>
+                    <p>
+                      Ses yalıtımı sağlayan duvarlar ya da sistemler üretmek öncelikle doğru
+                      ürünlerin seçimi ile başlar. Gazbeton ile örülmüş duvarlar ya da oluşturulmuş
+                      sistemler, yaşam alanlarındaki konforu artırır. Gazbeton, muadil yapı ve duvar
+                      ürünlerine göre daha yüksek ses yalıtımı performansı sunar. İstenmeyen
+                      gürültüyü yaşam alanlarının dışında tutarak iç mekân konforunu artırır.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <button type="button" class="topic__next" data-topic-next="dayanim">
+                      <span class="topic__next-label">Sonraki konu</span>
+                      <span class="topic__next-title">Dayanım</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Dayanım -->
-          <div class="tab-panel" id="tab-dayanim">
-            <div class="content-block">
-              <h3>Dayanım</h3>
-              <p>
-                Gazbeton, yüksek basınç dayanımı ile maksimum mukavemet sağlar. Sağlamlığı ve statik
-                uyumu ile ideal yapı malzemesidir. Yapının ömrü ile eşdeğer sürede yüksek
-                performanslı kullanım sağlar. Dayanıklı ve bütünsel yapısı ile performansını yıllar
-                boyunca kaybetmez.
-              </p>
-              <p>
-                A1 yangın sınıfında olan gazbeton ürünleri yapıların yangına karşı maksimum güvenli
-                şekilde inşa edilmesine katkı sağlar. A1 sınıfı olması, yanıcı olmadığını ve yangına
-                karşı direnç sınıflandırmasında en yüksek klasmanda olduğunu göstermektedir. Tüm bu
-                özellikleri ile gazbeton, en güvenli ve dayanıklı yapıların oluşturulması için ideal
-                duvar malzemesidir.
-              </p>
+            <!-- Dayanım -->
+            <div class="tab-panel" id="tab-dayanim">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="dayanim"
+                  aria-expanded="false"
+                  aria-controls="topic-dayanim"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-dayanim" /></svg
+                  ></span>
+                  <span class="topic__title">Dayanım</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-dayanim">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-dayanim" /></svg
+                      >Konu 7 / 9
+                    </p>
+                    <h3>Dayanım</h3>
+                    <p>
+                      Gazbeton, yüksek basınç dayanımı ile maksimum mukavemet sağlar. Sağlamlığı ve
+                      statik uyumu ile ideal yapı malzemesidir. Yapının ömrü ile eşdeğer sürede
+                      yüksek performanslı kullanım sağlar. Dayanıklı ve bütünsel yapısı ile
+                      performansını yıllar boyunca kaybetmez.
+                    </p>
+                    <p>
+                      A1 yangın sınıfında olan gazbeton ürünleri yapıların yangına karşı maksimum
+                      güvenli şekilde inşa edilmesine katkı sağlar. A1 sınıfı olması, yanıcı
+                      olmadığını ve yangına karşı direnç sınıflandırmasında en yüksek klasmanda
+                      olduğunu göstermektedir. Tüm bu özellikleri ile gazbeton, en güvenli ve
+                      dayanıklı yapıların oluşturulması için ideal duvar malzemesidir.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <button type="button" class="topic__next" data-topic-next="cevre">
+                      <span class="topic__next-label">Sonraki konu</span>
+                      <span class="topic__next-title">Doğaya ve Çevreye Dost</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Doğaya ve Çevreye Dost -->
-          <div class="tab-panel" id="tab-cevre">
-            <div class="content-block">
-              <h3>Doğaya ve Çevreye Dost</h3>
-              <p>
-                Gazbeton, düşük enerji ile tarım toprağı kullanılmadan üretilir. Tarıma elverişli
-                toprakların kullanımı ile üretilen duvar malzemelerinin aksine gazbeton, tamamen
-                çevre dostudur. Üretim sürecinde silisli malzemeler kullanılmakta ve tarıma uygun
-                topraklara zarar verilmemektedir.
-              </p>
-              <p>
-                Ürün, insan sağlığına zararlı hiçbir madde içermemektedir. Üretim proseslerinin
-                hiçbir adımında çevreye zarar verebilecek bir kimyasal içermez. Tamamen insan
-                sağlığına ve çevreye dost bir üründür. Gazbeton üretimi hiçbir tehlikeli atık
-                oluşturmamakta ve verimli tarım arazilerinin korunmasına katkı sağlamaktadır.
-              </p>
+            <!-- Doğaya ve Çevreye Dost -->
+            <div class="tab-panel" id="tab-cevre">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="cevre"
+                  aria-expanded="false"
+                  aria-controls="topic-cevre"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-cevre" /></svg
+                  ></span>
+                  <span class="topic__title">Doğaya ve Çevreye Dost</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-cevre">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-cevre" /></svg>Konu
+                      8 / 9
+                    </p>
+                    <h3>Doğaya ve Çevreye Dost</h3>
+                    <p>
+                      Gazbeton, düşük enerji ile tarım toprağı kullanılmadan üretilir. Tarıma
+                      elverişli toprakların kullanımı ile üretilen duvar malzemelerinin aksine
+                      gazbeton, tamamen çevre dostudur. Üretim sürecinde silisli malzemeler
+                      kullanılmakta ve tarıma uygun topraklara zarar verilmemektedir.
+                    </p>
+                    <p>
+                      Ürün, insan sağlığına zararlı hiçbir madde içermemektedir. Üretim
+                      proseslerinin hiçbir adımında çevreye zarar verebilecek bir kimyasal içermez.
+                      Tamamen insan sağlığına ve çevreye dost bir üründür. Gazbeton üretimi hiçbir
+                      tehlikeli atık oluşturmamakta ve verimli tarım arazilerinin korunmasına katkı
+                      sağlamaktadır.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <button type="button" class="topic__next" data-topic-next="enerji">
+                      <span class="topic__next-label">Sonraki konu</span>
+                      <span class="topic__next-title">Yüksek Enerji Verimliliği</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- Yüksek Enerji Verimliliği -->
-          <div class="tab-panel" id="tab-enerji">
-            <div class="content-block">
-              <h3>Yüksek Enerji Verimliliği</h3>
-              <p>
-                Ülkemiz, enerji açısından maalesef dışa bağımlı konumdadır. Her yıl milyarlarca
-                dolar kaynak, enerji ithalatına aktarılmaktadır. Kullanılan enerjinin yaklaşık
-                olarak yüzde kırkının binalarda tüketildiği bilinmektedir. Bunun da yaklaşık olarak
-                yüzde sekseninin ısıtma ve soğutma amaçlı kullanıldığı öngörülmektedir.
-              </p>
-              <p>
-                Bu sebeple, yapılardaki enerji verimliliğini sağlamanın en önemli yollarından biri
-                ısı yalıtımıdır. Isı yalıtımı bir bütün olarak ele alınmalı ve binada ısı kaçağına
-                engel olacak tüm önlemler alınmalıdır. Gazbeton, diğer yapı malzemelerine oranla çok
-                daha düşük bir ısı iletim katsayısına sahiptir ve bu özelliği ile enerji
-                verimliliğine büyük katkı sağlar.
-              </p>
-              <p>
-                Hem yapılarda enerji tasarrufu hem de işçilik ve malzeme tasarrufu sağlar ve en
-                ekonomik çözümü sunar. Gazbeton zaman içerisinde ısı yalıtım özelliğini kaybetmez.
-                Ayrıca yapınızın nefes almasını sağlar. İstenilen kalınlıklarda kullanıldığı zaman A
-                Sınıfı Enerji Kimlik Belgesi almanıza yardımcı olur.
-              </p>
+            <!-- Yüksek Enerji Verimliliği -->
+            <div class="tab-panel" id="tab-enerji">
+              <h3 class="topic__heading">
+                <button
+                  type="button"
+                  class="topic__head"
+                  data-topic="enerji"
+                  aria-expanded="false"
+                  aria-controls="topic-enerji"
+                >
+                  <span class="topic__badge"
+                    ><svg class="topic-icon" aria-hidden="true"><use href="#ti-enerji" /></svg
+                  ></span>
+                  <span class="topic__title">Yüksek Enerji Verimliliği</span>
+                  <svg class="topic__chevron" aria-hidden="true"><use href="#ti-chevron" /></svg>
+                </button>
+              </h3>
+              <div class="topic__body" id="topic-enerji">
+                <div class="topic__inner">
+                  <div class="content-block">
+                    <p class="topic__kicker">
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-enerji" /></svg>Konu
+                      9 / 9
+                    </p>
+                    <h3>Yüksek Enerji Verimliliği</h3>
+                    <p>
+                      Ülkemiz, enerji açısından maalesef dışa bağımlı konumdadır. Her yıl
+                      milyarlarca dolar kaynak, enerji ithalatına aktarılmaktadır. Kullanılan
+                      enerjinin yaklaşık olarak yüzde kırkının binalarda tüketildiği bilinmektedir.
+                      Bunun da yaklaşık olarak yüzde sekseninin ısıtma ve soğutma amaçlı
+                      kullanıldığı öngörülmektedir.
+                    </p>
+                    <p>
+                      Bu sebeple, yapılardaki enerji verimliliğini sağlamanın en önemli yollarından
+                      biri ısı yalıtımıdır. Isı yalıtımı bir bütün olarak ele alınmalı ve binada ısı
+                      kaçağına engel olacak tüm önlemler alınmalıdır. Gazbeton, diğer yapı
+                      malzemelerine oranla çok daha düşük bir ısı iletim katsayısına sahiptir ve bu
+                      özelliği ile enerji verimliliğine büyük katkı sağlar.
+                    </p>
+                    <p>
+                      Hem yapılarda enerji tasarrufu hem de işçilik ve malzeme tasarrufu sağlar ve
+                      en ekonomik çözümü sunar. Gazbeton zaman içerisinde ısı yalıtım özelliğini
+                      kaybetmez. Ayrıca yapınızın nefes almasını sağlar. İstenilen kalınlıklarda
+                      kullanıldığı zaman A Sınıfı Enerji Kimlik Belgesi almanıza yardımcı olur.
+                    </p>
+                  </div>
+                  <div class="topic__foot">
+                    <a class="topic__next" href="urunler.html">
+                      <span class="topic__next-label">Devamı</span>
+                      <span class="topic__next-title">Ürünleri inceleyin</span>
+                      <svg class="topic-icon" aria-hidden="true"><use href="#ti-arrow" /></svg>
+                    </a>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -684,7 +1033,8 @@
         const btn = document.querySelector('[data-tab="' + CSS.escape(id) + '"]');
         if (!btn) return;
         btn.click();
-        if (scroll) btn.scrollIntoView({ block: 'center' });
+        if (scroll)
+          document.getElementById('tab-' + btn.dataset.tab).scrollIntoView({ block: 'start' });
       }
       openTabFromHash(false);
       // Sayfa içindeyken alt bilgideki #tab-… bağlantıları da sekmeyi değiştirsin
