@@ -199,12 +199,18 @@ if (document.readyState === 'loading') {
  *   Formlar `novalidate` olduğu için doğrulamayı JS yapar.
  * - Spam koruması: görünmez honeypot alanı + oturum başına 60 sn gönderim aralığı.
  * - Başarı / hata için toast bildirimleri.
+ * - Dosya eki (İK formu özgeçmiş, PDF ≤ 5 MB) seçilmişse form klasik gönderimle gider ve
+ *   sayfa `?gonderim=<form id>` ile geri açılır; dosyasız gönderim sayfadan çıkmaz.
  */
 (function initFormSubmissions() {
   const ENDPOINT = 'https://formsubmit.co/ajax/info@arkozgazbeton.com.tr';
   const HONEYPOT_NAME = 'website-url';
   const MIN_SUBMIT_GAP_MS = 60000;
   const LAST_SUBMIT_KEY = 'arkoz_last_form_submit';
+  // Dosya eki olan başvurular klasik (sayfa yenileyen) gönderimle gider; bkz. bindForm.
+  const ENDPOINT_WITH_FILE = ENDPOINT.replace('/ajax/', '/');
+  const MAX_FILE_BYTES = 5 * 1024 * 1024;
+  const RETURN_PARAM = 'gonderim';
 
   function lastSubmitAt() {
     try {
@@ -254,6 +260,20 @@ if (document.readyState === 'loading') {
 
     addHoneypot(form);
 
+    // Dosyalı (klasik) gönderimden bu sayfaya dönüldüyse başarıyı bildir ve adresi temizle.
+    const params = new window.URLSearchParams(window.location.search);
+    if (params.get(RETURN_PARAM) === formId) {
+      params.delete(RETURN_PARAM);
+      const rest = params.toString();
+      window.history.replaceState(
+        null,
+        '',
+        window.location.pathname + (rest ? '?' + rest : '') + window.location.hash
+      );
+      form.scrollIntoView({ block: 'center' });
+      showToast(successMessage, 'success');
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
 
@@ -283,6 +303,22 @@ if (document.readyState === 'loading') {
         telInput.focus();
         return;
       }
+      // Dosya eki (özgeçmiş): yalnız PDF, en fazla 5 MB.
+      const fileInput = form.querySelector('input[type="file"]');
+      const file = fileInput && fileInput.files ? fileInput.files[0] : null;
+      if (file) {
+        const isPdf = /\.pdf$/i.test(file.name) && (!file.type || file.type === 'application/pdf');
+        if (!isPdf) {
+          showToast('Özgeçmiş yalnızca PDF dosyası olarak yüklenebilir.', 'error');
+          fileInput.focus();
+          return;
+        }
+        if (file.size > MAX_FILE_BYTES) {
+          showToast('Özgeçmiş dosyası en fazla 5 MB olabilir.', 'error');
+          fileInput.focus();
+          return;
+        }
+      }
 
       // Bilgilendirme teyidi zorunlu. `acik-riza` bilerek kontrol EDİLMEZ:
       // opsiyonel olması hukuken şart.
@@ -305,8 +341,43 @@ if (document.readyState === 'loading') {
       btn.disabled = true;
       btn.innerHTML = '<span>Gönderiliyor…</span>';
 
+      // Dosya eki varsa klasik gönderim yapılır: dosya yalnız bu yolla taşınır. Gönderimden
+      // sonra sayfa `?gonderim=<form>` ile geri açılır ve başarı bildirimi yukarıda gösterilir.
+      if (file) {
+        markSubmitted();
+        if (hp) hp.disabled = true; // tuzak alan e-postaya taşınmasın
+        form.querySelectorAll('input[data-classic-field]').forEach((el) => el.remove());
+        const addHidden = (name, value) => {
+          const input = document.createElement('input');
+          input.type = 'hidden';
+          input.name = name;
+          input.value = value;
+          input.setAttribute('data-classic-field', '');
+          form.appendChild(input);
+        };
+        addHidden('_subject', subject);
+        addHidden('_template', 'table');
+        addHidden('_captcha', 'false');
+        addHidden(
+          '_next',
+          window.location.origin + window.location.pathname + '?' + RETURN_PARAM + '=' + formId
+        );
+        form.action = ENDPOINT_WITH_FILE;
+        form.method = 'POST';
+        form.enctype = 'multipart/form-data';
+        // Tarayıcının "geri" tuşuyla dönülürse düğme kilitli kalmasın.
+        window.addEventListener('pageshow', (ev) => {
+          if (!ev.persisted) return;
+          btn.disabled = false;
+          btn.innerHTML = original;
+        });
+        form.submit(); // submit() bu dinleyiciyi yeniden tetiklemez
+        return;
+      }
+
       const data = new FormData(form);
       data.delete(HONEYPOT_NAME); // tuzak alan e-postaya taşınmasın
+      if (fileInput) data.delete(fileInput.name); // boş dosya alanı gönderilmesin
       data.append('_subject', subject);
       data.append('_template', 'table');
       data.append('_captcha', 'false');

@@ -4364,6 +4364,25 @@ strong {
   resize: vertical;
   min-height: 120px;
 }
+/* Dosya alanı (İK formu özgeçmiş): mevcut alan görünümü + sade seçme düğmesi */
+.form__group input[type='file'] {
+  padding: var(--s-2) var(--s-3);
+  font-size: var(--fs-14);
+  color: var(--c-text-muted);
+  cursor: pointer;
+}
+.form__group input[type='file']::file-selector-button {
+  margin-right: var(--s-3);
+  padding: var(--s-2) var(--s-4);
+  border: 1px solid var(--c-primary-12);
+  border-radius: var(--r-sm);
+  background: var(--c-primary-50);
+  color: var(--c-primary);
+  font-family: var(--font-sans);
+  font-size: var(--fs-13);
+  font-weight: 600;
+  cursor: pointer;
+}
 
 /* KVKK consent row — used inside every form (.contact__form + .modal__form) */
 .form__consent {
