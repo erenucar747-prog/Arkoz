@@ -89,16 +89,32 @@
     <main>
       <section class="tabs section">
         <div class="container">
-          <div class="tabs__nav" id="tabs-nav">
-            <button type="button" class="tab-btn active" data-tab="tanitim">Genel Tanıtım</button>
-            <button type="button" class="tab-btn" data-tab="misyon">Misyon ve Vizyon</button>
-            <button type="button" class="tab-btn" data-tab="tarihce">Tarihçe</button>
-            <button type="button" class="tab-btn" data-tab="eys">EYS Politikamız</button>
-            <button type="button" class="tab-btn" data-tab="surdurulebilirlik">
-              Sürdürülebilirlik
+          <div class="tabs__bar">
+            <button
+              type="button"
+              class="tabs__picker"
+              aria-expanded="false"
+              aria-controls="tabs-nav"
+            >
+              <span class="tabs__picker-text">
+                <span class="tabs__picker-count">Bölüm 1 / 7</span>
+                <span class="tabs__picker-label">Genel Tanıtım</span>
+              </span>
+              <svg class="tabs__picker-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m6 9 6 6 6-6" />
+              </svg>
             </button>
-            <button type="button" class="tab-btn" data-tab="ortaklar">İş Ortakları</button>
-            <button type="button" class="tab-btn" data-tab="belgeler">Belgelerimiz</button>
+            <div class="tabs__nav" id="tabs-nav">
+              <button type="button" class="tab-btn active" data-tab="tanitim">Genel Tanıtım</button>
+              <button type="button" class="tab-btn" data-tab="misyon">Misyon ve Vizyon</button>
+              <button type="button" class="tab-btn" data-tab="tarihce">Tarihçe</button>
+              <button type="button" class="tab-btn" data-tab="eys">EYS Politikamız</button>
+              <button type="button" class="tab-btn" data-tab="surdurulebilirlik">
+                Sürdürülebilirlik
+              </button>
+              <button type="button" class="tab-btn" data-tab="ortaklar">İş Ortakları</button>
+              <button type="button" class="tab-btn" data-tab="belgeler">Belgelerimiz</button>
+            </div>
           </div>
 
           <!-- Genel Tanıtım -->
@@ -1488,7 +1504,7 @@
         const btn = document.querySelector('[data-tab="' + CSS.escape(id) + '"]');
         if (!btn) return;
         btn.click();
-        if (scroll) btn.scrollIntoView({ block: 'center' });
+        if (scroll) btn.closest('.tabs').scrollIntoView({ block: 'start' });
       }
       openTabFromHash(false);
       // Sayfa içindeyken alt bilgideki #tab-… bağlantıları da sekmeyi değiştirsin
@@ -1501,7 +1517,7 @@
           const btn = document.querySelector('[data-tab="' + target + '"]');
           if (btn) {
             btn.click();
-            btn.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            btn.closest('.tabs').scrollIntoView({ behavior: 'smooth', block: 'start' });
           }
         });
       });

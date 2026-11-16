@@ -82,21 +82,45 @@
     </div>
 
     <main>
-      <section class="tabs section">
+      <section class="tabs section tabs--docs">
         <div class="container">
-          <div class="tabs__nav">
-            <button type="button" class="tab-btn active" data-tab="kvk">
-              Kişisel Verilerin Korunması
-            </button>
-            <button type="button" class="tab-btn" data-tab="gizlilik">Gizlilik Politikası</button>
-            <button type="button" class="tab-btn" data-tab="cerez">Çerez Politikası</button>
-            <button type="button" class="tab-btn" data-tab="ai">
-              Yapay Zekâ Asistanı ve Veri İşleme
-            </button>
-            <button type="button" class="tab-btn" data-tab="aday">
-              Çalışan Adayı Aydınlatma Metni
-            </button>
-            <button type="button" class="tab-btn" data-tab="acik-riza">Açık Rıza Metni</button>
+          <div class="tabs__side">
+            <div class="tabs__bar">
+              <button
+                type="button"
+                class="tabs__picker"
+                aria-expanded="false"
+                aria-controls="tabs-nav"
+              >
+                <span class="tabs__picker-text">
+                  <span class="tabs__picker-count">Metin 1 / 6</span>
+                  <span class="tabs__picker-label">Kişisel Verilerin Korunması</span>
+                </span>
+                <svg class="tabs__picker-chevron" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m6 9 6 6 6-6" />
+                </svg>
+              </button>
+              <div class="tabs__nav" id="tabs-nav">
+                <button type="button" class="tab-btn active" data-tab="kvk">
+                  Kişisel Verilerin Korunması
+                </button>
+                <button type="button" class="tab-btn" data-tab="gizlilik">
+                  Gizlilik Politikası
+                </button>
+                <button type="button" class="tab-btn" data-tab="cerez">Çerez Politikası</button>
+                <button type="button" class="tab-btn" data-tab="ai">
+                  Yapay Zekâ Asistanı ve Veri İşleme
+                </button>
+                <button type="button" class="tab-btn" data-tab="aday">
+                  Çalışan Adayı Aydınlatma Metni
+                </button>
+                <button type="button" class="tab-btn" data-tab="acik-riza">Açık Rıza Metni</button>
+              </div>
+            </div>
+            <details class="doc-toc" hidden>
+              <summary class="doc-toc__title">Bu metinde</summary>
+              <ol class="doc-toc__list"></ol>
+            </details>
           </div>
 
           <!-- KVKK — İnternet sitesi aydınlatma metni. Hukuk bürosunun 2026 web aydınlatma taslağı

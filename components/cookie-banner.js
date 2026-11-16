@@ -172,7 +172,15 @@
     btn.className = 'cb-reopen';
     btn.id = 'arkozCookieReopen';
     btn.setAttribute('aria-label', 'Çerez Tercihleri');
-    btn.textContent = '🍪 Çerez Tercihleri';
+    // Telefonda yalnız simge görünür (yazıyı kapatmasın); ad her zaman aria-label'dadır.
+    const icon = document.createElement('span');
+    icon.className = 'cb-reopen__icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = '🍪';
+    const text = document.createElement('span');
+    text.className = 'cb-reopen__text';
+    text.textContent = 'Çerez Tercihleri';
+    btn.append(icon, text);
     return btn;
   }
 

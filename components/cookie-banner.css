@@ -385,6 +385,9 @@
   padding: 7px 11px;
   border-radius: 99px;
   border: 1px solid rgba(255, 255, 255, 0.1);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   cursor: pointer;
   opacity: 0;
   transform: translateY(10px);
@@ -406,11 +409,24 @@
   background: #1a1a1a;
 }
 
+/* Telefonda uzun düğme metnin üstüne biniyordu: yalnız simgeli, 44px'lik yuvarlak düğme. */
 @media (max-width: 560px) {
   .cb-reopen {
     bottom: 88px;
     left: 16px;
-    font-size: 11px;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    font-size: 18px;
+  }
+  .cb-reopen__text {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
   }
 }
 
