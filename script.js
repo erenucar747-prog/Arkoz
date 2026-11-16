@@ -188,7 +188,9 @@ if (document.readyState === 'loading') {
       const id = link.getAttribute('href').slice(1);
       if (!id) return;
       const target = document.getElementById(id);
-      if (!target) return;
+      // Gizli bir sekmenin içindeki hedefe kaydırılamaz; o durumda bağlantı normal çalışsın,
+      // sekmeyi açmak sayfanın kendi betiğinin işi.
+      if (!target || target.getClientRects().length === 0) return;
       e.preventDefault();
       const top = target.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top, behavior: 'smooth' });
@@ -735,8 +737,12 @@ if (document.readyState === 'loading') {
       if (!panel) return;
       activate(btn.dataset.topicNext);
       revealAfterTransition(panel);
+      // Tıklanan düğmenin kartı gizlenir; odak yeni konunun görünen başlığına geçsin
+      // (telefonda kart başlığı, masaüstünde yan listedeki konu düğmesi).
       const head = panel.querySelector('.topic__head');
-      if (head && head.offsetParent !== null) head.focus({ preventScroll: true });
+      const navBtn = navBtns.find((b) => b.dataset.tab === btn.dataset.topicNext);
+      const focusTarget = head && head.offsetParent !== null ? head : navBtn;
+      if (focusTarget) focusTarget.focus({ preventScroll: true });
     });
   });
 
@@ -804,6 +810,8 @@ if (document.readyState === 'loading') {
     btn.addEventListener('click', () => {
       const fromList = isOpen();
       sync();
+      // Liste kapanınca içindeki düğme gizlenir; odak görünen çubuğa dönsün.
+      if (fromList) picker.focus({ preventScroll: true });
       setOpen(false);
       if (fromList && mobile.matches) toContentStart();
     });
@@ -868,6 +876,9 @@ if (document.readyState === 'loading') {
     if (!wide.matches) toc.open = false;
     // Liste kapanınca içerik yukarı kayar; yerleşim oturduktan sonra kaydır.
     window.requestAnimationFrame(() => {
+      // Kapanan listenin içindeki bağlantı odağı kaybeder; odak gidilen başlığa taşınır.
+      target.setAttribute('tabindex', '-1');
+      target.focus({ preventScroll: true });
       target.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
     });
   });

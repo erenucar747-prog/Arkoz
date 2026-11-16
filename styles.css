@@ -4808,7 +4808,8 @@ strong {
     display: block;
     position: sticky;
     top: 67px;
-    z-index: 40;
+    /* Açık liste, aynı katmandaki çerez düğmesinin (40) üstünde kalsın. */
+    z-index: 45;
     margin: 0 calc(-1 * clamp(20px, 5vw, 40px)) var(--s-6);
     padding: 10px clamp(20px, 5vw, 40px);
     background: rgba(255, 255, 255, 0.97);
@@ -4828,6 +4829,9 @@ strong {
     color: var(--c-text-strong);
     font-family: inherit;
     text-align: left;
+  }
+  .tabs__picker:focus-visible {
+    box-shadow: var(--sh-focus);
   }
   .tabs__picker-text {
     flex: 1;
@@ -5106,6 +5110,11 @@ strong {
     background: var(--c-primary);
     color: #fff;
     box-shadow: 0 4px 14px rgba(32, 17, 97, 0.22);
+  }
+  .tabs--topics .tab-btn:focus-visible {
+    box-shadow:
+      0 0 0 2px #fff,
+      0 0 0 4px var(--c-primary);
   }
   .topic__heading {
     display: none;
@@ -5418,6 +5427,11 @@ strong {
     color: #fff;
     box-shadow: 0 4px 14px rgba(32, 17, 97, 0.22);
   }
+  .tabs--docs .tab-btn:focus-visible {
+    box-shadow:
+      0 0 0 2px #fff,
+      0 0 0 4px var(--c-primary);
+  }
   .doc-toc__title {
     pointer-events: none;
   }
@@ -5431,6 +5445,11 @@ strong {
   }
   .doc-toc {
     margin-bottom: var(--s-8);
+  }
+  .doc-toc__list a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
   }
 }
 @media (max-width: 768px) {
