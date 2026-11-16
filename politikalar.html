@@ -1846,14 +1846,20 @@
          1) Sekme adı            → #kvk / #tab-kvk        : sekmeyi açar
          2) Sekme içi alt bölüm  → #ai-riza               : sekmeyi açar, bölüme kaydırır
          3) Sekme dışı bölüm     → #ek2                   : varsa açar, kaydırır       */
-      function activateTabFromHash() {
-        if (!location.hash) return;
-        const raw = location.hash.slice(1);
+      function activateTabFromHash(fromNav, linkHash) {
+        // Tıklanan bağlantının hedefi verilmişse o kullanılır; adres çubuğu değişmemiş olabilir.
+        const hash = linkHash || location.hash;
+        if (!hash || hash === '#') return;
+        const raw = hash.slice(1);
         const id = raw.replace(/^tab-/, '');
 
         const btn = document.querySelector('[data-tab="' + CSS.escape(id) + '"]');
         if (btn) {
           btn.click();
+          // Sayfa içi bir bağlantıyla sekme değiştiyse yeni metnin başına dön.
+          if (fromNav === true) {
+            requestAnimationFrame(() => btn.closest('.tabs').scrollIntoView({ block: 'start' }));
+          }
           return;
         }
 
@@ -1872,11 +1878,13 @@
         requestAnimationFrame(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }));
       }
       activateTabFromHash();
-      window.addEventListener('hashchange', activateTabFromHash);
+      window.addEventListener('hashchange', () => activateTabFromHash(true));
 
       // Sayfa içi "#ek2" bağlantıları da aynı mantığı kullansın.
       document.querySelectorAll('a[href^="#"]').forEach((a) => {
-        a.addEventListener('click', () => setTimeout(activateTabFromHash, 0));
+        a.addEventListener('click', () =>
+          setTimeout(() => activateTabFromHash(true, a.getAttribute('href')), 0)
+        );
       });
 
       const ek2Print = document.getElementById('ek2-print');
