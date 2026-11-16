@@ -74,13 +74,22 @@ const REDUCE_MOTION =
     document.body.style.overflow = open ? 'hidden' : '';
   });
 
+  const closeMenu = () => {
+    navList.classList.remove('open');
+    burger.classList.remove('active');
+    burger.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+  };
+
   navList.querySelectorAll('.nav__link').forEach((link) => {
-    link.addEventListener('click', () => {
-      navList.classList.remove('open');
-      burger.classList.remove('active');
-      burger.setAttribute('aria-expanded', 'false');
-      document.body.style.overflow = '';
-    });
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Escape açık menüyü kapatır; odak menü düğmesine döner.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !navList.classList.contains('open')) return;
+    closeMenu();
+    burger.focus();
   });
 })();
 
@@ -418,12 +427,9 @@ if (document.readyState === 'loading') {
     'Arkoz Gazbeton — Yeni Teklif Talebi',
     'Teklif talebiniz alındı. En kısa sürede dönüş yapacağız.',
     function () {
+      // Kapatma mantığı tek yerde (bölüm 12, closeQuoteModal) durur.
       const modal = document.getElementById('quote-modal');
-      if (modal) {
-        modal.classList.remove('is-open');
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.classList.remove('modal-open');
-      }
+      if (modal) modal.dispatchEvent(new CustomEvent('arkoz:quote-close'));
     }
   );
 
@@ -445,12 +451,14 @@ if (document.readyState === 'loading') {
   let current = 0;
   let timer;
   const heroContent = document.querySelector('.hero__content');
-  const TEXT_HIDDEN = [0, 1, 2, 3];
 
+  // Banner slaytlarının (hero__slide--banner) kendi yazısı var: hero metni gizlenir ve
+  // gizliyken klavye odağı almaz.
   const updateText = () => {
-    if (heroContent) {
-      heroContent.classList.toggle('hero__content--hidden', TEXT_HIDDEN.includes(current));
-    }
+    if (!heroContent) return;
+    const hidden = slides[current].classList.contains('hero__slide--banner');
+    heroContent.classList.toggle('hero__content--hidden', hidden);
+    heroContent.inert = hidden;
   };
 
   const goTo = (i) => {
@@ -621,8 +629,10 @@ if (document.readyState === 'loading') {
   const update = (area) => {
     const co2Saving = area * 12;
     const energySaving = area * 48;
-    const laborSaving = Math.round(area * 0.8);
-    const totalSaving = energySaving + laborSaving * 50 + area * 38;
+    const laborHours = area * 0.8;
+    const laborSaving = Math.round(laborHours);
+    // Toplam, yuvarlanmamış saatle hesaplanır (126 ₺/m²); yuvarlama yalnız gösterim içindir.
+    const totalSaving = energySaving + laborHours * 50 + area * 38;
 
     areaVal.textContent = fmt(area);
     co2.textContent = fmt(co2Saving);
@@ -709,8 +719,13 @@ if (document.readyState === 'loading') {
   const quoteModal = document.getElementById('quote-modal');
   const quoteForm = document.getElementById('quote-form');
 
+  // Pencereyi açan öğe: kapanınca odak ona döner.
+  let quoteOpener = null;
+
   function openQuoteModal(productKey) {
     if (!quoteModal) return;
+    quoteOpener = document.activeElement;
+    quoteModal.inert = false;
     quoteModal.classList.add('is-open');
     quoteModal.setAttribute('aria-hidden', 'false');
     document.body.classList.add('modal-open');
@@ -728,10 +743,15 @@ if (document.readyState === 'loading') {
     if (!quoteModal) return;
     quoteModal.classList.remove('is-open');
     quoteModal.setAttribute('aria-hidden', 'true');
+    quoteModal.inert = true; // kapalıyken alanlar klavye odağı almasın
     document.body.classList.remove('modal-open');
+    if (quoteOpener && document.contains(quoteOpener)) quoteOpener.focus();
+    quoteOpener = null;
   }
 
   if (quoteModal) {
+    quoteModal.inert = !quoteModal.classList.contains('is-open');
+    quoteModal.addEventListener('arkoz:quote-close', closeQuoteModal);
     document.addEventListener('click', (e) => {
       const trigger = e.target.closest('[data-quote-product]');
       if (trigger) {
