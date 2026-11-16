@@ -4265,6 +4265,15 @@ strong {
 .contact__item div p a:hover {
   color: var(--c-primary);
 }
+/* Adres altındaki harita bağlantısı: adres satırından ayırt edilsin */
+.contact__item div p a.contact__map-link {
+  display: inline-block;
+  margin-top: var(--s-1);
+  font-size: var(--fs-14);
+  color: var(--c-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
 .contact__socials {
   display: flex;
   gap: var(--s-3);
