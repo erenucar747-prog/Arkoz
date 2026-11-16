@@ -4991,8 +4991,21 @@ strong {
   height: 16px;
 }
 .topic__media {
+  position: relative;
   margin: 0;
   background: var(--c-ink);
+}
+/* Görseller üretilmiş temsili çizimlerdir; gerçek çekim sanılmasın diye küçük bir not taşır. */
+.topic__media figcaption {
+  position: absolute;
+  right: 10px;
+  bottom: 10px;
+  padding: 3px 9px;
+  border-radius: var(--r-pill);
+  background: rgba(14, 10, 42, 0.62);
+  color: rgba(255, 255, 255, 0.92);
+  font-size: var(--fs-12);
+  line-height: 1.4;
 }
 .topic__media img {
   display: block;
