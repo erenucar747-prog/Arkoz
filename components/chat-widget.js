@@ -406,7 +406,11 @@
           addMsg(data.error, 'error');
           return;
         }
-        const reply = (data.content && data.content[0] && data.content[0].text) || '';
+        // Yanıtın ilk bloğu metin olmayabilir; ilk metin bloğu okunur.
+        const textBlock = Array.isArray(data.content)
+          ? data.content.find((b) => b && typeof b.text === 'string' && b.text)
+          : null;
+        const reply = (textBlock && textBlock.text) || '';
         if (!reply) {
           typing.remove();
           addMsg('Boş bir yanıt geldi, lütfen tekrar deneyin.', 'error');
