@@ -749,6 +749,138 @@ if (document.readyState === 'loading') {
   });
 })();
 
+/* ── 13c. Telefon: sabit konu çubuğu (kurumsal, politikalar) ──
+   Sekme geçişini sayfadaki mevcut mantık yapar; burada çubuğun etiketi, açılır liste
+   ve seçimden sonra metnin başına dönüş var. */
+(function initTabPicker() {
+  const bar = document.querySelector('.tabs__bar');
+  if (!bar) return;
+
+  const root = bar.closest('.tabs');
+  const container = root.querySelector('.container');
+  const picker = bar.querySelector('.tabs__picker');
+  const nav = bar.querySelector('.tabs__nav');
+  if (!picker || !nav) return;
+
+  const btns = Array.from(nav.querySelectorAll('.tab-btn'));
+  const label = picker.querySelector('.tabs__picker-label');
+  const count = picker.querySelector('.tabs__picker-count');
+  const unit = count.textContent.trim().split(' ')[0];
+  const mobile = window.matchMedia('(max-width: 768px)');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  const isOpen = () => bar.classList.contains('is-open');
+  const setOpen = (open) => {
+    bar.classList.toggle('is-open', open);
+    picker.setAttribute('aria-expanded', String(open));
+  };
+
+  const sync = () => {
+    const i = Math.max(
+      0,
+      btns.findIndex((b) => b.classList.contains('active'))
+    );
+    label.textContent = btns[i].textContent.replace(/\s+/g, ' ').trim();
+    count.textContent = unit + ' ' + (i + 1) + ' / ' + btns.length;
+    btns.forEach((b, n) => {
+      if (n === i) b.setAttribute('aria-current', 'true');
+      else b.removeAttribute('aria-current');
+    });
+  };
+
+  // Listeden seçim yapıldıysa yeni metnin başına dön (çubuk üstte sabit kalır).
+  const toContentStart = () => {
+    const header = document.querySelector('.header');
+    const offset = header ? header.getBoundingClientRect().bottom : 0;
+    const top = container.getBoundingClientRect().top + window.scrollY - offset;
+    if (window.scrollY > top) {
+      window.scrollTo({ top, behavior: reduceMotion.matches ? 'auto' : 'smooth' });
+    }
+  };
+
+  picker.addEventListener('click', () => setOpen(!isOpen()));
+
+  btns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const fromList = isOpen();
+      sync();
+      setOpen(false);
+      if (fromList && mobile.matches) toContentStart();
+    });
+  });
+
+  document.addEventListener('click', (e) => {
+    if (isOpen() && !bar.contains(e.target)) setOpen(false);
+  });
+  bar.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && isOpen()) {
+      setOpen(false);
+      picker.focus();
+    }
+  });
+  mobile.addEventListener('change', () => setOpen(false));
+
+  sync();
+})();
+
+/* ── 13d. "Bu metinde" listesi (politikalar.html) ───────────
+   Etkin metnin madde başlıklarından üretilir; metnin kendisine dokunmaz. */
+(function initDocToc() {
+  const root = document.querySelector('.tabs--docs');
+  const toc = root && root.querySelector('.doc-toc');
+  if (!toc) return;
+
+  const list = toc.querySelector('.doc-toc__list');
+  const wide = window.matchMedia('(min-width: 1024px)');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let current = null;
+
+  const build = () => {
+    const panel = root.querySelector('.tab-panel.active');
+    if (!panel || panel === current) return;
+    current = panel;
+
+    const heads = Array.from(panel.querySelectorAll('.content-block > h3')).filter(
+      (h) => h.previousElementSibling !== null
+    );
+    list.textContent = '';
+    toc.hidden = heads.length < 3;
+    if (toc.hidden) return;
+
+    heads.forEach((h, i) => {
+      if (!h.id) h.id = panel.id.slice(4) + '-bolum-' + (i + 1);
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent.replace(/\s+/g, ' ').trim();
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+    toc.open = wide.matches;
+  };
+
+  list.addEventListener('click', (e) => {
+    const a = e.target.closest('a');
+    if (!a) return;
+    const target = document.getElementById(a.getAttribute('href').slice(1));
+    if (!target) return;
+    e.preventDefault();
+    if (!wide.matches) toc.open = false;
+    // Liste kapanınca içerik yukarı kayar; yerleşim oturduktan sonra kaydır.
+    window.requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior: reduceMotion.matches ? 'auto' : 'smooth', block: 'start' });
+    });
+  });
+
+  root
+    .querySelectorAll('.tabs__nav .tab-btn')
+    .forEach((btn) => btn.addEventListener('click', build));
+  wide.addEventListener('change', () => {
+    if (!toc.hidden) toc.open = wide.matches;
+  });
+  build();
+})();
+
 /* ============================================================
    FAZ 4 — Lightbox + Quote Modal + WhatsApp form deeplink
    ============================================================ */
